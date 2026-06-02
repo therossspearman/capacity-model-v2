@@ -139,13 +139,13 @@ This runs (in order):
 **The CLI will interactively prompt** for a release comment. Two ways to handle this:
 
 ```bash
-# Option A: pipe a comment via stdin
-echo "fix: your release notes here" | npx @airtable/blocks-cli release
-
-# Option B: build worker first, then release with stdin pipe
-npm run build:worker
-echo "fix: your release notes here" | npx @airtable/blocks-cli release
+# Pipe a comment via stdin to npm run release (which builds the worker first)
+echo "fix: your release notes here" | npm run release
 ```
+
+> ⚠️ Do **not** run `npx @airtable/blocks-cli release` directly — that bypasses the
+> `prerelease` → `build:worker` step, so edits to `workerCodeSource.js` ship stale.
+> Always go through `npm run release`.
 
 After `✅ Successfully released block!`, Airtable users need to **refresh the Interface page** to pick up the new bundle. There's no auto-update.
 
@@ -155,8 +155,21 @@ After `✅ Successfully released block!`, Airtable users need to **refresh the I
 - [ ] Worker source unchanged → `npm run build:worker` is a no-op (cheap to always run)
 - [ ] No `console.log` litter in the happy path of `useDashboardHandlers.js` (verbose logs should only fire on error)
 - [ ] Test in dev mode (`npx @airtable/blocks-cli run`) before releasing
+- [ ] Remember: merging/pushing to `main` auto-deploys (see "CI/CD" below) — make sure the branch is release-ready
 
 **Rollback:** Airtable Block releases can be reverted via the Airtable web UI — go to the extension's "Releases" tab and choose a prior release. No code action needed.
+
+### CI/CD (auto-deploy on push to `main`)
+
+There is a GitHub Actions workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+that **deploys to the live Airtable base on every push to `main`** (and via manual
+`workflow_dispatch`). It runs: checkout → `npm ci` → set API key → `npm run build:worker`
+→ `npx @airtable/blocks-cli release`.
+
+**Implications — read before pushing:**
+- A push to `main` is a production deploy. **Do day-to-day work on feature branches and merge via PR**, so you control when a release happens (and can bump `APP_VERSION` in the same change).
+- The workflow authenticates with the **`AIRTABLE_API_KEY`** GitHub repo secret — an Airtable **personal access token** with the `block:manage` scope, for the account that owns the base. Provision it under **Settings → Secrets and variables → Actions** (`gh secret set AIRTABLE_API_KEY -R <owner>/<repo>`). If it's missing/empty the deploy step fails.
+- The workflow does **not** bump `APP_VERSION` — bump it yourself before merging or the version pill users see will be stale.
 
 ---
 
