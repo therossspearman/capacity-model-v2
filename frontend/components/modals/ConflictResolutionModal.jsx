@@ -276,6 +276,25 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
         setLocalConflicts(updated);
     };
 
+    // Flatten the modal's internal { [type]: { [id]: { fields: { [field]: { resolution } } } } }
+    // shape into the { [type]: { [id]: { [field]: resolution } } } shape that
+    // handleConflictResolve (useDashboardHandlers.js) expects. Without this the
+    // handler received the click Event and every resolution choice was discarded.
+    const buildResolutions = () => {
+        const result = { projects: {}, resources: {} };
+        for (const type of ['projects', 'resources']) {
+            for (const [id, data] of Object.entries(localConflicts[type] || {})) {
+                for (const [field, info] of Object.entries(data.fields || {})) {
+                    if (info && info.resolution) {
+                        if (!result[type][id]) result[type][id] = {};
+                        result[type][id][field] = info.resolution;
+                    }
+                }
+            }
+        }
+        return result;
+    };
+
     const projectConflicts = Object.entries(localConflicts.projects || {});
     const resourceConflicts = Object.entries(localConflicts.resources || {});
     const totalConflicts = projectConflicts.length + resourceConflicts.length;
@@ -756,7 +775,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                             Take All Draft
                         </button>
                         <button
-                            onClick={onResolve}
+                            onClick={() => onResolve(buildResolutions())}
                             style={{
                                 padding: '12px 32px',
                                 background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)',

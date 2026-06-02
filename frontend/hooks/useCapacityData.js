@@ -399,7 +399,14 @@ export const useCapacityData = ({
                 safeSelectedEntities.join(','),
                 // Capacity utilisation model fingerprint — toggling Field/Presence or the productivity default re-runs the worker.
                 config.capacityUtilizationModel || 'field',
-                config.modelParams?.presenceModel?.weeklyProductivityDefault ?? 80
+                config.modelParams?.presenceModel?.weeklyProductivityDefault ?? 80,
+                // IMPORTANT: every input included in `payload` above must also be
+                // fingerprinted here, or an edit re-fires the effect, computes an
+                // identical hash, hits the early return, and the worker is never
+                // re-posted (the change silently has no effect). These were missing:
+                JSON.stringify(rampProfiles || {}),                          // named ramp profile edits
+                JSON.stringify(config.programBudgets || {}),                 // program budget edits
+                JSON.stringify(config.programProjectContributions || [])     // per-project contribution edits
             ];
             const currentHash = hashParts.join('|');
 

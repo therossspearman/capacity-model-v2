@@ -220,8 +220,10 @@ const ProgramDetailModal = ({
     // (Old behaviour wrote to *_UPDATE and relied on an Airtable automation to
     // copy through to canonical — that broke this modal whenever the automation
     // was off, since the read above only sees canonical.)
+    // Returns the Airtable write promise (or a resolved promise) so callers can
+    // await it and surface failures / roll back optimistic UI.
     const writeToProxy = (currentAssignments) => {
-        if (!programRecord || !programsTable) return;
+        if (!programRecord || !programsTable) return Promise.resolve();
 
         // Group by Workstream
         const byWorkstream = {};
@@ -271,14 +273,17 @@ const ProgramDetailModal = ({
         });
 
         if (Object.keys(fields).length > 0) {
-            programsTable.updateRecordAsync(programRecord.id, fields)
-                .catch(err => console.error('[ProgramDetailModal] Failed to persist workstream links:', err));
+            return programsTable.updateRecordAsync(programRecord.id, fields);
         }
+        return Promise.resolve();
     };
 
     // Core assignment updater — routes through onUpdateSettings (which handles draft vs live in Dashboard)
     // and also writes to proxy fields in live mode for immediate Airtable sync
-    const updateAssignment = (updatedList) => {
+    // Persists the assignment list. In live mode the Airtable write is awaited so a
+    // failure can be surfaced and the optimistic UI rolled back via onWriteError,
+    // instead of being swallowed (which left the user believing a failed save worked).
+    const updateAssignment = (updatedList, onWriteError) => {
         if (!onUpdateSettings) return;
 
         // Save to settings (draft or live path handled by Dashboard's onUpdateSettings callback)
@@ -286,7 +291,14 @@ const ProgramDetailModal = ({
 
         // In live mode, also write to proxy fields for immediate Airtable persistence
         if (!isDraftMode) {
-            writeToProxy(updatedList);
+            const writePromise = writeToProxy(updatedList);
+            if (writePromise && typeof writePromise.catch === 'function') {
+                writePromise.catch(err => {
+                    console.error('[ProgramDetailModal] Failed to persist workstream links:', err);
+                    if (onWriteError) onWriteError(err);
+                    else alert('Failed to save program assignment to Airtable — your change may not have persisted. Please retry.');
+                });
+            }
         }
     };
 
@@ -304,8 +316,14 @@ const ProgramDetailModal = ({
         // Optimistic: show instantly in UI
         setPendingAdds(prev => [...prev, newAssignment]);
 
-        const updatedList = [...(storedSettings.programAssignments || []), newAssignment];
-        updateAssignment(updatedList);
+        const prevList = storedSettings.programAssignments || [];
+        const updatedList = [...prevList, newAssignment];
+        updateAssignment(updatedList, () => {
+            // Roll back: drop the optimistic add and restore the prior list
+            setPendingAdds(prev => prev.filter(a => a.id !== newAssignment.id));
+            onUpdateSettings({ programAssignments: prevList });
+            alert('Could not add the program assignment — it has been reverted. Please retry.');
+        });
 
         // Clear optimistic state after Airtable refreshes
         setTimeout(() => {
@@ -319,8 +337,18 @@ const ProgramDetailModal = ({
         // Optimistic: hide instantly in UI
         setPendingRemoves(prev => new Set([...prev, assignmentId]));
 
-        const updatedList = (storedSettings.programAssignments || []).filter(a => a.id !== assignmentId);
-        updateAssignment(updatedList);
+        const prevList = storedSettings.programAssignments || [];
+        const updatedList = prevList.filter(a => a.id !== assignmentId);
+        updateAssignment(updatedList, () => {
+            // Roll back: un-hide the assignment and restore the prior list
+            setPendingRemoves(prev => {
+                const next = new Set(prev);
+                next.delete(assignmentId);
+                return next;
+            });
+            onUpdateSettings({ programAssignments: prevList });
+            alert('Could not remove the program assignment — it has been restored. Please retry.');
+        });
 
         // Clear optimistic state after Airtable refreshes
         setTimeout(() => {
@@ -339,10 +367,20 @@ const ProgramDetailModal = ({
             [assignmentId]: { ...(prev[assignmentId] || {}), ...changes }
         }));
 
-        const updatedList = (storedSettings.programAssignments || []).map(a =>
+        const prevList = storedSettings.programAssignments || [];
+        const updatedList = prevList.map(a =>
             a.id === assignmentId ? { ...a, ...changes } : a
         );
-        updateAssignment(updatedList);
+        updateAssignment(updatedList, () => {
+            // Roll back: clear the optimistic update and restore the prior list
+            setPendingUpdates(prev => {
+                const next = { ...prev };
+                delete next[assignmentId];
+                return next;
+            });
+            onUpdateSettings({ programAssignments: prevList });
+            alert('Could not update the program assignment — it has been reverted. Please retry.');
+        });
 
         // Clear optimistic state after Airtable refreshes
         setTimeout(() => {
