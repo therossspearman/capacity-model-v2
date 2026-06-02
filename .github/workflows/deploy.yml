@@ -1,0 +1,40 @@
+name: Deploy to Airtable
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Set Airtable API Key
+        run: npx @airtable/blocks-cli set-api-key ${{ secrets.AIRTABLE_API_KEY }}
+      
+      - name: Build Worker Code
+        run: |
+          # Check if worker file exists in frontend
+          if [ -f "frontend/worker/worker.js" ]; then
+            cat frontend/worker/worker.js | base64 | tr -d '\n' > worker_b64.tmp
+            echo "export const workerCode = \"$(cat worker_b64.tmp)\";" > frontend/worker/workerCode.js
+            rm worker_b64.tmp
+          else 
+             echo "Worker file not found, skipping build"
+          fi
+      
+      - name: Deploy to Airtable
+        run: echo "Automated deployment" | npx @airtable/blocks-cli release
