@@ -26,15 +26,7 @@ jobs:
         run: npx @airtable/blocks-cli set-api-key ${{ secrets.AIRTABLE_API_KEY }}
       
       - name: Build Worker Code
-        run: |
-          # Check if worker file exists in frontend
-          if [ -f "frontend/worker/worker.js" ]; then
-            cat frontend/worker/worker.js | base64 | tr -d '\n' > worker_b64.tmp
-            echo "export const workerCode = \"$(cat worker_b64.tmp)\";" > frontend/worker/workerCode.js
-            rm worker_b64.tmp
-          else 
-             echo "Worker file not found, skipping build"
-          fi
+        run: npm run build:worker
       
       - name: Deploy to Airtable
         run: echo "Automated deployment" | npx @airtable/blocks-cli release
