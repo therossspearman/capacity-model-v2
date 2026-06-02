@@ -33,6 +33,12 @@ Edit `frontend/worker/workerCodeSource.js`, then:
 npm run build:worker     # node frontend/worker/buildWorker.js
 ```
 
+## Test
+```bash
+npm test                 # vitest run — covers the pure util modules
+```
+Minimal coverage today (pure modules only). See [`HANDOVER.md`](HANDOVER.md) → "Testing".
+
 ## Deploy
 ```bash
 npm run release          # runs build:worker (prerelease hook) then releases
