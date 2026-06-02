@@ -9,7 +9,13 @@ import { BRAND, TOKENS, Z_INDEX, ZOOM_CONFIG, useTheme } from '../design-system'
 import { SETTINGS, DEFAULT_SETTINGS } from '../constants';
 import { getSafeCellValue, getStringValue, getDateValue, resolveFieldId, getCellMetrics, getStatusColor, exportCapacityToCSV, exportChartAsPng, getSquadsList, writeSlotSnapshot, readAIRecommendations } from '../utils';
 import { transformForecastToWeeklyDemand, calculateFTEImpact } from '../utils/forecastTransformer';
-import { useCapacityData, useGrouping, useDebounce, useKeyboardShortcuts, useDashboardHandlers } from '../hooks';
+// Direct hook imports (no barrel) — CLAUDE.md rule #5: barrel imports of hooks/
+// can cause circular-dependency crashes.
+import { useCapacityData } from '../hooks/useCapacityData';
+import { useGrouping } from '../hooks/useGrouping';
+import { useDebounce } from '../hooks/useDebounce';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useDashboardHandlers } from '../hooks/useDashboardHandlers';
 // Direct imports to avoid circular dependency through barrel exports
 import { ScenarioManager } from '../services/ScenarioManager';
 import { AirtableService } from '../services/airtable-service';

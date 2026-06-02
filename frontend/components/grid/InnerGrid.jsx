@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
-import { useScrollFreezing } from '../../hooks';
+import { useScrollFreezing } from '../../hooks/useScrollFreezing'; // direct import (no barrel)
 import { BRAND, Z_INDEX, useTheme } from '../../design-system';
 import { ICONS } from '../../constants';
 import { formatNumber } from '../../utils';
