@@ -19,12 +19,14 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
     if (forecastMode === 'impact') {
         const isPositive = dem > 0.1;
         const isNegative = dem < -0.1;
-        let barColor = 'bg-transparent';
-        if (isPositive) barColor = 'bg-[#ef4444]';
-        if (isNegative) barColor = `bg-[${BRAND.success}]`;
+        // barColor is consumed as an inline backgroundColor — must be a raw CSS color,
+        // not a Tailwind class (Tailwind JIT does not run in the iframe).
+        let barColor = 'transparent';
+        if (isPositive) barColor = '#ef4444';
+        if (isNegative) barColor = BRAND.success;
         let heightPercent = Math.min(Math.abs(dem) * 10, 100);
         let content = Math.ceil(Math.abs(dem)) !== 0 ? (dem > 0 ? `+${Math.ceil(dem)}` : Math.floor(dem)) : '';
-        let textColor = Math.abs(dem) > 5 ? 'text-white font-bold' : (dem === 0 ? 'text-transparent' : (dem > 0 ? 'text-[#ef4444] font-bold' : `text-[${BRAND.success}] font-bold`));
+        let textColor = Math.abs(dem) > 5 ? '#ffffff' : (dem === 0 ? 'transparent' : (dem > 0 ? '#ef4444' : BRAND.success));
         return { util: 0, isOverloaded: false, heightPercent, barColor, content, textColor, dem, cap };
     }
 
@@ -72,7 +74,8 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
         content = Math.ceil(dem) > 0 ? Math.ceil(dem) : '';
     }
 
-    let textColor = heightPercent > 60 ? 'text-white text-shadow-sm' : `text-[${BRAND.dark}]`;
+    // Raw CSS color for consistency with the impact branch (BRAND.dark did not exist).
+    let textColor = heightPercent > 60 ? '#ffffff' : BRAND.indigo;
 
     return { util, isOverloaded, heightPercent, barColor, content, textColor, dem, cap };
 };
