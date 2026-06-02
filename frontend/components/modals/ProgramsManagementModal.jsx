@@ -22,8 +22,6 @@ const ProgramsManagementModal = ({
     const { isDark, colors } = useTheme();
     const [searchTerm, setSearchTerm] = useState('');
 
-    if (!isOpen) return null;
-
     // Filter programs by search
     const filteredPrograms = useMemo(() => {
         if (!searchTerm.trim()) return programs || [];
@@ -36,6 +34,9 @@ const ProgramsManagementModal = ({
 
     const totalPrograms = (programs || []).length;
     const totalHours = (programs || []).reduce((sum, p) => sum + (p.totalHours || 0), 0);
+
+    // Guard AFTER all hooks so hook order stays stable across renders (Rules of Hooks).
+    if (!isOpen) return null;
 
     return (
         <div

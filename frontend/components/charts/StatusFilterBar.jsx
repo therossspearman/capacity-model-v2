@@ -17,7 +17,7 @@ export const StatusFilterBar = ({ statuses, hiddenLines, onToggle, onHover, onLe
                 return (
                     <button
                         key={status}
-                        onClick={(e) => onToggle({ dataKey: status }, e)}
+                        onClick={() => onToggle(status)}
                         onMouseEnter={() => onHover(status)}
                         onMouseLeave={onLeave}
                         style={{

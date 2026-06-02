@@ -6040,15 +6040,23 @@ export const Dashboard = ({
                             project={bauEditProject}
                             squads={availableSquads}
                             onSave={async (projectId, formData) => {
-                                // Update the project via AirtableService
+                                // Update the project directly on the table (updateRecord is an
+                                // instance method, not static — AirtableService.updateRecord was
+                                // undefined and threw on every save).
                                 try {
-                                    await AirtableService.updateRecord(projTable, projectId, {
+                                    const rawFields = {
                                         [resolveFieldId(stableSettings[SETTINGS.STATUS])]: formData.status || undefined,
                                         [resolveFieldId(stableSettings[SETTINGS.PROJECT_SQUAD])]: formData.squad,
                                         [resolveFieldId(stableSettings[SETTINGS.LAUNCH])]: formData.launch,
                                         [resolveFieldId(stableSettings[SETTINGS.PROJECT_COUNTRY])]: formData.country,
                                         [resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE])]: formData.bauTshirtSize
-                                    });
+                                    };
+                                    // Strip undefined values (and any unresolved field-id keys) so the
+                                    // write only touches fields the user actually provided.
+                                    const fields = Object.fromEntries(
+                                        Object.entries(rawFields).filter(([k, v]) => k && k !== 'undefined' && v !== undefined)
+                                    );
+                                    await projTable.updateRecordAsync(projectId, fields);
                                     addToast({ type: 'success', title: 'Project Updated', message: `${formData.name} saved successfully` });
                                 } catch (error) {
                                     console.error('Failed to update BAU project:', error);
