@@ -2002,11 +2002,6 @@ export const Dashboard = ({
         return result;
     }, [activeGroupedData, exceptionsOnly, showNotesOnly]);
 
-    // Loading state
-    if (!resRecords || !projRecords) {
-        return <LoadingScreen message="Loading Airtable data..." />;
-    }
-
     // Active projects
     // Filter for active projects in the selected period and squad view
     const activeProjects = useMemo(() => {
@@ -2477,6 +2472,14 @@ export const Dashboard = ({
         viewMode, cellDisplayMode, zoomLevel, allGroupsExpanded, groupBy, sortBy,
         selectedCategory, activeMenu, themedStyles
     ]);
+
+    // Loading state — placed AFTER all hooks so every render runs the same hooks
+    // in the same order (moving this above the hooks above violated the Rules of
+    // Hooks and crashed with "rendered more hooks than during the previous render"
+    // once Airtable records resolved asynchronously).
+    if (!resRecords || !projRecords) {
+        return <LoadingScreen message="Loading Airtable data..." />;
+    }
 
     return (
         <DashboardProvider value={dashboardContextValue}>

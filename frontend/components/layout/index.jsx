@@ -2,15 +2,30 @@ import React from 'react';
 import { BRAND } from '../../design-system';
 import { ICONS } from '../../constants';
 
+// Inline styles only — Tailwind JIT does not run inside the Airtable iframe.
+// (`animate-shimmer` is a real injected keyframe class from design-system/animations.js,
+// so it is kept as a className.)
+const BORDER = BRAND.border;
+const BG_ALT = BRAND.bgAlt;
+const TEXT = BRAND.indigo;
+const PRIMARY = BRAND.primary;
+const PRIMARY_LIGHT = BRAND.primaryLight;
+const MUTED = '#94a3b8';
+
+const shimmerBlock = {
+    backgroundColor: BG_ALT,
+    borderRadius: '8px',
+};
+
 /**
  * Loading screen with shimmer animation
  */
 export const LoadingScreen = () => (
-    <div className="w-full h-full p-4 space-y-4">
-        <div className={`h-32 bg-[${BRAND.bgAlt}] rounded-lg animate-shimmer`}></div>
-        <div className="flex gap-4">
-            <div className={`w-1/4 h-80 bg-[${BRAND.bgAlt}] rounded-lg animate-shimmer`}></div>
-            <div className={`w-3/4 h-80 bg-[${BRAND.bgAlt}] rounded-lg animate-shimmer`}></div>
+    <div style={{ width: '100%', height: '100%', padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="animate-shimmer" style={{ ...shimmerBlock, height: '128px' }}></div>
+        <div style={{ display: 'flex', gap: '16px' }}>
+            <div className="animate-shimmer" style={{ ...shimmerBlock, width: '25%', height: '320px' }}></div>
+            <div className="animate-shimmer" style={{ ...shimmerBlock, width: '75%', height: '320px' }}></div>
         </div>
     </div>
 );
@@ -19,31 +34,69 @@ export const LoadingScreen = () => (
  * Empty state placeholder
  */
 export const EmptyState = ({ message, subtext, icon }) => (
-    <div className={`flex flex-col items-center justify-center h-64 text-center p-8 bg-[${BRAND.bgAlt}] rounded-lg border border-dashed border-[${BRAND.border}]`}>
-        <div className="p-4 bg-white rounded-full shadow-sm mb-4 text-slate-400">{icon || ICONS.SEARCH}</div>
-        <h3 className={`text-sm font-bold text-[${BRAND.dark}] mb-1`}>{message}</h3>
-        <p className="text-xs text-slate-500 max-w-xs">{subtext}</p>
+    <div
+        style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '256px',
+            textAlign: 'center',
+            padding: '32px',
+            backgroundColor: BG_ALT,
+            borderRadius: '8px',
+            border: `1px dashed ${BORDER}`,
+        }}
+    >
+        <div style={{ padding: '16px', backgroundColor: '#ffffff', borderRadius: '9999px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', marginBottom: '16px', color: MUTED }}>
+            {icon || ICONS.SEARCH}
+        </div>
+        <h3 style={{ fontSize: '14px', fontWeight: 700, color: TEXT, marginBottom: '4px' }}>{message}</h3>
+        <p style={{ fontSize: '12px', color: '#64748b', maxWidth: '20rem' }}>{subtext}</p>
     </div>
 );
 
 /**
  * Stat card for KPIs
+ * `color` is a CSS color string used to tint the icon background.
  */
 export const StatCard = ({ label, value, subtext, icon, color, children }) => (
-    <div className={`bg-white border border-[${BRAND.border}] rounded-xl p-3 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-200 min-w-[120px] h-[64px] group flex-shrink-0`}>
-        <div className="flex justify-between items-start h-full">
-            <div className="flex flex-col justify-center">
-                <span className={`text-[9px] font-semibold text-slate-400 uppercase tracking-wide group-hover:text-[${BRAND.primary}] transition-colors`}>{label}</span>
-                <div className="flex items-baseline gap-1 mt-0.5">
-                    <span className={`text-lg font-bold text-[${BRAND.dark}] tracking-tight`}>{value}</span>
-                    {subtext && <span className="text-[9px] text-slate-400 font-medium">{subtext}</span>}
+    <div
+        style={{
+            backgroundColor: '#ffffff',
+            border: `1px solid ${BORDER}`,
+            borderRadius: '12px',
+            padding: '12px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            transition: 'all 0.2s',
+            minWidth: '120px',
+            height: '64px',
+            flexShrink: 0,
+        }}
+    >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', height: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <span style={{ fontSize: '9px', fontWeight: 600, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.025em' }}>{label}</span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '2px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 700, color: TEXT, letterSpacing: '-0.01em' }}>{value}</span>
+                    {subtext && <span style={{ fontSize: '9px', color: MUTED, fontWeight: 500 }}>{subtext}</span>}
                 </div>
             </div>
             {children ? (
-                <div className="opacity-90 group-hover:opacity-100 transition-opacity ml-2 self-center">{children}</div>
+                <div style={{ opacity: 0.9, marginLeft: '8px', alignSelf: 'center' }}>{children}</div>
             ) : (
-                <div className={`p-1.5 rounded-lg ${color} bg-opacity-10 group-hover:scale-110 transition-transform duration-200 ml-2`}>
-                    {React.cloneElement(icon, { className: "w-4 h-4" })}
+                <div
+                    style={{
+                        padding: '6px',
+                        borderRadius: '8px',
+                        backgroundColor: color || `${PRIMARY_LIGHT}1A`, // 1A = ~10% alpha
+                        marginLeft: '8px',
+                    }}
+                >
+                    {icon && React.cloneElement(icon, { style: { ...(icon.props.style || {}), width: '16px', height: '16px' } })}
                 </div>
             )}
         </div>
@@ -54,11 +107,32 @@ export const StatCard = ({ label, value, subtext, icon, color, children }) => (
  * Styled date picker wrapper
  */
 export const StyledDatePicker = ({ value, onChange, placeholder }) => (
-    <div className="relative group">
-        <div className={`flex items-center gap-2 bg-white border border-[${BRAND.border}] group-hover:border-[${BRAND.primary}] rounded-lg px-3 py-2 text-xs font-medium text-[${BRAND.dark}] shadow-sm transition-all min-w-[110px]`}>
-            <div className={`text-slate-400 group-hover:text-[${BRAND.primary}] transition-colors`}>{ICONS.CALENDAR}</div>
-            <span className={!value ? 'text-slate-400' : `text-[${BRAND.dark}]`}>{value || placeholder}</span>
+    <div style={{ position: 'relative' }}>
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#ffffff',
+                border: `1px solid ${BORDER}`,
+                borderRadius: '8px',
+                padding: '8px 12px',
+                fontSize: '12px',
+                fontWeight: 500,
+                color: TEXT,
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                transition: 'all 0.15s',
+                minWidth: '110px',
+            }}
+        >
+            <div style={{ color: MUTED }}>{ICONS.CALENDAR}</div>
+            <span style={{ color: !value ? MUTED : TEXT }}>{value || placeholder}</span>
         </div>
-        <input type="date" value={value} onChange={onChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+        <input
+            type="date"
+            value={value}
+            onChange={onChange}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 10 }}
+        />
     </div>
 );

@@ -3,6 +3,16 @@ import { Z_INDEX, BRAND } from '../../design-system';
 import { ICONS } from '../../constants';
 import { SearchInput } from './Select';
 
+// Inline styles only — Tailwind JIT does not run inside the Airtable iframe.
+const PRIMARY = BRAND.primary;            // #180126
+const PRIMARY_LIGHT = BRAND.primaryLight; // #7637E3
+const BORDER = BRAND.border;
+const TEXT = BRAND.indigo;
+const MUTED = '#94a3b8';
+const DANGER = '#ef4444';
+const PRIMARY_TINT_05 = 'rgba(24, 1, 38, 0.05)';
+const PRIMARY_TINT_10 = 'rgba(24, 1, 38, 0.1)';
+
 /**
  * Multi-select dropdown component
  */
@@ -18,6 +28,9 @@ export const MultiSelect = ({ options = [], selected = [], onChange, label, isOp
     };
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [hoveredOption, setHoveredOption] = useState(null);
+    const [btnHover, setBtnHover] = useState(false);
+    const [badgeHover, setBadgeHover] = useState(false);
     const containerRef = useRef(null);
     const showSearch = options.length > 5;
 
@@ -45,45 +58,155 @@ export const MultiSelect = ({ options = [], selected = [], onChange, label, isOp
     if (selected.length > 0) {
         triggerLabel = selected.length === 1 ? selected[0] : `${selected.length} ${label}`;
     }
+    const hasSelection = selected.length > 0;
 
     return (
-        <div className="relative" style={{ zIndex: open ? Z_INDEX.DROPDOWN + 10 : Z_INDEX.DROPDOWN }} ref={containerRef}>
-            <button onClick={toggle} className={`relative flex items-center justify-between gap-2 min-w-[100px] max-w-[160px] bg-white border hover:border-[${BRAND.primaryLight}] rounded-lg px-3 py-2 text-xs font-medium text-[${BRAND.dark}] shadow-sm transition-all ${open ? `ring-2 ring-[${BRAND.primary}]/20 border-[${BRAND.primary}]` : `border-[${BRAND.border}]`} ${selected.length > 0 ? `bg-[${BRAND.primary}]/5 text-[${BRAND.primary}] border-[${BRAND.primaryLight}]` : ''}`}>
-                <span className="truncate">{triggerLabel}</span>
-                <div className={`text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>{ICONS.CHEVRON_DOWN}</div>
-                {selected.length > 0 && (
-                    <div onClick={(e) => { e.stopPropagation(); onChange([]); }} className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-gray-200 hover:bg-[#ef4444] hover:text-white rounded-full flex items-center justify-center text-[8px] transition-colors shadow-sm z-20">✕</div>
+        <div style={{ position: 'relative', zIndex: open ? Z_INDEX.DROPDOWN + 10 : Z_INDEX.DROPDOWN }} ref={containerRef}>
+            <button
+                onClick={toggle}
+                onMouseEnter={() => setBtnHover(true)}
+                onMouseLeave={() => setBtnHover(false)}
+                style={{
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    minWidth: '100px',
+                    maxWidth: '160px',
+                    backgroundColor: hasSelection ? PRIMARY_TINT_05 : '#ffffff',
+                    border: '1px solid',
+                    borderColor: open ? PRIMARY : (hasSelection || btnHover ? PRIMARY_LIGHT : BORDER),
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    color: hasSelection ? PRIMARY : TEXT,
+                    boxShadow: open ? '0 0 0 2px rgba(24, 1, 38, 0.2)' : '0 1px 2px rgba(0,0,0,0.05)',
+                    transition: 'all 0.15s',
+                    cursor: 'pointer',
+                }}
+            >
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{triggerLabel}</span>
+                <div style={{ color: MUTED, transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'none' }}>{ICONS.CHEVRON_DOWN}</div>
+                {hasSelection && (
+                    <div
+                        onClick={(e) => { e.stopPropagation(); onChange([]); }}
+                        onMouseEnter={() => setBadgeHover(true)}
+                        onMouseLeave={() => setBadgeHover(false)}
+                        style={{
+                            position: 'absolute',
+                            top: '-6px',
+                            right: '-6px',
+                            width: '16px',
+                            height: '16px',
+                            backgroundColor: badgeHover ? DANGER : '#e5e7eb',
+                            color: badgeHover ? '#ffffff' : 'inherit',
+                            borderRadius: '9999px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '8px',
+                            transition: 'background-color 0.15s, color 0.15s',
+                            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                            zIndex: 20,
+                        }}
+                    >
+                        ✕
+                    </div>
                 )}
             </button>
             {open && (
-                <div className={`dropdown-enter absolute top-full left-0 mt-1 min-w-[140px] bg-white border border-[${BRAND.border}] rounded-lg shadow-xl overflow-hidden`}>
+                <div
+                    className="dropdown-enter"
+                    style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: 0,
+                        marginTop: '4px',
+                        minWidth: '140px',
+                        backgroundColor: '#ffffff',
+                        border: `1px solid ${BORDER}`,
+                        borderRadius: '8px',
+                        boxShadow: '0 20px 25px rgba(0,0,0,0.15)',
+                        overflow: 'hidden',
+                    }}
+                >
                     {showSearch && <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Search..." />}
-                    <div className="max-h-48 overflow-y-auto custom-scrollbar">
+                    <div className="custom-scrollbar" style={{ maxHeight: '192px', overflowY: 'auto' }}>
                         {filteredOptions.length === 0 ? (
-                            <div className="px-3 py-3 text-center text-xs text-slate-400 italic">No results</div>
+                            <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: MUTED, fontStyle: 'italic' }}>No results</div>
                         ) : (
-                            filteredOptions.map(option => (
-                                <div
-                                    key={option}
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleOption(option); }}
-                                    className={`flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors text-xs ${selected.includes(option) ? `bg-[${BRAND.primary}]/10 text-[${BRAND.primary}] font-semibold` : `text-slate-600 hover:bg-slate-50`}`}
-                                >
-                                    <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selected.includes(option) ? `bg-[${BRAND.primary}] border-[${BRAND.primary}]` : 'border-slate-300'}`}>
-                                        {selected.includes(option) && <svg style={{ width: '10px', height: '10px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                            filteredOptions.map(option => {
+                                const isSel = selected.includes(option);
+                                return (
+                                    <div
+                                        key={option}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleOption(option); }}
+                                        onMouseEnter={() => setHoveredOption(option)}
+                                        onMouseLeave={() => setHoveredOption(null)}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px',
+                                            padding: '8px 12px',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.15s',
+                                            fontSize: '12px',
+                                            backgroundColor: isSel ? PRIMARY_TINT_10 : (hoveredOption === option ? '#f8fafc' : 'transparent'),
+                                            color: isSel ? PRIMARY : '#475569',
+                                            fontWeight: isSel ? 600 : 400,
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                width: '16px',
+                                                height: '16px',
+                                                borderRadius: '4px',
+                                                border: '2px solid',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                transition: 'background-color 0.15s, border-color 0.15s',
+                                                backgroundColor: isSel ? PRIMARY : 'transparent',
+                                                borderColor: isSel ? PRIMARY : '#cbd5e1',
+                                            }}
+                                        >
+                                            {isSel && <svg style={{ width: '10px', height: '10px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                                        </div>
+                                        {option}
                                     </div>
-                                    {option}
-                                </div>
-                            ))
+                                );
+                            })
                         )}
                     </div>
-                    <div className="bg-slate-50 px-3 py-2 border-t border-slate-100 flex justify-between items-center">
-                        {selected.length > 0 ? (
-                            <button onClick={() => onChange([])} className="text-[10px] text-slate-400 hover:text-[#ef4444] font-medium">Clear</button>
+                    <div
+                        style={{
+                            backgroundColor: '#f8fafc',
+                            padding: '8px 12px',
+                            borderTop: '1px solid #f1f5f9',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        {hasSelection ? (
+                            <button
+                                onClick={() => onChange([])}
+                                style={{ fontSize: '10px', color: MUTED, fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer' }}
+                            >
+                                Clear
+                            </button>
                         ) : (
-                            <span className="text-[10px] text-slate-400">{options.length} options</span>
+                            <span style={{ fontSize: '10px', color: MUTED }}>{options.length} options</span>
                         )}
                         {selected.length !== options.length && (
-                            <button onClick={() => onChange(options)} className={`text-[10px] font-bold text-[${BRAND.primary}] hover:text-[${BRAND.dark}]`}>All</button>
+                            <button
+                                onClick={() => onChange(options)}
+                                style={{ fontSize: '10px', fontWeight: 700, color: PRIMARY, background: 'none', border: 'none', cursor: 'pointer' }}
+                            >
+                                All
+                            </button>
                         )}
                     </div>
                 </div>

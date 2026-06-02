@@ -350,6 +350,11 @@ export const generateBulkAllocationPlan = (slotMap, projects, config = {}) => {
     const weekMs = 7 * 24 * 60 * 60 * 1000;
     const squads = Object.keys(slotMap);
 
+    // Accumulators (previously undeclared — caused ReferenceError on first push)
+    const allocations = [];
+    const unplaceable = [];
+    const warnings = [];
+
     // Build availability matrix: track remaining slots per squad/week
     const availability = {};
     const allWeeks = new Set();

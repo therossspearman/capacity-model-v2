@@ -246,18 +246,33 @@ const ProgramDetailModal = ({
             'Governance': SETTINGS.PROGRAM_WS_GOVERNANCE
         };
 
+        // Initialise EVERY managed canonical field to empty first, so that removing
+        // the last resource from a workstream actually clears it in Airtable instead
+        // of leaving the stale link behind (workstreams with zero assignments are
+        // absent from byWorkstream and would otherwise never be written).
         const fields = {};
+        Object.values(FIELD_MAP_CANONICAL).forEach(key => {
+            const fieldId = globalConfig.get(key);
+            if (fieldId) fields[fieldId] = [];
+        });
+
+        // Accumulate ids per field id (deduped) so workstream aliases that share a
+        // single canonical field (e.g. 'Comms' + 'Comms & Branding') are MERGED
+        // rather than overwriting each other (previously last-write-wins corrupted
+        // the linked-record set).
         Object.entries(byWorkstream).forEach(([wsName, ids]) => {
             const key = FIELD_MAP_CANONICAL[wsName] || FIELD_MAP_CANONICAL[wsName.replace('Program ', '')];
             if (!key) return;
             const fieldId = globalConfig.get(key);
-            if (fieldId) {
-                fields[fieldId] = ids.map(id => ({ id }));
-            }
+            if (!fieldId) return;
+            const existing = fields[fieldId] || (fields[fieldId] = []);
+            const seen = new Set(existing.map(r => r.id));
+            ids.forEach(id => { if (id && !seen.has(id)) { seen.add(id); existing.push({ id }); } });
         });
 
         if (Object.keys(fields).length > 0) {
-            programsTable.updateRecordAsync(programRecord.id, fields);
+            programsTable.updateRecordAsync(programRecord.id, fields)
+                .catch(err => console.error('[ProgramDetailModal] Failed to persist workstream links:', err));
         }
     };
 

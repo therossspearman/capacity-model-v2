@@ -816,42 +816,22 @@ export const OptimizationModal = ({
             // Step 2: Run bulk allocation to assign squads (async worker to prevent UI freeze)
             setReliefProgress(30);
             setReliefStatusMessage('Running bulk allocation algorithm (Worker)...');
+            // generateBulkAllocationPlan / runBulkAllocationAsync take (slotMap, projects, config).
+            // Build a config with the exact keys the engine reads — slotProfile lives inside config.
+            const reliefConfig = {
+                reservedSlotsPerMonth: runParams.reservePerMonth || 0,
+                maxDelayWeeks: runParams.maxExpansion || 8,
+                allowCrossSquad: runParams.allowSquadMoves,
+                allowOverstaff: runParams.capacityBuffer > 0, // Simplified map
+                bufferPercent: runParams.capacityBuffer || 20,
+                slotProfile
+            };
             let bulkAllocations;
             try {
-                bulkAllocations = await runBulkAllocationAsync(
-                    scopedSlotMap,
-                    unallocatedInRange,
-                    projects,
-                    slotProfile,
-                    enabledSquads,
-                    {
-                        reserveSlotsPerMonth: runParams.reservePerMonth || 0,
-                        allowCrossSquad: runParams.allowSquadMoves,
-                        allowOverstaff: runParams.capacityBuffer > 0, // Simplified map
-                        priorityDial: runParams.priorityDial,
-                        maxCompression: runParams.maxCompression,
-                        maxExpansion: runParams.maxExpansion,
-                        capacityBuffer: runParams.capacityBuffer
-                    }
-                );
+                bulkAllocations = await runBulkAllocationAsync(scopedSlotMap, unallocatedInRange, reliefConfig);
             } catch (workerErr) {
                 console.warn('[CapacityRelief] Worker failed, falling back to sync:', workerErr);
-                bulkAllocations = generateBulkAllocationPlan(
-                    slotMap,
-                    unallocatedInRange,
-                    projects,
-                    slotProfile,
-                    enabledSquads,
-                    {
-                        reserveSlotsPerMonth: runParams.reservePerMonth || 0,
-                        allowCrossSquad: runParams.allowSquadMoves,
-                        allowOverstaff: runParams.capacityBuffer > 0,
-                        priorityDial: runParams.priorityDial,
-                        maxCompression: runParams.maxCompression,
-                        maxExpansion: runParams.maxExpansion,
-                        capacityBuffer: runParams.capacityBuffer
-                    }
-                );
+                bulkAllocations = generateBulkAllocationPlan(scopedSlotMap, unallocatedInRange, reliefConfig);
             }
 
             // Artificial delay to let user see the completion of bulk allocation
