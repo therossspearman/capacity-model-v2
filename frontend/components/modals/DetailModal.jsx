@@ -939,28 +939,40 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
 
     const aggregated = rawDetails.reduce((acc, item) => {
         const name = item.name || 'Unknown Project';
-        if (!acc[name]) acc[name] = { ...item, name: name, hours: 0, totalNeeded: 0, assigned: 0, coverageStatus: item.coverageStatus || 'unassigned', roleBreakdown: {}, projectId: item.id || item.projectId, team: item.team || { pm: [], sc: [], pd: [] } };
+        // Group by the UNIQUE project id, NOT the display name. Multiple distinct
+        // projects can share the same name (e.g. several "Anthropic TBC" records);
+        // keying by name collapses them into one entry and surfaces the wrong
+        // project's dates/budget. Fall back to name only for items with no id
+        // (programs, ad-hoc rows).
+        const key = item.projectId || item.id || name;
+        if (!acc[key]) acc[key] = { ...item, name: name, hours: 0, totalNeeded: 0, assigned: 0, coverageStatus: item.coverageStatus || 'unassigned', roleBreakdown: {}, projectId: item.projectId || item.id, team: item.team || { pm: [], sc: [], pd: [] } };
         const h = Number(item.hours) || 0;
-        acc[name].hours += h;
-        if (item.totalNeeded) acc[name].totalNeeded += item.totalNeeded;
-        if (item.assigned) acc[name].assigned += item.assigned;
-        if (item.pctComplete !== undefined) acc[name].pctComplete = item.pctComplete;
-        if (item.wave) acc[name].wave = item.wave;
-        if (item.effortProfile) acc[name].effortProfile = item.effortProfile;
-        if (item.coverageStatus === 'partial') acc[name].coverageStatus = 'partial';
+        acc[key].hours += h;
+        if (item.totalNeeded) acc[key].totalNeeded += item.totalNeeded;
+        if (item.assigned) acc[key].assigned += item.assigned;
+        if (item.pctComplete !== undefined) acc[key].pctComplete = item.pctComplete;
+        if (item.wave) acc[key].wave = item.wave;
+        if (item.effortProfile) acc[key].effortProfile = item.effortProfile;
+        if (item.coverageStatus === 'partial') acc[key].coverageStatus = 'partial';
         if (item.breakdownCategory) {
             const role = item.breakdownCategory.toUpperCase();
-            acc[name].roleBreakdown[role] = (acc[name].roleBreakdown[role] || 0) + h;
+            acc[key].roleBreakdown[role] = (acc[key].roleBreakdown[role] || 0) + h;
         }
         return acc;
     }, {});
 
     // Enrich aggregated data with latest project info from allProjects (supports optimistic updates)
-    const enrichedAggregated = Object.entries(aggregated).reduce((acc, [name, item]) => {
-        const latestProject = allProjects?.find(p => p.id === item.projectId || p.name === item.name);
+    const enrichedAggregated = Object.entries(aggregated).reduce((acc, [key, item]) => {
+        // Resolve the live project by its UNIQUE id. Only fall back to a name match
+        // when the item has no id — never OR the two together, because find() would
+        // then return the first record whose *name* matches (and many projects share
+        // the name "… TBC"), pulling in the wrong project's dates/budget.
+        const latestProject = item.projectId
+            ? allProjects?.find(p => p.id === item.projectId)
+            : allProjects?.find(p => p.name === item.name);
         if (latestProject) {
             // Merge latest project data, prioritizing allProjects for dates/status/squad
-            acc[name] = {
+            acc[key] = {
                 ...item,
                 status: latestProject.status || item.status,
                 squads: latestProject.squads || item.squads,
@@ -980,7 +992,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                 resourced: latestProject.resourced !== undefined ? latestProject.resourced : (item.resourced || false)
             };
         } else {
-            acc[name] = item;
+            acc[key] = item;
         }
         return acc;
     }, {});
