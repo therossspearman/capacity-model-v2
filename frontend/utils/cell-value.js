@@ -56,7 +56,6 @@ export const getCellValue = (record, fieldId, options = {}) => {
         }
 
         case 'number': {
-            if (!table) return 0;
             let numValue = Array.isArray(rawValue)
                 ? rawValue.reduce((acc, v) => acc + (Number(v) || 0), 0)
                 : Number(rawValue) || 0;
@@ -65,9 +64,13 @@ export const getCellValue = (record, fieldId, options = {}) => {
 
             if (isTimeField) return numValue / TIME_CONSTANTS.SECONDS_PER_HOUR;
 
-            const field = table.getFieldByIdIfExists(safeId);
-            if (field && (field.type === FieldType.DURATION || field.options?.result?.type === FieldType.DURATION)) {
-                return numValue / TIME_CONSTANTS.SECONDS_PER_HOUR;
+            // Table is only required to detect DURATION fields; without it,
+            // return the plain numeric value rather than short-circuiting to 0.
+            if (table) {
+                const field = table.getFieldByIdIfExists(safeId);
+                if (field && (field.type === FieldType.DURATION || field.options?.result?.type === FieldType.DURATION)) {
+                    return numValue / TIME_CONSTANTS.SECONDS_PER_HOUR;
+                }
             }
 
             return numValue;

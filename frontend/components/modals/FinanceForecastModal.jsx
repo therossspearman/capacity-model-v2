@@ -160,6 +160,15 @@ export const FinanceForecastModal = ({
         const scQuarterly = (totalScHours / durationWeeks) * weeksInQuarter;
         const pdQuarterly = (totalPdHours / durationWeeks) * weeksInQuarter;
 
+        // NOTE: two distinct hour totals are returned intentionally:
+        //  - `hours`      = annualized RUN-RATE (each quarter's absolute effort spread
+        //                   over its durationWeeks, then scaled to a 13-week quarter).
+        //                   This is what FTE capacity sizing (fteAnalysis) consumes,
+        //                   because sizing is about concurrent load, not booked volume.
+        //  - `totalHours` = ABSOLUTE booked effort for the volume (no time-spreading).
+        //                   This is what the sidebar summary and quarterly breakdown
+        //                   table display, because those show total work in the book.
+        // They diverge whenever durationWeeks !== 13, and that divergence is expected.
         return {
             projects: Math.round(projects * 10) / 10,
             deals: Math.round((market === 'global' ? (arr / Math.max(1, avgArrPerProject * projectsPerDeal)) : projects) * 10) / 10,
@@ -1044,7 +1053,7 @@ export const FinanceForecastModal = ({
                 message="This forecast will be permanently removed. This cannot be undone."
                 confirmText="Delete"
                 cancelText="Cancel"
-                onConfirm={() => { onDelete(deleteConfirm.id); setDeleteConfirm(null); }}
+                onConfirm={() => { if (deleteConfirm?.id && onDelete) onDelete(deleteConfirm.id); setDeleteConfirm(null); }}
                 onCancel={() => setDeleteConfirm(null)}
             />
         </>
@@ -1057,6 +1066,7 @@ FinanceForecastModal.propTypes = {
     onSave: PropTypes.func,
     onApplyToChart: PropTypes.func,
     onLoad: PropTypes.func,
+    onDelete: PropTypes.func,
     savedForecasts: PropTypes.array,
     initialArrData: PropTypes.object,
     initialParameters: PropTypes.object,

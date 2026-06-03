@@ -77,7 +77,14 @@ export const ForecastImpactPanel = ({
 
     if (!isOpen || !fteImpact) return null;
 
-    const { current, forecast, initiatives, summary, fteAnalysis, recommendations } = fteImpact;
+    const {
+        current = {},
+        forecast = {},
+        initiatives = {},
+        summary = {},
+        fteAnalysis = {},
+        recommendations = []
+    } = fteImpact;
 
     const utilizationColor = summary.projectedUtilization > 100
         ? '#ef4444'
@@ -317,7 +324,7 @@ export const ForecastImpactPanel = ({
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             {['pm', 'sc', 'pd'].map(role => {
-                                const data = fteAnalysis[role];
+                                const data = fteAnalysis[role] || {};
                                 const color = ROLE_COLORS[role];
 
                                 return (
@@ -443,7 +450,27 @@ export const ForecastImpactPanel = ({
 ForecastImpactPanel.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    fteImpact: PropTypes.object,
+    fteImpact: PropTypes.shape({
+        current: PropTypes.shape({
+            demandHours: PropTypes.number,
+            capacityHours: PropTypes.number
+        }),
+        forecast: PropTypes.shape({ total: PropTypes.number }),
+        initiatives: PropTypes.shape({ total: PropTypes.number }),
+        summary: PropTypes.shape({
+            projectedUtilization: PropTypes.number,
+            isOverCapacity: PropTypes.bool,
+            totalCurrentFte: PropTypes.number,
+            totalAdditionalFteNeeded: PropTypes.number
+        }),
+        fteAnalysis: PropTypes.object,
+        recommendations: PropTypes.arrayOf(PropTypes.shape({
+            priority: PropTypes.string,
+            count: PropTypes.number,
+            role: PropTypes.string,
+            reason: PropTypes.string
+        }))
+    }),
     forecastName: PropTypes.string
 };
 

@@ -10,7 +10,10 @@
  * Dashboard.jsx's control over state.
  */
 import { useCallback, useRef } from 'react';
-import { logAuditEvent, AUDIT_EVENTS } from '../utils/AuditLog';
+// NOTE: logAuditEvent / AUDIT_EVENTS are injected via deps (see destructure below)
+// to keep this hook's dependency-injection contract consistent and testable.
+// They are NOT imported here to avoid the imported names being shadowed by the
+// destructured deps of the same name.
 
 /**
  * @typedef {Object} HandlerDependencies
@@ -1139,7 +1142,10 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
                 }
                 if (updates.effortProfile !== undefined) {
                     const fid = resolveWriteFieldId(SETTINGS.EFFORT_PROFILE, SETTINGS.EFFORT_PROFILE_UPDATE);
-                    if (fid) fields[fid] = updates.effortProfile ? { name: updates.effortProfile } : null;
+                    // Treat 'None' as a clear, matching the LIVE batch-apply path (handleBatchApply)
+                    // so committing a draft that selected 'None' clears the field rather than
+                    // writing a literal 'None' option.
+                    if (fid) fields[fid] = updates.effortProfile && updates.effortProfile !== 'None' ? { name: updates.effortProfile } : null;
                 }
                 if (updates.start !== undefined || updates.kickOff !== undefined) {
                     const fid = resolveWriteFieldId(SETTINGS.KICK_OFF, SETTINGS.KICK_OFF_UPDATE);
@@ -2043,6 +2049,13 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
             projectEnd = slotEnd;
         }
 
+        // Build the slot taxonomy id, e.g. "P1FY26W3".
+        //  - squadInitial: first letter of the target squad (defaults to 'X' when unknown).
+        //  - FY: fiscal year starts in MAY (month index 4). Slots dated May..Dec roll into
+        //    the NEXT calendar year's FY (hence getFullYear() + 1); Jan..Apr stay in the
+        //    current calendar year's FY. fyShort is the 2-digit FY (e.g. 2026 -> "26").
+        //  - weekNum: week-of-month (1-based), computed from the day-of-month offset by the
+        //    weekday of the 1st of that month so partial first weeks count as week 1.
         const squadInitial = (targetSquad || 'X').charAt(0).toUpperCase();
         const d = new Date(slotStart);
         const fy = d.getMonth() >= 4 ? d.getFullYear() + 1 : d.getFullYear();

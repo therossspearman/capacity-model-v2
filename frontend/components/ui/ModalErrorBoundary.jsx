@@ -18,6 +18,18 @@ class ModalErrorBoundary extends React.Component {
         console.error('Modal Error:', error, errorInfo);
     }
 
+    componentDidUpdate(prevProps) {
+        // Reset the boundary when the caller changes resetKey (e.g. modal
+        // content is swapped or the modal is reopened) so a previously caught
+        // error does not keep the fallback UI pinned on fresh content.
+        if (
+            this.state.hasError &&
+            prevProps.resetKey !== this.props.resetKey
+        ) {
+            this.setState({ hasError: false, error: null });
+        }
+    }
+
     handleClose = () => {
         this.setState({ hasError: false, error: null });
         if (this.props.onClose) {
@@ -103,7 +115,10 @@ class ModalErrorBoundary extends React.Component {
 ModalErrorBoundary.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
+    // Optional: change this value (e.g. modal id / content key) to clear a
+    // previously caught error and re-render children.
+    resetKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default ModalErrorBoundary;

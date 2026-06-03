@@ -11,52 +11,6 @@ import { getStatusColor, formatNumber, getCategoryForFunction } from '../../util
 // Allowed statuses for inline editing (must match Airtable exactly)
 const ALLOWED_STATUSES = ['Draft', 'Pipeline - Best', 'Pipeline - Commit', 'Contracted', 'Onboarding', 'In Flight', 'In Hypercare', 'Closed', 'Cancelled', 'On hold'];
 
-// Sparkline component for budget performance visualization
-const Sparkline = ({ planned = 0, actuals = 0, eac = 0, pctComplete = 0 }) => {
-    const maxVal = Math.max(planned, actuals, eac) || 1;
-    const planW = Math.min((planned / maxVal) * 100, 100);
-    const actW = Math.min((actuals / maxVal) * 100, 100);
-    const eacW = Math.min((eac / maxVal) * 100, 100);
-
-    const variance = planned - eac;
-    const isUnderBudget = variance >= 0;
-    const varianceLabel = isUnderBudget
-        ? `Projected Saving: ${Math.round(Math.abs(variance))}h`
-        : `Projected Overburn: ${Math.round(Math.abs(variance))}h`;
-    const varianceColor = isUnderBudget ? '#059669' : '#dc2626';
-
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '8px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', position: 'relative' }}>
-                        <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Budget Performance</span>
-                        <div style={{ cursor: 'help', width: '12px', height: '12px', borderRadius: '9999px', backgroundColor: '#f1f5f9', color: '#94a3b8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', fontWeight: 700, border: '1px solid #e2e8f0' }} title="EAC (Estimate at Completion) projects your final total hours based on your current burn rate (% complete vs actuals).">?</div>
-                        {pctComplete > 0 && <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '9999px', backgroundColor: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0', fontSize: '9px', fontWeight: 700 }}>{Math.round(pctComplete * 100)}% Complete</span>}
-                    </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                    <span style={{ fontSize: '10px', fontWeight: 700, color: varianceColor }}>{varianceLabel}</span>
-                    <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500 }}>{formatNumber(Math.round(eac))}h Total EAC</span>
-                </div>
-            </div>
-
-            <div style={{ position: 'relative', height: '10px', backgroundColor: 'rgba(226,232,240,0.5)', borderRadius: '9999px', overflow: 'hidden', width: '100%' }}>
-                {/* EAC Context Bar */}
-                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', backgroundColor: 'rgba(203,213,225,0.3)', width: `${eacW}%` }}></div>
-                {/* Actuals Bar */}
-                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', borderRadius: '9999px', transition: 'all 0.5s', backgroundColor: actuals > planned ? '#f59e0b' : '#3b82f6', width: `${actW}%` }}></div>
-                {/* Planned Marker */}
-                <div style={{ position: 'absolute', top: 0, bottom: 0, width: '2px', backgroundColor: '#22c55e', zIndex: 10, boxShadow: '0 0 4px rgba(34,197,94,0.6)', left: `${planW}%` }}></div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', fontWeight: 500, paddingTop: '4px' }}>
-                <span style={{ color: actuals > planned ? '#d97706' : '#2563eb', fontWeight: actuals > planned ? 700 : 500 }}>{formatNumber(Math.round(actuals))}h Actuals</span>
-                <span style={{ color: '#16a34a', fontWeight: 700 }}>{formatNumber(Math.round(planned))}h Original Budget</span>
-            </div>
-        </div>
-    );
-};
-
 // Helper to format dates to yyyy-MM-dd for HTML date inputs
 const formatDateForInput = (dateValue) => {
     if (!dateValue) return '';
@@ -978,17 +932,12 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
             if (!(itemSquads || []).some(s => s === filterSquad)) return false;
         }
         if (filterRole) {
-            const hasHoursForRole = item.breakdownCategory && item.breakdownCategory.toUpperCase() === filterRole;
-            // Also check if the project has allocation for this role generally if not in breakdown mode? 
-            // For now, strict check on breakdown category if available, or just skip if we can't determine.
-            // Usually 'breakdownCategory' comes from the worker for unassigned rows.
-            if (!hasHoursForRole && !isUnassignedRow) {
-                // For assigned rows, we might simply filter based on if the user is that role? 
-                // But this is Project Detail... let's stick to simple "is this role hours present" if feasible.
-                // Actually for DetailModal, 'details' are per-project entries. 
-                // If we filter by Role "PM", we probably only want to show projects where this resource is acting as PM?
-                // Or just filter the *hours* shown? 
-                // Parity Requirement: "Filter list". Let's filter the list.
+            // 'breakdownCategory' (pm/sc/pd) is supplied by the worker on per-role
+            // demand/unassigned rows. When present, only keep rows for the selected
+            // role. Rows without a breakdownCategory (e.g. assigned-project rows that
+            // carry no role split) are left untouched so the filter never hides them.
+            if (item.breakdownCategory && item.breakdownCategory.toUpperCase() !== filterRole) {
+                return false;
             }
         }
 

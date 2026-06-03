@@ -139,10 +139,8 @@ export const OptimizationModal = ({
     const [allowOverstaff, setAllowOverstaff] = useState(false);
     // NEW: Text to opt-in for global unallocated projects when scoped to a squad
     const [includeGlobalBacklog, setIncludeGlobalBacklog] = useState(false);
-    // Performance: Search filter and pagination
+    // Performance: Search filter
     const [bulkSearchQuery, setBulkSearchQuery] = useState('');
-    const [bulkPage, setBulkPage] = useState(0);
-    const ITEMS_PER_PAGE = 50;
     // Performance: Only compute bulk plan when explicitly requested
     const [bulkPlan, setBulkPlan] = useState(null);
     const [isComputingPlan, setIsComputingPlan] = useState(false);
@@ -503,14 +501,6 @@ export const OptimizationModal = ({
             p.country?.toLowerCase().includes(q)
         );
     }, [unresourcedProjects, bulkSearchQuery, scopeSquads, includeGlobalBacklog]);
-
-    // Paginate the filtered list
-    const paginatedProjects = useMemo(() => {
-        const start = bulkPage * ITEMS_PER_PAGE;
-        return filteredUnresourcedProjects.slice(start, start + ITEMS_PER_PAGE);
-    }, [filteredUnresourcedProjects, bulkPage]);
-
-    const totalPages = Math.ceil(filteredUnresourcedProjects.length / ITEMS_PER_PAGE);
 
     // Compute bulk plan on demand using Web Worker (non-blocking)
     const computeBulkPlan = async () => {
@@ -1148,6 +1138,9 @@ export const OptimizationModal = ({
             zIndex: 9999,
             backdropFilter: 'blur(8px)'
         }}>
+            {/* iframe has no Tailwind JIT — define the 'spin' keyframe inline so
+                spinners using animation:'spin ...' actually rotate. */}
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             <div style={{
                 width: '98vw',
                 height: '96vh',
@@ -1960,7 +1953,7 @@ export const OptimizationModal = ({
                                     type="text"
                                     placeholder="Search backlog projects..."
                                     value={bulkSearchQuery}
-                                    onChange={(e) => { setBulkSearchQuery(e.target.value); setBulkPage(0); }}
+                                    onChange={(e) => { setBulkSearchQuery(e.target.value); }}
                                     style={{
                                         width: '100%',
                                         padding: '10px 12px 10px 36px',
@@ -3270,7 +3263,7 @@ export const OptimizationModal = ({
                             >
                                 {isApplying ? (
                                     <>
-                                        <svg className="animate-spin" style={{ width: '14px', height: '14px' }} viewBox="0 0 24 24" fill="none">
+                                        <svg style={{ width: '14px', height: '14px', animation: 'spin 1s linear infinite' }} viewBox="0 0 24 24" fill="none">
                                             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity="0.3"></circle>
                                             <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>

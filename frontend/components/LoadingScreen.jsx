@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { BRAND } from '../design-system/tokens';
 import { useTheme } from '../design-system';
+import { APP_VERSION } from '../constants/settings';
 
 // ═══════════════════════════════════════════════════════════════════
 // BENIFEX PULSE — Cinematic Loading Experience v2
@@ -273,7 +274,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
                 }}>
                     <span>{Math.round(progress)}%</span>
                     <span style={{ fontWeight: 400, letterSpacing: '2px', textTransform: 'uppercase', fontSize: '9px' }}>
-                        v3.9.9
+                        v{APP_VERSION}
                     </span>
                 </div>
             </div>

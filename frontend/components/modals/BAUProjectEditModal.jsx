@@ -252,9 +252,7 @@ BAUProjectEditModal.propTypes = {
         end: PropTypes.string,
         squad: PropTypes.string,
         bauTshirtSize: PropTypes.string
-    }),
-    squads: PropTypes.arrayOf(PropTypes.string),
-    onSave: PropTypes.func
+    })
 };
 
 export default BAUProjectEditModal;

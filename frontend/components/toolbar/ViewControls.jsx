@@ -143,6 +143,10 @@ export const ZoomToggle = () => {
  * Group expand/collapse toggle
  */
 export const ExpandCollapseToggle = () => {
+    // NOTE: `allGroupsExpanded` reflects only the last bulk action (Expand all /
+    // Collapse all), not the derived per-group state. In a mixed state (some
+    // groups expanded, some collapsed) the highlight intentionally tracks the
+    // last bulk action rather than computing a true tri-state.
     const { allGroupsExpanded, setAllGroupsExpanded } = useDashboardContext();
 
     return (

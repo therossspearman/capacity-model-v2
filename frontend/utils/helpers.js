@@ -19,9 +19,18 @@ export const getCategoryForFunction = (funcName, mapping) => {
     }
 
     // 2. Default Fallbacks (Smart Auto-detection)
-    if (lower.includes('product manager') || lower.includes('pm') || lower.includes('project manager')) return 'PM';
-    if (lower.includes('solution consultant') || lower.includes('sc') || lower.includes('consultant')) return 'SC';
-    if (lower.includes('product designer') || lower.includes('pd') || lower.includes('designer') || lower.includes('creative') || lower.includes('platform delivery') || lower.includes('delivery') || lower.includes('developer') || lower.includes('engineer') || lower.includes('application') || lower.includes('configuration') || lower.includes('specialist')) return 'PD';
+    // The two-letter abbreviations (pm/sc/pd) are matched as WHOLE TOKENS via
+    // word boundaries — a bare substring check would mis-fire on unrelated words
+    // (e.g. 'sc' inside "Scrum/Scoping/Description", 'pd' inside "Update",
+    // 'pm' inside any word containing "pm"). The longer descriptive phrases
+    // remain plain substring matches.
+    // Precedence is intentional: PM first, then SC, then PD (PD is the broad
+    // catch-all bucket for delivery/engineering/configuration roles) — keep this
+    // order when tuning so a token like "consultant" stays SC, not PD.
+    const hasToken = (token) => new RegExp(`\\b${token}\\b`).test(lower);
+    if (lower.includes('product manager') || lower.includes('project manager') || hasToken('pm')) return 'PM';
+    if (lower.includes('solution consultant') || lower.includes('consultant') || hasToken('sc')) return 'SC';
+    if (lower.includes('product designer') || lower.includes('designer') || lower.includes('creative') || lower.includes('platform delivery') || lower.includes('delivery') || lower.includes('developer') || lower.includes('engineer') || lower.includes('application') || lower.includes('configuration') || lower.includes('specialist') || hasToken('pd')) return 'PD';
 
     return 'unknown';
 };

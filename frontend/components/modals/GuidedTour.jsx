@@ -130,19 +130,45 @@ export const GuidedTour = ({ onComplete, onSkip }) => {
     const isFirst = step === 0;
     const isLast = step === TOUR_STEPS.length - 1;
 
+    // NOTE: each non-center step targets a `[data-tour="..."]` attribute that must
+    // exist in the DOM rendered by Dashboard.jsx (and related components). The full
+    // set of required attributes is the union of `target` values in TOUR_STEPS above
+    // (e.g. date-nav, search, view-toggle, slots-view, ai-insights, programs-manage,
+    // scenario-selector, resource-row, capacity-cell, unassigned, settings, help).
+    // If one of those attributes is renamed/removed the step silently falls back to a
+    // centered tooltip — the dev-mode warning below surfaces that during development.
     useEffect(() => {
-        if (currentStep.target) {
-            const el = document.querySelector(currentStep.target);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => setTargetRect(el.getBoundingClientRect()), 300);
-            } else {
-                setTargetRect(null);
-            }
-        } else {
+        if (!currentStep.target) {
             setTargetRect(null);
+            return undefined;
         }
-    }, [step, currentStep.target]);
+
+        const el = document.querySelector(currentStep.target);
+        if (!el) {
+            setTargetRect(null);
+            if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line no-console
+                console.warn(`[GuidedTour] step "${currentStep.id}" target not found: ${currentStep.target}`);
+            }
+            return undefined;
+        }
+
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const measure = () => setTargetRect(el.getBoundingClientRect());
+        const timerId = setTimeout(measure, 300);
+
+        // Keep the spotlight/tooltip aligned if the user scrolls or the iframe resizes
+        // after the initial measurement (getBoundingClientRect is viewport-relative).
+        window.addEventListener('scroll', measure, true);
+        window.addEventListener('resize', measure);
+
+        return () => {
+            clearTimeout(timerId);
+            window.removeEventListener('scroll', measure, true);
+            window.removeEventListener('resize', measure);
+        };
+    }, [step, currentStep.target, currentStep.id]);
 
     const handleNext = () => { if (isLast) onComplete(); else setStep(s => s + 1); };
     const handlePrev = () => { if (!isFirst) setStep(s => s - 1); };

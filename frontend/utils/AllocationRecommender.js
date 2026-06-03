@@ -91,6 +91,9 @@ export function generateAllocationRecommendations(slotMap, projects, resources =
     }
 
     const recommendations = [];
+    // Track projects already recommended so a project active in multiple
+    // bottleneck weeks is not recommended (and its hours double-counted) more than once.
+    const recommendedProjectIds = new Set();
 
     // Step 2: For each bottleneck, find projects that could be reduced
     for (const bottleneck of bottlenecks) {
@@ -132,6 +135,9 @@ export function generateAllocationRecommendations(slotMap, projects, resources =
             if (reductionAchieved >= reductionNeeded) break;
             if (recommendations.length >= maxReductions) break;
 
+            // Skip projects already recommended for an earlier bottleneck
+            if (recommendedProjectIds.has(project.id)) continue;
+
             // Get current allocation (default to 100%)
             const currentPct = project.team?.allocation || 100;
 
@@ -149,6 +155,7 @@ export function generateAllocationRecommendations(slotMap, projects, resources =
 
             const hoursSaved = suggestedReduction * hoursPerPctPoint;
             reductionAchieved += hoursSaved;
+            recommendedProjectIds.add(project.id);
 
             recommendations.push({
                 projectId: project.id,

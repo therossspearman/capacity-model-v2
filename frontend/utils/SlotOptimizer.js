@@ -858,15 +858,9 @@ const findPlacement = ({
                 if (weekAvail && weekAvail.remaining > 0) {
                     slotAssignments.push({ squad, week: checkWeek });
                     found++;
-                } else if (allowOverstaff) {
-                    // Check buffer...
-                    // Simplified for brevity, assume strict slot for now unless overstaff buffer logic was here
-                    // If previously existed, keep it. 
-                    // Re-adding simple check:
-                    if (weekAvail) { // Even if 0 remaining, if overstaff allow?
-                        // Let's stick to strict avail for consistency with original code block
-                    }
                 }
+                // NOTE: Overstaffing (placing when remaining <= 0) is intentionally
+                // NOT handled here. Strategy 3 below owns overstaff placement.
 
                 // Move to next week
                 const nextDate = new Date(new Date(checkWeek).getTime() + weekMs);
@@ -925,21 +919,20 @@ const findPlacement = ({
     }
 
     // Strategy 3: Overstaff (if allowed)
-    if (allowOverstaff) {
-        // Find week with highest score even if no remaining
-        for (const squad of orderedSquads) {
-            for (const startWeek of validWeeks) {
-                return {
-                    suggestedSquad: squad,
-                    suggestedKO: startWeek,
-                    suggestedLaunch: startWeek,
-                    slotAssignments: [{ squad, week: startWeek }],
-                    crossSquad: false,
-                    overstaff: true,
-                    overstaffNote: `Will exceed capacity by ~${bufferPercent}%`
-                };
-            }
-        }
+    // Place into the preferred squad (first in orderedSquads) at the earliest
+    // valid week, even if no slots remain there.
+    if (allowOverstaff && orderedSquads.length > 0 && validWeeks.length > 0) {
+        const squad = orderedSquads[0];
+        const startWeek = validWeeks[0];
+        return {
+            suggestedSquad: squad,
+            suggestedKO: startWeek,
+            suggestedLaunch: startWeek,
+            slotAssignments: [{ squad, week: startWeek }],
+            crossSquad: false,
+            overstaff: true,
+            overstaffNote: `Will exceed capacity by ~${bufferPercent}%`
+        };
     }
 
     return null; // Cannot place
@@ -951,11 +944,15 @@ const findPlacement = ({
 const getWeekKey = (dateStr) => {
     if (!dateStr) return null;
     const d = new Date(dateStr);
-    // Get Monday of the week
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    const monday = new Date(d.setDate(diff));
-    return monday.toISOString().split('T')[0];
+    if (isNaN(d.getTime())) return null;
+    // Get Monday of the week using UTC arithmetic so keys match the worker's
+    // slotMap keys (workerCodeSource.js uses getUTCDay/Date.UTC). Date-only ISO
+    // strings parse as UTC midnight, so local-time getDay/setDate would shift
+    // the weekday for negative UTC offsets and produce mismatched keys.
+    const dayOfWeek = d.getUTCDay(); // 0=Sunday
+    const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const mondayMs = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysToMonday);
+    return new Date(mondayMs).toISOString().split('T')[0];
 };
 
 /**

@@ -52,10 +52,9 @@ It runs against a single Airtable base. All writes go through the Airtable Block
 
 ## Repo location & access
 
-- **Local path:** `/Users/addy/Desktop/AI Agents/capacity_model_v_2/` (on Addy's machine — copy to your own location)
-- **Git remote:** check `.git/config` after cloning. If the repo isn't on a remote yet, push it to your team's GitHub/GitLab before doing anything else.
-- **Airtable base:** the Resources / Projects / Squads / Programs tables live in a single Airtable base. The base ID is in the deployed Block (`.block/remote.json`) — do not commit that file's contents publicly.
-- **Block release credentials:** `npx @airtable/blocks-cli release` will prompt for browser auth on first run. Use the Airtable account that owns the base.
+- **Git remote (source of truth):** `https://github.com/therossspearman/capacity-model-v2.git`. Clone from there — don't rely on any local copy on a previous owner's machine.
+- **Airtable base:** the Resources / Projects / Squads / Programs tables live in a single Airtable base. The base ID is **not** stored in `.block/remote.json` (that file only holds `blockId`; its `baseId` reads `NONE`) — the block-to-base binding is held server-side by Airtable. Find the base by opening the Interface that hosts this extension.
+- **Block release credentials:** releasing prompts for browser auth on first run (see [Deploying](#deploying) — always go through `npm run release`, not the CLI directly). Use the Airtable account that owns the base.
 
 ---
 

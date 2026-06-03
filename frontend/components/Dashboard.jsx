@@ -279,8 +279,11 @@ export const Dashboard = ({
 
     // Toast notifications
     const [toasts, setToasts] = useState([]);
+    // Monotonic counter so two toasts created within the same millisecond get
+    // unique IDs (Date.now() alone can collide and drop/duplicate toasts).
+    const toastIdRef = useRef(0);
     const addToast = useCallback(({ type = 'info', title, message, duration = 4000 }) => {
-        const id = Date.now();
+        const id = ++toastIdRef.current;
         setToasts(prev => [...prev, { id, type, title, message }]);
         if (duration > 0) {
             setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), duration);
@@ -572,11 +575,19 @@ export const Dashboard = ({
         if (idx !== -1) container.scrollTo({ left: idx * currentZoom.width, behavior: 'smooth' });
     };
 
-    // Keyboard shortcuts handler
+    // Keyboard shortcuts handler.
+    // The handler is bound once (mount-only) but needs live values for currentZoom,
+    // scrollToToday and jumpToQuarter. Read them through a ref that is kept in sync
+    // each render so the listener never closes over stale values.
+    const kbHandlersRef = useRef({});
+    // NOTE: kbHandlersRef.current is populated below (after scrollToToday is
+    // defined) to avoid a temporal-dead-zone reference during render.
     useEffect(() => {
         const handleKeyDown = (e) => {
             // Ignore if in input
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            const { currentZoom: liveZoom, scrollToToday: liveScrollToToday, jumpToQuarter: liveJumpToQuarter } = kbHandlersRef.current;
 
             // V1 Parity: Keyboard shortcuts
             if (e.key === '?') {
@@ -597,22 +608,22 @@ export const Dashboard = ({
                 e.preventDefault();
                 document.getElementById('resource-search-input')?.focus();
             } else if (e.key === '1') {
-                jumpToQuarter(1);
+                liveJumpToQuarter(1);
             } else if (e.key === '2') {
-                jumpToQuarter(2);
+                liveJumpToQuarter(2);
             } else if (e.key === '3') {
-                jumpToQuarter(3);
+                liveJumpToQuarter(3);
             } else if (e.key === '4') {
-                jumpToQuarter(4);
+                liveJumpToQuarter(4);
             } else if (e.key === 'ArrowRight') {
                 const container = document.querySelector('[data-grid-scroll]');
-                if (container) container.scrollBy({ left: currentZoom.width * 4, behavior: 'smooth' });
+                if (container) container.scrollBy({ left: liveZoom.width * 4, behavior: 'smooth' });
             } else if (e.key === 'ArrowLeft') {
                 const container = document.querySelector('[data-grid-scroll]');
-                if (container) container.scrollBy({ left: -(currentZoom.width * 4), behavior: 'smooth' });
+                if (container) container.scrollBy({ left: -(liveZoom.width * 4), behavior: 'smooth' });
             } else if (e.key === 't' || e.key === 'T') {
                 // Jump to Today shortcut
-                scrollToToday();
+                liveScrollToToday();
             } else if ((e.metaKey || e.ctrlKey) && (e.key === 'm' || e.key === 'M')) {
                 e.preventDefault();
                 setMenuCollapsed(prev => {
@@ -687,6 +698,9 @@ export const Dashboard = ({
             container.scrollTo({ left: container.scrollWidth / 2 - container.clientWidth / 2, behavior: 'smooth' });
         }
     }, []);
+
+    // Keep the mount-only keydown handler reading live values (see kbHandlersRef above).
+    kbHandlersRef.current = { currentZoom, scrollToToday, jumpToQuarter };
 
     // populate scenarios from records - MERGE with existing local state to preserve changes
     useEffect(() => {

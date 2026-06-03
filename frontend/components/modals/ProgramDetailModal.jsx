@@ -9,6 +9,22 @@ import { SETTINGS } from '../../constants';
 import { BRAND, Z_INDEX, useTheme } from '../../design-system';
 import { formatNumber } from '../../utils';
 
+// Single source of truth for the workstream-name → SETTINGS-field-key mapping,
+// shared by the read path (programAssignments memo) and the write path
+// (writeToProxy). Keep additions/edits in this one place.
+const WORKSTREAM_FIELD_MAP = {
+    'Integrations': SETTINGS.PROGRAM_WS_INTEGRATIONS,
+    'Payroll': SETTINGS.PROGRAM_WS_PAYROLL,
+    'Consulting': SETTINGS.PROGRAM_WS_CONSULTING,
+    'Best Practice': SETTINGS.PROGRAM_WS_BEST_PRACTICE,
+    'Comms': SETTINGS.PROGRAM_WS_COMMS,
+    'Home': SETTINGS.PROGRAM_WS_HOME,
+    'Comms & Branding': SETTINGS.PROGRAM_WS_COMMS,
+    'Homepage': SETTINGS.PROGRAM_WS_HOME,
+    'Program Governance': SETTINGS.PROGRAM_WS_GOVERNANCE,
+    'Governance': SETTINGS.PROGRAM_WS_GOVERNANCE
+};
+
 const ProgramDetailModal = ({
     program,
     allPrograms,
@@ -143,20 +159,7 @@ const ProgramDetailModal = ({
         // 1. Calculate Table Data (Available in both modes as baseline)
         let fromTable = [];
         if (programRecord) {
-            const FIELD_MAP = {
-                'Integrations': SETTINGS.PROGRAM_WS_INTEGRATIONS,
-                'Payroll': SETTINGS.PROGRAM_WS_PAYROLL,
-                'Consulting': SETTINGS.PROGRAM_WS_CONSULTING,
-                'Best Practice': SETTINGS.PROGRAM_WS_BEST_PRACTICE,
-                'Comms': SETTINGS.PROGRAM_WS_COMMS,
-                'Home': SETTINGS.PROGRAM_WS_HOME,
-                'Comms & Branding': SETTINGS.PROGRAM_WS_COMMS,
-                'Homepage': SETTINGS.PROGRAM_WS_HOME,
-                'Program Governance': SETTINGS.PROGRAM_WS_GOVERNANCE,
-                'Governance': SETTINGS.PROGRAM_WS_GOVERNANCE
-            };
-
-            Object.entries(FIELD_MAP).forEach(([wsName, fieldKey]) => {
+            Object.entries(WORKSTREAM_FIELD_MAP).forEach(([wsName, fieldKey]) => {
                 if (!fieldKey) return;
                 const fieldId = globalConfig.get(fieldKey);
                 if (fieldId) {
@@ -235,18 +238,7 @@ const ProgramDetailModal = ({
         });
 
         // Canonical fields — same map as the read path above.
-        const FIELD_MAP_CANONICAL = {
-            'Integrations': SETTINGS.PROGRAM_WS_INTEGRATIONS,
-            'Payroll': SETTINGS.PROGRAM_WS_PAYROLL,
-            'Consulting': SETTINGS.PROGRAM_WS_CONSULTING,
-            'Best Practice': SETTINGS.PROGRAM_WS_BEST_PRACTICE,
-            'Comms': SETTINGS.PROGRAM_WS_COMMS,
-            'Home': SETTINGS.PROGRAM_WS_HOME,
-            'Comms & Branding': SETTINGS.PROGRAM_WS_COMMS,
-            'Homepage': SETTINGS.PROGRAM_WS_HOME,
-            'Program Governance': SETTINGS.PROGRAM_WS_GOVERNANCE,
-            'Governance': SETTINGS.PROGRAM_WS_GOVERNANCE
-        };
+        const FIELD_MAP_CANONICAL = WORKSTREAM_FIELD_MAP;
 
         // Initialise EVERY managed canonical field to empty first, so that removing
         // the last resource from a workstream actually clears it in Airtable instead
@@ -637,13 +629,17 @@ const ProgramDetailModal = ({
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {(program.programProjects || []).map((p, i) => {
-                                                const originalHours = (p.pmValOriginal || p.pmVal || 0) + (p.scValOriginal || p.scVal || 0) + (p.pdValOriginal || p.pdVal || 0);
+                                            {(() => {
+                                                // Compute the discount and the per-program max share ONCE rather than
+                                                // recomputing maxHours inside every row (was O(n^2) over the project list).
                                                 const discount = storedSettings?.programDiscount || 15;
-                                                const programHours = originalHours * (discount / 100);
                                                 const maxHours = Math.max(...(program.programProjects || []).map(prj =>
                                                     ((prj.pmValOriginal || prj.pmVal || 0) + (prj.scValOriginal || prj.scVal || 0) + (prj.pdValOriginal || prj.pdVal || 0)) * (discount / 100)
                                                 ), 1);
+
+                                                return (program.programProjects || []).map((p, i) => {
+                                                const originalHours = (p.pmValOriginal || p.pmVal || 0) + (p.scValOriginal || p.scVal || 0) + (p.pdValOriginal || p.pdVal || 0);
+                                                const programHours = originalHours * (discount / 100);
 
                                                 return (
                                                     <tr
@@ -679,7 +675,8 @@ const ProgramDetailModal = ({
                                                         </td>
                                                     </tr>
                                                 );
-                                            })}
+                                                });
+                                            })()}
                                         </tbody>
                                     </table>
                                 </div>

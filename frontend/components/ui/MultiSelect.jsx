@@ -41,8 +41,11 @@ export const MultiSelect = ({ options = [], selected = [], onChange, label, isOp
                 else if (!isControlled) setLocalIsOpen(false);
             }
         };
-        document.addEventListener("click", handleClickOutside);
-        return () => document.removeEventListener("click", handleClickOutside);
+        // Use 'mousedown' (fires before 'click'): the listener already gates on
+        // containerRef.contains(target), so clicks inside the trigger/options are
+        // treated as "inside" and do not close the dropdown.
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [isControlled, open, onToggle]);
 
     const filteredOptions = options.filter(opt => opt.toLowerCase().includes(searchTerm.toLowerCase()));

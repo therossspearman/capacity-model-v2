@@ -1,8 +1,10 @@
 /**
  * Forecast Transformer
- * 
+ *
  * Converts quarterly ARR forecast data into weekly demand hours for chart visualization.
  */
+
+import { Logger } from './Logger';
 
 // Default market parameters
 const DEFAULT_PARAMETERS = {
@@ -139,10 +141,10 @@ export const transformForecastToWeeklyDemand = (forecastData, processedData = []
     };
 
     // Debug: Log FY date range
-    console.log('=== Forecast FY Debug ===');
-    console.log('Selected FY Start Year:', fyStartYear, 'FY Start Month (0-indexed):', fyStartMonth);
-    console.log('FY Date Range:', fyStartDate.toISOString(), 'to', fyEndDate.toISOString());
-    console.log('ProcessedData date range:', {
+    Logger.debug('=== Forecast FY Debug ===');
+    Logger.debug('Selected FY Start Year:', fyStartYear, 'FY Start Month (0-indexed):', fyStartMonth);
+    Logger.debug('FY Date Range:', fyStartDate.toISOString(), 'to', fyEndDate.toISOString());
+    Logger.debug('ProcessedData date range:', {
         first: processedData[0]?.isoKey,
         last: processedData[processedData.length - 1]?.isoKey
     });
@@ -156,7 +158,7 @@ export const transformForecastToWeeklyDemand = (forecastData, processedData = []
         return isoDate && isInFY(isoDate);
     });
 
-    console.log('Dates within FY:', fyWeeks.length, 'out of', processedData.length);
+    Logger.debug('Dates within FY:', fyWeeks.length, 'out of', processedData.length);
 
     // Count weeks per quarter in the FY
     const weeksPerQuarter = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
@@ -261,9 +263,9 @@ export const calculateFTEImpact = ({
 
     // Debug: Log first week to see structure
     if (processedData.length > 0) {
-        console.log('=== FTE Impact Debug ===');
-        console.log('First week keys:', Object.keys(processedData[0]));
-        console.log('First week data sample:', processedData[0]);
+        Logger.debug('=== FTE Impact Debug ===');
+        Logger.debug('First week keys:', Object.keys(processedData[0]));
+        Logger.debug('First week data sample:', processedData[0]);
     }
 
     processedData.forEach((week, idx) => {
@@ -276,7 +278,7 @@ export const calculateFTEImpact = ({
             // Only count actual positive numbers (status demand values)
             const val = week[key];
             if (typeof val === 'number' && val > 0) {
-                if (idx === 0) console.log(`  Counting key: ${key} = ${val}`);
+                if (idx === 0) Logger.debug(`  Counting key: ${key} = ${val}`);
                 return sum + val;
             }
             return sum;
@@ -285,8 +287,8 @@ export const calculateFTEImpact = ({
         currentCapacityHours += week.capacity || 0;
     });
 
-    console.log('Total currentDemandHours:', currentDemandHours);
-    console.log('Total currentCapacityHours:', currentCapacityHours);
+    Logger.debug('Total currentDemandHours:', currentDemandHours);
+    Logger.debug('Total currentCapacityHours:', currentCapacityHours);
 
     // 2. Calculate forecast demand
     const forecastTotalHours = {

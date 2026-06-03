@@ -2,10 +2,19 @@
 
 ## Stack
 - Airtable Interface Extension (React in iFrame)
-- NO Tailwind — 100% inline styles only (JIT fails in iFrame)
+- Styling: inline styles only for layout/colors (Tailwind JIT fails in iFrame).
+  Do NOT add Tailwind utility classes for layout/spacing/color — use inline
+  `style={{...}}` with the brand tokens below.
 - Web Worker for all heavy calculations (Base64-encoded)
 - Recharts for visualization
 - Airtable Blocks SDK (@airtable/blocks)
+
+> Known inconsistency: `frontend/style.css` still ships `@tailwind base/components/utilities`
+> and is imported by `frontend/index.js`, but `tailwind.config.js`/`bundler.js` are absent,
+> so Tailwind utilities are effectively inert in the iFrame. A few `className`s remain in the
+> UI (`animate-shimmer`, `animate-spin`, `dropdown-enter`, `custom-scrollbar`, `spinner`) —
+> these are hand-rolled CSS animation/scrollbar helpers (see `<style>` blocks / LoadingScreen.jsx),
+> NOT Tailwind layout classes, so they are fine to keep. New code should still avoid Tailwind.
 
 ## Critical Rules
 1. Never edit `workerCode_v4.js`. Edit `workerCodeSource.js` then run `node frontend/worker/buildWorker.js`

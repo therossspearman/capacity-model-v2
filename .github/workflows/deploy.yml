@@ -25,8 +25,16 @@ jobs:
       - name: Set Airtable API Key
         run: npx @airtable/blocks-cli set-api-key ${{ secrets.AIRTABLE_API_KEY }}
       
-      - name: Build Worker Code
-        run: npm run build:worker
-      
+      - name: Verify worker artifact matches source
+        run: |
+          cp frontend/worker/workerCode_v4.js /tmp/workerCode_v4.committed.js
+          npm run build:worker
+          if ! diff -q /tmp/workerCode_v4.committed.js frontend/worker/workerCode_v4.js > /dev/null; then
+            echo "::error::workerCode_v4.js is out of sync with workerCodeSource.js. Run 'npm run build:worker' and commit the result."
+            diff /tmp/workerCode_v4.committed.js frontend/worker/workerCode_v4.js || true
+            exit 1
+          fi
+          echo "Worker artifact is in sync with source."
+
       - name: Deploy to Airtable
         run: echo "Automated deployment" | npx @airtable/blocks-cli release

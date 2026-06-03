@@ -103,6 +103,12 @@ const processDateRange = (start, end, load, type, pMeta, minDate, maxDate, confi
     const startBucket = getBucketInfo(effectiveStart, config.granularity, minDate, sprintStartDate);
     let curs = new Date(startBucket.rawDate);
     let iterations = 0;
+    // Derive the loop guard from the actual span so legitimate long date ranges are
+    // not silently truncated (weekly granularity previously capped at 500 ≈ 9.6 years).
+    // A hard ceiling still protects against runaway loops.
+    const bucketSpanMs = config.granularity === 'month' ? 2419200000 : 604800000;
+    const spanMs = Math.max(0, (maxDate.getTime()) - effectiveStart.getTime()) + 604800000;
+    const iterationCap = Math.min(10000, Math.max(500, Math.ceil(spanMs / bucketSpanMs) + 10));
 
     // Create leanMeta once per processDateRange call — it only depends on pMeta, not per-bucket state
     const leanMeta = {
@@ -136,7 +142,7 @@ const processDateRange = (start, end, load, type, pMeta, minDate, maxDate, confi
     };
 
     while (curs.getTime() <= end.getTime() + 604800000 && curs.getTime() <= maxDate.getTime()) {
-        if (iterations++ > 500) break;
+        if (iterations++ > iterationCap) break;
         const { key, rawDate } = getBucketInfo(curs, config.granularity, minDate, sprintStartDate);
 
         let bucketEnd;
@@ -841,12 +847,15 @@ self.onmessage = (e) => {
         }
 
         let scaleFactor = 1;
-        let safePct = p.pctComplete;
+        // Coerce inputs defensively: missing/non-numeric actuals or pctComplete must
+        // not propagate NaN into totalEstimated / trueEAC below.
+        const safeActuals = Number(p.actuals) || 0;
+        let safePct = Number(p.pctComplete) || 0;
         if (safePct > 1) safePct = safePct / 100;
 
         if (safePct > 0 && safePct < 1) {
-            const totalEstimated = p.actuals / safePct;
-            const remainingHours = Math.max(0, totalEstimated - p.actuals);
+            const totalEstimated = safeActuals / safePct;
+            const remainingHours = Math.max(0, totalEstimated - safeActuals);
             const totalPlanned = p.pmVal + p.scVal + p.pdVal;
             let futureUnits = 0;
             if (end.getTime() > todayTime) {
@@ -869,8 +878,8 @@ self.onmessage = (e) => {
         rawStatusSet.add(p.status);
         activeProjectsSet.add(p.id);
         let trueEAC = p.pmVal + p.scVal + p.pdVal;
-        if (safePct > 0 && safePct < 1) trueEAC = p.actuals / safePct;
-        else if (safePct >= 1) trueEAC = p.actuals;
+        if (safePct > 0 && safePct < 1) trueEAC = safeActuals / safePct;
+        else if (safePct >= 1) trueEAC = safeActuals;
 
         const metaBase = {
             status: p.status,
@@ -981,15 +990,6 @@ self.onmessage = (e) => {
         const hoursMap = (bauHoursMapping && typeof bauHoursMapping === 'object')
             ? { ...defaultMapping, ...bauHoursMapping }
             : defaultMapping;
-
-        // One-time diagnostic log (throttled to prevent console flood)
-        if (!self._bauLogDone) {
-            self._bauLogDone = true;
-            const eligibleCount = (projList || []).filter(p =>
-                (!p.projectType || p.projectType === 'Implementation') && p.bauTshirtSize
-            ).length;
-
-        }
 
         let validCount = 0;
         let dateFilteredCount = 0;

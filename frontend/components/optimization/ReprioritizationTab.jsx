@@ -248,6 +248,7 @@ const ReprioritizationTab = ({
     const peakFilledRef = React.useRef(0);
     const resultsRef = useRef(null);
     const configRef = useRef(null);
+    const aiPollIntervalRef = useRef(null);
     const [shiftIteration, setShiftIteration] = useState(0);
     const [alienPhase, setAlienPhase] = useState('juggling'); // 'juggling' | 'exploding' | 'smoke' | 'ufo' | 'beaming'
 
@@ -719,63 +720,6 @@ const ReprioritizationTab = ({
         });
     }, []);
 
-    // ── Auto-Resourcing: attempt to assign best-fit resources to all scheduled projects ──
-    const autoResourceProjects = useCallback((scheduled) => {
-        const assignments = {};
-        // Track load per resource: project count and total effort hours
-        const resourceProjectCount = {}; // resourceId -> number of projects
-        const resourceEffortHours = {};  // resourceId -> total effort hours committed
-
-        for (const project of scheduled) {
-            const pool = getPoolForProject(project);
-            const pa = { pm: [], sc: [], pd: [] };
-            // Get effort hours for this project per role
-            const effortByRole = { pm: project.pmEffort || 0, sc: project.scEffort || 0, pd: project.pdEffort || 0 };
-
-            // Try to fill each role
-            for (const role of ['pm', 'sc', 'pd']) {
-                const targetCat = role.toUpperCase();
-                const roleMax = role === 'pm' ? 1 : role === 'sc' ? maxSC : maxPD;
-                const effortHrs = effortByRole[role];
-                // First, check if engine already assigned someone
-                const engineAssignment = (project.assignments || []).find(a => a.role?.toLowerCase() === role && a.resourceId);
-                if (engineAssignment && (resourceProjectCount[engineAssignment.resourceId] || 0) < maxConcurrentProjects) {
-                    const res = resources.find(r => r.id === engineAssignment.resourceId);
-                    pa[role] = [{ id: engineAssignment.resourceId, name: engineAssignment.resourceName || res?.name || 'Unknown', headshot: res?.headshot?.[0]?.url || res?.headshot?.[0]?.thumbnails?.small?.url }];
-                    resourceProjectCount[engineAssignment.resourceId] = (resourceProjectCount[engineAssignment.resourceId] || 0) + 1;
-                    resourceEffortHours[engineAssignment.resourceId] = (resourceEffortHours[engineAssignment.resourceId] || 0) + effortHrs;
-                    if (pa[role].length >= roleMax) continue;
-                }
-                // Auto-match: find best candidates from pool (fill up to roleMax)
-                while (pa[role].length < roleMax) {
-                    const candidates = pool.filter(r => {
-                        if ((resourceProjectCount[r.id] || 0) >= maxConcurrentProjects) return false;
-                        const cat = getCategoryForFunction(r.adJobTitle || r.role, roleMapping);
-                        return cat && cat.toUpperCase() === targetCat;
-                    });
-                    if (candidates.length === 0) break;
-                    // Prefer: same squad → least effort hours committed → name
-                    const projSquad = project.squad || project.virtualSquad;
-                    candidates.sort((a, b) => {
-                        const aMatch = (a.squads || []).includes(projSquad) ? 0 : 1;
-                        const bMatch = (b.squads || []).includes(projSquad) ? 0 : 1;
-                        if (aMatch !== bMatch) return aMatch - bMatch;
-                        const aHrs = resourceEffortHours[a.id] || 0;
-                        const bHrs = resourceEffortHours[b.id] || 0;
-                        if (aHrs !== bHrs) return aHrs - bHrs; // prefer least loaded by hours
-                        return a.name.localeCompare(b.name);
-                    });
-                    const best = candidates[0];
-                    pa[role].push({ id: best.id, name: best.name, headshot: best.headshot?.[0]?.url || best.headshot?.[0]?.thumbnails?.small?.url });
-                    resourceProjectCount[best.id] = (resourceProjectCount[best.id] || 0) + 1;
-                    resourceEffortHours[best.id] = (resourceEffortHours[best.id] || 0) + effortHrs;
-                }
-            }
-            assignments[project.id] = pa;
-        }
-        return { assignments, usedResources: new Set(Object.keys(resourceProjectCount)) };
-    }, [resources, roleMapping, getPoolForProject, maxSC, maxPD, maxConcurrentProjects]);
-
     // ── Run Reprioritization (with iterative resourcing) ──
     // ── Score & Preview (priority review without running the optimizer) ──
     const handleScorePreview = useCallback(() => {
@@ -1045,7 +989,7 @@ const ReprioritizationTab = ({
             console.error('[REPRIORITIZER] Run failed:', err);
             setIsRunning(false);
         }
-    }, [projects, slotMap, resources, buildConfig, base, settings, autoResourceProjects, draftAdjustedProjects]);
+    }, [projects, slotMap, resources, buildConfig, base, settings, draftAdjustedProjects]);
 
     // ── Re-run with current overrides (quick re-run with iterative resourcing, no AI) ──
     const handleRerunWithOverrides = useCallback(async () => {
@@ -1161,7 +1105,7 @@ const ReprioritizationTab = ({
             console.error('[REPRIORITIZER] Re-run failed:', err);
             setIsRunning(false);
         }
-    }, [projects, slotMap, resources, buildConfig, autoResourceProjects, draftAdjustedProjects]);
+    }, [projects, slotMap, resources, buildConfig, draftAdjustedProjects]);
 
     // ── Override helpers ──
     const handleSetOverride = useCallback((projectId, override) => {
@@ -1545,15 +1489,23 @@ const ReprioritizationTab = ({
     const pollForAiReasoning = useCallback(async (base, settings, recordId) => {
         let attempts = 0;
         const maxAttempts = 20;
-        const interval = setInterval(async () => {
+        // Clear any previous poll before starting a new one.
+        if (aiPollIntervalRef.current) clearInterval(aiPollIntervalRef.current);
+        const stop = () => {
+            if (aiPollIntervalRef.current) {
+                clearInterval(aiPollIntervalRef.current);
+                aiPollIntervalRef.current = null;
+            }
+        };
+        aiPollIntervalRef.current = setInterval(async () => {
             attempts++;
             try {
                 // Check if AI fields are populated
                 const table = base.getTableByNameIfExists('Optimization Runs');
-                if (!table) { clearInterval(interval); setAiLoading(false); return; }
+                if (!table) { stop(); setAiLoading(false); return; }
 
                 const record = await table.selectRecordAsync(recordId);
-                if (!record) { clearInterval(interval); setAiLoading(false); return; }
+                if (!record) { stop(); setAiLoading(false); return; }
 
                 const insights = record.getCellValueAsString('AI Insights') ||
                     record.getCellValueAsString('fld_opt_ai_insights');
@@ -1561,16 +1513,24 @@ const ReprioritizationTab = ({
                 if (insights && insights.length > 10) {
                     setAiReasoning(insights);
                     setAiLoading(false);
-                    clearInterval(interval);
+                    stop();
                 }
             } catch (e) {
                 // Ignore polling errors
             }
             if (attempts >= maxAttempts) {
-                clearInterval(interval);
+                stop();
                 setAiLoading(false);
             }
         }, 3000);
+    }, []);
+
+    // Stop AI-reasoning polling on unmount to avoid leaked intervals / setState on unmounted component.
+    useEffect(() => () => {
+        if (aiPollIntervalRef.current) {
+            clearInterval(aiPollIntervalRef.current);
+            aiPollIntervalRef.current = null;
+        }
     }, []);
     // ── Export Optimizer Results as CSV ──
     const handleExportCSV = useCallback(() => {
@@ -6977,12 +6937,11 @@ const ReprioritizationTab = ({
                                                         const members = pa[role] || [];
                                                         const isAdding = addingRole[project.id] === role;
                                                         const pool = getPoolForProject(project);
-                                                        // Filter out already-assigned resources
-                                                        const allAssignedIds = new Set();
-                                                        Object.values(resourceAssignments).forEach(pAssign => {
-                                                            ['pm', 'sc', 'pd'].forEach(r => (pAssign[r] || []).forEach(m => allAssignedIds.add(m.id)));
-                                                        });
-                                                        const available = pool.filter(r => !allAssignedIds.has(r.id));
+                                                        // Filter out resources already assigned to THIS project
+                                                        // (cross-project assignment must remain possible).
+                                                        const assignedToThisProject = new Set();
+                                                        ['pm', 'sc', 'pd'].forEach(r => (pa[r] || []).forEach(m => assignedToThisProject.add(m.id)));
+                                                        const available = pool.filter(r => !assignedToThisProject.has(r.id));
 
                                                         return (
                                                             <div key={role} style={{
@@ -7380,6 +7339,7 @@ const ReprioritizationTab = ({
 
                                         // Query snapshots
                                         const query = await table.selectRecordsAsync({ fields: table.fields });
+                                        try {
                                         const nameField = table.getFieldByName('Name');
                                         const statusField = table.getFieldByName('Status');
                                         const changesField = table.getFieldByName('Changes JSON');
@@ -7428,7 +7388,6 @@ const ReprioritizationTab = ({
                                             } catch (e) {
                                                 alert('No saved optimizer runs found');
                                             }
-                                            query.unloadData();
                                             return;
                                         }
 
@@ -7482,7 +7441,9 @@ const ReprioritizationTab = ({
                                                 }
                                             }
                                         }
-                                        query.unloadData();
+                                        } finally {
+                                            query.unloadData();
+                                        }
                                     } catch (e) {
                                         console.error('Failed to load snapshots:', e);
                                         // Fallback to localStorage

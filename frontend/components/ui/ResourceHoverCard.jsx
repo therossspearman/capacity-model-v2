@@ -10,23 +10,31 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
 
     if (!resource) return null;
 
-    // Calculate 12-week utilization from buckets
+    // Calculate 12-week utilization from buckets.
+    // When a week has no capacity (cap <= 0: PTO, not yet onboarded, etc.) we
+    // record null rather than fabricating a denominator of 1, which would
+    // otherwise report misleading ratios (e.g. capped 150% or a fake 0%).
     const bucketKeys = Object.keys(buckets || {}).slice(0, 12);
     const utilData = bucketKeys.map(key => {
         const b = buckets[key];
-        const cap = b?.cap || 1;
+        const cap = b?.cap || 0;
         const dem = b?.dem || 0;
+        if (cap <= 0) return null;
         return Math.min(150, Math.round((dem / cap) * 100));
     });
 
-    // Current/Average utilization
-    const currentUtil = utilData[0] || 0;
-    const avgUtil = utilData.length > 0
-        ? Math.round(utilData.reduce((a, b) => a + b, 0) / utilData.length)
+    // Weeks that actually have capacity (exclude null/no-capacity weeks).
+    const validUtil = utilData.filter(u => u != null);
+
+    // Current/Average utilization (over weeks with capacity only)
+    const currentUtil = utilData[0] != null ? utilData[0] : 0;
+    const avgUtil = validUtil.length > 0
+        ? Math.round(validUtil.reduce((a, b) => a + b, 0) / validUtil.length)
         : 0;
 
-    // Find next available week (utilization < 80%)
-    const nextAvailable = utilData.findIndex(u => u < 80);
+    // Find next available week (has capacity and utilization < 80%).
+    // No-capacity weeks (null) are not "available", so they are skipped.
+    const nextAvailable = utilData.findIndex(u => u != null && u < 80);
     const nextAvailableText = nextAvailable === 0
         ? 'Available now'
         : nextAvailable > 0
@@ -52,10 +60,12 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
     const sparkWidth = 100;
     const sparkHeight = 24;
     const points = utilData.map((u, i) => {
+        // Skip no-capacity weeks (null) so the sparkline doesn't draw to NaN.
+        if (u == null) return null;
         const x = (i / Math.max(utilData.length - 1, 1)) * sparkWidth;
         const y = sparkHeight - (Math.min(u, 100) / 100) * sparkHeight;
         return `${x},${y}`;
-    }).join(' ');
+    }).filter(Boolean).join(' ');
 
     return (
         <div style={{

@@ -2,7 +2,7 @@ import { BRAND } from '../design-system';
 
 // App Version - Update this on every release
 // AGENT NOTE: Always increment version when deploying changes
-export const APP_VERSION = '2.99.005';
+export const APP_VERSION = '2.99.006';
 
 // Airtable Field Mappings
 export const SETTINGS = {
@@ -242,7 +242,7 @@ export const VIEW_CONFIG = {
 };
 
 // Layout Constants
-export const FY_START_MONTH = 4; // May
+export const FY_START_MONTH = 4; // 0-indexed JS month (0=Jan..4=May). Compare against Date.getMonth() / pass to new Date(y, FY_START_MONTH, 1).
 export const SIDEBAR_WIDTH = 260;
 export const ROW_HEIGHT = 42;
 export const BUFFER = 10;
@@ -254,6 +254,9 @@ export const TIME_CONSTANTS = {
     MS_PER_HOUR: 3600000,
     MS_PER_DAY: 86400000,
     MS_PER_WEEK: 604800000,
+    // NOTE: exactly 28 days (4 weeks), NOT an average calendar month (~30.44 days).
+    // Do not use for calendar-month offsets — it drifts 2-3 days/month. Prefer Date
+    // month arithmetic for month-accurate math.
     MS_PER_MONTH: 2419200000,
     SECONDS_PER_HOUR: 3600
 };

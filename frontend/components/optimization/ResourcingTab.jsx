@@ -139,7 +139,7 @@ const ResourcePicker = ({ role, availableResources, projectSquad, roleMapping, o
             return a.localeCompare(b);
         });
         return keys.map(k => ({ squad: k, resources: groups[k], isRecommended: k.startsWith('★'), isProjectSquad: k === projectSquad }));
-    }, [availableResources, targetCategory, projectSquad]);
+    }, [availableResources, targetCategory, projectSquad, roleMapping, hasRoleMapping]);
 
     return (
         <div style={{ position: 'relative', marginTop: '4px' }} onClick={e => e.stopPropagation()}>
@@ -305,7 +305,10 @@ const ResourcingTab = ({
     isDark,
     onCreateDraft
 }) => {
-    // Local assignments state (zero-based — start empty)
+    // Local assignments state (zero-based — start empty).
+    // NOTE: This is ephemeral, in-memory draft state only. It is NOT persisted and is
+    // discarded when this tab unmounts (e.g. switching optimization tabs). In-progress
+    // assignments must be committed via "Create Draft" before navigating away.
     const [assignments, setAssignments] = useState({}); // { projectId: { pm: [member], sc: [member], pd: [member] } }
     const [searchQuery, setSearchQuery] = useState('');
     const [filterSquad, setFilterSquad] = useState('');
@@ -358,6 +361,8 @@ const ResourcingTab = ({
             if (opts?.isPlaceholder) {
                 existing.push({ id: resourceId, name: opts.name, isPlaceholder: true, allocationPct: 0 });
             } else {
+                // One person, one role per project — skip if already assigned to this role
+                if (existing.some(m => m.id === resourceId)) return prev;
                 const res = resources.find(r => r.id === resourceId);
                 if (res) {
                     existing.push({ id: res.id, name: res.name, headshot: res.headshot, allocationPct: 0 });
@@ -560,7 +565,7 @@ const ResourcingTab = ({
                             display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'
                         }}>
                         {isCreatingDraft ? (
-                            <><svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><circle cx="12" cy="12" r="10" strokeOpacity="0.25" /><path d="M4 12a8 8 0 018-8v8H4z" strokeOpacity="0.75" /></svg> Creating…</>
+                            <><style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style><svg style={{ animation: 'spin 1s linear infinite' }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><circle cx="12" cy="12" r="10" strokeOpacity="0.25" /><path d="M4 12a8 8 0 018-8v8H4z" strokeOpacity="0.75" /></svg> Creating…</>
                         ) : (
                             <>Create Draft ({totalAssignments} assignments)</>
                         )}

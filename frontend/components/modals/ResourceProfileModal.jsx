@@ -29,7 +29,6 @@ const ResourceProfileModal = ({ resource, rampProfiles = [], onClose, onUpdate, 
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION' || event.target.tagName === 'INPUT') return;
             if (modalRef.current && !modalRef.current.contains(event.target)) onClose();
         };
         document.addEventListener("mousedown", handleClickOutside);

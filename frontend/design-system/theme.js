@@ -156,8 +156,11 @@ const ThemeContext = createContext({
  * Automatically syncs with Airtable's color scheme preference
  */
 export const ThemeProvider = ({ children }) => {
-    // Get Airtable's color scheme preference
-    const { colorScheme } = useColorScheme ? useColorScheme() : { colorScheme: 'light' };
+    // Get Airtable's color scheme preference.
+    // useColorScheme is always a function here: the require() chain above falls
+    // back to a stub () => ({ colorScheme: 'light' }) if the SDK hook can't be
+    // resolved. Call it unconditionally to satisfy the Rules of Hooks.
+    const { colorScheme } = useColorScheme();
     const isDark = colorScheme === 'dark';
 
     const value = useMemo(() => ({

@@ -9,11 +9,24 @@ import { useTheme } from '../../design-system';
 const SIDEBAR_WIDTH = 260; // Match InnerGrid's sidebar width for alignment
 
 /**
+ * Parse a YYYY-MM-DD date key as LOCAL midnight.
+ * `new Date('2026-06-03')` parses as UTC midnight, which can shift the day
+ * by one relative to local-time comparisons (e.g. the "today" cutoff below).
+ * Falls back to the native parser for any non-ISO-date input.
+ */
+const parseDateKey = (dateKey) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateKey || ''));
+    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    return new Date(dateKey);
+};
+
+/**
  * Generate slot taxonomy ID
  */
 const generateSlotId = (squad, slotNum, dateKey) => {
     const squadInitial = (squad || 'X').charAt(0).toUpperCase();
-    const d = new Date(dateKey);
+    const d = parseDateKey(dateKey);
+    // Fiscal year starts in May (month index 4): May onward belongs to next FY.
     const fy = d.getMonth() >= 4 ? d.getFullYear() + 1 : d.getFullYear();
     const fyShort = String(fy).slice(-2);
     const weekNum = Math.ceil((d.getDate() + new Date(d.getFullYear(), d.getMonth(), 1).getDay()) / 7);
@@ -41,7 +54,7 @@ const extractDiscreteSlots = (slotMap, dateRange, squad, durationWeeks = 12) => 
         if (!bucket) return;
 
         // Skip past dates - slots cannot start before today
-        const dateMs = new Date(dateKey).getTime();
+        const dateMs = parseDateKey(dateKey).getTime();
         if (dateMs < todayMs) return;
 
         const rawAvailable = bucket.availableSlots || 0;
@@ -278,7 +291,7 @@ export const SlotOverlayChart = React.memo(({ slotMap, enabledSquads = [], dateS
                                     {row.taxonomyId}
                                 </span>
                                 <span style={{ fontSize: '9px', color: colors.textMuted, whiteSpace: 'nowrap' }}>
-                                    {new Date(row.startDateKey).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                                    {parseDateKey(row.startDateKey).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                                 </span>
                             </div>
                             {/* Timeline with bar */}

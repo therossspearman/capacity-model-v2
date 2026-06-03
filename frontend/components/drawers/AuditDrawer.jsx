@@ -22,10 +22,27 @@ const AuditDrawer = ({ isOpen, onClose }) => {
         // Filter by category
         if (filter !== 'all') {
             const categoryMap = {
-                projects: ['PROJECT_ASSIGNED', 'PROJECT_MOVED', 'PROJECT_DATES_CHANGED', 'PROJECT_LOCKED', 'PROJECT_UNLOCKED', 'SLOT_ASSIGNMENT'],
-                resources: ['RESOURCE_ASSIGNED', 'RESOURCE_UNASSIGNED', 'ALLOCATION_UPDATED'],
-                scenarios: ['SCENARIO_CREATED', 'SCENARIO_ACTIVATED', 'SCENARIO_COMMITTED', 'SCENARIO_DELETED'],
-                optimization: ['OPTIMIZATION_APPLIED']
+                projects: [
+                    AUDIT_EVENTS.PROJECT_ASSIGNED,
+                    AUDIT_EVENTS.PROJECT_MOVED,
+                    AUDIT_EVENTS.PROJECT_DATES_CHANGED,
+                    AUDIT_EVENTS.PROJECT_LOCKED,
+                    AUDIT_EVENTS.PROJECT_UNLOCKED,
+                    AUDIT_EVENTS.SLOT_ASSIGNMENT
+                ],
+                resources: [
+                    AUDIT_EVENTS.RESOURCE_ASSIGNED,
+                    AUDIT_EVENTS.RESOURCE_UNASSIGNED,
+                    AUDIT_EVENTS.ALLOCATION_UPDATED
+                ],
+                scenarios: [
+                    AUDIT_EVENTS.SCENARIO_CREATED,
+                    AUDIT_EVENTS.SCENARIO_ACTIVATED,
+                    AUDIT_EVENTS.SCENARIO_COMMITTED,
+                    AUDIT_EVENTS.SCENARIO_REVERTED,
+                    AUDIT_EVENTS.SCENARIO_DELETED
+                ],
+                optimization: [AUDIT_EVENTS.OPTIMIZATION_APPLIED]
             };
             result = result.filter(e => categoryMap[filter]?.includes(e.type));
         }
@@ -43,19 +60,30 @@ const AuditDrawer = ({ isOpen, onClose }) => {
         return result;
     }, [events, filter, searchTerm]);
 
-    // Group events by date
+    // Group events by date. Returns an array of [dateLabel, dayEvents] sorted
+    // most-recent-day first so rendering does not rely on object key insertion
+    // order. The year is included in the label to avoid collapsing the same
+    // day/month across different years into one group.
     const groupedEvents = useMemo(() => {
         const groups = {};
         filteredEvents.forEach(event => {
             const date = new Date(event.timestamp).toLocaleDateString('en-GB', {
                 weekday: 'short',
                 day: 'numeric',
-                month: 'short'
+                month: 'short',
+                year: 'numeric'
             });
-            if (!groups[date]) groups[date] = [];
-            groups[date].push(event);
+            if (!groups[date]) {
+                groups[date] = { label: date, latest: event.timestamp, events: [] };
+            }
+            if (event.timestamp > groups[date].latest) {
+                groups[date].latest = event.timestamp;
+            }
+            groups[date].events.push(event);
         });
-        return groups;
+        return Object.values(groups)
+            .sort((a, b) => new Date(b.latest).getTime() - new Date(a.latest).getTime())
+            .map(g => [g.label, g.events]);
     }, [filteredEvents]);
 
     const getEventIcon = (type) => {
@@ -189,7 +217,7 @@ const AuditDrawer = ({ isOpen, onClose }) => {
                     overflowY: 'auto',
                     padding: '16px'
                 }}>
-                    {Object.keys(groupedEvents).length === 0 ? (
+                    {groupedEvents.length === 0 ? (
                         <div style={{
                             textAlign: 'center',
                             padding: '40px 20px',
@@ -202,7 +230,7 @@ const AuditDrawer = ({ isOpen, onClose }) => {
                             </div>
                         </div>
                     ) : (
-                        Object.entries(groupedEvents).map(([date, dayEvents]) => (
+                        groupedEvents.map(([date, dayEvents]) => (
                             <div key={date} style={{ marginBottom: '20px' }}>
                                 {/* Date Header */}
                                 <div style={{

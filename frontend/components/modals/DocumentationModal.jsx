@@ -6,6 +6,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Z_INDEX, BRAND, useTheme } from '../../design-system';
 import { ICONS } from '../../constants';
+import { APP_VERSION } from '../../constants/settings';
 
 // Comprehensive guide data organized by category
 const GUIDE_DATA = [
@@ -1034,7 +1035,7 @@ const DocumentationModal = ({ onClose }) => {
                     color: '#64748b'
                 }}>
                     <span>Press <kbd style={{ padding: '2px 6px', backgroundColor: 'white', border: '1px solid #e2e8f0', borderRadius: '4px', fontFamily: 'monospace' }}>?</kbd> anytime to open this guide</span>
-                    <span>Capacity Model v2.18</span>
+                    <span>Capacity Model v{APP_VERSION}</span>
                 </div>
             </div>
         </div>

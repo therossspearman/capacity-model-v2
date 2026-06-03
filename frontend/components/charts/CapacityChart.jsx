@@ -51,8 +51,10 @@ const GlassTooltip = ({ active, payload, label }) => {
     const dataItem = payload[0]?.payload;
     const details = dataItem?.details || [];
 
-    // Calculate Relative Time
-    const relativeTimeStr = useMemo(() => {
+    // Calculate Relative Time (plain computation — this tooltip is re-created per
+    // hover, so memoization adds nothing and calling hooks after the early return
+    // above would violate the Rules of Hooks)
+    const relativeTimeStr = (() => {
         if (!label) return '';
         try {
             const dateStr = dataItem?.isoKey || label;
@@ -69,22 +71,25 @@ const GlassTooltip = ({ active, payload, label }) => {
             if (diffWeeks < -1) return `(${Math.abs(diffWeeks)} wks ago)`;
             return '';
         } catch (e) { return ''; }
-    }, [label]);
+    })();
 
     // Top Drivers Logic
-    const topDrivers = useMemo(() => {
-        if (!details || details.length === 0) return [];
+    const topDrivers = (!details || details.length === 0)
+        ? []
         // Sort by total demand (descending)
-        return [...details]
+        : [...details]
             .sort((a, b) => (b.totalNeeded || 0) - (a.totalNeeded || 0))
             .slice(0, 3);
-    }, [details]);
 
 
-    // Get status entries (exclude capacity, capacityBuffer, and baseline_ prefixed)
+    // Get status entries (exclude capacity, capacityBuffer, baseline_ prefixed,
+    // and the non-demand overlay series slotCapacity / forecastDemand which are
+    // also present in the payload but must not be summed into total demand)
     const statusEntries = payload.filter(p =>
         p.dataKey !== 'capacity' &&
         p.dataKey !== 'capacityBuffer' &&
+        p.dataKey !== 'slotCapacity' &&
+        p.dataKey !== 'forecastDemand' &&
         !p.dataKey.startsWith('baseline_') &&
         (p.value || 0) > 0
     );
