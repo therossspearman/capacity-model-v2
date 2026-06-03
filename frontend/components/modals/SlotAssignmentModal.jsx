@@ -359,47 +359,24 @@ const SlotAssignmentModal = ({
                             )}
 
                             {/* Optimizer Actions */}
-                            {(analysis.hasOverflow || analysis.hasUnderflow) && (
+                            {/* Only Multi-Slot is wired into handleConfirm; the former
+                                'Compress'/'Extend' toggles were no-ops on confirm, so they
+                                are not shown (avoids silently selecting an option that does
+                                nothing). */}
+                            {(analysis.hasOverflow && analysis.durationDelta > 4) && (
                                 <div style={{ padding: '16px', backgroundColor: '#fffbeb', borderRadius: '16px', border: '1px solid #fcd34d' }}>
                                     <div style={{ fontSize: '11px', fontWeight: '700', color: '#b45309', marginBottom: '12px', textTransform: 'uppercase' }}>Optimizers Available</div>
                                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                                        {/* Simple Button-like toggles */}
-                                        {analysis.hasOverflow && (
-                                            <button
-                                                onClick={() => setSelectedOptimization(selectedOptimization === 'compress' ? null : 'compress')}
-                                                style={{
-                                                    flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'compress' ? '2px solid #f59e0b' : '1px solid #fcd34d',
-                                                    backgroundColor: selectedOptimization === 'compress' ? '#fef3c7' : 'white',
-                                                    color: '#92400e', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
-                                                }}
-                                            >
-                                                Compress Timeline
-                                            </button>
-                                        )}
-                                        {analysis.hasUnderflow && (
-                                            <button
-                                                onClick={() => setSelectedOptimization(selectedOptimization === 'extend' ? null : 'extend')}
-                                                style={{
-                                                    flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'extend' ? '2px solid #3b82f6' : '1px solid #93c5fd',
-                                                    backgroundColor: selectedOptimization === 'extend' ? '#dbeafe' : 'white',
-                                                    color: '#1e40af', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
-                                                }}
-                                            >
-                                                Extend Timeline
-                                            </button>
-                                        )}
-                                        {analysis.hasOverflow && analysis.durationDelta > 4 && (
-                                            <button
-                                                onClick={() => setSelectedOptimization(selectedOptimization === 'multiSlot' ? null : 'multiSlot')}
-                                                style={{
-                                                    flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'multiSlot' ? '2px solid #BD65FF' : '1px solid #c4b5fd',
-                                                    backgroundColor: selectedOptimization === 'multiSlot' ? '#f3e8ff' : 'white',
-                                                    color: '#5b21b6', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
-                                                }}
-                                            >
-                                                Multi-Slot
-                                            </button>
-                                        )}
+                                        <button
+                                            onClick={() => setSelectedOptimization(selectedOptimization === 'multiSlot' ? null : 'multiSlot')}
+                                            style={{
+                                                flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'multiSlot' ? '2px solid #BD65FF' : '1px solid #c4b5fd',
+                                                backgroundColor: selectedOptimization === 'multiSlot' ? '#f3e8ff' : 'white',
+                                                color: '#5b21b6', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
+                                            }}
+                                        >
+                                            Multi-Slot
+                                        </button>
                                     </div>
                                 </div>
                             )}

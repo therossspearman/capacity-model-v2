@@ -396,6 +396,14 @@ const SlotGanttView = ({
         const projectId = e.dataTransfer.getData('projectId') || e.dataTransfer.getData('text/plain');
 
         if (projectId && onSlotDrop) {
+            // Merged-view slots are a pooled aggregate carrying squad='Merged View'.
+            // Assigning from one would hand that phantom squad to handleAssignProject and
+            // create a project on a non-existent 'Merged View' squad. Block it and tell the
+            // user to turn off Merge Squads to assign to a real squad.
+            if (slot.squad === 'Merged View' || slot.originalSquad === 'Merged View') {
+                alert('Turn off "Merge Squads" to assign a project — the merged view is a pooled overview with no real squad to assign to.');
+                return;
+            }
             // Calculate shortfall info
             const project = projects.find(p => p.id === projectId);
             const totalEffort = project ? ((project.pmVal || 0) + (project.scVal || 0) + (project.pdVal || 0)) / 3600 : 0;
