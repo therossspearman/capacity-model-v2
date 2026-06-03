@@ -1238,6 +1238,16 @@ const ReprioritizationTab = ({
                 }
             }
 
+            // Guard against silent truncation: capacity is the number of available
+            // "Changes JSON" fields × CHUNK. Anything beyond that would be dropped
+            // silently here (and fail to load). Fail loudly instead, mirroring the
+            // snapshot save path below.
+            const availableChunks = 1 + (of2 ? 1 : 0) + (of3 ? 1 : 0);
+            const capacity = availableChunks * CHUNK;
+            if (changesJson.length > capacity) {
+                throw new Error(`Scenario too large to save: ${changesJson.length.toLocaleString()} chars exceeds capacity of ${capacity.toLocaleString()} (${availableChunks} "Changes JSON" field${availableChunks > 1 ? 's' : ''} × ${CHUNK.toLocaleString()}). Add more "Changes JSON" Long Text fields and map them in settings.`);
+            }
+
             const updateData = {
                 [changesField.id]: changesJson.slice(0, CHUNK),
                 [metaField.id]: JSON.stringify(meta),
@@ -1335,7 +1345,7 @@ const ReprioritizationTab = ({
             }
         } catch (e) {
             console.error('[RepriTab] Failed to save scenario:', e);
-            alert('Airtable save failed. Check console.');
+            alert('Airtable save failed: ' + (e?.message || 'Check console.'));
         }
         setShowSaveDialog(false);
     }, [

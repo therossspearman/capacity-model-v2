@@ -9,7 +9,13 @@ import { BRAND, TOKENS, Z_INDEX, ZOOM_CONFIG, useTheme } from '../design-system'
 import { SETTINGS, DEFAULT_SETTINGS } from '../constants';
 import { getSafeCellValue, getStringValue, getDateValue, resolveFieldId, getCellMetrics, getStatusColor, exportCapacityToCSV, exportChartAsPng, getSquadsList, writeSlotSnapshot, readAIRecommendations } from '../utils';
 import { transformForecastToWeeklyDemand, calculateFTEImpact } from '../utils/forecastTransformer';
-import { useCapacityData, useGrouping, useDebounce, useKeyboardShortcuts, useDashboardHandlers } from '../hooks';
+// Direct hook imports (no barrel) — CLAUDE.md rule #5: barrel imports of hooks/
+// can cause circular-dependency crashes.
+import { useCapacityData } from '../hooks/useCapacityData';
+import { useGrouping } from '../hooks/useGrouping';
+import { useDebounce } from '../hooks/useDebounce';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useDashboardHandlers } from '../hooks/useDashboardHandlers';
 // Direct imports to avoid circular dependency through barrel exports
 import { ScenarioManager } from '../services/ScenarioManager';
 import { AirtableService } from '../services/airtable-service';
@@ -6040,15 +6046,23 @@ export const Dashboard = ({
                             project={bauEditProject}
                             squads={availableSquads}
                             onSave={async (projectId, formData) => {
-                                // Update the project via AirtableService
+                                // Update the project directly on the table (updateRecord is an
+                                // instance method, not static — AirtableService.updateRecord was
+                                // undefined and threw on every save).
                                 try {
-                                    await AirtableService.updateRecord(projTable, projectId, {
+                                    const rawFields = {
                                         [resolveFieldId(stableSettings[SETTINGS.STATUS])]: formData.status || undefined,
                                         [resolveFieldId(stableSettings[SETTINGS.PROJECT_SQUAD])]: formData.squad,
                                         [resolveFieldId(stableSettings[SETTINGS.LAUNCH])]: formData.launch,
                                         [resolveFieldId(stableSettings[SETTINGS.PROJECT_COUNTRY])]: formData.country,
                                         [resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE])]: formData.bauTshirtSize
-                                    });
+                                    };
+                                    // Strip undefined values (and any unresolved field-id keys) so the
+                                    // write only touches fields the user actually provided.
+                                    const fields = Object.fromEntries(
+                                        Object.entries(rawFields).filter(([k, v]) => k && k !== 'undefined' && v !== undefined)
+                                    );
+                                    await projTable.updateRecordAsync(projectId, fields);
                                     addToast({ type: 'success', title: 'Project Updated', message: `${formData.name} saved successfully` });
                                 } catch (error) {
                                     console.error('Failed to update BAU project:', error);

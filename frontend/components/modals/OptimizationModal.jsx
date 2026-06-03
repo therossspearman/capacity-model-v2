@@ -430,7 +430,9 @@ export const OptimizationModal = ({
             allowSquadMoves: runParams.allowSquadMoves ?? true,
             slotProfile
         });
-    }, [slotMap, projects, slotProfile, runParams]);
+        // Depend on scopedSlotMap (what the body actually reads), not the raw slotMap —
+        // otherwise changing the squad scope did not recompute recommendations.
+    }, [scopedSlotMap, projects, slotProfile, runParams]);
 
     // Enrich recommendations with project data for dates
     const enrichedRecs = useMemo(() => {
@@ -790,14 +792,17 @@ export const OptimizationModal = ({
         setShowCapacityReliefModal(true);
         setShowAIPanel(false);
 
-        // Trigger the computation after a brief delay to allow state updates
-        setTimeout(() => {
-            handleCapacityRelief();
-        }, 100);
+        // Pass the strategy explicitly — relying on the setSelectedStrategy state
+        // update to land before a setTimeout'd call was a stale-closure bug.
+        handleCapacityRelief(strategyKey);
     };
 
     // Capacity Relief: Combined bulk allocation + schedule optimization
-    const handleCapacityRelief = async () => {
+    // Accepts an optional strategy override so callers that have just called
+    // setSelectedStrategy can pass the new value directly — React state updates do
+    // not re-bind this closure, so reading selectedStrategy here would be stale.
+    const handleCapacityRelief = async (strategyOverride) => {
+        const activeStrategy = strategyOverride || selectedStrategy;
         setIsComputingRelief(true);
         setReliefProgress(0);
         setReliefStatusMessage('Identifying unallocated projects in range...');
@@ -811,7 +816,7 @@ export const OptimizationModal = ({
                 const start = new Date(dateRangeStart);
                 const end = new Date(dateRangeEnd);
                 return projectDate >= start && projectDate <= end;
-            }), selectedStrategy);
+            }), activeStrategy);
 
             // Step 2: Run bulk allocation to assign squads (async worker to prevent UI freeze)
             setReliefProgress(30);

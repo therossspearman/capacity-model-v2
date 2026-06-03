@@ -24,6 +24,13 @@ const analyzeSlotFit = (project, slot, slotProfile) => {
     const slotStart = new Date(slot.slotStart);
     const slotEnd = new Date(slot.slotEnd);
 
+    // Guard against missing/malformed dates: NaN deltas propagate and, worse,
+    // toISOString() on an Invalid Date throws a RangeError, crashing the render.
+    // The modal already treats a null analysis as "no analysis available".
+    if ([projectStart, projectEnd, slotStart, slotEnd].some(d => isNaN(d.getTime()))) {
+        return null;
+    }
+
     const projectWeeks = Math.ceil((projectEnd - projectStart) / (7 * 24 * 60 * 60 * 1000));
     const slotWeeks = Math.ceil((slotEnd - slotStart) / (7 * 24 * 60 * 60 * 1000));
 

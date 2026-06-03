@@ -17,6 +17,52 @@ export const WHATIF_CHANGES = {
 };
 
 /**
+ * Pure helper: return a new project object with a single what-if change applied.
+ * Used by BOTH applyWhatIfChange and the undo rebuild so they can never drift —
+ * previously the undo path re-applied only a subset (no resource add/remove, no
+ * start/end dates, no project.squad), silently losing changes on undo. Does not
+ * mutate the input project or its nested team arrays.
+ */
+const applyChangeToProject = (project, type, payload) => {
+    const next = { ...project };
+    switch (type) {
+        case WHATIF_CHANGES.MOVE_PROJECT:
+        case WHATIF_CHANGES.CHANGE_DATES:
+            if (payload.kickOff !== undefined) next.kickOff = payload.kickOff;
+            if (payload.start !== undefined) next.start = payload.start;
+            if (payload.launch !== undefined) next.launch = payload.launch;
+            if (payload.end !== undefined) next.end = payload.end;
+            break;
+
+        case WHATIF_CHANGES.CHANGE_SQUAD:
+            next.squads = [payload.newSquad];
+            next.squad = payload.newSquad;
+            break;
+
+        case WHATIF_CHANGES.ADD_RESOURCE: {
+            const team = next.team ? { ...next.team } : { pm: [], sc: [], pd: [] };
+            const roleArr = team[payload.role] ? [...team[payload.role]] : [];
+            team[payload.role] = [...roleArr, { id: payload.resourceId, name: payload.resourceName }];
+            next.team = team;
+            break;
+        }
+
+        case WHATIF_CHANGES.REMOVE_RESOURCE:
+            if (next.team?.[payload.role]) {
+                next.team = {
+                    ...next.team,
+                    [payload.role]: next.team[payload.role].filter(r => r.id !== payload.resourceId)
+                };
+            }
+            break;
+
+        default:
+            break;
+    }
+    return next;
+};
+
+/**
  * Hook for managing What-If sandbox state
  * @param {Object} options
  * @param {Array} options.baseProjects - Original project data
@@ -69,43 +115,7 @@ export const useWhatIfMode = ({ baseProjects = [], baseSlotMap = {}, slotProfile
 
             if (projectIdx === -1) return prev;
 
-            const project = { ...updated[projectIdx] };
-
-            switch (type) {
-                case WHATIF_CHANGES.MOVE_PROJECT:
-                case WHATIF_CHANGES.CHANGE_DATES:
-                    if (payload.kickOff !== undefined) project.kickOff = payload.kickOff;
-                    if (payload.start !== undefined) project.start = payload.start;
-                    if (payload.launch !== undefined) project.launch = payload.launch;
-                    if (payload.end !== undefined) project.end = payload.end;
-                    break;
-
-                case WHATIF_CHANGES.CHANGE_SQUAD:
-                    project.squads = [payload.newSquad];
-                    project.squad = payload.newSquad;
-                    break;
-
-                case WHATIF_CHANGES.ADD_RESOURCE:
-                    if (!project.team) project.team = { pm: [], sc: [], pd: [] };
-                    if (!project.team[payload.role]) project.team[payload.role] = [];
-                    project.team[payload.role] = [
-                        ...project.team[payload.role],
-                        { id: payload.resourceId, name: payload.resourceName }
-                    ];
-                    break;
-
-                case WHATIF_CHANGES.REMOVE_RESOURCE:
-                    if (project.team?.[payload.role]) {
-                        project.team[payload.role] = project.team[payload.role]
-                            .filter(r => r.id !== payload.resourceId);
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-
-            updated[projectIdx] = project;
+            updated[projectIdx] = applyChangeToProject(updated[projectIdx], type, payload);
             return updated;
         });
     }, [isWhatIfMode, whatIfProjects]);
@@ -125,22 +135,8 @@ export const useWhatIfMode = ({ baseProjects = [], baseSlotMap = {}, slotProfile
             newChanges.forEach(change => {
                 const idx = rebuilt.findIndex(p => p.id === change.payload.projectId);
                 if (idx === -1) return;
-
-                const project = { ...rebuilt[idx] };
-                // Apply same logic as applyWhatIfChange
-                switch (change.type) {
-                    case WHATIF_CHANGES.MOVE_PROJECT:
-                    case WHATIF_CHANGES.CHANGE_DATES:
-                        if (change.payload.kickOff !== undefined) project.kickOff = change.payload.kickOff;
-                        if (change.payload.launch !== undefined) project.launch = change.payload.launch;
-                        break;
-                    case WHATIF_CHANGES.CHANGE_SQUAD:
-                        project.squads = [change.payload.newSquad];
-                        break;
-                    default:
-                        break;
-                }
-                rebuilt[idx] = project;
+                // Same shared helper as applyWhatIfChange — guarantees undo parity.
+                rebuilt[idx] = applyChangeToProject(rebuilt[idx], change.type, change.payload);
             });
 
             setWhatIfProjects(rebuilt);

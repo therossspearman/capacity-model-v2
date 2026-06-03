@@ -564,6 +564,33 @@ const ScenarioMergeConflictModal = ({
                                 <Icons.Users size={14} color="#00BD00" />
                                 Team Allocations ({teamAllocationConflicts.length})
                             </h3>
+                            {/*
+                              * Team allocations are NOT resolved here directly. A differing team
+                              * object also surfaces as a `team` field conflict on the same project
+                              * in the Projects section above (ScenarioManager.detectScenarioMergeConflicts
+                              * does not skip the `team` field), and THAT picker is what determines the
+                              * merged team. This section is a read-only, role-by-role breakdown so the
+                              * user can see exactly what differs before choosing in the Projects section.
+                              */}
+                            <div style={{
+                                padding: '12px 16px',
+                                marginBottom: '16px',
+                                borderRadius: '10px',
+                                backgroundColor: isDark ? 'rgba(0, 189, 0, 0.08)' : '#f0fdf4',
+                                border: `1px solid ${isDark ? 'rgba(0,189,0,0.3)' : '#bbf7d0'}`,
+                                fontSize: '12px',
+                                color: isDark ? '#86efac' : '#15803d',
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: '8px'
+                            }}>
+                                <Icons.Check size={14} color={isDark ? '#86efac' : '#15803d'} />
+                                <span>
+                                    Choose the winning team in the <strong>Projects</strong> section above via each
+                                    project&apos;s <strong>“team”</strong> field — your selection there decides the merged
+                                    allocation. This breakdown is for reference only.
+                                </span>
+                            </div>
                             {teamAllocationConflicts.map(([projectId, data], i) => (
                                 <div key={projectId} style={{
                                     marginBottom: '20px',

@@ -60,8 +60,14 @@ export const generatePeopleAssignments = (projects, resources, config = {}) => {
     // Filter projects that start in the future or are active
     const activeProjects = projects.filter(p => !p.status?.toLowerCase().includes('closed'));
 
-    // Filter resources - be more lenient (accept resources without effectiveHours)
-    const validResources = resources.filter(r => r.name && (r.effectiveHours > 0 || r.effectiveHours === undefined));
+    // Filter resources - be more lenient (accept resources without effectiveHours).
+    // Clone each resource (and reset _tempBooked) so the temporary "booking" written
+    // during scoring stays on these copies and never mutates the live upstream
+    // resource objects (which React/state holds and which would otherwise carry stale
+    // _tempBooked into the next run, inflating utilisation).
+    const validResources = resources
+        .filter(r => r.name && (r.effectiveHours > 0 || r.effectiveHours === undefined))
+        .map(r => ({ ...r, _tempBooked: 0 }));
 
     activeProjects.forEach(project => {
         // Determine needed roles

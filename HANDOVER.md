@@ -12,7 +12,8 @@
 3. [Setting up Claude Code (recommended)](#setting-up-claude-code-recommended)
 4. [Local development](#local-development)
 5. [Deploying](#deploying)
-6. [Architecture overview](#architecture-overview)
+6. [Testing](#testing)
+7. [Architecture overview](#architecture-overview)
 7. [Key concepts you must understand](#key-concepts-you-must-understand)
 8. [Operational runbooks](#operational-runbooks)
 9. [Known gotchas & non-obvious bugs](#known-gotchas--non-obvious-bugs)
@@ -139,13 +140,13 @@ This runs (in order):
 **The CLI will interactively prompt** for a release comment. Two ways to handle this:
 
 ```bash
-# Option A: pipe a comment via stdin
-echo "fix: your release notes here" | npx @airtable/blocks-cli release
-
-# Option B: build worker first, then release with stdin pipe
-npm run build:worker
-echo "fix: your release notes here" | npx @airtable/blocks-cli release
+# Pipe a comment via stdin to npm run release (which builds the worker first)
+echo "fix: your release notes here" | npm run release
 ```
+
+> ⚠️ Do **not** run `npx @airtable/blocks-cli release` directly — that bypasses the
+> `prerelease` → `build:worker` step, so edits to `workerCodeSource.js` ship stale.
+> Always go through `npm run release`.
 
 After `✅ Successfully released block!`, Airtable users need to **refresh the Interface page** to pick up the new bundle. There's no auto-update.
 
@@ -155,8 +156,48 @@ After `✅ Successfully released block!`, Airtable users need to **refresh the I
 - [ ] Worker source unchanged → `npm run build:worker` is a no-op (cheap to always run)
 - [ ] No `console.log` litter in the happy path of `useDashboardHandlers.js` (verbose logs should only fire on error)
 - [ ] Test in dev mode (`npx @airtable/blocks-cli run`) before releasing
+- [ ] Remember: merging/pushing to `main` auto-deploys (see "CI/CD" below) — make sure the branch is release-ready
 
 **Rollback:** Airtable Block releases can be reverted via the Airtable web UI — go to the extension's "Releases" tab and choose a prior release. No code action needed.
+
+### CI/CD (auto-deploy on push to `main`)
+
+There is a GitHub Actions workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+that **deploys to the live Airtable base on every push to `main`** (and via manual
+`workflow_dispatch`). It runs: checkout → `npm ci` → set API key → `npm run build:worker`
+→ `npx @airtable/blocks-cli release`.
+
+**Implications — read before pushing:**
+- A push to `main` is a production deploy. **Do day-to-day work on feature branches and merge via PR**, so you control when a release happens (and can bump `APP_VERSION` in the same change).
+- The workflow authenticates with the **`AIRTABLE_API_KEY`** GitHub repo secret — an Airtable **personal access token** with the `block:manage` scope, for the account that owns the base. Provision it under **Settings → Secrets and variables → Actions** (`gh secret set AIRTABLE_API_KEY -R <owner>/<repo>`). If it's missing/empty the deploy step fails.
+- The workflow does **not** bump `APP_VERSION` — bump it yourself before merging or the version pill users see will be stale.
+
+---
+
+## Testing
+
+There is a minimal **Vitest** harness (added during the post-handover cleanup).
+
+```bash
+npm test          # vitest run (CI-friendly, one-shot)
+npm run test:watch
+```
+
+- Tests live next to the code in `__tests__/` folders and run in a plain `node`
+  environment (`vitest.config.js`).
+- **Scope today:** the *pure* modules that have no React / Airtable-SDK imports —
+  `frontend/utils/SlotOptimizer.js` and `frontend/utils/PeopleOptimizer.js`. These
+  cover two real regressions that were fixed (the bulk-allocation accumulator crash
+  and the PeopleOptimizer input mutation).
+- **This is a starting point, not full coverage.** The highest-value next targets
+  are the pure capacity/demand functions in `frontend/worker/workerCodeSource.js`
+  (capacity-per-week, ramp-profile application, pro-rata group share, leave
+  carve-out). They currently live inside the worker source; to unit-test them,
+  extract the pure helpers into a plain module imported by both the worker build
+  and the tests.
+- Components/hooks aren't covered yet — they pull in React + the Airtable SDK and
+  would need `jsdom` + mocks. Add `@testing-library/react` + `environment: 'jsdom'`
+  when you tackle that.
 
 ---
 
