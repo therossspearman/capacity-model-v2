@@ -102,7 +102,7 @@ const ResourceProfileModal = ({ resource, rampProfiles = [], onClose, onUpdate, 
                 fontSize: '14px',
                 fontWeight: '600',
                 color: value ? colors.text : colors.textMuted,
-                fontFamily: typeof value === 'number' || (value && value.includes('h')) || (value && value.includes('%'))
+                fontFamily: typeof value === 'number' || (typeof value === 'string' && (value.includes('h') || value.includes('%')))
                     ? MONO
                     : INTER,
                 letterSpacing: '-0.01em'

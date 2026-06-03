@@ -5,8 +5,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { useTheme } from '../../design-system';
-
-const SIDEBAR_WIDTH = 260; // Match InnerGrid's sidebar width for alignment
+import { SIDEBAR_WIDTH } from '../../constants';
 
 /**
  * Parse a YYYY-MM-DD date key as LOCAL midnight.

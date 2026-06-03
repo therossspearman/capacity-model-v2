@@ -226,7 +226,7 @@ function perturbWeights(weights, rand = Math.random) {
     let total = 0;
 
     Object.entries(weights).forEach(([key, value]) => {
-        const delta = (rand() - 0.5) * 0.3; // ±15% change
+        const delta = (rand() - 0.5) * 0.3; // ±0.15 absolute offset added to the weight
         perturbed[key] = Math.max(0.05, value + delta);
         total += perturbed[key];
     });

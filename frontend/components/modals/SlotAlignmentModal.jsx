@@ -4,7 +4,7 @@
  */
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '../../design-system';
+import { useTheme, Z_INDEX } from '../../design-system';
 import { Button } from '../ui';
 
 /**
@@ -113,7 +113,7 @@ export const SlotAlignmentModal = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 10000,
+            zIndex: Z_INDEX.MODAL_BACKDROP,
             backdropFilter: 'blur(4px)'
         }}>
             <div style={{

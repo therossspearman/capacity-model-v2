@@ -294,7 +294,6 @@ function CapacityApp() {
             <Dashboard
                 resTable={resTable}
                 projTable={projTable}
-                taskTable={null}
                 settingsTable={settingsTable}
                 scenariosTable={scenariosTable}
                 squadsTable={squadsTable}

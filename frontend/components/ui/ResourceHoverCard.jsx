@@ -117,7 +117,7 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
                     <div style={{
                         fontSize: '18px',
                         fontWeight: '700',
-                        color: currentUtil > 100 ? BRAND.danger : currentUtil > 80 ? '#f59e0b' : BRAND.benifexGreen
+                        color: currentUtil > 100 ? BRAND.danger : currentUtil > 80 ? BRAND.warning : BRAND.benifexGreen
                     }}>
                         {currentUtil}%
                     </div>
@@ -127,7 +127,7 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
                     <div style={{
                         fontSize: '18px',
                         fontWeight: '700',
-                        color: avgUtil > 100 ? BRAND.danger : avgUtil > 80 ? '#f59e0b' : colors.text
+                        color: avgUtil > 100 ? BRAND.danger : avgUtil > 80 ? BRAND.warning : colors.text
                     }}>
                         {avgUtil}%
                     </div>
@@ -151,10 +151,10 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
                 <svg width={sparkWidth} height={sparkHeight} style={{ display: 'block', margin: '0 auto' }}>
                     {/* 100% line */}
                     <line x1="0" y1={sparkHeight * 0} x2={sparkWidth} y2={sparkHeight * 0}
-                        stroke="#ef4444" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
+                        stroke={BRAND.danger} strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
                     {/* 80% line */}
                     <line x1="0" y1={sparkHeight * 0.2} x2={sparkWidth} y2={sparkHeight * 0.2}
-                        stroke="#f59e0b" strokeWidth="1" strokeDasharray="2,2" opacity="0.3" />
+                        stroke={BRAND.warning} strokeWidth="1" strokeDasharray="2,2" opacity="0.3" />
                     {/* Utilization line */}
                     <polyline
                         points={points}
@@ -174,7 +174,7 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
             <div style={{
                 fontSize: '11px',
                 fontWeight: '600',
-                color: nextAvailable === 0 ? BRAND.benifexGreen : nextAvailable > 0 ? '#f59e0b' : '#ef4444',
+                color: nextAvailable === 0 ? BRAND.benifexGreen : nextAvailable > 0 ? BRAND.warning : BRAND.danger,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px'
@@ -183,7 +183,7 @@ const ResourceHoverCard = ({ resource, buckets, position }) => {
                     width: '6px',
                     height: '6px',
                     borderRadius: '50%',
-                    backgroundColor: nextAvailable === 0 ? BRAND.benifexGreen : nextAvailable > 0 ? '#f59e0b' : '#ef4444'
+                    backgroundColor: nextAvailable === 0 ? BRAND.benifexGreen : nextAvailable > 0 ? BRAND.warning : BRAND.danger
                 }} />
                 {nextAvailableText}
             </div>

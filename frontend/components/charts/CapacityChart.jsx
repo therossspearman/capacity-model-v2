@@ -4,7 +4,7 @@
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ComposedChart, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { BRAND, TOKENS, useTheme } from '../../design-system';
+import { BRAND, useTheme } from '../../design-system';
 import { getStatusColor } from '../../utils';
 import { SIDEBAR_WIDTH } from '../../constants';
 import StatusFilterBar from './StatusFilterBar';

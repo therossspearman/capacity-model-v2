@@ -48,6 +48,7 @@ const formatDate = (dateStr) => {
     if (!dateStr) return '—';
     try {
         const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return '—';
         return date.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
     } catch {
         return '—';
@@ -261,10 +262,13 @@ const BAUProjectGrid = ({ projects = [], onEditProject, groupBy = 'squad' }) => 
             if (!groups[groupKey]) groups[groupKey] = [];
             groups[groupKey].push(p);
         });
-        // Sort groups alphabetically, but put 'Unassigned'/'Unknown' at end
+        // Sort groups alphabetically, but put the sentinel "ungrouped" buckets at end.
+        // Compare against the exact sentinel values (not startsWith) so a real
+        // squad/customer/country name like "Unknown Logistics Ltd" is not misplaced.
+        const UNGROUPED = new Set(['Unassigned', 'Unknown Customer', 'Unknown Country']);
         return Object.entries(groups).sort(([a], [b]) => {
-            const aIsUnknown = a.startsWith('Unassigned') || a.startsWith('Unknown');
-            const bIsUnknown = b.startsWith('Unassigned') || b.startsWith('Unknown');
+            const aIsUnknown = UNGROUPED.has(a);
+            const bIsUnknown = UNGROUPED.has(b);
             if (aIsUnknown && !bIsUnknown) return 1;
             if (bIsUnknown && !aIsUnknown) return -1;
             return a.localeCompare(b);

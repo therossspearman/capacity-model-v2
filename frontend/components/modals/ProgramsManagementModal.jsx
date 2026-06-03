@@ -11,12 +11,7 @@ const ProgramsManagementModal = ({
     isOpen,
     onClose,
     programs, // Array of program objects with { customer, workstreams, totalHours, ... }
-    allResources,
-    storedSettings,
-    onUpdateSettings,
     isDraftMode,
-    programRecords,
-    programsTable,
     onSelectProgram // Callback to open ProgramDetailModal for a specific program
 }) => {
     const { isDark, colors } = useTheme();
@@ -280,11 +275,6 @@ ProgramsManagementModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     programs: PropTypes.array,
-    allResources: PropTypes.array,
-    storedSettings: PropTypes.object,
-    onUpdateSettings: PropTypes.func,
     isDraftMode: PropTypes.bool,
-    programRecords: PropTypes.array,
-    programsTable: PropTypes.object,
     onSelectProgram: PropTypes.func
 };

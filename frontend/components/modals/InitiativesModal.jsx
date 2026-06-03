@@ -122,7 +122,8 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
     const stats = useMemo(() => {
         const active = initiatives.filter(i => i.enabled && i.status === 'active');
         const planned = initiatives.filter(i => i.status === 'planned');
-        const totalBoost = active.reduce((sum, i) => sum * (1 + i.efficiencyPct / 100), 1);
+        // Multiplicative stacking — must mirror worker logic. Accumulator is a product, not a sum.
+        const totalBoost = active.reduce((factor, i) => factor * (1 + (i.efficiencyPct || 0) / 100), 1);
         return {
             activeCount: active.length,
             plannedCount: planned.length,
@@ -678,7 +679,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                             min="0"
                                             max="52"
                                             value={formData.rampWeeks}
-                                            onChange={(e) => setFormData({ ...formData, rampWeeks: parseInt(e.target.value) || 0 })}
+                                            onChange={(e) => setFormData({ ...formData, rampWeeks: Math.min(52, Math.max(0, parseInt(e.target.value, 10) || 0)) })}
                                             style={inputStyle}
                                         />
                                     </div>
@@ -689,7 +690,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                             min="0"
                                             max="100"
                                             value={formData.efficiencyPct}
-                                            onChange={(e) => setFormData({ ...formData, efficiencyPct: parseInt(e.target.value) || 0 })}
+                                            onChange={(e) => setFormData({ ...formData, efficiencyPct: Math.min(100, Math.max(0, parseInt(e.target.value, 10) || 0)) })}
                                             style={inputStyle}
                                         />
                                     </div>
@@ -843,7 +844,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                                         value={hc.count}
                                                         onChange={(e) => {
                                                             const updated = [...formData.headcountPlan];
-                                                            updated[idx] = { ...hc, count: Math.max(1, parseInt(e.target.value) || 1) };
+                                                            updated[idx] = { ...hc, count: Math.min(50, Math.max(1, parseInt(e.target.value, 10) || 1)) };
                                                             setFormData({ ...formData, headcountPlan: updated });
                                                         }}
                                                         style={{ ...inputStyle, padding: '6px 8px', fontSize: '12px', textAlign: 'center' }}
@@ -940,7 +941,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                             color: BRAND.benifexGreen,
                                             fontWeight: '600'
                                         }}>
-                                            Total: {formData.headcountPlan.reduce((sum, h) => sum + h.count, 0)} virtual resource(s)
+                                            Total: {formData.headcountPlan.reduce((sum, h) => sum + (Number(h.count) || 0), 0)} virtual resource(s)
                                         </div>
                                     )}
                                 </div>

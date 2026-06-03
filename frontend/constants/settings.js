@@ -1,8 +1,6 @@
-import { BRAND } from '../design-system';
-
 // App Version - Update this on every release
 // AGENT NOTE: Always increment version when deploying changes
-export const APP_VERSION = '2.99.011';
+export const APP_VERSION = '2.99.012';
 
 // Airtable Field Mappings
 export const SETTINGS = {
@@ -250,14 +248,5 @@ export const BUFFER = 10;
 
 // Time Constants
 export const TIME_CONSTANTS = {
-    MS_PER_SECOND: 1000,
-    MS_PER_MINUTE: 60000,
-    MS_PER_HOUR: 3600000,
-    MS_PER_DAY: 86400000,
-    MS_PER_WEEK: 604800000,
-    // NOTE: exactly 28 days (4 weeks), NOT an average calendar month (~30.44 days).
-    // Do not use for calendar-month offsets — it drifts 2-3 days/month. Prefer Date
-    // month arithmetic for month-accurate math.
-    MS_PER_MONTH: 2419200000,
     SECONDS_PER_HOUR: 3600
 };

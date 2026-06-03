@@ -75,7 +75,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
-                    onMouseEnter={(e) => !isPinned && (e.currentTarget.style.color = BRAND.primary)}
+                    onMouseEnter={(e) => !isPinned && (e.currentTarget.style.color = BRAND.benifexPurple)}
                     onMouseLeave={(e) => !isPinned && (e.currentTarget.style.color = '#cbd5e1')}
                     title={isPinned ? 'Unpin from top' : 'Pin to top'}
                 >
@@ -449,8 +449,8 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                         backgroundColor: isOnLeave ? (isDark ? '#1e293b' : '#f1f5f9') : (isOOO ? colors.bgHover : 'transparent'),
                                         // Visual Indicator for Slot Allocations (purple dashed border)
                                         ...(hasSlotAllocation && {
-                                            border: `2px dashed ${BRAND.purple || '#BD65FF'}`, // Fallback purple
-                                            boxShadow: `inset 0 0 4px ${BRAND.purple || '#BD65FF'}20` // Subtle glow
+                                            border: `2px dashed ${BRAND.violet}`, // Accent violet (#BD65FF)
+                                            boxShadow: `inset 0 0 4px ${BRAND.violet}20` // Subtle glow
                                         }),
                                         // Diagonal stripe patterns — leave + OOO both use a muted slate hash
                                         // (yellow read as "active capacity"; muted grey reads cleanly as "unavailable")

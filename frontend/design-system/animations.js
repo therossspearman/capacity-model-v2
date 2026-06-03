@@ -81,11 +81,14 @@ export const ANIMATION_STYLES = `
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
   }
+  @keyframes skeletonShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
   .skeleton {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
     background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
   }
   
   /* Dropdown Animations */

@@ -266,7 +266,7 @@ const SlotAssignmentModal = ({
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px' }}>
                                 {/* Original */}
                                 <div style={{ flex: 1, padding: '16px', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
-                                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', marginBottom: '8px', textTransform: 'uppercase' }}>Currentdates</div>
+                                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', marginBottom: '8px', textTransform: 'uppercase' }}>Current Dates</div>
                                     <div style={{ fontSize: '16px', fontWeight: '700', color: '#1e293b' }}>
                                         {analysis.originalKickOff}
                                     </div>

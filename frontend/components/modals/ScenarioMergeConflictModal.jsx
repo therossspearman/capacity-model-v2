@@ -4,7 +4,7 @@
  */
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { BRAND, Z_INDEX, useTheme } from '../../design-system';
+import { Z_INDEX, useTheme } from '../../design-system';
 
 // ═══════════════════════════════════════════════════════════════════
 // SVG Icon Components

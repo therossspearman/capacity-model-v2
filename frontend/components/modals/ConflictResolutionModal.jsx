@@ -414,7 +414,6 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
 
     const renderConflictField = (type, id, field, data) => {
         const { original, current, draft, resolution } = data;
-        const hasConflict = normalizeForComparison(original) !== normalizeForComparison(current);
         const isUsingDraft = resolution === 'draft';
         const fieldInfo = getFieldInfo(field);
 

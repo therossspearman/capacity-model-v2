@@ -129,6 +129,9 @@ function perturbCapacity(slotMap, { leaveRate, capacityVariance }) {
     Object.keys(slotMap).forEach(squad => {
         perturbed[squad] = {};
         Object.entries(slotMap[squad] || {}).forEach(([week, bucket]) => {
+            // Leave model: with probability \`leaveRate\`, apply a flat 30% haircut
+            // to the ENTIRE squad-week bucket (bucket-level, not per-person). This
+            // simulates a leave event removing ~30% of that bucket's capacity.
             const leaveImpact = Math.random() < leaveRate ? 0.7 : 1;
             const variance = 1 + randomNormal() * capacityVariance;
 

@@ -368,29 +368,8 @@ const processDateRange = (start, end, load, type, pMeta, minDate, maxDate, confi
                     if (pMeta.team && pMeta.breakdownCategory && pMeta.team[pMeta.breakdownCategory]) {
                         const assignedUsers = pMeta.team[pMeta.breakdownCategory];
                         if (assignedUsers.length > 0) {
-                            // Calculate allocation percentages
-                            // If members have allocationPct (from JSON), use that explicitly.
-                            // If not, we might need to fallback to even split, BUT we must be careful not to overwrite valid 0% (if that's a thing, though usually 0 means unassigned).
-
-                            // Check if ANYONE has an explicit allocationPct > 0. If so, we assume the JSON is authoritative for this role.
-                            const hasExplicitAllocations = assignedUsers.some(u => u.allocationPct !== undefined && u.allocationPct !== null);
-
-                            let useEvenSplit = false;
-                            if (!hasExplicitAllocations) {
-                                // No explicit JSON allocations found -> default to even split
-                                useEvenSplit = true;
-                            }
-
-                            const totalPct = assignedUsers.reduce((sum, u) => sum + (u.allocationPct || 0), 0);
-                            const usersWithPct = assignedUsers.filter(u => u.allocationPct > 0);
-                            const usersWithoutPct = assignedUsers.filter(u => !u.allocationPct);
-
-                            // Calculate how to split remaining percentage logic (only relevant if mixing explicit and implicit, which is rare but possible)
-                            let remainingPct = 100 - totalPct;
-                            if (remainingPct < 0) remainingPct = 0;
-                            const defaultPct = usersWithoutPct.length > 0 ? remainingPct / usersWithoutPct.length : 0;
-                            // Even split fallback
-                            const evenSplitPct = 100 / assignedUsers.length;
+                            // Allocation percentages are computed per-bucket in the
+                            // activeUsers block below (explicit / implicit / mix cases).
 
                             // Placeholder detection: these names should NOT count as "resourced"
                             const _placeholderRx = /^(tbd|tbh|tba|unassigned|placeholder|pending|vacant)/i;

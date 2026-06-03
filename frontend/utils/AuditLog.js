@@ -61,7 +61,7 @@ export function logAuditEvent(eventType, details, userId = 'unknown') {
         const events = getAuditLog();
 
         const event = {
-            id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            id: `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
             type: eventType,
             timestamp: new Date().toISOString(),
             userId,
@@ -78,7 +78,16 @@ export function logAuditEvent(eventType, details, userId = 'unknown') {
             events.splice(MAX_EVENTS);
         }
 
-        localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(events));
+        try {
+            localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(events));
+        } catch (storageError) {
+            // Likely QuotaExceededError (sandboxed iframe storage is limited).
+            // Halve the retained history and retry once so logging keeps working
+            // instead of silently stopping forever.
+            console.warn('Audit log storage full, trimming older events:', storageError);
+            events.splice(Math.ceil(events.length / 2));
+            localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(events));
+        }
 
         return event;
     } catch (e) {

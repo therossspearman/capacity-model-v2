@@ -4,7 +4,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { useTheme } from '../../design-system';
-import { generateRecommendations, getSlotUtilizationSummary, generateRoleInsights } from '../../utils/SlotOptimizer';
+import { getSlotUtilizationSummary, generateRoleInsights } from '../../utils/SlotOptimizer';
 import { SlotSnapshotPanel } from './SlotSnapshotPanel';
 import SlotGanttView from './SlotGanttView';
 import SlotAssignmentModal from '../modals/SlotAssignmentModal';
@@ -156,9 +156,6 @@ export const SlotHeatmap = ({
     const [selectedProjects, setSelectedProjects] = useState(new Set());
     const [lastClickedIndex, setLastClickedIndex] = useState(null);
     const gridRef = React.useRef(null);
-
-    // Use base projects for display (What-If removed)
-    const displayProjects = projects;
 
     // Destructure recommendations from slotOptimization
     const { recommendations = [] } = slotOptimization || {};
@@ -1441,7 +1438,7 @@ export const SlotHeatmap = ({
                                                         </div>
                                                         {slotsRequired > 0 && (
                                                             <span
-                                                                title={`${totalEffort}h total effort ≈ ${slotsRequired} slot${slotsRequired !== 1 ? 's' : ''}`}
+                                                                title={`${Math.round(totalEffort)}h total effort ≈ ${slotsRequired} slot${slotsRequired !== 1 ? 's' : ''}`}
                                                                 style={{
                                                                     fontSize: '9px',
                                                                     fontWeight: '700',

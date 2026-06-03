@@ -15,6 +15,9 @@ export const MODERN_COLORS = [
 ];
 
 // Status Color Map - Harmonious palette with purple + crimson anchors
+// NOTE: All keys MUST be lowercase. The sole consumer, getStatusColor() in
+// utils/helpers.js, lowercases the status before looking it up here, so any
+// mixed-case key would silently never match and fall back to a default color.
 export const STATUS_COLOR_MAP = {
     // Completed States - Benifex Green (success)
     'done': BRAND.benifexGreen,

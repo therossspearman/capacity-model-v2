@@ -270,9 +270,11 @@ export const SlotSnapshotPanel = ({ slotMap, enabledSquads = [] }) => {
                                 <span style={{
                                     fontSize: '12px',
                                     fontWeight: '600',
-                                    color: '#f59e0b'
+                                    color: currentSummary.partial === comparison.prevSummary.partial
+                                        ? (isDark ? '#94a3b8' : '#64748b')
+                                        : '#f59e0b'
                                 }}>
-                                    {currentSummary.partial > comparison.prevSummary.partial ? '↑' : currentSummary.partial < comparison.prevSummary.partial ? '↓' : '='} {Math.abs(currentSummary.partial - comparison.prevSummary.partial) || ''}
+                                    {currentSummary.partial > comparison.prevSummary.partial ? '↑' : currentSummary.partial < comparison.prevSummary.partial ? '↓' : '='} {Math.abs(currentSummary.partial - comparison.prevSummary.partial)}
                                 </span>
                             </div>
                         </div>

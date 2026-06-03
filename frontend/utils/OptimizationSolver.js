@@ -314,7 +314,7 @@ function perturb(plan, resources, config, progress = 0.5) {
             perturbReassignRole(neighbour, resources, config);
             break;
         case 'squadRebalance':
-            perturbSquadRebalance(neighbour, resources);
+            perturbSquadRebalance(neighbour, resources, config);
             break;
         case 'deferUndefer':
             perturbDeferUndefer(neighbour, config);
@@ -451,7 +451,7 @@ function perturbReassignRole(plan, resources, config) {
 /**
  * Move a project's resource assignment to prefer a different squad's pool.
  */
-function perturbSquadRebalance(plan, resources) {
+function perturbSquadRebalance(plan, resources, config) {
     if (plan.scheduled.length === 0 || resources.length === 0) return;
     const idx = Math.floor(Math.random() * plan.scheduled.length);
     const p = plan.scheduled[idx];
@@ -462,7 +462,7 @@ function perturbSquadRebalance(plan, resources) {
     const slot = assigns[Math.floor(Math.random() * assigns.length)];
     const currentSquads = new Set(slot.resourceSquads || []);
 
-    const ROLE_MATCHERS_SQ = buildRoleMatchers({}); // Fix ENH-2: use same role matching as main engine
+    const ROLE_MATCHERS_SQ = buildRoleMatchers(config); // Fix ENH-2: use same role matching as main engine
     const diffSquadRes = resources.filter(r => {
         if (!r.name || r.id === slot.resourceId) return false;
         const rSquads = r.squads || [];

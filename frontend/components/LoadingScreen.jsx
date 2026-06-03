@@ -27,7 +27,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
     useEffect(() => {
         const t1 = setTimeout(() => setPhase(1), 400);
         const t2 = setTimeout(() => setPhase(2), 900);
-        const msgInterval = setInterval(() => setMessageIndex(i => (i + 1) % 5), 2200);
+        const msgInterval = setInterval(() => setMessageIndex(i => (i + 1) % messages.length), 2200);
         const progressInterval = setInterval(() => {
             setProgress(p => {
                 if (p >= 96) return p;

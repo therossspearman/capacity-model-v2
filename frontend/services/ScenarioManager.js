@@ -146,8 +146,8 @@ export class ScenarioManager {
             return query.records.map(record => {
                 // Concatenate all Changes JSON fields
                 let changesJson = record.getCellValueAsString(changesField?.id) || '';
-                for (const of2 of overflowFields) {
-                    const overflow = record.getCellValueAsString(of2?.id);
+                for (const overflowField of overflowFields) {
+                    const overflow = record.getCellValueAsString(overflowField?.id);
                     if (overflow) changesJson += overflow;
                 }
 

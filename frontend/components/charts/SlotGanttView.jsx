@@ -378,10 +378,8 @@ const SlotGanttView = ({
 
     const handleDragOver = (e, slotId, squad) => {
         e.preventDefault();
-        // Extract project ID - use stored value since getData only works in drop
-        // But we can check types to confirm drag is happening
-        const hasProjectData = e.dataTransfer.types.includes('projectid') || e.dataTransfer.types.includes('text/plain');
-        // We rely on draggedProject prop now, no need to check ID here
+        // The actual project payload (projectId/text/plain) is only readable in the
+        // drop handler; here we rely on the draggedProject prop for the hover preview.
         setDragOverSlot({ slotId, squad });
     };
 
@@ -736,7 +734,6 @@ const SlotGanttView = ({
 
                 // Grouping Logic - Handled in pre-process, read props
                 const isInDragGroup = row.inDragGroup;
-                const isShortfallSlot = isGhost || (isInDragGroup && row.id < (dragOverSlot?.slotId || '')); // Rough approximation for shortfall
 
                 const isDragTarget = isSlot && dragOverSlot?.slotId === row.id;
 

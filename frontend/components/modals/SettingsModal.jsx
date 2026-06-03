@@ -487,12 +487,12 @@ export const SettingsModal = ({
                                                     padding: '4px 10px',
                                                     borderRadius: '6px'
                                                 }}>
-                                                    {storedSettings.capacityBuffer || 10}%
+                                                    {storedSettings.capacityBuffer ?? 10}%
                                                 </span>
                                             </div>
                                             <input
                                                 type="range" min="0" max="50" step="5"
-                                                value={storedSettings.capacityBuffer || 10}
+                                                value={storedSettings.capacityBuffer ?? 10}
                                                 onChange={e => saveSettingsToTable({ ...storedSettings, capacityBuffer: Number(e.target.value) })}
                                                 style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#BD65FF' }}
                                             />
@@ -3526,12 +3526,12 @@ export const SettingsModal = ({
                                                     padding: '4px 10px',
                                                     borderRadius: '6px'
                                                 }}>
-                                                    {storedSettings.programDiscount || 15}%
+                                                    {storedSettings.programDiscount ?? 15}%
                                                 </span>
                                             </div>
                                             <input
                                                 type="range" min="0" max="50" step="5"
-                                                value={storedSettings.programDiscount || 15}
+                                                value={storedSettings.programDiscount ?? 15}
                                                 onChange={e => saveSettingsToTable({ ...storedSettings, programDiscount: Number(e.target.value) })}
                                                 style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#00BD00' }}
                                             />

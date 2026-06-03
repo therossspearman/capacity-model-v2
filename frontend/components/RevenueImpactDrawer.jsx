@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { BRAND, useTheme } from '../design-system';
 
+// Ignore sub-£1 revenue deltas: floating-point noise from worker calcs.
+const MIN_REVENUE_DELTA = 1;
+
 const RevenueImpactDrawer = ({ isOpen, onClose, liveRevenue, draftRevenue, periodLabel }) => {
     const { colors } = useTheme();
     // 1. Calculate Per-Project Deltas
@@ -37,10 +40,9 @@ const RevenueImpactDrawer = ({ isOpen, onClose, liveRevenue, draftRevenue, perio
         const results = [];
         projectMap.forEach(p => {
             const delta = p.draft - p.live;
-            // Include if revenue changed OR date changed (sometimes revenue doesn't change but date does in same period)
-            // But user specifically asked for "dates that are changing" in the context of revenue impact.
-            // Let's stick to the filter > 1 for revenue, but show date if it changed.
-            if (Math.abs(delta) > 1) {
+            // Rule: list a project only when its revenue changed by more than MIN_REVENUE_DELTA.
+            // Date-only changes are surfaced inline in the row (see hasDateChange) but do not drive inclusion.
+            if (Math.abs(delta) > MIN_REVENUE_DELTA) {
                 results.push({ ...p, delta });
             }
         });

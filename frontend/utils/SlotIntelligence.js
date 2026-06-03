@@ -72,9 +72,9 @@ export const writeSlotSnapshot = async (base, tableId, { slotMap, summary, insig
                     sq: squad,              // Abbreviated keys to save space
                     wk: week,
                     sc: Math.round((data.score || 0) * 100) / 100,
-                    st: data.state,
-                    av: data.availableSlots,
-                    bn: data.bottleneck,
+                    st: data.state || 'unknown',
+                    av: data.availableSlots ?? 0,
+                    bn: data.bottleneck || 'none',
                     cw: data.constraintWarning ? 1 : 0,  // Boolean as 1/0
                     pm: Math.round((data.capacity?.pm?.total || 0) * 10) / 10,
                     scc: Math.round((data.capacity?.sc?.total || 0) * 10) / 10,

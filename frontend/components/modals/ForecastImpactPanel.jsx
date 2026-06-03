@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { BRAND, TOKENS, Z_INDEX, useTheme } from '../../design-system';
+import { BRAND, Z_INDEX, useTheme } from '../../design-system';
 
 // Icons
 const TrendingUpIcon = () => (

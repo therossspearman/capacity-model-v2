@@ -140,7 +140,6 @@ export const generateRecommendations = (slotMap, projects, config) => {
             // Strategy 1: Move to different week in same squad (if not date-locked)
             if (!project.lockLaunch) {
                 weeks.forEach(weekKey => {
-                    const currentWeekKey = getWeekKey(project.end || project.launch);
                     if (weekKey === currentWeekKey) return;
                     const targetSlot = slotMap[currentSquad]?.[weekKey];
                     if (!targetSlot) return;
@@ -194,7 +193,6 @@ export const generateRecommendations = (slotMap, projects, config) => {
                     // Only suggest if target week has significantly better slots
                     if (targetSlot.score > currentSlotData.score + 0.2) {
                         const slotGain = targetSlot.score - currentSlotData.score;
-                        const disruptionCost = getDateMovementCost(currentWeek, weekKey);
 
                         // Apply priority dial: high dial = require more gain per disruption
                         // Advanced Cost Function
@@ -455,7 +453,6 @@ export const generateBulkAllocationPlan = (slotMap, projects, config = {}) => {
     });
 
     const queue = []; // Projects ready to be placed (0 predecessor count)
-    const allIds = new Set(projects.map(p => p.id));
 
     // Initialize queue
     projects.forEach(p => {

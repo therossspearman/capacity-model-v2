@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '../constants';
 import { BRAND } from '../design-system';
 
 /**
@@ -14,7 +13,6 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
     if (forecastMode === 'eac') dem = bucket.dem_eac || 0;
     else if (forecastMode === 'impact') dem = bucket.dem_imp || 0;
     const cap = bucket.cap || 0;
-    const { greenStart = DEFAULT_SETTINGS.thresholds.greenStart, redStart = DEFAULT_SETTINGS.thresholds.redStart } = thresholds || {};
 
     if (forecastMode === 'impact') {
         const isPositive = dem > 0.1;
@@ -32,9 +30,9 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
 
     const util = cap > 0 ? dem / cap : 0;
     // Overloaded = severe overcapacity (>120%). The 100-120% band is treated as a "warning"
-    // tier with amber/orange shading rather than full red. The legacy `redStart` threshold
-    // from settings still acts as a soft floor for the warning band but never raises the
-    // red trigger above 120% — so behaviour matches the spec: green ≤100, amber→orange 100-120, red ≥120.
+    // tier with amber/orange shading rather than full red. Band boundaries are currently
+    // hardcoded below (green ≤100, amber 100-110, orange 110-120, red >120) and are not
+    // driven by the settings thresholds.
     const isOverloaded = util > 1.20;
 
     // Calculate height, color, and content based on utilization

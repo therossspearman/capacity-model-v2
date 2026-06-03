@@ -812,7 +812,12 @@ const DocumentationModal = ({ onClose }) => {
                             type="text"
                             placeholder="Search guides... (e.g., 'filter', 'ramp-up', 'scenario')"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                // Clear any open article so the main pane never shows a
+                                // stale selection that no longer matches the new query.
+                                setSelectedArticle(null);
+                            }}
                             style={{
                                 width: '100%',
                                 padding: '12px 16px 12px 44px',
