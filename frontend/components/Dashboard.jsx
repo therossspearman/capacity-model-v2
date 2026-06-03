@@ -5232,6 +5232,8 @@ export const Dashboard = ({
                                 onClose={() => setShowInitiativesModal(false)}
                                 allSquads={allSquads}
                                 rampProfiles={rampProfiles}
+                                availablePlatforms={[...new Set((effectiveProjects || []).map(p => p.platform).filter(Boolean))].sort()}
+                                availableProjectTypes={[...new Set((effectiveProjects || []).map(p => p.projectType).filter(Boolean))].sort()}
                             />
                         )
                     }

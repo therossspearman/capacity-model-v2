@@ -79,6 +79,8 @@ const emptyInitiative = {
     launchDate: '',
     rampWeeks: 4,
     targetTeams: ['all'],
+    targetPlatforms: ['all'],      // ['all'] = every platform; or specific e.g. ['FPS']
+    targetProjectTypes: ['all'],   // ['all'] = every type; or specific e.g. ['Renewal']
     efficiencyPct: 10,
     applicationMode: 'all',
     enabled: true,
@@ -104,7 +106,7 @@ const ROLES = [
     { value: 'pd', label: 'PD' }
 ];
 
-export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitiativesEffect, onToggleEffect, allSquads = [], rampProfiles = [] }) => {
+export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitiativesEffect, onToggleEffect, allSquads = [], rampProfiles = [], availablePlatforms = [], availableProjectTypes = [] }) => {
     const { isDark, colors } = useTheme();
     const [activeTab, setActiveTab] = useState('overview');
     const [editingInitiative, setEditingInitiative] = useState(null);
@@ -206,6 +208,43 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
         letterSpacing: '0.05em',
         marginBottom: '6px'
     };
+
+    // Reusable multi-select toggle group for array-valued scope fields (targetTeams,
+    // targetPlatforms, targetProjectTypes). The 'all' option is exclusive; selecting a
+    // specific value clears 'all', and clearing the last specific value falls back to 'all'.
+    const renderScopeToggles = (field, options) => (
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {options.map(opt => {
+                const selected = (formData[field] || ['all']).includes(opt.value);
+                return (
+                    <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setFormData(prev => {
+                            const cur = prev[field] || ['all'];
+                            if (opt.value === 'all') return { ...prev, [field]: ['all'] };
+                            const isSel = cur.includes(opt.value);
+                            let next = isSel ? cur.filter(v => v !== opt.value) : [...cur.filter(v => v !== 'all'), opt.value];
+                            if (next.length === 0) next = ['all'];
+                            return { ...prev, [field]: next };
+                        })}
+                        style={{
+                            padding: '6px 10px', borderRadius: '8px',
+                            border: selected ? '2px solid #7637E3' : '1px solid #e2e8f0',
+                            backgroundColor: selected ? '#f3e8ff' : 'white',
+                            color: selected ? '#5b21b6' : '#64748b',
+                            fontSize: '12px', fontWeight: 600, cursor: 'pointer'
+                        }}
+                    >
+                        {opt.label}
+                    </button>
+                );
+            })}
+        </div>
+    );
+
+    const platformOptions = [{ value: 'all', label: 'All Platforms' }, ...availablePlatforms.map(p => ({ value: p, label: p }))];
+    const projectTypeOptions = [{ value: 'all', label: 'All Types' }, ...availableProjectTypes.map(t => ({ value: t, label: t }))];
 
     return (
         <div
@@ -660,37 +699,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                                     <div>
                                         <label style={labelStyle}>Target Teams</label>
-                                        {/* Multi-select toggles: targetTeams is an array (the Manage table joins
-                                            multiple teams). 'All Teams' is exclusive; picking specific teams clears
-                                            'all', and clearing the last specific team falls back to 'all'. */}
-                                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                                            {TARGET_TEAMS.map(t => {
-                                                const selected = (formData.targetTeams || ['all']).includes(t.value);
-                                                return (
-                                                    <button
-                                                        key={t.value}
-                                                        type="button"
-                                                        onClick={() => setFormData(prev => {
-                                                            const cur = prev.targetTeams || ['all'];
-                                                            if (t.value === 'all') return { ...prev, targetTeams: ['all'] };
-                                                            const isSel = cur.includes(t.value);
-                                                            let next = isSel ? cur.filter(v => v !== t.value) : [...cur.filter(v => v !== 'all'), t.value];
-                                                            if (next.length === 0) next = ['all'];
-                                                            return { ...prev, targetTeams: next };
-                                                        })}
-                                                        style={{
-                                                            padding: '6px 10px', borderRadius: '8px',
-                                                            border: selected ? '2px solid #7637E3' : '1px solid #e2e8f0',
-                                                            backgroundColor: selected ? '#f3e8ff' : 'white',
-                                                            color: selected ? '#5b21b6' : '#64748b',
-                                                            fontSize: '12px', fontWeight: 600, cursor: 'pointer'
-                                                        }}
-                                                    >
-                                                        {t.label}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
+                                        {renderScopeToggles('targetTeams', TARGET_TEAMS)}
                                     </div>
                                     <div>
                                         <label style={labelStyle}>Applies To</label>
@@ -703,6 +712,20 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                                 <option key={m.value} value={m.value}>{m.label}</option>
                                             ))}
                                         </select>
+                                    </div>
+                                </div>
+
+                                {/* Platform & Project-Type scoping — when set to specific values the
+                                    initiative's efficiency reduces the demand of MATCHING projects
+                                    (platform AND type), instead of the global capacity boost. */}
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div>
+                                        <label style={labelStyle}>Platform</label>
+                                        {renderScopeToggles('targetPlatforms', platformOptions)}
+                                    </div>
+                                    <div>
+                                        <label style={labelStyle}>Project Type</label>
+                                        {renderScopeToggles('targetProjectTypes', projectTypeOptions)}
                                     </div>
                                 </div>
 

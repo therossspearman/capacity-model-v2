@@ -236,6 +236,7 @@ export const useCapacityData = ({
                 company: p.company, // Support for company fallback
                 origin: p.origin, // V1 Parity: Entity filter
                 projectType: p.projectType, // BAU Feature: Preserve project type through worker
+                platform: p.platform, // Initiatives: needed for platform-scoped efficiency targeting
                 bauTshirtSize: p.bauTshirtSize, // BAU Feature: T-shirt size for virtual demand calculation
                 // Revenue Recognition (Financial Mode)
                 revenueModel: p.revenueModel || 'Non-POC',
@@ -379,7 +380,9 @@ export const useCapacityData = ({
                 JSON.stringify(modelParams),
                 demandCategory,
                 JSON.stringify(winRates),
-                showInitiativesEffect ? initiatives.length : 0,
+                // Fingerprint initiative CONTENT (not just count) so editing an initiative's
+                // efficiency / target teams / platform / project-type re-runs the worker.
+                showInitiativesEffect ? JSON.stringify(initiatives || []) : 0,
                 slotProfile ? JSON.stringify(slotProfile) : '',
                 JSON.stringify(roleMapping || {}),
                 config.programAssignments?.length || 0,
