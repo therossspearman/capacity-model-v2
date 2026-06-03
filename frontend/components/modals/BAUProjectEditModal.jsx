@@ -28,7 +28,7 @@ const BAUProjectEditModal = ({
     project,
     onSave,
     bauHoursMapping,
-    squads = []
+    bauPodOptions = []
 }) => {
     const { isDark, colors } = useTheme();
 
@@ -36,17 +36,17 @@ const BAUProjectEditModal = ({
     const sizeOptions = getBauSizeOptions(bauHoursMapping);
     const fallbackSize = sizeOptions.find(o => o.value === 'M')?.value || sizeOptions[0]?.value || 'M';
 
-    // Local selection so the chip highlight + annual-hours update instantly on click;
+    // Local selection so the chip highlight + pod dropdown update instantly on change;
     // the underlying virtual project is a worker-derived snapshot and won't mutate live.
     const [selectedSize, setSelectedSize] = useState(project?.bauTshirtSize || fallbackSize);
-    const [selectedSquad, setSelectedSquad] = useState((project?.squad && project.squad !== 'Unassigned' ? project.squad : ''));
+    const [selectedPodId, setSelectedPodId] = useState(project?.bauPodId || '');
     const [saving, setSaving] = useState(false);
 
     // Re-sync when a different BAU project is opened.
     useEffect(() => {
         setSelectedSize(project?.bauTshirtSize || fallbackSize);
-        setSelectedSquad((project?.squad && project.squad !== 'Unassigned' ? project.squad : ''));
-    }, [project?.id, project?.bauTshirtSize, project?.squad, fallbackSize]);
+        setSelectedPodId(project?.bauPodId || '');
+    }, [project?.id, project?.bauTshirtSize, project?.bauPodId, fallbackSize]);
 
     if (!isOpen || !project) return null;
 
@@ -73,26 +73,38 @@ const BAUProjectEditModal = ({
         }
     };
 
-    const handleSelectSquad = async (squadValue) => {
-        if (!editable || saving || squadValue === selectedSquad) return;
-        const prev = selectedSquad;
-        setSelectedSquad(squadValue); // optimistic
+    const handleSelectPod = async (podId) => {
+        if (!editable || saving || podId === selectedPodId) return;
+        const prev = selectedPodId;
+        setSelectedPodId(podId); // optimistic
         setSaving(true);
         try {
+            // BAU POD is a linked-record field — pass the pod's record id (or null to clear).
             await onSave(sourceProjectId, {
                 name: project.name,
-                squad: squadValue || null // null clears a single-select; '' would be rejected
+                bauPodId: podId || null
             });
         } catch (e) {
-            setSelectedSquad(prev); // revert on failure (onSave surfaces its own error toast)
+            setSelectedPodId(prev); // revert on failure (onSave surfaces its own error toast)
         } finally {
             setSaving(false);
         }
     };
 
-    // Ensure the project's current squad is selectable even if it's not in the
-    // derived list (e.g. an option no longer used by any active project).
-    const squadChoices = Array.from(new Set([selectedSquad, ...squads].filter(Boolean)));
+    // Ensure the project's current pod stays selectable even if it isn't in the
+    // options list (e.g. a pod that's been archived). Merge current → options.
+    const podChoices = (() => {
+        const seen = new Set();
+        const out = [];
+        if (selectedPodId && !bauPodOptions.some(o => o.id === selectedPodId)) {
+            out.push({ id: selectedPodId, name: project.bauPod || 'Current pod' });
+            seen.add(selectedPodId);
+        }
+        for (const o of bauPodOptions) {
+            if (!seen.has(o.id)) { out.push(o); seen.add(o.id); }
+        }
+        return out;
+    })();
 
     const readOnlyStyle = {
         width: '100%',
@@ -181,7 +193,7 @@ const BAUProjectEditModal = ({
                 }}>
                     <span>ℹ️</span>
                     <span>{editable
-                        ? 'Virtual BAU project — name, country and launch come from the source project. You can change the Squad and T-Shirt size below (saved to the source project).'
+                        ? 'Virtual BAU project — name, country and launch come from the source project. You can change the BAU POD and T-Shirt size below (saved to the source project).'
                         : 'This is a virtual BAU project. Details are derived from the source project and are read-only.'}</span>
                 </div>
 
@@ -214,14 +226,15 @@ const BAUProjectEditModal = ({
                         <div style={readOnlyStyle}>{formatDate(project.launch || project.end)}</div>
                     </div>
 
-                    {/* Squad - editable when onSave is provided */}
+                    {/* BAU POD - editable when onSave is provided. Drives which pod owns
+                        this project's ongoing BAU support (linked record). */}
                     <div>
-                        <label style={labelStyle}>Squad{editable && <span style={{ fontWeight: 400, color: isDark ? '#64748b' : '#94a3b8' }}> — change to reassign</span>}</label>
+                        <label style={labelStyle}>BAU POD{editable && <span style={{ fontWeight: 400, color: isDark ? '#64748b' : '#94a3b8' }}> — change to reassign</span>}</label>
                         {editable ? (
                             <select
-                                value={selectedSquad}
+                                value={selectedPodId}
                                 disabled={saving}
-                                onChange={e => handleSelectSquad(e.target.value)}
+                                onChange={e => handleSelectPod(e.target.value)}
                                 style={{
                                     ...readOnlyStyle,
                                     cursor: saving ? 'default' : 'pointer',
@@ -229,12 +242,12 @@ const BAUProjectEditModal = ({
                                 }}
                             >
                                 <option value="">Unassigned</option>
-                                {squadChoices.map(s => (
-                                    <option key={s} value={s}>{s}</option>
+                                {podChoices.map(p => (
+                                    <option key={p.id} value={p.id}>{p.name}</option>
                                 ))}
                             </select>
                         ) : (
-                            <div style={readOnlyStyle}>{project.squad || 'Unassigned'}</div>
+                            <div style={readOnlyStyle}>{project.bauPod || 'Unassigned'}</div>
                         )}
                     </div>
 
@@ -336,15 +349,17 @@ BAUProjectEditModal.propTypes = {
         launch: PropTypes.string,
         end: PropTypes.string,
         squad: PropTypes.string,
+        bauPod: PropTypes.string,      // current BAU pod display name
+        bauPodId: PropTypes.string,    // current BAU pod linked-record id
         bauTshirtSize: PropTypes.string
     }),
-    // When provided, Squad and T-Shirt size become editable.
-    // Signature: (sourceProjectId, { name, squad?, bauTshirtSize? }).
+    // When provided, BAU POD and T-Shirt size become editable.
+    // Signature: (sourceProjectId, { name, bauPodId?, bauTshirtSize? }).
     onSave: PropTypes.func,
     // Size → annual-hours mapping from Settings (merged over defaults in utils/bauSizing).
     bauHoursMapping: PropTypes.object,
-    // Squad options for the Squad picker (array of names).
-    squads: PropTypes.arrayOf(PropTypes.string)
+    // BAU pod options for the picker: [{ id, name }] (linked-record choices).
+    bauPodOptions: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }))
 };
 
 export default BAUProjectEditModal;

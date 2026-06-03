@@ -212,6 +212,7 @@ export const SETTINGS = {
     SQUAD_CATEGORY: 'fld_squad_category',                      // Single Select: Implementation, BAU, Both
     SQUAD_PLATFORM: 'fld_squad_platform',                      // Single Select on the Squad table: platform the squad is aligned to (e.g. Benifex, FPS)
     BAU_HOURS_MAPPING: 'fld_bau_hours_mapping',                // Long Text (JSON) - Maps T-shirt sizes to hours/year
+    BAU_POD: 'fld_bau_pod',                                    // Linked record (Projects → Pods): the BAU pod a project's ongoing support is assigned to
 
     // Portfolio Reprioritization Fields (Project Table)
     CUSTOMER_RISK: 'fld_customer_risk',                        // Single Select: High, Medium, Low, Served Notice, Verbal

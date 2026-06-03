@@ -147,6 +147,7 @@ function CapacityApp() {
                 // BAU Feature: Project type and t-shirt sizing
                 { key: SETTINGS.PROJECT_TYPE, label: 'Project Type', type: 'field', table: projTable },
                 { key: SETTINGS.BAU_TSHIRT_SIZE, label: 'BAU T-Shirt Size', type: 'field', table: projTable },
+                { key: SETTINGS.BAU_POD, label: 'BAU POD', type: 'field', table: projTable },
 
                 // Resourcing Tracking (non-synced, direct write)
                 { key: SETTINGS.RESOURCING_NOTES, label: 'Resourcing Notes', type: 'field', table: projTable },

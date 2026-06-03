@@ -998,6 +998,17 @@ export const Dashboard = ({
         return map;
     }, [squadRecords, stableSettings]);
 
+    // BAU POD options for the BAU detail modal picker. Squad and BAU POD both link to
+    // the same Pods table, so the squad records ARE the pod options ({id, name}). The
+    // linked-record write needs the id, so we keep both.
+    const bauPodOptions = useMemo(() => {
+        if (!squadRecords) return [];
+        return squadRecords
+            .map(r => ({ id: r.id, name: r.name }))
+            .filter(o => o.id && o.name)
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }, [squadRecords]);
+
     // Process resources
     const allResources = useMemo(() => {
         if (!resRecords) return [];
@@ -1208,6 +1219,14 @@ export const Dashboard = ({
             // BAU Feature: Project type for demand category filtering
             projectType: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.PROJECT_TYPE])) || '',
             bauTshirtSize: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE])) || null,
+            // BAU POD — linked record (Projects → Pods). Read the display name AND the
+            // linked record id: the id is needed to write the link back (linked fields
+            // take record ids, not name strings) and to drive the picker selection.
+            bauPod: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.BAU_POD])) || null,
+            bauPodId: (() => {
+                const v = getSafeCellValue(record, resolveFieldId(stableSettings[SETTINGS.BAU_POD]));
+                return Array.isArray(v) && v[0] ? v[0].id : null;
+            })(),
 
             country: (() => {
                 const fieldId = resolveFieldId(stableSettings[SETTINGS.PROJECT_COUNTRY]);
@@ -2068,7 +2087,23 @@ export const Dashboard = ({
     // - virtualBAUProjects: Come from worker (synthetic bau-xxx entries representing ongoing BAU demand)
     // - renewalCRProjects: Filtered from activeProjects (Renewals, Change Requests)
     const bauProjectTypes = storedSettings.bauProjectTypes || ['Renewal', 'Change Request'];
-    const virtualBAUProjects = workerVirtualBAUProjects || [];
+    // Overlay the BAU POD (from the source project) onto each virtual BAU row so the
+    // grid groups/labels by pod and the detail modal shows + edits the right pod.
+    const virtualBAUProjects = useMemo(() => {
+        const list = workerVirtualBAUProjects || [];
+        if (!list.length) return list;
+        const byId = new Map(effectiveProjects.map(p => [p.id, p]));
+        return list.map(v => {
+            const src = byId.get(v.sourceProjectId);
+            if (!src) return v;
+            return {
+                ...v,
+                squad: src.bauPod || v.squad || 'Unassigned',
+                bauPod: src.bauPod || null,
+                bauPodId: src.bauPodId || null
+            };
+        });
+    }, [workerVirtualBAUProjects, effectiveProjects]);
 
     const renewalCRProjects = useMemo(() => {
         return activeProjects.filter(p => {
@@ -6163,20 +6198,23 @@ export const Dashboard = ({
                             isOpen={!!bauEditProject}
                             onClose={() => setBauEditProject(null)}
                             project={bauEditProject}
-                            squads={availableSquads}
+                            bauPodOptions={bauPodOptions}
                             bauHoursMapping={storedSettings.bauHoursMapping}
                             onSave={async (projectId, formData) => {
-                                // Update the project directly on the table (updateRecord is an
-                                // instance method, not static — AirtableService.updateRecord was
-                                // undefined and threw on every save).
+                                // Update the source project directly on the table.
                                 try {
                                     const rawFields = {
-                                        [resolveFieldId(stableSettings[SETTINGS.STATUS])]: formData.status || undefined,
-                                        [resolveFieldId(stableSettings[SETTINGS.PROJECT_SQUAD])]: formData.squad,
-                                        [resolveFieldId(stableSettings[SETTINGS.LAUNCH])]: formData.launch,
-                                        [resolveFieldId(stableSettings[SETTINGS.PROJECT_COUNTRY])]: formData.country,
                                         [resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE])]: formData.bauTshirtSize
                                     };
+                                    // BAU POD is a linked-record field — it takes record links
+                                    // (an array of {id}), NOT a name string. Only touch it when the
+                                    // picker actually changed it; [] clears the link.
+                                    if (formData.bauPodId !== undefined) {
+                                        const podFieldId = resolveFieldId(stableSettings[SETTINGS.BAU_POD]);
+                                        if (podFieldId) {
+                                            rawFields[podFieldId] = formData.bauPodId ? [{ id: formData.bauPodId }] : [];
+                                        }
+                                    }
                                     // Strip undefined values (and any unresolved field-id keys) so the
                                     // write only touches fields the user actually provided.
                                     const fields = Object.fromEntries(
