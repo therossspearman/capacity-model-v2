@@ -963,13 +963,17 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
 
     // Enrich aggregated data with latest project info from allProjects (supports optimistic updates)
     const enrichedAggregated = Object.entries(aggregated).reduce((acc, [key, item]) => {
-        // Resolve the live project by its UNIQUE id. Only fall back to a name match
-        // when the item has no id — never OR the two together, because find() would
-        // then return the first record whose *name* matches (and many projects share
-        // the name "… TBC"), pulling in the wrong project's dates/budget.
+        // Resolve the live project STRICTLY by its unique id — never by name.
+        // Many projects can share a display name (e.g. eight "Anthropic TBC"
+        // records with different dates); a name match would return whichever one
+        // happens to be first in the list and overwrite the clicked project's
+        // dates/budget with a stranger's. When there's no id match (or no id, e.g.
+        // a program/virtual row) we keep `item` as-is — it already carries the
+        // correct per-project values from the worker bucket (leanMeta), so the
+        // displayed dates always belong to the project that was actually clicked.
         const latestProject = item.projectId
             ? allProjects?.find(p => p.id === item.projectId)
-            : allProjects?.find(p => p.name === item.name);
+            : null;
         if (latestProject) {
             // Merge latest project data, prioritizing allProjects for dates/status/squad
             acc[key] = {
