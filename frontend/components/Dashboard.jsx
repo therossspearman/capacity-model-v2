@@ -6203,9 +6203,17 @@ export const Dashboard = ({
                             onSave={async (projectId, formData) => {
                                 // Update the source project directly on the table.
                                 try {
-                                    const rawFields = {
-                                        [resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE])]: formData.bauTshirtSize
-                                    };
+                                    const rawFields = {};
+                                    // BAU T-Shirt is a single-select — the Blocks SDK requires an
+                                    // object ({name} or {id}), NOT a plain string, or the write is
+                                    // rejected ("invalid cell value … must be an object"). Only touch
+                                    // it when the picker changed it.
+                                    if (formData.bauTshirtSize !== undefined) {
+                                        const tshirtFieldId = resolveFieldId(stableSettings[SETTINGS.BAU_TSHIRT_SIZE]);
+                                        if (tshirtFieldId) {
+                                            rawFields[tshirtFieldId] = formData.bauTshirtSize ? { name: formData.bauTshirtSize } : null;
+                                        }
+                                    }
                                     // BAU POD is a linked-record field — it takes record links
                                     // (an array of {id}), NOT a name string. Only touch it when the
                                     // picker actually changed it; [] clears the link.
