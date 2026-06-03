@@ -983,10 +983,19 @@ export const Dashboard = ({
         const map = {};
         const fieldId = resolveFieldId(stableSettings[SETTINGS.SQUAD_PLATFORM]);
         if (!fieldId) return map;
+        // A squad can serve MULTIPLE platforms. Parse the field into a list of platform
+        // names, tolerant of how it's encoded: multipleSelects ([{name}]), singleSelect
+        // ({name}), or delimited text ("FPS, Benifex" / "FPS/Benifex").
+        const toPlatformList = (raw) => {
+            if (raw == null) return [];
+            if (Array.isArray(raw)) return raw.map(v => (v && typeof v === 'object' ? v.name : v)).filter(Boolean).map(String);
+            if (typeof raw === 'object') return raw.name ? [String(raw.name)] : [];
+            return String(raw).split(/[,/;|]+/).map(s => s.trim()).filter(Boolean);
+        };
         squadRecords.forEach(record => {
             const squadName = record.name;
-            const platform = getStringValue(record, fieldId) || null;
-            if (squadName && platform) map[squadName] = platform;
+            const platforms = toPlatformList(getSafeCellValue(record, fieldId));
+            if (squadName && platforms.length) map[squadName] = platforms;
         });
         return map;
     }, [squadRecords, stableSettings]);
@@ -1012,7 +1021,7 @@ export const Dashboard = ({
             }
             // Platform Filter: the distinct platform(s) this resource is aligned to via
             // its squads (empty when no squad has a mapped platform).
-            const squadPlatforms = [...new Set(squads.map(s => squadPlatformMap[s]).filter(Boolean))];
+            const squadPlatforms = [...new Set(squads.flatMap(s => squadPlatformMap[s] || []))];
             return {
                 id: record.id,
                 name: record.name,
@@ -3141,7 +3150,7 @@ export const Dashboard = ({
                                                 </div>
                                                 <div style={{ overflowY: 'auto', flex: 1 }}>
                                                     {(() => {
-                                                        const platforms = [...new Set(Object.values(squadPlatformMap))].filter(Boolean).sort();
+                                                        const platforms = [...new Set(Object.values(squadPlatformMap).flat())].filter(Boolean).sort();
                                                         if (platforms.length === 0) {
                                                             return (
                                                                 <div style={{ padding: '12px', fontSize: '11px', color: '#94a3b8', lineHeight: 1.4 }}>
