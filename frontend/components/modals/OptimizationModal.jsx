@@ -12,7 +12,7 @@ import { generatePeopleAssignments } from '../../utils/PeopleOptimizer';
 import { runBulkAllocationAsync, terminateWorker } from '../../worker/BulkAllocationWorker';
 import { createOptimizationRun, hasOptimizationRunsTable } from '../../services/OptimizationRunService';
 import { runMonteCarloSimulation } from '../../utils/MonteCarloSimulator';
-import { runMonteCarloAsync } from '../../worker/MonteCarloWorker';
+import { runMonteCarloAsync, terminateMonteCarloWorker } from '../../worker/MonteCarloWorker';
 import { generateParetoFrontier, STRATEGY_PRESETS, sortProjectsByStrategy } from '../../utils/ParetoOptimizer';
 import { SETTINGS } from '../../constants';
 import { Button } from '../ui';
@@ -65,6 +65,14 @@ export const OptimizationModal = ({
             setScopeSquads(new Set(enabledSquads));
         }
     }, [enabledSquads]);
+
+    // Tear down the bulk-allocation and Monte Carlo Web Workers (and their Blob URLs)
+    // when the modal unmounts — they were spun up lazily but never terminated, leaking
+    // worker threads for the lifetime of the iframe.
+    useEffect(() => () => {
+        try { terminateWorker(); } catch { /* no-op */ }
+        try { terminateMonteCarloWorker(); } catch { /* no-op */ }
+    }, []);
 
     // Reprioritization action handlers (save/load) passed up from ReprioritizationTab
     const [repriActions, setRepriActions] = useState(null);

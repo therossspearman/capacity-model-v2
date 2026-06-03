@@ -394,7 +394,9 @@ export const SlotHeatmap = ({
     const handleDragOver = (e, squad, dateKey) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
-        setDragOverCell({ squad, dateKey });
+        // dragover fires continuously; only update state when the hovered cell actually
+        // changes, otherwise React re-renders the whole heatmap many times per second.
+        setDragOverCell(prev => (prev && prev.squad === squad && prev.dateKey === dateKey) ? prev : { squad, dateKey });
     };
 
     const handleDragLeave = () => {

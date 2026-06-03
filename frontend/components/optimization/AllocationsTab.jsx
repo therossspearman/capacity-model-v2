@@ -2,14 +2,18 @@
  * AllocationsTab - Resource allocation recommendations view
  * Shows bottleneck detection and allocation adjustment suggestions
  */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { generateAllocationRecommendations, calculateRecommendationImpact } from '../../utils/AllocationRecommender';
 
 const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
-    // Generate allocation recommendations
-    const allocRecs = generateAllocationRecommendations(slotMap, projects, [], { enabledSquads });
-    const impact = calculateRecommendationImpact(allocRecs);
+    // Generate allocation recommendations (memoized — detectBottlenecks over slotMap is
+    // expensive and previously re-ran on every render, e.g. theme toggle / tab switch).
+    const allocRecs = useMemo(
+        () => generateAllocationRecommendations(slotMap, projects, [], { enabledSquads }),
+        [slotMap, projects, enabledSquads]
+    );
+    const impact = useMemo(() => calculateRecommendationImpact(allocRecs), [allocRecs]);
 
     if (allocRecs.length === 0) {
         return (

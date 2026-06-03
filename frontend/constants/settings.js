@@ -2,7 +2,7 @@ import { BRAND } from '../design-system';
 
 // App Version - Update this on every release
 // AGENT NOTE: Always increment version when deploying changes
-export const APP_VERSION = '2.99.002';
+export const APP_VERSION = '2.99.003';
 
 // Airtable Field Mappings
 export const SETTINGS = {
