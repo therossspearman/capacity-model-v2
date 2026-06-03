@@ -52,7 +52,7 @@ export const AIInsightsModal = ({
                             padding: '10px',
                             backgroundColor: isDark ? '#172554' : '#eff6ff',
                             borderRadius: '12px',
-                            color: '#3b82f6'
+                            color: '#4794FF'
                         }}>
                             <svg style={{ width: '24px', height: '24px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -115,7 +115,7 @@ export const AIInsightsModal = ({
                                 width: '40px',
                                 height: '40px',
                                 border: '3px solid #e2e8f0',
-                                borderTopColor: '#3b82f6',
+                                borderTopColor: '#4794FF',
                                 borderRadius: '50%',
                                 animation: 'spin 1s linear infinite'
                             }} />
@@ -210,7 +210,7 @@ export const AIInsightsModal = ({
                             }}
                             style={{
                                 padding: '10px 20px',
-                                backgroundColor: '#3b82f6',
+                                backgroundColor: '#4794FF',
                                 border: 'none',
                                 borderRadius: '8px',
                                 color: 'white',

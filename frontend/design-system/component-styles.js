@@ -13,11 +13,11 @@ export const COMPONENT_STYLES = {
             border: '1px solid transparent', transition: 'all 0.2s',
         },
         status: { backgroundColor: '#ffffff', borderColor: BRAND.border, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' },
-        squad: { background: 'linear-gradient(to right, #f5f3ff, #faf5ff)', color: BRAND.indigo, borderColor: '#ddd6fe' },
+        squad: { background: 'linear-gradient(to right, #f0fdf4, #f0fdf4)', color: BRAND.indigo, borderColor: '#bbf7d0' },
         wave: { backgroundColor: BRAND.oat, color: BRAND.neutral, borderColor: BRAND.border },
         complete: {
             high: { background: 'linear-gradient(to right, #16a34a, #059669)', color: '#ffffff', borderColor: '#15803d', boxShadow: '0 4px 6px rgba(0,0,0,0.07)' },
-            medium: { background: 'linear-gradient(to right, #f59e0b, #f97316)', color: '#ffffff', borderColor: '#d97706', boxShadow: '0 4px 6px rgba(0,0,0,0.07)' },
+            medium: { background: 'linear-gradient(to right, #FE9922, #f97316)', color: '#ffffff', borderColor: '#d97706', boxShadow: '0 4px 6px rgba(0,0,0,0.07)' },
             low: { background: 'linear-gradient(to right, #94a3b8, #64748b)', color: '#ffffff', borderColor: '#64748b', boxShadow: '0 4px 6px rgba(0,0,0,0.07)' },
         },
         profile: {
@@ -84,7 +84,7 @@ export const INLINE_STYLES = {
         border: 'none',
         cursor: 'pointer',
         backgroundColor: 'white',
-        color: '#7637E3',
+        color: '#082F24',
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)',
         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         letterSpacing: '-0.01em'
@@ -133,9 +133,9 @@ export const INLINE_STYLES = {
         width: '32px',
         height: '32px',
         borderRadius: '8px',
-        border: '1px solid #7637E3',
-        backgroundColor: '#eef2ff',
-        color: '#7637E3',
+        border: '1px solid #082F24',
+        backgroundColor: '#f0fdf4',
+        color: '#082F24',
         cursor: 'pointer',
         boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)',
         transition: 'all 0.2s ease'

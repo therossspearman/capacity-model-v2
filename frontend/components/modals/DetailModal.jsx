@@ -199,18 +199,18 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
             onClick={e => e.stopPropagation()}
         >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '8px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: color === 'bg-purple-500' ? '#BD65FF' : color === 'bg-blue-500' ? '#3b82f6' : '#ec4899' }}></span>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: color === 'bg-purple-500' ? '#FF8EFB' : color === 'bg-blue-500' ? '#4794FF' : '#ec4899' }}></span>
                 <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#64748b', textTransform: 'uppercase' }}>{label}</span>
                 {hours !== undefined && hours > 0 && (
                     <span style={{
                         marginLeft: 'auto',
                         fontSize: '10px',
                         fontWeight: '700',
-                        color: '#7637E3',
-                        backgroundColor: '#F7F3ED',
+                        color: '#082F24',
+                        backgroundColor: '#F5EDE1',
                         padding: '2px 6px',
                         borderRadius: '4px',
-                        border: '1px solid #ddd6fe'
+                        border: '1px solid #bbf7d0'
                     }}>
                         {Math.round(hours)}h
                     </span>
@@ -274,15 +274,15 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                         padding: '8px 12px',
                                         fontSize: '11px',
                                         fontWeight: '600',
-                                        color: '#7637E3',
-                                        backgroundColor: '#F7F3ED',
+                                        color: '#082F24',
+                                        backgroundColor: '#F5EDE1',
                                         border: 'none',
                                         borderBottom: '1px solid #e2e8f0',
                                         textAlign: 'left',
                                         cursor: 'pointer'
                                     }}
                                     onMouseEnter={(e) => e.target.style.backgroundColor = '#E8E1D9'}
-                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F7F3ED'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F5EDE1'}
                                 >
                                     Copy to All
                                 </button>
@@ -359,7 +359,7 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
-                                backgroundColor: member.isPlaceholder ? '#faf5ff' : BRAND.bgAlt,
+                                backgroundColor: member.isPlaceholder ? '#f0fdf4' : BRAND.bgAlt,
                                 border: member.isPlaceholder ? '1px dashed #c084fc' : `1px solid ${BRAND.border}`,
                                 padding: '6px 8px',
                                 borderRadius: isDateExpanded ? '10px 10px 0 0' : '10px',
@@ -385,8 +385,8 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                             width: '24px',
                                             height: '24px',
                                             borderRadius: '50%',
-                                            backgroundColor: member.isPlaceholder ? '#e9d5ff' : (color === 'bg-purple-500' ? '#f3e8ff' : color === 'bg-blue-500' ? '#dbeafe' : '#fce7f3'),
-                                            color: member.isPlaceholder ? '#7637E3' : (color === 'bg-purple-500' ? '#7637E3' : color === 'bg-blue-500' ? '#2563eb' : '#db2777'),
+                                            backgroundColor: member.isPlaceholder ? '#dcfce7' : (color === 'bg-purple-500' ? '#dcfce7' : color === 'bg-blue-500' ? '#dbeafe' : '#fce7f3'),
+                                            color: member.isPlaceholder ? '#082F24' : (color === 'bg-purple-500' ? '#082F24' : color === 'bg-blue-500' ? '#2563eb' : '#db2777'),
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -402,7 +402,7 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                             title={member.name}
                                             style={{
                                                 fontWeight: '600',
-                                                color: member.isPlaceholder ? '#7637E3' : BRAND.dark,
+                                                color: member.isPlaceholder ? '#082F24' : BRAND.dark,
                                                 maxWidth: '80px',
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis',
@@ -447,11 +447,11 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                         cursor: 'pointer',
                                         padding: '2px',
                                         fontSize: '12px',
-                                        color: hasCustomDates ? '#7637E3' : '#cbd5e1',
+                                        color: hasCustomDates ? '#082F24' : '#cbd5e1',
                                         transition: 'color 0.2s'
                                     }}
                                 >
-                                    <CalendarIcon color={hasCustomDates ? '#7637E3' : '#cbd5e1'} size={14} />
+                                    <CalendarIcon color={hasCustomDates ? '#082F24' : '#cbd5e1'} size={14} />
                                 </button>
                                 <button onClick={(e) => { e.stopPropagation(); onUnassign(member.id); }} style={{ color: '#cbd5e1', cursor: 'pointer', border: 'none', background: 'none', padding: '2px' }}>✕</button>
                             </div>
@@ -584,7 +584,7 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                 width: '100%',
                                 padding: '8px 10px',
                                 fontSize: '11px',
-                                border: '2px solid #7637E3',
+                                border: '2px solid #082F24',
                                 borderRadius: '8px 8px 0 0',
                                 backgroundColor: 'white',
                                 outline: 'none'
@@ -598,7 +598,7 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                             left: 0,
                             right: 0,
                             backgroundColor: 'white',
-                            border: '2px solid #7637E3',
+                            border: '2px solid #082F24',
                             borderTop: 'none',
                             borderRadius: '0 0 8px 8px',
                             maxHeight: '200px',
@@ -627,20 +627,20 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                     cursor: 'pointer',
                                     fontSize: '11px',
                                     fontWeight: '600',
-                                    color: '#7637E3',
-                                    backgroundColor: '#faf5ff',
+                                    color: '#082F24',
+                                    backgroundColor: '#f0fdf4',
                                     borderBottom: '2px solid #e2e8f0',
                                     transition: 'background-color 0.1s'
                                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3e8ff'}
-                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#faf5ff'}
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#dcfce7'}
+                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0fdf4'}
                             >
                                 <div style={{
                                     width: '20px',
                                     height: '20px',
                                     borderRadius: '50%',
-                                    backgroundColor: '#e9d5ff',
-                                    color: '#7637E3',
+                                    backgroundColor: '#dcfce7',
+                                    color: '#082F24',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -657,8 +657,8 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                         padding: '6px 10px',
                                         fontSize: '9px',
                                         fontWeight: '700',
-                                        color: group.isRecommended ? '#7637E3' : '#64748b',
-                                        backgroundColor: group.isRecommended ? '#F7F3ED' : '#f8fafc',
+                                        color: group.isRecommended ? '#082F24' : '#64748b',
+                                        backgroundColor: group.isRecommended ? '#F5EDE1' : '#f8fafc',
                                         textTransform: 'uppercase',
                                         letterSpacing: '0.05em',
                                         borderTop: '1px solid #e2e8f0'
@@ -749,8 +749,8 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
                                                         <span style={{
                                                             fontSize: '8px',
                                                             fontWeight: '600',
-                                                            color: '#7637E3',
-                                                            backgroundColor: '#F7F3ED',
+                                                            color: '#082F24',
+                                                            backgroundColor: '#F5EDE1',
                                                             padding: '2px 4px',
                                                             borderRadius: '3px'
                                                         }}>
@@ -1089,7 +1089,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
         <div style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(24, 1, 38, 0.4)', // Indigo tinted backdrop
+            backgroundColor: 'rgba(8, 47, 36, 0.4)', // Indigo tinted backdrop
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
@@ -1127,7 +1127,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                     return <img src={singleProject.countryFlag} alt={singleProject.country || 'Country'} title={singleProject.country} style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', border: '2px solid white', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }} />;
                                 }
                                 const foundRes = allResources.find(r => r.name === resourceName);
-                                if (isUnassignedRow) return <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${BRAND.border}`, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}><svg style={{ width: '24px', height: '24px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>;
+                                if (isUnassignedRow) return <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${BRAND.border}`, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}><svg style={{ width: '24px', height: '24px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>;
                                 if (foundRes && foundRes.headshot) return <img src={foundRes.headshot} alt={resourceName} style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', border: '2px solid white', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }} />;
                                 return <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${BRAND.border}`, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}><svg style={{ width: '24px', height: '24px', color: '#64748b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></div>;
                             })()}
@@ -1231,7 +1231,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         setFilterRole('');
                                         setSearchTerm('');
                                     }}
-                                    style={{ padding: '6px 8px', fontSize: '10px', color: '#ef4444', border: '1px solid #fecaca', borderRadius: '6px', backgroundColor: '#fef2f2', cursor: 'pointer' }}
+                                    style={{ padding: '6px 8px', fontSize: '10px', color: '#E5554F', border: '1px solid #fecaca', borderRadius: '6px', backgroundColor: '#fef2f2', cursor: 'pointer' }}
                                 >
                                     Clear
                                 </button>
@@ -1354,7 +1354,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                     borderTop: '4px solid #00BD00',
                                     padding: '20px',
                                     marginBottom: '8px',
-                                    boxShadow: '0 4px 6px -1px rgba(24, 1, 38, 0.05)'
+                                    boxShadow: '0 4px 6px -1px rgba(8, 47, 36, 0.05)'
                                 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1500,7 +1500,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                 borderTop: `4px solid ${statusColor}`,
                                 padding: '20px',
                                 marginBottom: '16px',
-                                boxShadow: '0 4px 6px -1px rgba(24, 1, 38, 0.05)',
+                                boxShadow: '0 4px 6px -1px rgba(8, 47, 36, 0.05)',
                                 transition: 'transform 0.2s',
                             }}>
                                 {/* Name + Hours row */}
@@ -1540,9 +1540,9 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     padding: '4px 8px',
                                                     fontSize: '10px',
                                                     fontWeight: '600',
-                                                    color: '#7637E3',
+                                                    color: '#082F24',
                                                     backgroundColor: 'transparent',
-                                                    border: '1px solid #c4b5fd',
+                                                    border: '1px solid #bbf7d0',
                                                     borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     display: 'flex',
@@ -1720,31 +1720,31 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         marginTop: '12px',
                                         marginBottom: '12px',
                                         padding: '16px',
-                                        background: 'linear-gradient(135deg, #F7F3ED 0%, #eef2ff 100%)',
+                                        background: 'linear-gradient(135deg, #F5EDE1 0%, #f0fdf4 100%)',
                                         borderRadius: '10px',
-                                        border: '2px solid #c4b5fd'
+                                        border: '2px solid #bbf7d0'
                                     }}>
                                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '12px' }}>
                                             {/* Status */}
                                             <div>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Status</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Status</label>
                                                 <select
                                                     value={editForm.status || ''}
                                                     onChange={e => setEditForm({ ...editForm, status: e.target.value })}
                                                     onMouseDown={(e) => e.stopPropagation()}
-                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                                 >
                                                     {ALLOWED_STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
                                                 </select>
                                             </div>
                                             {/* Squad */}
                                             <div>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Squad</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Squad</label>
                                                 <select
                                                     value={editForm.squad || ''}
                                                     onChange={e => setEditForm({ ...editForm, squad: e.target.value })}
                                                     onMouseDown={(e) => e.stopPropagation()}
-                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                                 >
                                                     <option value="">Unassigned</option>
                                                     {(allSquadsFlat || []).map(s => <option key={s} value={s}>{s}</option>)}
@@ -1752,12 +1752,12 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                             </div>
                                             {/* Effort Profile */}
                                             <div>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Effort Profile</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Effort Profile</label>
                                                 <select
                                                     value={editForm.effortProfile || ''}
                                                     onChange={e => setEditForm({ ...editForm, effortProfile: e.target.value })}
                                                     onMouseDown={(e) => e.stopPropagation()}
-                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                                 >
                                                     <option value="">None</option>
                                                     <option value="Straight Line">Straight Line</option>
@@ -1896,9 +1896,9 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         </div>
                                                         <div style={{ display: 'flex', gap: '8px', fontSize: '8px' }}>
                                                             <span style={{ color: '#00BD00' }}>● SC</span>
-                                                            <span style={{ color: '#7637E3' }}>● Build</span>
-                                                            <span style={{ color: '#BD65FF' }}>● PM</span>
-                                                            {(isDomesticProfile || isRoleSpecificProfile) && activeHc && <span style={{ color: '#f59e0b' }}>● Hypercare</span>}
+                                                            <span style={{ color: '#082F24' }}>● Build</span>
+                                                            <span style={{ color: '#FF8EFB' }}>● PM</span>
+                                                            {(isDomesticProfile || isRoleSpecificProfile) && activeHc && <span style={{ color: '#FE9922' }}>● Hypercare</span>}
                                                         </div>
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '2px', alignItems: 'flex-end', height: '50px' }}>
@@ -1929,8 +1929,8 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                                 const pmPct = week.total > 0 ? (week.pm / week.total) * 100 : 34;
 
                                                                 const barColors = week.isHypercare
-                                                                    ? { sc: '#fbbf24', pd: '#f59e0b', pm: '#d97706' }
-                                                                    : { sc: '#00BD00', pd: '#7637E3', pm: '#BD65FF' };
+                                                                    ? { sc: '#fbbf24', pd: '#FE9922', pm: '#d97706' }
+                                                                    : { sc: '#00BD00', pd: '#082F24', pm: '#FF8EFB' };
 
                                                                 // Phase-local numbering (W1..W16 then HC1..HC13)
                                                                 const phaseIdx = week.isHypercare ? ++hcIdx : ++projectIdx;
@@ -1954,7 +1954,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                                             <div style={{ flex: pdPct, backgroundColor: barColors.pd, minHeight: '2px' }} />
                                                                             <div style={{ flex: pmPct, backgroundColor: barColors.pm, minHeight: '2px' }} />
                                                                         </div>
-                                                                        <div style={{ fontSize: '7px', color: week.isHypercare ? '#f59e0b' : '#94a3b8', marginTop: '2px', whiteSpace: 'nowrap' }}>
+                                                                        <div style={{ fontSize: '7px', color: week.isHypercare ? '#FE9922' : '#94a3b8', marginTop: '2px', whiteSpace: 'nowrap' }}>
                                                                             {showLabel ? labelText : ''}
                                                                         </div>
                                                                     </div>
@@ -1967,7 +1967,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         })()}
                                         {/* Resourcing Override Row */}
                                         <div style={{ marginBottom: '16px' }}>
-                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Resourcing Override</label>
+                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Resourcing Override</label>
                                             <input
                                                 type="number"
                                                 min="0"
@@ -1976,13 +1976,13 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 value={editForm.resourcingOverride || ''}
                                                 onChange={e => setEditForm({ ...editForm, resourcingOverride: e.target.value ? parseInt(e.target.value, 10) : '' })}
                                                 onMouseDown={(e) => e.stopPropagation()}
-                                                style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none', boxSizing: 'border-box' }}
+                                                style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none', boxSizing: 'border-box' }}
                                             />
                                             <p style={{ fontSize: '10px', color: '#94a3b8', marginTop: '4px', marginBottom: 0 }}>Override total effort value (in hours)</p>
                                         </div>
                                         {/* Benefits Counts (Transactional / Non-Transactional / Content Only) */}
                                         <div style={{ marginBottom: '16px' }}>
-                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Benefits Counts</label>
+                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Benefits Counts</label>
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '8px' }}>
                                                 <div>
                                                     <div style={{ fontSize: '9px', fontWeight: '600', color: '#00BD00', marginBottom: '3px' }}>Transactional</div>
@@ -1998,7 +1998,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontSize: '9px', fontWeight: '600', color: '#7637E3', marginBottom: '3px' }}>Non-Transactional</div>
+                                                    <div style={{ fontSize: '9px', fontWeight: '600', color: '#082F24', marginBottom: '3px' }}>Non-Transactional</div>
                                                     <input
                                                         type="number"
                                                         min="0"
@@ -2007,7 +2007,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         value={editForm.nonTransactionalBenefits === '' || editForm.nonTransactionalBenefits == null ? '' : editForm.nonTransactionalBenefits}
                                                         onChange={e => setEditForm({ ...editForm, nonTransactionalBenefits: e.target.value === '' ? '' : Number(e.target.value) })}
                                                         onMouseDown={(e) => e.stopPropagation()}
-                                                        style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #ddd6fe', borderRadius: '6px', backgroundColor: 'white', outline: 'none', boxSizing: 'border-box' }}
+                                                        style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none', boxSizing: 'border-box' }}
                                                     />
                                                 </div>
                                                 <div>
@@ -2028,12 +2028,12 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         </div>
                                         {/* Wave Field */}
                                         <div style={{ marginBottom: '16px' }}>
-                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Wave</label>
+                                            <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Wave</label>
                                             <select
                                                 value={editForm.wave || ''}
                                                 onChange={e => setEditForm({ ...editForm, wave: e.target.value })}
                                                 onMouseDown={(e) => e.stopPropagation()}
-                                                style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                style={{ width: '100%', padding: '8px', fontSize: '12px', fontWeight: '500', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                             >
                                                 <option value="">Unassigned</option>
                                                 <option value="Wave 1">Wave 1</option>
@@ -2055,7 +2055,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 padding: '10px',
                                                 backgroundColor: editForm.lockLaunch ? '#fef3c7' : '#f8fafc',
                                                 borderRadius: '8px',
-                                                border: editForm.lockLaunch ? '2px solid #f59e0b' : '1px solid #e2e8f0',
+                                                border: editForm.lockLaunch ? '2px solid #FE9922' : '1px solid #e2e8f0',
                                                 transition: 'all 0.2s'
                                             }}>
                                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -2064,7 +2064,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         checked={editForm.lockLaunch || false}
                                                         onChange={e => setEditForm({ ...editForm, lockLaunch: e.target.checked })}
                                                         onMouseDown={(e) => e.stopPropagation()}
-                                                        style={{ width: '16px', height: '16px', accentColor: '#f59e0b' }}
+                                                        style={{ width: '16px', height: '16px', accentColor: '#FE9922' }}
                                                     />
                                                     <div>
                                                         <div style={{ fontSize: '11px', fontWeight: '700', color: editForm.lockLaunch ? '#92400e' : '#64748b' }}>
@@ -2081,7 +2081,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 padding: '10px',
                                                 backgroundColor: editForm.lockSquad ? '#dbeafe' : '#f8fafc',
                                                 borderRadius: '8px',
-                                                border: editForm.lockSquad ? '2px solid #3b82f6' : '1px solid #e2e8f0',
+                                                border: editForm.lockSquad ? '2px solid #4794FF' : '1px solid #e2e8f0',
                                                 transition: 'all 0.2s'
                                             }}>
                                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -2090,7 +2090,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         checked={editForm.lockSquad || false}
                                                         onChange={e => setEditForm({ ...editForm, lockSquad: e.target.checked })}
                                                         onMouseDown={(e) => e.stopPropagation()}
-                                                        style={{ width: '16px', height: '16px', accentColor: '#3b82f6' }}
+                                                        style={{ width: '16px', height: '16px', accentColor: '#4794FF' }}
                                                     />
                                                     <div>
                                                         <div style={{ fontSize: '11px', fontWeight: '700', color: editForm.lockSquad ? '#1e40af' : '#64748b' }}>
@@ -2189,7 +2189,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                             </div>
                                             {/* Resourcing Notes */}
                                             <div style={{ marginBottom: '16px' }}>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Resourcing Notes</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Resourcing Notes</label>
                                                 <textarea
                                                     value={editForm.resourcingNotes || ''}
                                                     onChange={e => setEditForm({ ...editForm, resourcingNotes: e.target.value })}
@@ -2200,7 +2200,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         width: '100%',
                                                         padding: '8px',
                                                         fontSize: '12px',
-                                                        border: '2px solid #c4b5fd',
+                                                        border: '2px solid #bbf7d0',
                                                         borderRadius: '6px',
                                                         backgroundColor: 'white',
                                                         outline: 'none',
@@ -2213,29 +2213,29 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', marginBottom: '16px' }}>
                                             {/* Kick-off Date */}
                                             <div>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Kick Off</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Kick Off</label>
                                                 <input
                                                     type="date"
                                                     value={editForm.start || ''}
                                                     onChange={e => setEditForm({ ...editForm, start: e.target.value })}
                                                     onMouseDown={(e) => e.stopPropagation()}
-                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontFamily: 'monospace', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontFamily: 'monospace', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                                 />
                                             </div>
                                             {/* Launch Date */}
                                             <div>
-                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', marginBottom: '4px' }}>Launch</label>
+                                                <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', marginBottom: '4px' }}>Launch</label>
                                                 <input
                                                     type="date"
                                                     value={editForm.end || ''}
                                                     onChange={e => setEditForm({ ...editForm, end: e.target.value })}
                                                     onMouseDown={(e) => e.stopPropagation()}
-                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontFamily: 'monospace', border: '2px solid #c4b5fd', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
+                                                    style={{ width: '100%', padding: '8px', fontSize: '12px', fontFamily: 'monospace', border: '2px solid #bbf7d0', borderRadius: '6px', backgroundColor: 'white', outline: 'none' }}
                                                 />
                                             </div>
                                         </div>
                                         {/* Save / Cancel Buttons */}
-                                        <div style={{ display: 'flex', gap: '12px', paddingTop: '12px', borderTop: '1px solid #c4b5fd' }}>
+                                        <div style={{ display: 'flex', gap: '12px', paddingTop: '12px', borderTop: '1px solid #bbf7d0' }}>
                                             <button
                                                 onClick={handleSaveEdit}
                                                 onMouseDown={(e) => e.stopPropagation()}
@@ -2243,14 +2243,14 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 style={{
                                                     flex: 1,
                                                     padding: '10px 16px',
-                                                    background: onUpdateProject ? 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)' : '#cbd5e1',
+                                                    background: onUpdateProject ? 'linear-gradient(135deg, #082F24 0%, #082F24 100%)' : '#cbd5e1',
                                                     color: 'white',
                                                     fontSize: '13px',
                                                     fontWeight: '700',
                                                     border: 'none',
                                                     borderRadius: '8px',
                                                     cursor: onUpdateProject ? 'pointer' : 'not-allowed',
-                                                    boxShadow: onUpdateProject ? '0 2px 8px rgba(124, 58, 237, 0.3)' : 'none'
+                                                    boxShadow: onUpdateProject ? '0 2px 8px rgba(8, 47, 36, 0.3)' : 'none'
                                                 }}
                                             >
                                                 {onUpdateProject ? '✓ Save Changes' : '⚠ Backend Not Connected'}
@@ -2419,7 +2419,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 <div style={{
                                                     height: '100%',
                                                     width: `${Math.min(progress, 100)}%`,
-                                                    background: 'linear-gradient(90deg, #0ea5e9 0%, #7637E3 100%)',
+                                                    background: 'linear-gradient(90deg, #0ea5e9 0%, #082F24 100%)',
                                                     borderRadius: '2px'
                                                 }}></div>
                                             </div>
@@ -2489,7 +2489,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                         <div style={{
                                             fontSize: '9px',
                                             fontWeight: '700',
-                                            color: '#7637E3',
+                                            color: '#082F24',
                                             textTransform: 'uppercase',
                                             letterSpacing: '0.05em',
                                             marginBottom: '8px',
@@ -2497,7 +2497,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                             alignItems: 'center',
                                             gap: '6px'
                                         }}>
-                                            <svg style={{ width: '14px', height: '14px', color: '#BD65FF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                            <svg style={{ width: '14px', height: '14px', color: '#FF8EFB' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                                             Project Scope
                                         </div>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -2512,7 +2512,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     border: '1px solid #e2e8f0',
                                                     boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
                                                 }}>
-                                                    <svg style={{ width: '14px', height: '14px', color: '#7637E3', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                                    <svg style={{ width: '14px', height: '14px', color: '#082F24', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                                                     <span style={{ fontSize: '11px', fontWeight: '500', color: '#334155' }}>{item.customer || item.company}</span>
                                                 </div>
                                             )}
@@ -2541,10 +2541,10 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     padding: '4px 10px',
                                                     backgroundColor: 'white',
                                                     borderRadius: '6px',
-                                                    border: '1px solid #ddd6fe',
+                                                    border: '1px solid #bbf7d0',
                                                     boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
                                                 }}>
-                                                    <svg style={{ width: '14px', height: '14px', color: '#7637E3', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                                    <svg style={{ width: '14px', height: '14px', color: '#082F24', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                                     <span style={{ fontSize: '11px', fontWeight: '500', color: '#64748b' }}>{item.platform}</span>
                                                 </div>
                                             )}
@@ -2572,12 +2572,12 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     padding: '4px 10px',
                                                     backgroundColor: 'white',
                                                     borderRadius: '6px',
-                                                    border: '1px solid #ddd6fe',
+                                                    border: '1px solid #bbf7d0',
                                                     boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
                                                 }} title="Non-Transactional Benefits">
-                                                    <svg style={{ width: '14px', height: '14px', color: '#7637E3', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                    <svg style={{ width: '14px', height: '14px', color: '#082F24', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                                     <span style={{ fontSize: '9px', color: '#64748b' }}>Non-Trans:</span>
-                                                    <span style={{ fontSize: '11px', fontWeight: '700', color: '#7637E3' }}>{formatNumber(item.nonTransactionalBenefits)}</span>
+                                                    <span style={{ fontSize: '11px', fontWeight: '700', color: '#082F24' }}>{formatNumber(item.nonTransactionalBenefits)}</span>
                                                 </div>
                                             )}
                                             {item.contentOnlyBenefits > 0 && (
@@ -2659,7 +2659,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                         <div style={{
                                                             fontSize: '11px',
                                                             fontWeight: '700',
-                                                            color: isUnder ? '#00BD00' : '#ef4444'
+                                                            color: isUnder ? '#00BD00' : '#E5554F'
                                                         }}>
                                                             {isUnder ? 'Projected Saving: ' : 'Projected Overburn: '}{formatNumber(Math.abs(variance))}h
                                                         </div>
@@ -2687,7 +2687,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                 <div style={{
                                                     fontSize: '16px',
                                                     fontWeight: '700',
-                                                    color: item.eac > (item.totalPlanned || item.planned || 0) ? '#ef4444' : '#00BD00'
+                                                    color: item.eac > (item.totalPlanned || item.planned || 0) ? '#E5554F' : '#00BD00'
                                                 }}>
                                                     {formatNumber(item.eac || 0)}h
                                                 </div>
@@ -2699,7 +2699,7 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
                                                     <div style={{
                                                         fontSize: '16px',
                                                         fontWeight: '700',
-                                                        color: (item.eac - item.totalPlanned) > 0 ? '#ef4444' : '#00BD00'
+                                                        color: (item.eac - item.totalPlanned) > 0 ? '#E5554F' : '#00BD00'
                                                     }}>
                                                         {(item.eac - item.totalPlanned) > 0 ? '+' : ''}{formatNumber(item.eac - item.totalPlanned)}h
                                                     </div>

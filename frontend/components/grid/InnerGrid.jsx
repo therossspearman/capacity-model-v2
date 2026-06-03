@@ -468,7 +468,7 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                 <div data-tour="unassigned" style={{ display: 'flex', alignItems: 'center', marginBottom: 0, paddingBottom: '8px', paddingTop: '8px', borderBottom: `2px dashed ${colors.border}`, backgroundColor: colors.bg, minWidth: 'fit-content', width: totalWidth }}>
                     <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '16px', paddingRight: '8px', position: 'sticky', left: 0, backgroundColor: colors.bg, borderRight: `1px solid transparent`, width: `${SIDEBAR_WIDTH}px`, zIndex: Z_INDEX.STICKY_COL }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#fffbeb', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #fde68a', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}><svg style={{ width: '12px', height: '12px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>
+                            <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#fffbeb', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #fde68a', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}><svg style={{ width: '12px', height: '12px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>
                             <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Unassigned</span>
                         </div>
                     </div>
@@ -526,7 +526,7 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                                     const thresholdColor = isDanger
                                         ? colors.danger
                                         : isWarning
-                                            ? '#f59e0b' // amber
+                                            ? '#FE9922' // amber
                                             : colors.success;
 
                                     const thresholdBg = isDanger
@@ -603,7 +603,7 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                                                 </div>
                                                 {/* Star icon for pinned section */}
                                                 {row.isPinned && (
-                                                    <svg style={{ width: '14px', height: '14px', color: '#f59e0b' }} fill="currentColor" viewBox="0 0 24 24">
+                                                    <svg style={{ width: '14px', height: '14px', color: '#FE9922' }} fill="currentColor" viewBox="0 0 24 24">
                                                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                                     </svg>
                                                 )}
@@ -644,9 +644,9 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                                                         fontSize: '9px',
                                                         fontWeight: '700',
                                                         letterSpacing: '0.02em',
-                                                        border: `1px solid ${isDark ? 'rgba(99,102,241,0.3)' : '#c7d2fe'}`,
+                                                        border: `1px solid ${isDark ? 'rgba(8,47,36,0.3)' : '#bbf7d0'}`,
                                                         color: isDark ? '#a5b4fc' : '#4f46e5',
-                                                        backgroundColor: isDark ? 'rgba(99,102,241,0.1)' : '#eef2ff'
+                                                        backgroundColor: isDark ? 'rgba(8,47,36,0.1)' : '#f0fdf4'
                                                     }}>
                                                         {formatNumber(demHours)}h / {formatNumber(capHours)}h
                                                     </span>
@@ -821,7 +821,7 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                         borderRadius: '24px',
                         border: 'none',
                         cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)',
+                        boxShadow: '0 4px 12px rgba(8, 47, 36, 0.4)',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '6px',

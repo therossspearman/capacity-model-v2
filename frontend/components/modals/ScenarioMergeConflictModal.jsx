@@ -76,10 +76,10 @@ const Icons = {
 // Scenario colors for visual distinction
 const SCENARIO_COLORS = [
     { bg: '#f0fdf4', border: '#00BD00', text: '#00BD00', dark: { bg: 'rgba(34, 197, 94, 0.15)', border: '#00BD00' } },
-    { bg: '#F7F3ED', border: '#7637E3', text: '#7637E3', dark: { bg: 'rgba(124, 58, 237, 0.15)', border: '#7637E3' } },
+    { bg: '#F5EDE1', border: '#082F24', text: '#082F24', dark: { bg: 'rgba(8, 47, 36, 0.15)', border: '#082F24' } },
     { bg: '#fff7ed', border: '#f97316', text: '#ea580c', dark: { bg: 'rgba(249, 115, 22, 0.15)', border: '#f97316' } },
     { bg: '#f0f9ff', border: '#0ea5e9', text: '#0284c7', dark: { bg: 'rgba(14, 165, 233, 0.15)', border: '#0ea5e9' } },
-    { bg: '#fdf4ff', border: '#d946ef', text: '#c026d3', dark: { bg: 'rgba(217, 70, 239, 0.15)', border: '#d946ef' } }
+    { bg: '#fff0fe', border: '#FF8EFB', text: '#e85ee0', dark: { bg: 'rgba(217, 70, 239, 0.15)', border: '#FF8EFB' } }
 ];
 
 const ScenarioMergeConflictModal = ({
@@ -229,14 +229,14 @@ const ScenarioMergeConflictModal = ({
         const lowerField = field.toLowerCase();
         if (lowerField.includes('kick') || lowerField.includes('start')) return { icon: Icons.Rocket, label: 'Kick-Off', color: '#00BD00' };
         if (lowerField.includes('launch') || lowerField.includes('end')) return { icon: Icons.Target, label: 'Launch', color: '#f97316' };
-        if (lowerField.includes('squad')) return { icon: Icons.Users, label: 'Squad', color: '#BD65FF' };
-        if (lowerField.includes('status')) return { icon: Icons.Chart, label: 'Status', color: '#3b82f6' };
+        if (lowerField.includes('squad')) return { icon: Icons.Users, label: 'Squad', color: '#FF8EFB' };
+        if (lowerField.includes('status')) return { icon: Icons.Chart, label: 'Status', color: '#4794FF' };
         if (lowerField.includes('priority')) return { icon: Icons.Zap, label: 'Priority', color: '#eab308' };
         if (lowerField.includes('effort')) return { icon: Icons.Chart, label: 'Effort Profile', color: '#06b6d4' };
         // Team allocation fields
         if (lowerField.includes('pm') || lowerField === 'pm') return { icon: Icons.Users, label: 'PM Assignments', color: '#00BD00' };
-        if (lowerField.includes('sc') || lowerField === 'sc') return { icon: Icons.Users, label: 'SC Assignments', color: '#f59e0b' };
-        if (lowerField.includes('pd') || lowerField === 'pd') return { icon: Icons.Users, label: 'PD Assignments', color: '#7637E3' };
+        if (lowerField.includes('sc') || lowerField === 'sc') return { icon: Icons.Users, label: 'SC Assignments', color: '#FE9922' };
+        if (lowerField.includes('pd') || lowerField === 'pd') return { icon: Icons.Users, label: 'PD Assignments', color: '#082F24' };
         return { icon: Icons.FileText, label: field.replace(/([A-Z])/g, ' $1').trim(), color: '#64748b' };
     };
 
@@ -633,7 +633,7 @@ const ScenarioMergeConflictModal = ({
                                             <div style={{
                                                 fontSize: '11px',
                                                 fontWeight: '700',
-                                                color: role === 'pm' ? '#00BD00' : role === 'sc' ? '#f59e0b' : '#7637E3',
+                                                color: role === 'pm' ? '#00BD00' : role === 'sc' ? '#FE9922' : '#082F24',
                                                 textTransform: 'uppercase',
                                                 marginBottom: '8px'
                                             }}>
@@ -711,18 +711,18 @@ const ScenarioMergeConflictModal = ({
                             onClick={() => onResolve(resolutions, mergedResult)}
                             style={{
                                 padding: '12px 32px',
-                                background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)',
+                                background: 'linear-gradient(135deg, #082F24 0%, #082F24 100%)',
                                 color: 'white',
                                 fontSize: '14px',
                                 fontWeight: '700',
                                 border: 'none',
                                 borderRadius: '12px',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.3)',
+                                boxShadow: '0 4px 12px rgba(8, 47, 36, 0.3)',
                                 transition: 'all 0.2s'
                             }}
-                            onMouseOver={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 20px rgba(124, 58, 237, 0.4)'; }}
-                            onMouseOut={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 12px rgba(124, 58, 237, 0.3)'; }}
+                            onMouseOver={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 20px rgba(8, 47, 36, 0.4)'; }}
+                            onMouseOut={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 12px rgba(8, 47, 36, 0.3)'; }}
                         >
                             Proceed with Merge
                         </button>

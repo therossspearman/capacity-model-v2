@@ -37,7 +37,7 @@ const formatDateShort = (d) => {
     if (!d) return '—';
     try { return new Date(d).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: '2-digit' }); } catch { return '—'; }
 };
-const roleColors = { pm: '#BD65FF', sc: '#3b82f6', pd: '#ec4899' };
+const roleColors = { pm: '#FF8EFB', sc: '#4794FF', pd: '#ec4899' };
 const roleLabels = { pm: 'Project Manager', sc: 'Solution Consultant', pd: 'Platform Developer' };
 
 /* ResourceChip — inline resource row inside project expander */
@@ -54,15 +54,15 @@ const ResourceChip = ({ member, allResources, onUnassign, onUpdateAllocation, te
     const leaveDate = full?.leaveDate;
     const hasLeaveDate = leaveDate && new Date(leaveDate) > new Date();
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', backgroundColor: member.isPlaceholder ? (isDark ? '#2d1b69' : '#faf5ff') : (isDark ? '#0f172a' : '#f8fafc'), border: member.isPlaceholder ? '1px dashed #c084fc' : `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, borderRadius: '10px', fontSize: '12px' }}>
-            {headshot ? <img src={headshot} alt={member.name} style={{ width: '26px', height: '26px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #e2e8f0', flexShrink: 0 }} /> : <div style={{ width: '26px', height: '26px', borderRadius: '50%', backgroundColor: member.isPlaceholder ? '#e9d5ff' : (isDark ? '#334155' : '#f1f5f9'), color: member.isPlaceholder ? '#7637E3' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', flexShrink: 0 }}>{initials}</div>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', backgroundColor: member.isPlaceholder ? (isDark ? '#2d1b69' : '#f0fdf4') : (isDark ? '#0f172a' : '#f8fafc'), border: member.isPlaceholder ? '1px dashed #c084fc' : `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, borderRadius: '10px', fontSize: '12px' }}>
+            {headshot ? <img src={headshot} alt={member.name} style={{ width: '26px', height: '26px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #e2e8f0', flexShrink: 0 }} /> : <div style={{ width: '26px', height: '26px', borderRadius: '50%', backgroundColor: member.isPlaceholder ? '#dcfce7' : (isDark ? '#334155' : '#f1f5f9'), color: member.isPlaceholder ? '#082F24' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', flexShrink: 0 }}>{initials}</div>}
             <div style={{ minWidth: 0, flex: 1 }}>
-                <span title={member.name} style={{ fontWeight: '600', color: member.isPlaceholder ? '#7637E3' : (isDark ? '#f1f5f9' : '#1e293b'), display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px' }}>{member.name}</span>
+                <span title={member.name} style={{ fontWeight: '600', color: member.isPlaceholder ? '#082F24' : (isDark ? '#f1f5f9' : '#1e293b'), display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px' }}>{member.name}</span>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '1px' }}>
                     {full?.squads?.[0] && <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: '500' }}>{full.squads[0]}</span>}
-                    {isRamping && <span title={`Ramping: ${full.rampProfile}`} style={{ fontSize: '8px', fontWeight: '600', color: '#f59e0b', backgroundColor: isDark ? 'rgba(245,158,11,0.15)' : '#fefce8', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fde68a' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" style={{ verticalAlign: 'middle', marginRight: '2px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>Ramp</span>}
-                    {targetPct < 100 && <span title={`Target utilisation: ${targetPct}%`} style={{ fontSize: '8px', fontWeight: '600', color: '#3b82f6', backgroundColor: isDark ? 'rgba(59,130,246,0.15)' : '#eff6ff', padding: '1px 4px', borderRadius: '3px', border: '1px solid #bfdbfe' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '2px' }}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>{targetPct}%</span>}
-                    {hasLeaveDate && <span title={`Leaving: ${formatDateShort(leaveDate)}`} style={{ fontSize: '8px', fontWeight: '600', color: '#ef4444', backgroundColor: isDark ? 'rgba(239,68,68,0.15)' : '#fef2f2', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fecaca' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '2px' }}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>{formatDateShort(leaveDate)}</span>}
+                    {isRamping && <span title={`Ramping: ${full.rampProfile}`} style={{ fontSize: '8px', fontWeight: '600', color: '#FE9922', backgroundColor: isDark ? 'rgba(245,158,11,0.15)' : '#fefce8', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fde68a' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" style={{ verticalAlign: 'middle', marginRight: '2px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>Ramp</span>}
+                    {targetPct < 100 && <span title={`Target utilisation: ${targetPct}%`} style={{ fontSize: '8px', fontWeight: '600', color: '#4794FF', backgroundColor: isDark ? 'rgba(71,148,255,0.15)' : '#eff6ff', padding: '1px 4px', borderRadius: '3px', border: '1px solid #bfdbfe' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '2px' }}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>{targetPct}%</span>}
+                    {hasLeaveDate && <span title={`Leaving: ${formatDateShort(leaveDate)}`} style={{ fontSize: '8px', fontWeight: '600', color: '#E5554F', backgroundColor: isDark ? 'rgba(239,68,68,0.15)' : '#fef2f2', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fecaca' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '2px' }}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>{formatDateShort(leaveDate)}</span>}
                 </div>
             </div>
             {teamLength > 1 && <div style={{ display: 'flex', alignItems: 'center', gap: '2px', marginRight: '4px' }}><input type="number" min="0" max="100" value={localPct} placeholder="—" onChange={e => setLocalPct(e.target.value)} onBlur={commitPct} onKeyDown={e => e.key === 'Enter' && e.target.blur()} onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} style={{ width: '38px', padding: '3px 4px', fontSize: '11px', fontWeight: '600', textAlign: 'center', border: `1px solid ${isDark ? '#475569' : '#e2e8f0'}`, borderRadius: '4px', backgroundColor: localPct ? (isDark ? 'rgba(0,189,0,0.15)' : '#f0fdf4') : (isDark ? '#0f172a' : 'white'), color: localPct ? '#00BD00' : '#64748b', outline: 'none' }} /><span style={{ fontSize: '10px', color: '#94a3b8' }}>%</span></div>}
@@ -90,26 +90,26 @@ const ResourcePicker = ({ role, availableResources, projectSquad, roleMapping, o
     }, [availableResources, targetCategory, projectSquad]);
     return (
         <div style={{ position: 'relative', marginTop: '4px' }} onClick={e => e.stopPropagation()}>
-            <input ref={inputRef} type="text" placeholder="Search resources…" value={query} onChange={e => setQuery(e.target.value)} onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} onBlur={() => setTimeout(onClose, 200)} style={{ width: '100%', padding: '8px 10px', fontSize: '11px', border: `2px solid ${isDark ? '#7637E3' : '#7637E3'}`, borderRadius: '8px 8px 0 0', backgroundColor: isDark ? '#0f172a' : 'white', color: isDark ? '#f1f5f9' : '#1e293b', outline: 'none' }} />
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: isDark ? '#1e293b' : 'white', border: `2px solid ${isDark ? '#7637E3' : '#7637E3'}`, borderTop: 'none', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 200, boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+            <input ref={inputRef} type="text" placeholder="Search resources…" value={query} onChange={e => setQuery(e.target.value)} onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} onBlur={() => setTimeout(onClose, 200)} style={{ width: '100%', padding: '8px 10px', fontSize: '11px', border: `2px solid ${isDark ? '#082F24' : '#082F24'}`, borderRadius: '8px 8px 0 0', backgroundColor: isDark ? '#0f172a' : 'white', color: isDark ? '#f1f5f9' : '#1e293b', outline: 'none' }} />
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: isDark ? '#1e293b' : 'white', border: `2px solid ${isDark ? '#082F24' : '#082F24'}`, borderTop: 'none', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 200, boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
                 {/* Placeholder option */}
-                <div onClick={e => { e.stopPropagation(); onAssign(`PLACEHOLDER_${Date.now()}`, role, { isPlaceholder: true, name: `TBD ${roleLabels[role] || role}` }); onClose(); }} onMouseDown={e => e.stopPropagation()} style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', color: '#7637E3', backgroundColor: isDark ? '#1e1338' : '#faf5ff', borderBottom: `2px solid ${isDark ? '#334155' : '#e2e8f0'}` }} onMouseEnter={e => e.currentTarget.style.backgroundColor = isDark ? '#2d1b69' : '#f3e8ff'} onMouseLeave={e => e.currentTarget.style.backgroundColor = isDark ? '#1e1338' : '#faf5ff'}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#e9d5ff', color: '#7637E3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>?</div>
+                <div onClick={e => { e.stopPropagation(); onAssign(`PLACEHOLDER_${Date.now()}`, role, { isPlaceholder: true, name: `TBD ${roleLabels[role] || role}` }); onClose(); }} onMouseDown={e => e.stopPropagation()} style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', color: '#082F24', backgroundColor: isDark ? '#1e1338' : '#f0fdf4', borderBottom: `2px solid ${isDark ? '#334155' : '#e2e8f0'}` }} onMouseEnter={e => e.currentTarget.style.backgroundColor = isDark ? '#2d1b69' : '#dcfce7'} onMouseLeave={e => e.currentTarget.style.backgroundColor = isDark ? '#1e1338' : '#f0fdf4'}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#dcfce7', color: '#082F24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>?</div>
                     <span>➕ Add Placeholder (TBD)</span>
                 </div>
                 {groups.filter(g => g.resources.some(r => r.name.toLowerCase().includes(query.toLowerCase()))).map(g => (
                     <div key={g.squad}>
-                        <div style={{ padding: '6px 10px', fontSize: '9px', fontWeight: '700', color: g.isRecommended ? '#7637E3' : '#64748b', backgroundColor: g.isRecommended ? (isDark ? '#1e1338' : '#F7F3ED') : (isDark ? '#0f172a' : '#f8fafc'), textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: `1px solid ${isDark ? '#334155' : '#e2e8f0'}` }}>{g.squad}</div>
+                        <div style={{ padding: '6px 10px', fontSize: '9px', fontWeight: '700', color: g.isRecommended ? '#082F24' : '#64748b', backgroundColor: g.isRecommended ? (isDark ? '#1e1338' : '#F5EDE1') : (isDark ? '#0f172a' : '#f8fafc'), textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: `1px solid ${isDark ? '#334155' : '#e2e8f0'}` }}>{g.squad}</div>
                         {g.resources.filter(r => r.name.toLowerCase().includes(query.toLowerCase())).map(r => {
                             const hs = r.headshot?.[0]?.url || r.headshot?.[0]?.thumbnails?.small?.url; const ini = (r.name || 'U').split(' ').map(n => n[0]).join('').slice(0, 2);
                             const tp = Math.round((r.targetUtilization ?? 0.8) * 100); const isLeaving = r.leaveDate && new Date(r.leaveDate) > new Date();
                             return (<div key={r.id} onClick={e => { e.stopPropagation(); onAssign(r.id, role); onClose(); }} onMouseDown={e => e.stopPropagation()} style={{ padding: '8px 10px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '11px', color: isDark ? '#e2e8f0' : '#334155', backgroundColor: isDark ? '#1e293b' : 'white', transition: 'background 0.1s' }} onMouseEnter={e => e.currentTarget.style.backgroundColor = isDark ? '#334155' : '#f1f5f9'} onMouseLeave={e => e.currentTarget.style.backgroundColor = isDark ? '#1e293b' : 'white'}>
                                 {hs ? <img src={hs} alt={r.name} style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #e2e8f0' }} /> : <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: isDark ? '#334155' : '#f1f5f9', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', fontWeight: '700' }}>{ini}</div>}
                                 <span style={{ fontWeight: '500', flex: 1 }}>{r.name}</span>
-                                {r.rampProfile && <span style={{ fontSize: '8px', fontWeight: '600', color: '#f59e0b', backgroundColor: isDark ? 'rgba(245,158,11,0.15)' : '#fefce8', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" style={{ verticalAlign: 'middle', marginRight: '1px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>Ramp</span>}
-                                {tp < 100 && <span style={{ fontSize: '8px', fontWeight: '600', color: '#3b82f6', backgroundColor: isDark ? 'rgba(59,130,246,0.15)' : '#eff6ff', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ verticalAlign: 'middle', marginRight: '1px' }}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>{tp}%</span>}
-                                {isLeaving && <span style={{ fontSize: '8px', fontWeight: '600', color: '#ef4444', backgroundColor: isDark ? 'rgba(239,68,68,0.15)' : '#fef2f2', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg></span>}
-                                {r.matchesRole && <span style={{ fontSize: '8px', fontWeight: '600', color: '#7637E3', backgroundColor: isDark ? 'rgba(118,55,227,0.15)' : '#F7F3ED', padding: '2px 4px', borderRadius: '3px' }}>{targetCategory}</span>}
+                                {r.rampProfile && <span style={{ fontSize: '8px', fontWeight: '600', color: '#FE9922', backgroundColor: isDark ? 'rgba(245,158,11,0.15)' : '#fefce8', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" style={{ verticalAlign: 'middle', marginRight: '1px' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>Ramp</span>}
+                                {tp < 100 && <span style={{ fontSize: '8px', fontWeight: '600', color: '#4794FF', backgroundColor: isDark ? 'rgba(71,148,255,0.15)' : '#eff6ff', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ verticalAlign: 'middle', marginRight: '1px' }}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>{tp}%</span>}
+                                {isLeaving && <span style={{ fontSize: '8px', fontWeight: '600', color: '#E5554F', backgroundColor: isDark ? 'rgba(239,68,68,0.15)' : '#fef2f2', padding: '1px 4px', borderRadius: '3px' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg></span>}
+                                {r.matchesRole && <span style={{ fontSize: '8px', fontWeight: '600', color: '#082F24', backgroundColor: isDark ? 'rgba(8, 47, 36,0.15)' : '#F5EDE1', padding: '2px 4px', borderRadius: '3px' }}>{targetCategory}</span>}
                             </div>);
                         })}
                     </div>
@@ -1908,7 +1908,7 @@ const ReprioritizationTab = ({
                                     <ellipse cx="50" cy="22" rx="22" ry="14" fill="#64748b" />
                                     <ellipse cx="50" cy="22" rx="22" ry="14" fill="url(#ufoGlass)" opacity="0.7" />
                                     {[20, 35, 50, 65, 80].map((x, i) => (
-                                        <circle key={i} cx={x} cy="30" r="3" fill="#f59e0b" opacity="0.8">
+                                        <circle key={i} cx={x} cy="30" r="3" fill="#FE9922" opacity="0.8">
                                             <animate attributeName="opacity" values="0.3;1;0.3" dur={`${0.4 + i * 0.1}s`} repeatCount="indefinite" />
                                         </circle>
                                     ))}
@@ -1944,7 +1944,7 @@ const ReprioritizationTab = ({
                                 <div style={{
                                     position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
                                     width: '60px', height: '60px', borderRadius: '50%',
-                                    background: 'radial-gradient(circle, #fff 0%, #f59e0b 40%, transparent 70%)',
+                                    background: 'radial-gradient(circle, #fff 0%, #FE9922 40%, transparent 70%)',
                                     animation: 'flashBang 0.8s ease-out forwards',
                                     zIndex: 10
                                 }} />
@@ -1952,7 +1952,7 @@ const ReprioritizationTab = ({
                                 {Array.from({ length: 16 }, (_, i) => {
                                     const angle = (i / 16) * Math.PI * 2;
                                     const dist = 60 + (i % 3) * 30;
-                                    const colors = ['#22c55e', '#06b6d4', '#FF6B35', '#E83F6F', '#f59e0b', '#8b5cf6'];
+                                    const colors = ['#22c55e', '#06b6d4', '#FF6B35', '#E83F6F', '#FE9922', '#00BD00'];
                                     return (
                                         <div key={i} style={{
                                             position: 'absolute', left: '50%', top: '45%',
@@ -1998,7 +1998,7 @@ const ReprioritizationTab = ({
                                 {/* Juggling balls */}
                                 <div style={{ position: 'absolute', inset: 0, animation: alienPhase === 'juggling' ? 'ballDrop 30s ease-in infinite' : 'none' }}>
                                     {Array.from({ length: 25 }, (_, i) => {
-                                        const colors = ['#FF6B35', '#E83F6F', '#8b5cf6', '#06b6d4', '#22c55e', '#f59e0b', '#ec4899', '#6366f1', '#14b8a6', '#f97316'];
+                                        const colors = ['#FF6B35', '#E83F6F', '#00BD00', '#06b6d4', '#22c55e', '#FE9922', '#ec4899', '#082F24', '#14b8a6', '#f97316'];
                                         const dur = 1.8 + (i % 5) * 0.3;
                                         const scatterX = (i % 2 === 0 ? 1 : -1) * (8 + (i % 7) * 5);
                                         return (
@@ -2088,7 +2088,7 @@ const ReprioritizationTab = ({
                             <div style={{
                                 fontSize: '11px', fontWeight: '700',
                                 padding: '2px 8px', borderRadius: '10px',
-                                background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
+                                background: 'linear-gradient(135deg, #00BD00, #06b6d4)',
                                 color: 'white'
                             }}>
                                 Pass {shiftIteration}
@@ -2122,7 +2122,7 @@ const ReprioritizationTab = ({
                                     <div style={{
                                         position: 'absolute', top: '50%', left: '8px',
                                         height: '2px',
-                                        background: 'linear-gradient(90deg, #22c55e, #06b6d4, #8b5cf6)',
+                                        background: 'linear-gradient(90deg, #22c55e, #06b6d4, #00BD00)',
                                         transform: 'translateY(-50%)', zIndex: 1,
                                         width: `${Math.min(currentPct, 100)}%`,
                                         transition: 'width 0.5s ease'
@@ -2166,7 +2166,7 @@ const ReprioritizationTab = ({
                         }}>
                             <div style={{
                                 height: '100%', borderRadius: '3px',
-                                background: 'linear-gradient(90deg, #22c55e, #06b6d4, #8b5cf6)',
+                                background: 'linear-gradient(90deg, #22c55e, #06b6d4, #00BD00)',
                                 width: `${optimizerProgress}%`,
                                 transition: 'width 0.3s ease'
                             }} />
@@ -2217,7 +2217,7 @@ const ReprioritizationTab = ({
                                             backgroundColor: status === 'filled'
                                                 ? '#22c55e'
                                                 : status === 'partial'
-                                                    ? '#f59e0b'
+                                                    ? '#FE9922'
                                                     : isDark ? '#334155' : '#cbd5e1',
                                             transition: 'background-color 0.4s ease, transform 0.3s ease',
                                             transform: status === 'filled' ? 'scale(1.1)' : 'scale(1)',
@@ -2428,8 +2428,8 @@ const ReprioritizationTab = ({
                                     marginBottom: '14px',
                                     padding: '10px 14px',
                                     borderRadius: '10px',
-                                    backgroundColor: isDark ? 'rgba(59,130,246,0.06)' : '#f0f9ff',
-                                    border: `1px solid ${isDark ? 'rgba(59,130,246,0.15)' : '#dbeafe'}`
+                                    backgroundColor: isDark ? 'rgba(71,148,255,0.06)' : '#f0f9ff',
+                                    border: `1px solid ${isDark ? 'rgba(71,148,255,0.15)' : '#dbeafe'}`
                                 }}>
                                     <div style={{
                                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -2443,7 +2443,7 @@ const ReprioritizationTab = ({
                                         </span>
                                         <span style={{
                                             fontSize: '11px', fontWeight: '700',
-                                            background: isDark ? 'rgba(59,130,246,0.2)' : '#dbeafe',
+                                            background: isDark ? 'rgba(71,148,255,0.2)' : '#dbeafe',
                                             color: isDark ? '#93c5fd' : '#1d4ed8',
                                             padding: '2px 8px', borderRadius: '6px'
                                         }}>
@@ -2617,7 +2617,7 @@ const ReprioritizationTab = ({
                                         max={5}
                                         style={numberInputStyle(isDark)}
                                     />
-                                    {maxSC > 2 && <span style={{ fontSize: '9px', color: '#f59e0b', fontWeight: '600' }}>Exception</span>}
+                                    {maxSC > 2 && <span style={{ fontSize: '9px', color: '#FE9922', fontWeight: '600' }}>Exception</span>}
                                 </div>
                             </div>
                             <div>
@@ -2633,7 +2633,7 @@ const ReprioritizationTab = ({
                                         max={5}
                                         style={numberInputStyle(isDark)}
                                     />
-                                    {maxPD > 2 && <span style={{ fontSize: '9px', color: '#f59e0b', fontWeight: '600' }}>Exception</span>}
+                                    {maxPD > 2 && <span style={{ fontSize: '9px', color: '#FE9922', fontWeight: '600' }}>Exception</span>}
                                 </div>
                             </div>
                             <div>
@@ -2673,13 +2673,13 @@ const ReprioritizationTab = ({
                             marginBottom: '12px'
                         }}>
                             {[
-                                { label: 'Cornerstone', range: '90–100', color: '#ef4444', tier: 1 },
+                                { label: 'Cornerstone', range: '90–100', color: '#E5554F', tier: 1 },
                                 { label: 'Tier 2', range: '80–89', color: '#f97316', tier: 2 },
-                                { label: 'High Risk', range: '80–88', color: '#f59e0b', tier: 2 },
+                                { label: 'High Risk', range: '80–88', color: '#FE9922', tier: 2 },
                                 { label: 'Verbal Risk', range: '70–79', color: '#eab308', tier: 2 },
                                 { label: 'Medium Risk', range: '65–74', color: '#84cc16', tier: 2 },
                                 { label: 'Compelling', range: '80–88', color: '#22c55e', tier: 2 },
-                                { label: 'Standard', range: '30–54', color: '#3b82f6', tier: 4 },
+                                { label: 'Standard', range: '30–54', color: '#4794FF', tier: 4 },
                                 { label: 'Below Min', range: '0–29', color: '#6b7280', tier: 5 }
                             ].map(t => (
                                 <div key={t.label} style={{
@@ -2868,8 +2868,8 @@ const ReprioritizationTab = ({
                             <div style={{
                                 padding: '10px 14px',
                                 borderRadius: '10px',
-                                backgroundColor: seedFromDraft ? (isDark ? '#1e1338' : '#faf5ff') : (isDark ? '#0f172a' : '#f8fafc'),
-                                border: `1px solid ${seedFromDraft ? '#7637E3' : (isDark ? '#334155' : '#e2e8f0')}`,
+                                backgroundColor: seedFromDraft ? (isDark ? '#1e1338' : '#f0fdf4') : (isDark ? '#0f172a' : '#f8fafc'),
+                                border: `1px solid ${seedFromDraft ? '#082F24' : (isDark ? '#334155' : '#e2e8f0')}`,
                                 transition: 'all 0.2s'
                             }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -2877,7 +2877,7 @@ const ReprioritizationTab = ({
                                         type="checkbox"
                                         checked={seedFromDraft}
                                         onChange={e => { setSeedFromDraft(e.target.checked); if (!e.target.checked) setSeedDraftId(''); }}
-                                        style={{ width: '16px', height: '16px', accentColor: '#7637E3' }}
+                                        style={{ width: '16px', height: '16px', accentColor: '#082F24' }}
                                     />
                                     <div>
                                         <div style={{ fontSize: '12px', fontWeight: '600', color: isDark ? '#f1f5f9' : '#1e293b' }}>
@@ -2891,7 +2891,7 @@ const ReprioritizationTab = ({
                                 {seedFromDraft && (
                                     <div style={{ marginTop: '8px', paddingLeft: '24px' }}>
                                         {draftScenarios.length === 0 ? (
-                                            <div style={{ fontSize: '10px', color: '#f59e0b', fontStyle: 'italic' }}>
+                                            <div style={{ fontSize: '10px', color: '#FE9922', fontStyle: 'italic' }}>
                                                 No draft scenarios with changes found. Create a draft first.
                                             </div>
                                         ) : (
@@ -2903,7 +2903,7 @@ const ReprioritizationTab = ({
                                                         ...inputStyle(isDark),
                                                         fontSize: '11px',
                                                         padding: '6px 10px',
-                                                        borderColor: seedDraftId ? '#7637E3' : (isDark ? '#475569' : '#d1d5db')
+                                                        borderColor: seedDraftId ? '#082F24' : (isDark ? '#475569' : '#d1d5db')
                                                     }}
                                                 >
                                                     <option value="">Select a draft scenario…</option>
@@ -2926,11 +2926,11 @@ const ReprioritizationTab = ({
                                                     const squadChanges = Object.values(changes).filter(c => c.squad || c.squads).length;
                                                     return (
                                                         <div style={{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' }}>
-                                                            <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(118,55,227,0.15)' : '#f3e8ff', color: '#7637E3' }}>
+                                                            <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(8, 47, 36,0.15)' : '#dcfce7', color: '#082F24' }}>
                                                                 {changeCount} projects modified
                                                             </span>
                                                             {dateChanges > 0 && <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(245,158,11,0.15)' : '#fefce8', color: '#d97706' }}>📅 {dateChanges} date shifts</span>}
-                                                            {effortChanges > 0 && <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(59,130,246,0.15)' : '#eff6ff', color: '#3b82f6' }}>⚡ {effortChanges} effort changes</span>}
+                                                            {effortChanges > 0 && <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(71,148,255,0.15)' : '#eff6ff', color: '#4794FF' }}>⚡ {effortChanges} effort changes</span>}
                                                             {squadChanges > 0 && <span style={{ fontSize: '9px', fontWeight: '600', padding: '2px 6px', borderRadius: '4px', backgroundColor: isDark ? 'rgba(0,189,0,0.15)' : '#f0fdf4', color: '#00BD00' }}>👥 {squadChanges} squad moves</span>}
                                                         </div>
                                                     );
@@ -2984,10 +2984,10 @@ const ReprioritizationTab = ({
                                             borderRadius: '8px',
                                             marginBottom: '6px',
                                             backgroundColor: isDark
-                                                ? (hasData ? 'rgba(139,92,246,0.06)' : 'transparent')
-                                                : (hasData ? '#faf5ff' : 'transparent'),
+                                                ? (hasData ? 'rgba(0,189,0,0.06)' : 'transparent')
+                                                : (hasData ? '#f0fdf4' : 'transparent'),
                                             border: hasData
-                                                ? `1px solid ${isDark ? 'rgba(139,92,246,0.15)' : '#ede9fe'}`
+                                                ? `1px solid ${isDark ? 'rgba(0,189,0,0.15)' : '#dcfce7'}`
                                                 : `1px solid ${isDark ? '#1e293b' : '#f1f5f9'}`,
                                             transition: 'all 0.2s'
                                         }}>
@@ -3013,8 +3013,8 @@ const ReprioritizationTab = ({
                                                 {hasData && (
                                                     <span style={{
                                                         fontSize: '8px', fontWeight: '600', padding: '1px 5px',
-                                                        borderRadius: '4px', backgroundColor: 'rgba(139,92,246,0.12)',
-                                                        color: '#8b5cf6'
+                                                        borderRadius: '4px', backgroundColor: 'rgba(0,189,0,0.12)',
+                                                        color: '#00BD00'
                                                     }}>configured</span>
                                                 )}
                                                 {!isExpanded && hasData && (
@@ -3049,13 +3049,13 @@ const ReprioritizationTab = ({
                                                                             cursor: 'pointer', userSelect: 'none',
                                                                             transition: 'all 0.15s',
                                                                             backgroundColor: selected
-                                                                                ? (isDark ? 'rgba(139,92,246,0.2)' : '#ede9fe')
+                                                                                ? (isDark ? 'rgba(0,189,0,0.2)' : '#dcfce7')
                                                                                 : (isDark ? '#1e293b' : '#f1f5f9'),
                                                                             color: selected
-                                                                                ? (isDark ? '#c4b5fd' : '#7c3aed')
+                                                                                ? (isDark ? '#bbf7d0' : '#082F24')
                                                                                 : (isDark ? '#64748b' : '#94a3b8'),
                                                                             border: `1px solid ${selected
-                                                                                ? (isDark ? 'rgba(139,92,246,0.3)' : '#c4b5fd')
+                                                                                ? (isDark ? 'rgba(0,189,0,0.3)' : '#bbf7d0')
                                                                                 : (isDark ? '#334155' : '#e2e8f0')}`
                                                                         }}
                                                                     >{c}</span>
@@ -3087,13 +3087,13 @@ const ReprioritizationTab = ({
                                                                             cursor: 'pointer', userSelect: 'none',
                                                                             transition: 'all 0.15s',
                                                                             backgroundColor: selected
-                                                                                ? (isDark ? 'rgba(59,130,246,0.2)' : '#dbeafe')
+                                                                                ? (isDark ? 'rgba(71,148,255,0.2)' : '#dbeafe')
                                                                                 : (isDark ? '#1e293b' : '#f1f5f9'),
                                                                             color: selected
                                                                                 ? (isDark ? '#93c5fd' : '#2563eb')
                                                                                 : (isDark ? '#64748b' : '#94a3b8'),
                                                                             border: `1px solid ${selected
-                                                                                ? (isDark ? 'rgba(59,130,246,0.3)' : '#93c5fd')
+                                                                                ? (isDark ? 'rgba(71,148,255,0.3)' : '#93c5fd')
                                                                                 : (isDark ? '#334155' : '#e2e8f0')}`
                                                                         }}
                                                                     >{p}</span>
@@ -3133,7 +3133,7 @@ const ReprioritizationTab = ({
                                 <span style={{ fontSize: '10px', transition: 'transform 0.2s', transform: expandedSpecSquads.has('__customerSeeds') ? 'rotate(90deg)' : 'rotate(0deg)', color: isDark ? '#64748b' : '#94a3b8' }}>▶</span>
                                 🎯 Customer → Squad Seeds
                                 {Object.keys(customerSquadSeeds).length > 0 && (
-                                    <span style={{ fontSize: '8px', fontWeight: '600', padding: '1px 5px', borderRadius: '4px', backgroundColor: 'rgba(99,102,241,0.12)', color: '#818cf8' }}>
+                                    <span style={{ fontSize: '8px', fontWeight: '600', padding: '1px 5px', borderRadius: '4px', backgroundColor: 'rgba(8,47,36,0.12)', color: '#818cf8' }}>
                                         {Object.keys(customerSquadSeeds).length} seeded
                                     </span>
                                 )}
@@ -3189,15 +3189,15 @@ const ReprioritizationTab = ({
                                                     display: 'flex', alignItems: 'center', gap: '8px',
                                                     padding: '4px 8px', borderRadius: '6px',
                                                     backgroundColor: seededSquad
-                                                        ? (isDark ? 'rgba(99,102,241,0.06)' : '#eef2ff')
+                                                        ? (isDark ? 'rgba(8,47,36,0.06)' : '#f0fdf4')
                                                         : 'transparent',
                                                     border: seededSquad
-                                                        ? `1px solid ${isDark ? 'rgba(99,102,241,0.15)' : '#c7d2fe'}`
+                                                        ? `1px solid ${isDark ? 'rgba(8,47,36,0.15)' : '#bbf7d0'}`
                                                         : '1px solid transparent'
                                                 }}>
                                                     <span style={{
                                                         flex: 1, fontSize: '11px', fontWeight: seededSquad ? '600' : '400',
-                                                        color: seededSquad ? (isDark ? '#c7d2fe' : '#4338ca') : (isDark ? '#94a3b8' : '#64748b'),
+                                                        color: seededSquad ? (isDark ? '#bbf7d0' : '#082F24') : (isDark ? '#94a3b8' : '#64748b'),
                                                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
                                                     }}>{cust}</span>
                                                     <select
@@ -3240,8 +3240,8 @@ const ReprioritizationTab = ({
                                 padding: '10px 14px',
                                 borderRadius: '10px',
                                 background: isDark
-                                    ? 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1))'
-                                    : 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(59,130,246,0.08))',
+                                    ? 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(71,148,255,0.1))'
+                                    : 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(71,148,255,0.08))',
                                 border: `1px solid ${isDark ? '#166534' : '#bbf7d0'}`,
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(4, 1fr)',
@@ -3257,7 +3257,7 @@ const ReprioritizationTab = ({
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#3b82f6' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#4794FF' }}>
                                         +{solverResult.solverMeta?.improvementPct || 0}%
                                     </div>
                                     <div style={{ fontSize: '9px', color: isDark ? '#94a3b8' : '#64748b' }}>Improvement</div>
@@ -3269,7 +3269,7 @@ const ReprioritizationTab = ({
                                     <div style={{ fontSize: '9px', color: isDark ? '#94a3b8' : '#64748b' }}>Duration</div>
                                 </div>
                                 <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#f59e0b' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#FE9922' }}>
                                         {(solverResult.solverMeta?.accepted || 0) + (solverResult.solverMeta?.rejected || 0)}
                                     </div>
                                     <div style={{ fontSize: '9px', color: isDark ? '#94a3b8' : '#64748b' }}>Iterations</div>
@@ -3334,14 +3334,14 @@ const ReprioritizationTab = ({
                                 <div style={{
                                     marginTop: '12px', borderRadius: '12px',
                                     background: isDark
-                                        ? 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.06))'
-                                        : 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.04))',
-                                    border: `1px solid ${isDark ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.15)'}`,
+                                        ? 'linear-gradient(135deg, rgba(8,47,36,0.08), rgba(0,189,0,0.06))'
+                                        : 'linear-gradient(135deg, rgba(8,47,36,0.06), rgba(0,189,0,0.04))',
+                                    border: `1px solid ${isDark ? 'rgba(8,47,36,0.2)' : 'rgba(8,47,36,0.15)'}`,
                                     overflow: 'hidden'
                                 }}>
                                     <div style={{
                                         padding: '10px 14px 6px', fontWeight: '700', fontSize: '12px',
-                                        color: isDark ? '#c4b5fd' : '#6366f1',
+                                        color: isDark ? '#bbf7d0' : '#082F24',
                                         display: 'flex', alignItems: 'center', gap: '6px'
                                     }}>
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -3352,22 +3352,22 @@ const ReprioritizationTab = ({
 
                                     {/* Row 1: Key metrics */}
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', padding: '0 10px' }}>
-                                        {statBox('Fill Rate', `${fillRate}%`, fillRate >= 80 ? '#22c55e' : fillRate >= 50 ? '#f59e0b' : '#ef4444', `${filledRoles}/${totalRoles} roles`)}
-                                        {statBox('Scheduled', sched.length, '#3b82f6', `${fullyResourced} fully resourced`)}
-                                        {statBox('Deferred', def.length, def.length > 0 ? '#f59e0b' : '#22c55e')}
-                                        {statBox('Cross-Squad', crossSquadCount, '#8b5cf6', crossSquadCount > 0 ? 'fallback fills' : '')}
+                                        {statBox('Fill Rate', `${fillRate}%`, fillRate >= 80 ? '#22c55e' : fillRate >= 50 ? '#FE9922' : '#E5554F', `${filledRoles}/${totalRoles} roles`)}
+                                        {statBox('Scheduled', sched.length, '#4794FF', `${fullyResourced} fully resourced`)}
+                                        {statBox('Deferred', def.length, def.length > 0 ? '#FE9922' : '#22c55e')}
+                                        {statBox('Cross-Squad', crossSquadCount, '#00BD00', crossSquadCount > 0 ? 'fallback fills' : '')}
                                     </div>
 
                                     {/* Row 2: Shift & Cascade */}
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', padding: '0 10px' }}>
                                         {statBox('Shifted', shifted.length, isDark ? '#e2e8f0' : '#334155', shifted.length > 0 ? `avg +${avgShift}w` : '')}
                                         {statBox('Cascaded', cascaded.length, cascaded.length > 0 ? '#06b6d4' : (isDark ? '#e2e8f0' : '#334155'), cascaded.length > 0 ? 'rollout sequence' : '')}
-                                        {statBox('Warnings', warns.length, warns.length > 5 ? '#ef4444' : (isDark ? '#e2e8f0' : '#334155'))}
+                                        {statBox('Warnings', warns.length, warns.length > 5 ? '#E5554F' : (isDark ? '#e2e8f0' : '#334155'))}
                                     </div>
 
                                     {/* Top unfilled roles */}
                                     {topUnfilled.length > 0 && (
-                                        <div style={{ padding: '6px 14px 8px', borderTop: `1px solid ${isDark ? 'rgba(99,102,241,0.12)' : 'rgba(99,102,241,0.08)'}` }}>
+                                        <div style={{ padding: '6px 14px 8px', borderTop: `1px solid ${isDark ? 'rgba(8,47,36,0.12)' : 'rgba(8,47,36,0.08)'}` }}>
                                             <div style={{ fontSize: '9px', fontWeight: '700', color: isDark ? '#94a3b8' : '#64748b', marginBottom: '4px' }}>
                                                 TOP UNFILLED ROLES
                                             </div>
@@ -3376,7 +3376,7 @@ const ReprioritizationTab = ({
                                                     <span key={role} style={{
                                                         fontSize: '10px', padding: '2px 8px', borderRadius: '8px',
                                                         background: isDark ? 'rgba(239,68,68,0.12)' : 'rgba(239,68,68,0.08)',
-                                                        color: '#ef4444', fontWeight: '600'
+                                                        color: '#E5554F', fontWeight: '600'
                                                     }}>{role}: {count}</span>
                                                 ))}
                                             </div>
@@ -3385,7 +3385,7 @@ const ReprioritizationTab = ({
 
                                     {/* Top customers by ARR */}
                                     {topCustomers.length > 0 && (
-                                        <div style={{ padding: '6px 14px 10px', borderTop: `1px solid ${isDark ? 'rgba(99,102,241,0.12)' : 'rgba(99,102,241,0.08)'}` }}>
+                                        <div style={{ padding: '6px 14px 10px', borderTop: `1px solid ${isDark ? 'rgba(8,47,36,0.12)' : 'rgba(8,47,36,0.08)'}` }}>
                                             <div style={{ fontSize: '9px', fontWeight: '700', color: isDark ? '#94a3b8' : '#64748b', marginBottom: '4px' }}>
                                                 CUSTOMER IMPACT (BY ARR)
                                             </div>
@@ -3419,7 +3419,7 @@ const ReprioritizationTab = ({
                                     <span style={{
                                         fontSize: '10px', fontWeight: '700', padding: '2px 8px',
                                         borderRadius: '10px', backgroundColor: 'rgba(239,68,68,0.12)',
-                                        color: '#ef4444'
+                                        color: '#E5554F'
                                     }}>{excludedSquads.length} excluded</span>
                                 )}
                             </div>
@@ -3441,7 +3441,7 @@ const ReprioritizationTab = ({
                                             border: `1px solid ${isExcluded
                                                 ? (isDark ? 'rgba(239,68,68,0.3)' : '#fecaca')
                                                 : (isDark ? '#334155' : '#e2e8f0')}`,
-                                            color: isExcluded ? '#ef4444' : (isDark ? '#e2e8f0' : '#334155')
+                                            color: isExcluded ? '#E5554F' : (isDark ? '#e2e8f0' : '#334155')
                                         }}>
                                             <input
                                                 type="checkbox"
@@ -3453,7 +3453,7 @@ const ReprioritizationTab = ({
                                                             : [...prev, squad]
                                                     );
                                                 }}
-                                                style={{ accentColor: '#ef4444' }}
+                                                style={{ accentColor: '#E5554F' }}
                                             />
                                             {isExcluded && <span style={{ textDecoration: 'line-through' }}>{squad}</span>}
                                             {!isExcluded && <span>{squad}</span>}
@@ -3669,8 +3669,8 @@ const ReprioritizationTab = ({
 
                             <div style={{
                                 padding: '10px 12px', borderRadius: '8px',
-                                backgroundColor: isDark ? 'rgba(59,130,246,0.06)' : '#eff6ff',
-                                border: `1px solid ${isDark ? 'rgba(59,130,246,0.15)' : '#dbeafe'}`,
+                                backgroundColor: isDark ? 'rgba(71,148,255,0.06)' : '#eff6ff',
+                                border: `1px solid ${isDark ? 'rgba(71,148,255,0.15)' : '#dbeafe'}`,
                                 fontSize: '10px', color: isDark ? '#93c5fd' : '#1d4ed8'
                             }}>
                                 💡 Assign or remove resources inline above. Pre-assigned resources' capacity is consumed by program demand first, with remaining capacity available for regular projects.
@@ -3741,9 +3741,9 @@ const ReprioritizationTab = ({
                                                         fontWeight: '600',
                                                         cursor: inOtherGroup ? 'not-allowed' : 'pointer',
                                                         transition: 'all 0.2s',
-                                                        border: `1.5px solid ${inThisGroup ? '#3b82f6' : inOtherGroup ? (isDark ? '#1e293b' : '#f1f5f9') : (isDark ? '#475569' : '#d1d5db')}`,
-                                                        backgroundColor: inThisGroup ? 'rgba(59,130,246,0.12)' : 'transparent',
-                                                        color: inThisGroup ? '#3b82f6' : inOtherGroup ? (isDark ? '#334155' : '#cbd5e1') : (isDark ? '#94a3b8' : '#64748b'),
+                                                        border: `1.5px solid ${inThisGroup ? '#4794FF' : inOtherGroup ? (isDark ? '#1e293b' : '#f1f5f9') : (isDark ? '#475569' : '#d1d5db')}`,
+                                                        backgroundColor: inThisGroup ? 'rgba(71,148,255,0.12)' : 'transparent',
+                                                        color: inThisGroup ? '#4794FF' : inOtherGroup ? (isDark ? '#334155' : '#cbd5e1') : (isDark ? '#94a3b8' : '#64748b'),
                                                         opacity: inOtherGroup ? 0.4 : 1
                                                     }}
                                                 >
@@ -3813,7 +3813,7 @@ const ReprioritizationTab = ({
                                         <span style={{ fontSize: '11px', color: isDark ? '#64748b' : '#94a3b8', alignSelf: 'flex-end', paddingBottom: '8px' }}>→ can fill</span>
                                         {['PM', 'SC', 'PD'].map(role => (
                                             <label key={role} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: canFill.includes(role) ? (isDark ? '#e2e8f0' : '#1e293b') : (isDark ? '#475569' : '#cbd5e1'), alignSelf: 'flex-end', paddingBottom: '6px' }}>
-                                                <input type="checkbox" checked={canFill.includes(role)} onChange={() => { const u = [...entityRoleRules]; const cf = canFill.includes(role) ? canFill.filter(r => r !== role) : [...canFill, role]; u[ri] = { ...rule, canFill: cf }; setEntityRoleRules(u); }} style={{ accentColor: '#8b5cf6' }} />
+                                                <input type="checkbox" checked={canFill.includes(role)} onChange={() => { const u = [...entityRoleRules]; const cf = canFill.includes(role) ? canFill.filter(r => r !== role) : [...canFill, role]; u[ri] = { ...rule, canFill: cf }; setEntityRoleRules(u); }} style={{ accentColor: '#00BD00' }} />
                                                 {role}
                                             </label>
                                         ))}
@@ -3832,14 +3832,14 @@ const ReprioritizationTab = ({
                                                 display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap',
                                                 padding: '8px 10px', borderRadius: '8px',
                                                 backgroundColor: isDark ? '#1e1b4b' : '#f0f0ff',
-                                                border: `1px dashed ${isDark ? '#4338ca' : '#c7d2fe'}`
+                                                border: `1px dashed ${isDark ? '#082F24' : '#bbf7d0'}`
                                             }}>
-                                                <span style={{ fontSize: '10px', fontWeight: '600', color: isDark ? '#818cf8' : '#6366f1', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                                <span style={{ fontSize: '10px', fontWeight: '600', color: isDark ? '#818cf8' : '#082F24', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                                     When bundled, remaining:
                                                 </span>
                                                 {remainingRoles.map(role => (
                                                     <div key={role} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                        <span style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#c7d2fe' : '#4338ca' }}>{role} →</span>
+                                                        <span style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24' }}>{role} →</span>
                                                         <select
                                                             value={constraints[role] || 'ALL'}
                                                             onChange={e => {
@@ -3849,7 +3849,7 @@ const ReprioritizationTab = ({
                                                                 u[ri] = { ...rule, remainingConstraints: newConstraints };
                                                                 setEntityRoleRules(u);
                                                             }}
-                                                            style={{ padding: '3px 8px', fontSize: '11px', fontWeight: '600', borderRadius: '6px', border: `1px solid ${isDark ? '#4338ca' : '#c7d2fe'}`, backgroundColor: isDark ? '#1e293b' : 'white', color: isDark ? '#e2e8f0' : '#1e293b', cursor: 'pointer', minWidth: '60px' }}
+                                                            style={{ padding: '3px 8px', fontSize: '11px', fontWeight: '600', borderRadius: '6px', border: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`, backgroundColor: isDark ? '#1e293b' : 'white', color: isDark ? '#e2e8f0' : '#1e293b', cursor: 'pointer', minWidth: '60px' }}
                                                         >
                                                             <option value="ALL">Any</option>
                                                             <option value="FEX">FEX</option>
@@ -3870,7 +3870,7 @@ const ReprioritizationTab = ({
                                 + Add Rule
                             </button>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: '600', cursor: 'pointer', color: isDark ? '#94a3b8' : '#64748b', marginLeft: 'auto' }}>
-                                <input type="checkbox" checked={preferCrossEntity} onChange={e => setPreferCrossEntity(e.target.checked)} style={{ accentColor: '#8b5cf6' }} />
+                                <input type="checkbox" checked={preferCrossEntity} onChange={e => setPreferCrossEntity(e.target.checked)} style={{ accentColor: '#00BD00' }} />
                                 Prefer cross-entity teams (mix FEX + FY)
                             </label>
                         </div>
@@ -3933,8 +3933,8 @@ const ReprioritizationTab = ({
                             return (
                                 <div style={{
                                     padding: '10px 12px', borderRadius: '8px', marginTop: '8px',
-                                    backgroundColor: isDark ? 'rgba(59,130,246,0.06)' : '#eff6ff',
-                                    border: `1px solid ${isDark ? 'rgba(59,130,246,0.15)' : '#dbeafe'}`
+                                    backgroundColor: isDark ? 'rgba(71,148,255,0.06)' : '#eff6ff',
+                                    border: `1px solid ${isDark ? 'rgba(71,148,255,0.15)' : '#dbeafe'}`
                                 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
                                         <span style={{ fontSize: '11px' }}>📊</span>
@@ -3946,7 +3946,7 @@ const ReprioritizationTab = ({
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: isDark ? '#93c5fd' : '#2563eb' }}>
                                             <span style={{
                                                 fontWeight: '800', fontSize: '14px',
-                                                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                                                background: 'linear-gradient(135deg, #4794FF, #00BD00)',
                                                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
                                             }}>{affectedCount}</span>
                                             <span style={{ fontWeight: '600' }}>resource{affectedCount !== 1 ? 's' : ''} affected</span>
@@ -4012,9 +4012,9 @@ const ReprioritizationTab = ({
                                         {ers.bundleFills > 0 && (
                                             <div style={{
                                                 padding: '4px 10px', borderRadius: '8px',
-                                                backgroundColor: isDark ? 'rgba(139,92,246,0.1)' : '#f5f3ff',
-                                                border: `1px solid ${isDark ? 'rgba(139,92,246,0.2)' : '#ede9fe'}`,
-                                                fontSize: '11px', fontWeight: '600', color: isDark ? '#c4b5fd' : '#7c3aed'
+                                                backgroundColor: isDark ? 'rgba(0,189,0,0.1)' : '#f0fdf4',
+                                                border: `1px solid ${isDark ? 'rgba(0,189,0,0.2)' : '#dcfce7'}`,
+                                                fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24'
                                             }}>
                                                 🔗 {ers.bundleFills} bundle fill{ers.bundleFills !== 1 ? 's' : ''}
                                             </div>
@@ -4022,8 +4022,8 @@ const ReprioritizationTab = ({
                                         {ers.flexFills > 0 && (
                                             <div style={{
                                                 padding: '4px 10px', borderRadius: '8px',
-                                                backgroundColor: isDark ? 'rgba(59,130,246,0.1)' : '#eff6ff',
-                                                border: `1px solid ${isDark ? 'rgba(59,130,246,0.2)' : '#dbeafe'}`,
+                                                backgroundColor: isDark ? 'rgba(71,148,255,0.1)' : '#eff6ff',
+                                                border: `1px solid ${isDark ? 'rgba(71,148,255,0.2)' : '#dbeafe'}`,
                                                 fontSize: '11px', fontWeight: '600', color: isDark ? '#93c5fd' : '#2563eb'
                                             }}>
                                                 🔀 {ers.flexFills} flex fill{ers.flexFills !== 1 ? 's' : ''}
@@ -4068,7 +4068,7 @@ const ReprioritizationTab = ({
                             );
                         })()}
 
-                        <div style={{ padding: '10px 12px', borderRadius: '8px', marginTop: '8px', backgroundColor: isDark ? 'rgba(139,92,246,0.06)' : '#f5f3ff', border: `1px solid ${isDark ? 'rgba(139,92,246,0.15)' : '#ede9fe'}`, fontSize: '10px', color: isDark ? '#a78bfa' : '#6d28d9' }}>
+                        <div style={{ padding: '10px 12px', borderRadius: '8px', marginTop: '8px', backgroundColor: isDark ? 'rgba(0,189,0,0.06)' : '#f0fdf4', border: `1px solid ${isDark ? 'rgba(0,189,0,0.15)' : '#dcfce7'}`, fontSize: '10px', color: isDark ? '#86efac' : '#082F24' }}>
                             💡 Resources matching a rule can fill roles beyond their primary function. Hours are absorbed (combined). With cross-entity preference, the optimizer favours mixing FEX + FY on each project.
                         </div>
                     </div>
@@ -4090,7 +4090,7 @@ const ReprioritizationTab = ({
                                 backgroundColor: isDark ? '#1e293b' : '#f8fafc'
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7637E3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#082F24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
                                         <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
                                     </svg>
@@ -4102,7 +4102,7 @@ const ReprioritizationTab = ({
                                     </span>
                                     <span style={{
                                         fontSize: '10px', fontWeight: '600', padding: '2px 8px',
-                                        borderRadius: '10px', backgroundColor: 'rgba(139,92,246,0.12)', color: '#8b5cf6'
+                                        borderRadius: '10px', backgroundColor: 'rgba(0,189,0,0.12)', color: '#00BD00'
                                     }}>
                                         {priorityOrder.filter(p => p.locked).length} locked
                                     </span>
@@ -4248,7 +4248,7 @@ const ReprioritizationTab = ({
                                                 onDragOver={(e) => {
                                                     e.preventDefault();
                                                     if (dragPrio) {
-                                                        e.currentTarget.style.borderTop = '2px solid #7637E3';
+                                                        e.currentTarget.style.borderTop = '2px solid #082F24';
                                                     }
                                                 }}
                                                 onDragLeave={(e) => { e.currentTarget.style.borderTop = ''; }}
@@ -4292,9 +4292,9 @@ const ReprioritizationTab = ({
                                                     padding: '8px 10px', marginBottom: '2px',
                                                     borderRadius: '8px',
                                                     backgroundColor: item.locked
-                                                        ? (isDark ? 'rgba(139,92,246,0.08)' : '#faf5ff')
+                                                        ? (isDark ? 'rgba(0,189,0,0.08)' : '#f0fdf4')
                                                         : (isDark ? '#0f172a' : 'white'),
-                                                    border: `1px solid ${item.locked ? (isDark ? '#7637E380' : '#e9d5ff') : (isDark ? '#1e293b' : '#f1f5f9')}`,
+                                                    border: `1px solid ${item.locked ? (isDark ? '#082F2480' : '#dcfce7') : (isDark ? '#1e293b' : '#f1f5f9')}`,
                                                     cursor: item.locked ? 'default' : 'grab',
                                                     transition: 'all 0.15s'
                                                 }}
@@ -4323,7 +4323,7 @@ const ReprioritizationTab = ({
                                                     return (
                                                         <div style={{
                                                             fontSize: '9px', fontWeight: '700',
-                                                            color: isUp ? '#22c55e' : '#ef4444',
+                                                            color: isUp ? '#22c55e' : '#E5554F',
                                                             display: 'flex', alignItems: 'center', gap: '1px',
                                                             flexShrink: 0, minWidth: '24px', justifyContent: 'center'
                                                         }}>
@@ -4345,7 +4345,7 @@ const ReprioritizationTab = ({
                                                     </div>
                                                     {/* Reasoning */}
                                                     {item.reasoning?.length > 0 && (
-                                                        <div style={{ fontSize: '10px', color: isDark ? '#7c6bc4' : '#7637E3', marginTop: '2px' }}>
+                                                        <div style={{ fontSize: '10px', color: isDark ? '#7c6bc4' : '#082F24', marginTop: '2px' }}>
                                                             {(item.reasoning || []).map((r, ri) => (
                                                                 <div key={ri} style={{ display: 'flex', alignItems: 'flex-start', gap: '4px', marginBottom: '1px' }}>
                                                                     <span style={{ opacity: 0.5, flexShrink: 0 }}>›</span>
@@ -4382,8 +4382,8 @@ const ReprioritizationTab = ({
                                                     {item.contractEfficiency > 0 && (
                                                         <span style={{
                                                             fontSize: '8px', fontWeight: '600', padding: '1px 4px',
-                                                            borderRadius: '3px', backgroundColor: isDark ? 'rgba(168,85,247,0.15)' : '#f3e8ff',
-                                                            color: isDark ? '#c084fc' : '#7c3aed'
+                                                            borderRadius: '3px', backgroundColor: isDark ? 'rgba(0,189,0,0.15)' : '#dcfce7',
+                                                            color: isDark ? '#c084fc' : '#082F24'
                                                         }}>
                                                             Country £{item.contractEfficiency.toFixed(2)}/cARRhr
                                                         </span>
@@ -4413,7 +4413,7 @@ const ReprioritizationTab = ({
                                                             <div style={{ color: '#22c55e' }}>In-flight: +{item.scoreBreakdown.inFlightBonus}</div>
                                                         )}
                                                         {(item.scoreBreakdown.priorityBoost || 0) !== 0 && (
-                                                            <div style={{ color: item.scoreBreakdown.priorityBoost > 0 ? '#3b82f6' : '#f59e0b' }}>
+                                                            <div style={{ color: item.scoreBreakdown.priorityBoost > 0 ? '#4794FF' : '#FE9922' }}>
                                                                 Priority: {item.scoreBreakdown.priorityBoost > 0 ? '+' : ''}{item.scoreBreakdown.priorityBoost}
                                                             </div>
                                                         )}
@@ -4434,9 +4434,9 @@ const ReprioritizationTab = ({
                                                     style={{
                                                         padding: '4px 8px', fontSize: '10px', fontWeight: '600',
                                                         borderRadius: '6px', cursor: 'pointer', transition: 'all 0.15s',
-                                                        border: `1px solid ${item.locked ? '#8b5cf6' : (isDark ? '#475569' : '#d1d5db')}`,
-                                                        backgroundColor: item.locked ? (isDark ? 'rgba(139,92,246,0.2)' : '#f3e8ff') : 'transparent',
-                                                        color: item.locked ? '#8b5cf6' : (isDark ? '#94a3b8' : '#64748b'),
+                                                        border: `1px solid ${item.locked ? '#00BD00' : (isDark ? '#475569' : '#d1d5db')}`,
+                                                        backgroundColor: item.locked ? (isDark ? 'rgba(0,189,0,0.2)' : '#dcfce7') : 'transparent',
+                                                        color: item.locked ? '#00BD00' : (isDark ? '#94a3b8' : '#64748b'),
                                                         flexShrink: 0, marginTop: '2px',
                                                         display: 'flex', alignItems: 'center', gap: '3px'
                                                     }}
@@ -4569,9 +4569,9 @@ const ReprioritizationTab = ({
                                 borderRadius: '14px',
                                 cursor: isRunning ? 'not-allowed' : 'pointer',
                                 transition: 'all 0.3s',
-                                border: `2px solid ${isDark ? '#7637E3' : '#7637E3'}`,
-                                backgroundColor: isDark ? 'rgba(118,55,227,0.1)' : '#faf5ff',
-                                color: '#7637E3',
+                                border: `2px solid ${isDark ? '#082F24' : '#082F24'}`,
+                                backgroundColor: isDark ? 'rgba(8, 47, 36,0.1)' : '#f0fdf4',
+                                color: '#082F24',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                                 opacity: isRunning ? 0.5 : 1
                             }}
@@ -4644,8 +4644,8 @@ const ReprioritizationTab = ({
                         }}>
                             <span style={{
                                 fontSize: '11px', fontWeight: '600', padding: '4px 10px',
-                                borderRadius: '20px', backgroundColor: 'rgba(139,92,246,0.12)',
-                                color: '#8b5cf6'
+                                borderRadius: '20px', backgroundColor: 'rgba(0,189,0,0.12)',
+                                color: '#00BD00'
                             }}>
                                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px', verticalAlign: 'middle' }}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" /></svg>{overrideCount} override{overrideCount !== 1 ? 's' : ''}
                             </span>
@@ -4661,10 +4661,10 @@ const ReprioritizationTab = ({
                             marginBottom: '12px',
                             padding: '10px 14px',
                             borderRadius: '12px',
-                            backgroundColor: isDark ? 'rgba(139,92,246,0.08)' : '#f5f3ff',
-                            border: `1px solid ${isDark ? 'rgba(139,92,246,0.2)' : '#ddd6fe'}`
+                            backgroundColor: isDark ? 'rgba(0,189,0,0.08)' : '#f0fdf4',
+                            border: `1px solid ${isDark ? 'rgba(0,189,0,0.2)' : '#bbf7d0'}`
                         }}>
-                            <span style={{ fontSize: '12px', color: isDark ? '#c4b5fd' : '#7c3aed' }}>
+                            <span style={{ fontSize: '12px', color: isDark ? '#bbf7d0' : '#082F24' }}>
                                 {overrideCount} what-if override{overrideCount !== 1 ? 's' : ''} active
                             </span>
                             <div style={{ flex: 1 }} />
@@ -4674,7 +4674,7 @@ const ReprioritizationTab = ({
                                 style={{
                                     padding: '5px 12px', fontSize: '11px', fontWeight: '700',
                                     borderRadius: '8px', border: 'none',
-                                    background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)',
+                                    background: 'linear-gradient(135deg, #00BD00, #86efac)',
                                     color: 'white', cursor: 'pointer', transition: 'all 0.2s'
                                 }}
                             >
@@ -4703,8 +4703,8 @@ const ReprioritizationTab = ({
                     }}>
                         {[
                             { label: 'Scheduled', value: results.stats.projectsScheduled, color: '#22c55e' },
-                            { label: 'Deferred', value: results.stats.projectsDeferred, color: '#f59e0b' },
-                            { label: 'Roles Filled', value: results.stats.rolesNeeded > 0 ? `${results.stats.rolesFilled}/${results.stats.rolesNeeded}` : '—', color: '#8b5cf6' },
+                            { label: 'Deferred', value: results.stats.projectsDeferred, color: '#FE9922' },
+                            { label: 'Roles Filled', value: results.stats.rolesNeeded > 0 ? `${results.stats.rolesFilled}/${results.stats.rolesNeeded}` : '—', color: '#00BD00' },
                             { label: 'ARR Protected', value: `£${(results.stats.totalArrProtected / 1000).toFixed(0)}k`, color: '#00BD00' }
                         ].map(stat => (
                             <div key={stat.label} style={{
@@ -4731,12 +4731,12 @@ const ReprioritizationTab = ({
                         const conf = m.confidence || {};
                         const confTotal = (conf.tight || 0) + (conf.moderate || 0) + (conf.comfortable || 0);
                         const metricCards = [
-                            { label: 'Fill Rate', value: `${m.fillRate}%`, color: m.fillRate >= 80 ? '#10b981' : m.fillRate >= 60 ? '#f59e0b' : '#ef4444' },
-                            { label: 'ARR Coverage', value: `${m.arrCoverage}%`, color: m.arrCoverage >= 80 ? '#10b981' : m.arrCoverage >= 60 ? '#f59e0b' : '#ef4444' },
-                            { label: 'Avg Utilisation', value: `${m.avgUtilisation}%`, color: m.avgUtilisation >= 60 && m.avgUtilisation <= 90 ? '#10b981' : '#f59e0b' },
-                            { label: 'Cross-Squad', value: `${m.crossSquadPct}%`, color: m.crossSquadPct <= 10 ? '#10b981' : m.crossSquadPct <= 25 ? '#f59e0b' : '#ef4444' },
-                            { label: 'Projects Filled', value: `${m.filledProjects}/${m.totalProjects}`, color: '#3b82f6' },
-                            ...(m.relaxedFills > 0 ? [{ label: 'Relaxed Fills', value: `${m.relaxedFills}`, color: '#8b5cf6' }] : [])
+                            { label: 'Fill Rate', value: `${m.fillRate}%`, color: m.fillRate >= 80 ? '#10b981' : m.fillRate >= 60 ? '#FE9922' : '#E5554F' },
+                            { label: 'ARR Coverage', value: `${m.arrCoverage}%`, color: m.arrCoverage >= 80 ? '#10b981' : m.arrCoverage >= 60 ? '#FE9922' : '#E5554F' },
+                            { label: 'Avg Utilisation', value: `${m.avgUtilisation}%`, color: m.avgUtilisation >= 60 && m.avgUtilisation <= 90 ? '#10b981' : '#FE9922' },
+                            { label: 'Cross-Squad', value: `${m.crossSquadPct}%`, color: m.crossSquadPct <= 10 ? '#10b981' : m.crossSquadPct <= 25 ? '#FE9922' : '#E5554F' },
+                            { label: 'Projects Filled', value: `${m.filledProjects}/${m.totalProjects}`, color: '#4794FF' },
+                            ...(m.relaxedFills > 0 ? [{ label: 'Relaxed Fills', value: `${m.relaxedFills}`, color: '#00BD00' }] : [])
                         ];
                         return (
                             <div style={{
@@ -4768,13 +4768,13 @@ const ReprioritizationTab = ({
                                         </div>
                                         <div style={{ display: 'flex', height: '10px', borderRadius: '5px', overflow: 'hidden', gap: '1px' }}>
                                             {conf.comfortable > 0 && <div style={{ flex: conf.comfortable, background: '#10b981', borderRadius: '3px' }} title={`${conf.comfortable} comfortable`} />}
-                                            {conf.moderate > 0 && <div style={{ flex: conf.moderate, background: '#f59e0b', borderRadius: '3px' }} title={`${conf.moderate} moderate`} />}
-                                            {conf.tight > 0 && <div style={{ flex: conf.tight, background: '#ef4444', borderRadius: '3px' }} title={`${conf.tight} tight`} />}
+                                            {conf.moderate > 0 && <div style={{ flex: conf.moderate, background: '#FE9922', borderRadius: '3px' }} title={`${conf.moderate} moderate`} />}
+                                            {conf.tight > 0 && <div style={{ flex: conf.tight, background: '#E5554F', borderRadius: '3px' }} title={`${conf.tight} tight`} />}
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
                                             <span style={{ fontSize: '9px', color: '#10b981' }}>{conf.comfortable || 0} comfortable</span>
-                                            <span style={{ fontSize: '9px', color: '#f59e0b' }}>{conf.moderate || 0} moderate</span>
-                                            <span style={{ fontSize: '9px', color: '#ef4444' }}>{conf.tight || 0} tight</span>
+                                            <span style={{ fontSize: '9px', color: '#FE9922' }}>{conf.moderate || 0} moderate</span>
+                                            <span style={{ fontSize: '9px', color: '#E5554F' }}>{conf.tight || 0} tight</span>
                                         </div>
                                     </div>
                                 )}
@@ -4802,7 +4802,7 @@ const ReprioritizationTab = ({
                                     Customer Satisfaction (Worst 10)
                                 </div>
                                 {sorted.map(([cust, data]) => {
-                                    const scoreColor = data.score >= 80 ? '#10b981' : data.score >= 50 ? '#f59e0b' : '#ef4444';
+                                    const scoreColor = data.score >= 80 ? '#10b981' : data.score >= 50 ? '#FE9922' : '#E5554F';
                                     return (
                                         <div key={cust} style={{
                                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -4849,7 +4849,7 @@ const ReprioritizationTab = ({
                                         const r = util[role];
                                         const pool = r?.pool || 0;
                                         const avgPct = pool > 0 ? Math.round((r?.utilPct || 0) / pool) : 0;
-                                        const barColor = avgPct > 100 ? '#ef4444' : avgPct > 80 ? '#f59e0b' : avgPct > 50 ? '#22c55e' : '#3b82f6';
+                                        const barColor = avgPct > 100 ? '#E5554F' : avgPct > 80 ? '#FE9922' : avgPct > 50 ? '#22c55e' : '#4794FF';
                                         return (
                                             <div key={role} style={{ position: 'relative', height: '18px', borderRadius: '5px', background: isDark ? 'rgba(30,41,59,0.8)' : '#f1f5f9', overflow: 'hidden' }} title={`${pool} ${role.toUpperCase()}s, ${r?.loadHours || 0}h load / ${r?.hours || 0}h capacity (${avgPct}% avg)`}>
                                                 <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.min(avgPct, 100)}%`, background: barColor, opacity: 0.7, borderRadius: '5px', transition: 'width 0.3s' }} />
@@ -4870,8 +4870,8 @@ const ReprioritizationTab = ({
                             border: `1px solid ${isDark ? 'rgba(239,68,68,0.2)' : '#fecaca'}`,
                             boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
                         }}>
-                            <div style={{ fontSize: '11px', fontWeight: '700', color: '#ef4444', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                            <div style={{ fontSize: '11px', fontWeight: '700', color: '#E5554F', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E5554F" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                                 Revenue at Risk: £{(solverResult.decisionSupport.revenueAtRisk || 0).toLocaleString()}
                             </div>
                             {Object.entries(solverResult.decisionSupport.hiringGaps || {}).map(([squad, gaps]) => {
@@ -4881,10 +4881,10 @@ const ReprioritizationTab = ({
                                 return (
                                     <div key={squad} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', fontSize: '11px' }}>
                                         <span style={{ fontWeight: '600', color: isDark ? '#cbd5e1' : '#475569', minWidth: '80px' }}>{squad}</span>
-                                        {gaps.PM > 0 && <span style={{ background: 'rgba(59,130,246,0.15)', color: '#3b82f6', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>+{gaps.PM} PM</span>}
+                                        {gaps.PM > 0 && <span style={{ background: 'rgba(71,148,255,0.15)', color: '#4794FF', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>+{gaps.PM} PM</span>}
                                         {gaps.SC > 0 && <span style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>+{gaps.SC} SC</span>}
-                                        {gaps.PD > 0 && <span style={{ background: 'rgba(168,85,247,0.15)', color: '#a855f7', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>+{gaps.PD} PD</span>}
-                                        {squadRisk > 0 && <span style={{ color: '#ef4444', fontWeight: '600', marginLeft: 'auto' }}>£{squadRisk.toLocaleString()}</span>}
+                                        {gaps.PD > 0 && <span style={{ background: 'rgba(0,189,0,0.15)', color: '#00BD00', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>+{gaps.PD} PD</span>}
+                                        {squadRisk > 0 && <span style={{ color: '#E5554F', fontWeight: '600', marginLeft: 'auto' }}>£{squadRisk.toLocaleString()}</span>}
                                     </div>
                                 );
                             })}
@@ -5015,8 +5015,8 @@ const ReprioritizationTab = ({
                                         {dateShifts.length > 0 && (
                                             <span style={{
                                                 fontSize: '10px', fontWeight: '700', padding: '2px 8px',
-                                                borderRadius: '10px', backgroundColor: 'rgba(59,130,246,0.12)',
-                                                color: '#3b82f6'
+                                                borderRadius: '10px', backgroundColor: 'rgba(71,148,255,0.12)',
+                                                color: '#4794FF'
                                             }}>
                                                 {dateShifts.length} date shift{dateShifts.length !== 1 ? 's' : ''}
                                             </span>
@@ -5024,8 +5024,8 @@ const ReprioritizationTab = ({
                                         {teamChanges.length > 0 && (
                                             <span style={{
                                                 fontSize: '10px', fontWeight: '700', padding: '2px 8px',
-                                                borderRadius: '10px', backgroundColor: 'rgba(139,92,246,0.12)',
-                                                color: '#8b5cf6'
+                                                borderRadius: '10px', backgroundColor: 'rgba(0,189,0,0.12)',
+                                                color: '#00BD00'
                                             }}>
                                                 {teamChanges.length} team change{teamChanges.length !== 1 ? 's' : ''}
                                             </span>
@@ -5034,7 +5034,7 @@ const ReprioritizationTab = ({
                                             <span style={{
                                                 fontSize: '10px', fontWeight: '700', padding: '2px 8px',
                                                 borderRadius: '10px', backgroundColor: 'rgba(245,158,11,0.12)',
-                                                color: '#f59e0b'
+                                                color: '#FE9922'
                                             }}>
                                                 {deferredProjects.length} deferred
                                             </span>
@@ -5047,8 +5047,8 @@ const ReprioritizationTab = ({
                                             fontSize: '9px', fontWeight: '600', padding: '2px 8px',
                                             borderRadius: '8px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(59,130,246,0.15))'
-                                                : 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1))',
+                                                ? 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(71,148,255,0.15))'
+                                                : 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(71,148,255,0.1))',
                                             color: isDark ? '#4ade80' : '#16a34a'
                                         }}>
                                             SA +{solverResult.solverMeta?.improvementPct || 0}% · {solverResult.solverMeta?.totalDurationMs || 0}ms
@@ -5084,7 +5084,7 @@ const ReprioritizationTab = ({
                                         {/* Date Shifts */}
                                         {filteredDateShifts.length > 0 && (
                                             <div style={{ marginBottom: '12px' }}>
-                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
                                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px' }}><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg> Date Shifts
                                                 </div>
                                                 {filteredDateShifts.map(s => (
@@ -5157,11 +5157,11 @@ const ReprioritizationTab = ({
                                                             fontSize: '12px', fontWeight: '800',
                                                             padding: '4px 10px', borderRadius: '8px',
                                                             background: s.isCompression
-                                                                ? 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(139,92,246,0.05))'
+                                                                ? 'linear-gradient(135deg, rgba(0,189,0,0.12), rgba(0,189,0,0.05))'
                                                                 : s.shiftWeeks <= 4
-                                                                    ? 'linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.05))'
+                                                                    ? 'linear-gradient(135deg, rgba(71,148,255,0.12), rgba(71,148,255,0.05))'
                                                                     : 'linear-gradient(135deg, rgba(245,158,11,0.12), rgba(245,158,11,0.05))',
-                                                            color: s.isCompression ? '#8b5cf6' : s.shiftWeeks <= 4 ? '#3b82f6' : '#f59e0b'
+                                                            color: s.isCompression ? '#00BD00' : s.shiftWeeks <= 4 ? '#4794FF' : '#FE9922'
                                                         }}>
                                                             {s.shiftWeeks > 0 ? `+${s.shiftWeeks}w` : `${s.shiftWeeks}w`}
                                                         </span>
@@ -5173,7 +5173,7 @@ const ReprioritizationTab = ({
                                         {/* Team Changes */}
                                         {filteredTeamChanges.length > 0 && (
                                             <div style={{ marginBottom: '12px' }}>
-                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#00BD00', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
                                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px', verticalAlign: 'middle' }}><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" /></svg>Team Changes
                                                 </div>
                                                 {filteredTeamChanges.map(c => (
@@ -5229,7 +5229,7 @@ const ReprioritizationTab = ({
                                         {/* Deferred Projects */}
                                         {filteredDeferred.length > 0 && (
                                             <div>
-                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                                                <div style={{ fontSize: '10px', fontWeight: '700', color: '#FE9922', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
                                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px' }}><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg> Deferred Projects
                                                 </div>
                                                 {filteredDeferred.map(d => (
@@ -5322,11 +5322,11 @@ const ReprioritizationTab = ({
                                     <line x1="4" y1="6" x2="16" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="14" y2="18" />
                                 </svg>
                                 <span style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#f1f5f9' : '#1e293b' }}>Project Timeline</span>
-                                <span style={{ fontSize: '10px', fontWeight: '600', padding: '2px 8px', borderRadius: '10px', backgroundColor: 'rgba(59,130,246,0.12)', color: '#3b82f6' }}>
+                                <span style={{ fontSize: '10px', fontWeight: '600', padding: '2px 8px', borderRadius: '10px', backgroundColor: 'rgba(71,148,255,0.12)', color: '#4794FF' }}>
                                     {(results.scheduled || []).length} scheduled
                                 </span>
                                 {(results.deferred || []).length > 0 && (
-                                    <span style={{ fontSize: '10px', fontWeight: '600', padding: '2px 8px', borderRadius: '10px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#ef4444' }}>
+                                    <span style={{ fontSize: '10px', fontWeight: '600', padding: '2px 8px', borderRadius: '10px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#E5554F' }}>
                                         {(results.deferred || []).length} deferred
                                     </span>
                                 )}
@@ -5336,8 +5336,8 @@ const ReprioritizationTab = ({
                                 style={{
                                     padding: '6px 16px', fontSize: '11px', fontWeight: '700',
                                     borderRadius: '8px', border: 'none', cursor: 'pointer',
-                                    background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                                    color: 'white', boxShadow: '0 2px 6px rgba(59,130,246,0.3)',
+                                    background: 'linear-gradient(135deg, #4794FF, #2563eb)',
+                                    color: 'white', boxShadow: '0 2px 6px rgba(71,148,255,0.3)',
                                     transition: 'all 0.2s'
                                 }}
                             >
@@ -5437,11 +5437,11 @@ const ReprioritizationTab = ({
 
                         const ROW_HEIGHT = 28;
                         const barColors = {
-                            shifted: '#3b82f6',
+                            shifted: '#4794FF',
                             noChange: '#22c55e',
-                            deferred: '#ef4444',
-                            compressed: '#8b5cf6',
-                            nudge: '#f59e0b'
+                            deferred: '#E5554F',
+                            compressed: '#00BD00',
+                            nudge: '#FE9922'
                         };
 
                         const totalRows = allProjects.length + (ganttGroupBy !== 'chronological' ? groupKeys.length : 0);
@@ -5477,11 +5477,11 @@ const ReprioritizationTab = ({
                                             <line x1="4" y1="6" x2="16" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="14" y2="18" />
                                         </svg>
                                         <span style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#f1f5f9' : '#1e293b' }}>Project Timeline</span>
-                                        <span style={{ fontSize: '10px', fontWeight: '600', padding: '3px 10px', borderRadius: '10px', backgroundColor: 'rgba(59,130,246,0.12)', color: '#3b82f6' }}>
+                                        <span style={{ fontSize: '10px', fontWeight: '600', padding: '3px 10px', borderRadius: '10px', backgroundColor: 'rgba(71,148,255,0.12)', color: '#4794FF' }}>
                                             {allProjects.filter(p => p._status === 'scheduled').length} scheduled
                                         </span>
                                         {(results.deferred || []).length > 0 && (
-                                            <span style={{ fontSize: '10px', fontWeight: '600', padding: '3px 10px', borderRadius: '10px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#ef4444' }}>
+                                            <span style={{ fontSize: '10px', fontWeight: '600', padding: '3px 10px', borderRadius: '10px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#E5554F' }}>
                                                 {(results.deferred || []).length} deferred
                                             </span>
                                         )}
@@ -5497,7 +5497,7 @@ const ReprioritizationTab = ({
                                                         borderRadius: '6px', border: 'none', cursor: 'pointer',
                                                         textTransform: 'capitalize',
                                                         backgroundColor: ganttGroupBy === g
-                                                            ? '#3b82f6'
+                                                            ? '#4794FF'
                                                             : (isDark ? '#1e293b' : '#f1f5f9'),
                                                         color: ganttGroupBy === g ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                                         transition: 'all 0.2s'
@@ -5566,7 +5566,7 @@ const ReprioritizationTab = ({
                                                             fontSize: '10px', fontWeight: '800',
                                                             color: isDark ? '#f1f5f9' : '#1e293b',
                                                             textTransform: 'uppercase', letterSpacing: '0.3px',
-                                                            backgroundColor: isDark ? 'rgba(59,130,246,0.06)' : 'rgba(59,130,246,0.04)',
+                                                            backgroundColor: isDark ? 'rgba(71,148,255,0.06)' : 'rgba(71,148,255,0.04)',
                                                             borderBottom: `1px solid ${isDark ? '#1e293b' : '#f1f5f9'}`,
                                                             position: 'sticky', top: 0, zIndex: 1
                                                         }}>
@@ -5584,7 +5584,7 @@ const ReprioritizationTab = ({
                                                             <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                                                 <span style={{
                                                                     fontSize: '10px', fontWeight: '600',
-                                                                    color: p._status === 'deferred' ? '#ef4444' : (isDark ? '#e2e8f0' : '#334155'),
+                                                                    color: p._status === 'deferred' ? '#E5554F' : (isDark ? '#e2e8f0' : '#334155'),
                                                                     textDecoration: p._status === 'deferred' ? 'line-through' : 'none'
                                                                 }}>
                                                                     {p.name}
@@ -5655,7 +5655,7 @@ const ReprioritizationTab = ({
                                                                     <div style={{
                                                                         position: 'relative',
                                                                         height: ROW_HEIGHT,
-                                                                        backgroundColor: isDark ? 'rgba(59,130,246,0.06)' : 'rgba(59,130,246,0.04)',
+                                                                        backgroundColor: isDark ? 'rgba(71,148,255,0.06)' : 'rgba(71,148,255,0.04)',
                                                                         borderBottom: `1px solid ${isDark ? '#1e293b' : '#f1f5f9'}`
                                                                     }} />
                                                                 );
@@ -5804,7 +5804,7 @@ const ReprioritizationTab = ({
                                                 Metric
                                             </th>
                                             {financialImpact.fyBreakdown.map(row => (
-                                                <th key={row.fy} style={{ textAlign: 'right', padding: '6px 8px', fontSize: '10px', fontWeight: '700', color: row.fy === 'Unscheduled' ? '#ef4444' : (isDark ? '#94a3b8' : '#64748b'), textTransform: 'uppercase', letterSpacing: '0.3px', borderBottom: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, whiteSpace: 'nowrap' }}>
+                                                <th key={row.fy} style={{ textAlign: 'right', padding: '6px 8px', fontSize: '10px', fontWeight: '700', color: row.fy === 'Unscheduled' ? '#E5554F' : (isDark ? '#94a3b8' : '#64748b'), textTransform: 'uppercase', letterSpacing: '0.3px', borderBottom: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`, whiteSpace: 'nowrap' }}>
                                                     {row.fy}
                                                 </th>
                                             ))}
@@ -5831,7 +5831,7 @@ const ReprioritizationTab = ({
                                                             fontVariantNumeric: 'tabular-nums',
                                                             color: isZero
                                                                 ? (isDark ? '#475569' : '#cbd5e1')
-                                                                : val > 0 ? '#22c55e' : '#ef4444'
+                                                                : val > 0 ? '#22c55e' : '#E5554F'
                                                         }}>
                                                             {isZero ? '—' : `${val > 0 ? '+' : ''}£${(val / 1000).toFixed(0)}k`}
                                                         </td>
@@ -5887,7 +5887,7 @@ const ReprioritizationTab = ({
                                     <div key={t.label} style={{ flex: 1, textAlign: 'center' }}>
                                         <div style={{
                                             fontSize: '16px', fontWeight: '800',
-                                            color: Math.abs(t.val) < 1 ? (isDark ? '#475569' : '#cbd5e1') : t.val > 0 ? '#22c55e' : '#ef4444'
+                                            color: Math.abs(t.val) < 1 ? (isDark ? '#475569' : '#cbd5e1') : t.val > 0 ? '#22c55e' : '#E5554F'
                                         }}>
                                             {Math.abs(t.val) < 1 ? '—' : `${t.val > 0 ? '+' : ''}£${(t.val / 1000).toFixed(0)}k`}
                                         </div>
@@ -5905,9 +5905,9 @@ const ReprioritizationTab = ({
                         <div style={{
                             ...sectionCard(isDark),
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(91,33,182,0.15), rgba(139,92,246,0.08))'
-                                : 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(168,85,247,0.04))',
-                            border: `1px solid ${isDark ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`
+                                ? 'linear-gradient(135deg, rgba(8,47,36,0.15), rgba(0,189,0,0.08))'
+                                : 'linear-gradient(135deg, rgba(0,189,0,0.08), rgba(0,189,0,0.04))',
+                            border: `1px solid ${isDark ? 'rgba(0,189,0,0.3)' : 'rgba(0,189,0,0.2)'}`
                         }}>
                             <div style={sectionTitle(isDark)}>
                                 <span style={{ fontSize: '16px' }}>🤖</span>
@@ -5916,7 +5916,7 @@ const ReprioritizationTab = ({
                                     <span style={{
                                         fontSize: '11px',
                                         fontWeight: '400',
-                                        color: '#8b5cf6',
+                                        color: '#00BD00',
                                         marginLeft: '8px',
                                         animation: 'pulse 1.5s ease-in-out infinite'
                                     }}>
@@ -5954,8 +5954,8 @@ const ReprioritizationTab = ({
                         <div style={{
                             ...sectionCard(isDark),
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(59,130,246,0.06))'
-                                : 'linear-gradient(135deg, rgba(34,197,94,0.06), rgba(59,130,246,0.04))',
+                                ? 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(71,148,255,0.06))'
+                                : 'linear-gradient(135deg, rgba(34,197,94,0.06), rgba(71,148,255,0.04))',
                             border: `1px solid ${isDark ? 'rgba(34,197,94,0.25)' : 'rgba(34,197,94,0.2)'}`
                         }}>
                             <div style={sectionTitle(isDark)}>
@@ -5984,7 +5984,7 @@ const ReprioritizationTab = ({
                                         <circle cx="36" cy="36" r="30" fill="none" stroke={isDark ? '#334155' : '#e2e8f0'} strokeWidth="6" />
                                         <circle
                                             cx="36" cy="36" r="30" fill="none"
-                                            stroke={monteCarloResult.robustnessScore >= 80 ? '#22c55e' : monteCarloResult.robustnessScore >= 60 ? '#f59e0b' : '#ef4444'}
+                                            stroke={monteCarloResult.robustnessScore >= 80 ? '#22c55e' : monteCarloResult.robustnessScore >= 60 ? '#FE9922' : '#E5554F'}
                                             strokeWidth="6"
                                             strokeDasharray={`${monteCarloResult.robustnessScore * 1.884} 188.4`}
                                             strokeLinecap="round"
@@ -5995,7 +5995,7 @@ const ReprioritizationTab = ({
                                     <div style={{
                                         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                                         fontSize: '18px', fontWeight: '800',
-                                        color: monteCarloResult.robustnessScore >= 80 ? '#22c55e' : monteCarloResult.robustnessScore >= 60 ? '#f59e0b' : '#ef4444'
+                                        color: monteCarloResult.robustnessScore >= 80 ? '#22c55e' : monteCarloResult.robustnessScore >= 60 ? '#FE9922' : '#E5554F'
                                     }}>
                                         {monteCarloResult.robustnessScore}%
                                     </div>
@@ -6027,9 +6027,9 @@ const ReprioritizationTab = ({
                                                     fontSize: '10px', fontWeight: '600',
                                                     padding: '3px 8px', borderRadius: '6px',
                                                     backgroundColor: r.severity === 'high' ? 'rgba(239,68,68,0.12)' : 'rgba(245,158,11,0.12)',
-                                                    color: r.severity === 'high' ? '#ef4444' : '#f59e0b'
+                                                    color: r.severity === 'high' ? '#E5554F' : '#FE9922'
                                                 }}>
-                                                    {r.severity === 'high' ? <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" strokeWidth="2" style={{ marginRight: '3px', flexShrink: 0 }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" style={{ marginRight: '3px', flexShrink: 0 }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>} {r.message}
+                                                    {r.severity === 'high' ? <svg width="12" height="12" viewBox="0 0 24 24" fill="#E5554F" stroke="#E5554F" strokeWidth="2" style={{ marginRight: '3px', flexShrink: 0 }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FE9922" strokeWidth="2" style={{ marginRight: '3px', flexShrink: 0 }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>} {r.message}
                                                 </span>
                                             ))}
                                         </div>
@@ -6045,7 +6045,7 @@ const ReprioritizationTab = ({
                                         style={{
                                             display: 'flex', alignItems: 'center', gap: '6px',
                                             cursor: 'pointer', fontSize: '11px', fontWeight: '600',
-                                            color: '#f59e0b', padding: '6px 0'
+                                            color: '#FE9922', padding: '6px 0'
                                         }}
                                     >
                                         <span style={{ transform: showVolatile ? 'rotate(90deg)' : 'rotate(0)', transition: 'transform 0.2s', display: 'inline-block' }}>▶</span>
@@ -6069,11 +6069,11 @@ const ReprioritizationTab = ({
                                                     }}>
                                                         <div style={{
                                                             width: `${vp.survivalRate}%`, height: '100%',
-                                                            backgroundColor: vp.survivalRate > 50 ? '#f59e0b' : '#ef4444',
+                                                            backgroundColor: vp.survivalRate > 50 ? '#FE9922' : '#E5554F',
                                                             borderRadius: '3px', transition: 'width 0.4s'
                                                         }} />
                                                     </div>
-                                                    <span style={{ fontWeight: '700', color: vp.survivalRate > 50 ? '#f59e0b' : '#ef4444' }}>
+                                                    <span style={{ fontWeight: '700', color: vp.survivalRate > 50 ? '#FE9922' : '#E5554F' }}>
                                                         {vp.survivalRate}%
                                                     </span>
                                                     <span style={{ fontWeight: '600', color: isDark ? '#f1f5f9' : '#1e293b' }}>{vp.name}</span>
@@ -6106,7 +6106,7 @@ const ReprioritizationTab = ({
                                     marginLeft: '8px',
                                     fontSize: '10px', fontWeight: '600',
                                     padding: '2px 8px', borderRadius: '10px',
-                                    backgroundColor: 'rgba(245,158,11,0.15)', color: '#f59e0b'
+                                    backgroundColor: 'rgba(245,158,11,0.15)', color: '#FE9922'
                                 }}>
                                     {sensitivityResult.length} sensitive project{sensitivityResult.length !== 1 ? 's' : ''}
                                 </span>
@@ -6130,7 +6130,7 @@ const ReprioritizationTab = ({
                                         }}>
                                             <span style={{
                                                 fontWeight: '800', fontSize: '12px', minWidth: '28px',
-                                                color: sp.sensitivity >= 80 ? '#ef4444' : sp.sensitivity >= 50 ? '#f59e0b' : '#94a3b8'
+                                                color: sp.sensitivity >= 80 ? '#E5554F' : sp.sensitivity >= 50 ? '#FE9922' : '#94a3b8'
                                             }}>
                                                 {sp.sensitivity}%
                                             </span>
@@ -6138,7 +6138,7 @@ const ReprioritizationTab = ({
                                             {sp.tierChange && (
                                                 <span style={{
                                                     fontSize: '9px', fontWeight: '600', padding: '1px 6px',
-                                                    borderRadius: '4px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#ef4444'
+                                                    borderRadius: '4px', backgroundColor: 'rgba(239,68,68,0.12)', color: '#E5554F'
                                                 }}>
                                                     T{sp.tierChange.from}→T{sp.tierChange.to}
                                                 </span>
@@ -6146,7 +6146,7 @@ const ReprioritizationTab = ({
                                             {sp.nearDeferral && (
                                                 <span style={{
                                                     fontSize: '9px', fontWeight: '600', padding: '1px 6px',
-                                                    borderRadius: '4px', backgroundColor: 'rgba(245,158,11,0.12)', color: '#f59e0b'
+                                                    borderRadius: '4px', backgroundColor: 'rgba(245,158,11,0.12)', color: '#FE9922'
                                                 }}>
                                                     Near deferral
                                                 </span>
@@ -6166,9 +6166,9 @@ const ReprioritizationTab = ({
                         <div style={{
                             ...sectionCard(isDark),
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.06))'
-                                : 'linear-gradient(135deg, rgba(139,92,246,0.06), rgba(59,130,246,0.04))',
-                            border: `1px solid ${isDark ? 'rgba(139,92,246,0.25)' : 'rgba(139,92,246,0.2)'}`
+                                ? 'linear-gradient(135deg, rgba(0,189,0,0.08), rgba(71,148,255,0.06))'
+                                : 'linear-gradient(135deg, rgba(0,189,0,0.06), rgba(71,148,255,0.04))',
+                            border: `1px solid ${isDark ? 'rgba(0,189,0,0.25)' : 'rgba(0,189,0,0.2)'}`
                         }}>
                             <div
                                 onClick={() => setShowStrategies(!showStrategies)}
@@ -6180,7 +6180,7 @@ const ReprioritizationTab = ({
                                     marginLeft: '8px',
                                     fontSize: '10px', fontWeight: '600',
                                     padding: '2px 8px', borderRadius: '10px',
-                                    backgroundColor: 'rgba(139,92,246,0.15)', color: '#8b5cf6'
+                                    backgroundColor: 'rgba(0,189,0,0.15)', color: '#00BD00'
                                 }}>
                                     {strategyResult.strategies.length} strategies compared
                                 </span>
@@ -6219,7 +6219,7 @@ const ReprioritizationTab = ({
                                                     </div>
                                                     <div>
                                                         <span style={{ color: isDark ? '#64748b' : '#94a3b8' }}>Deferred </span>
-                                                        <strong style={{ color: '#f59e0b' }}>{s.stats.projectsDeferred}</strong>
+                                                        <strong style={{ color: '#FE9922' }}>{s.stats.projectsDeferred}</strong>
                                                     </div>
                                                     <div>
                                                         <span style={{ color: isDark ? '#64748b' : '#94a3b8' }}>ARR </span>
@@ -6261,9 +6261,9 @@ const ReprioritizationTab = ({
                             <div style={{
                                 display: 'flex', alignItems: 'center', gap: '6px',
                                 padding: '6px 12px', borderRadius: '8px',
-                                backgroundColor: isDark ? 'rgba(139,92,246,0.1)' : '#faf5ff',
-                                border: `1px solid ${isDark ? 'rgba(139,92,246,0.2)' : '#e9d5ff'}`,
-                                fontSize: '11px', fontWeight: '600', color: '#7637E3'
+                                backgroundColor: isDark ? 'rgba(0,189,0,0.1)' : '#f0fdf4',
+                                border: `1px solid ${isDark ? 'rgba(0,189,0,0.2)' : '#dcfce7'}`,
+                                fontSize: '11px', fontWeight: '600', color: '#082F24'
                             }}>
                                 <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" /></svg></span>
                                 Converged in {iterationCount} iteration{iterationCount !== 1 ? 's' : ''}
@@ -6276,8 +6276,8 @@ const ReprioritizationTab = ({
                                 padding: '6px 12px', borderRadius: '8px',
                                 fontSize: '11px', fontWeight: '600', cursor: 'pointer',
                                 border: `1px solid ${isDark ? '#475569' : '#d1d5db'}`,
-                                backgroundColor: showMergePanel ? (isDark ? 'rgba(59,130,246,0.1)' : '#eff6ff') : 'transparent',
-                                color: showMergePanel ? '#3b82f6' : (isDark ? '#94a3b8' : '#64748b'),
+                                backgroundColor: showMergePanel ? (isDark ? 'rgba(71,148,255,0.1)' : '#eff6ff') : 'transparent',
+                                color: showMergePanel ? '#4794FF' : (isDark ? '#94a3b8' : '#64748b'),
                                 transition: 'all 0.2s'
                             }}
                         >
@@ -6334,8 +6334,8 @@ const ReprioritizationTab = ({
                                             style={{
                                                 padding: '3px 8px', borderRadius: '6px', fontSize: '10px',
                                                 fontWeight: '600', cursor: 'pointer',
-                                                backgroundColor: isDark ? 'rgba(59,130,246,0.15)' : '#eff6ff',
-                                                color: '#3b82f6', border: '1px solid rgba(59,130,246,0.3)'
+                                                backgroundColor: isDark ? 'rgba(71,148,255,0.15)' : '#eff6ff',
+                                                color: '#4794FF', border: '1px solid rgba(71,148,255,0.3)'
                                             }}
                                         >
                                             {sq} ✕
@@ -6422,7 +6422,7 @@ const ReprioritizationTab = ({
                             fontSize: '12px',
                             color: isDark ? '#fcd34d' : '#b45309'
                         }}>
-                            <strong><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth="2" style={{ marginRight: '4px', verticalAlign: 'middle' }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> {results.warnings.length} Warning{results.warnings.length !== 1 ? 's' : ''}:</strong>
+                            <strong><svg width="12" height="12" viewBox="0 0 24 24" fill="#FE9922" stroke="#FE9922" strokeWidth="2" style={{ marginRight: '4px', verticalAlign: 'middle' }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> {results.warnings.length} Warning{results.warnings.length !== 1 ? 's' : ''}:</strong>
                             <ul style={{ margin: '6px 0 0', paddingLeft: '18px' }}>
                                 {results.warnings.slice(0, 5).map((w, i) => (
                                     <li key={i}>{w.message}</li>
@@ -6538,8 +6538,8 @@ const ReprioritizationTab = ({
                                                 {projectOverrides[project.id] && (
                                                     <span style={{
                                                         fontSize: '10px', fontWeight: '600', padding: '2px 6px',
-                                                        borderRadius: '4px', backgroundColor: 'rgba(139,92,246,0.12)',
-                                                        color: '#8b5cf6', flexShrink: 0
+                                                        borderRadius: '4px', backgroundColor: 'rgba(0,189,0,0.12)',
+                                                        color: '#00BD00', flexShrink: 0
                                                     }}>
                                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px', verticalAlign: 'middle' }}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" /></svg> Override
                                                     </span>
@@ -6548,8 +6548,8 @@ const ReprioritizationTab = ({
                                                 {project._compression > 0 && (
                                                     <span style={{
                                                         fontSize: '10px', fontWeight: '700', padding: '2px 6px',
-                                                        borderRadius: '4px', backgroundColor: 'rgba(139,92,246,0.12)',
-                                                        color: '#8b5cf6', flexShrink: 0
+                                                        borderRadius: '4px', backgroundColor: 'rgba(0,189,0,0.12)',
+                                                        color: '#00BD00', flexShrink: 0
                                                     }}>
                                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ marginRight: '2px', verticalAlign: 'middle' }}><polyline points="4 14 10 14 10 20" /><polyline points="20 10 14 10 14 4" /><line x1="14" y1="10" x2="21" y2="3" /><line x1="3" y1="21" x2="10" y2="14" /></svg>
                                                         -{project._compression}w
@@ -6558,8 +6558,8 @@ const ReprioritizationTab = ({
                                                 {project._dateNudge > 0 && (
                                                     <span style={{
                                                         fontSize: '10px', fontWeight: '700', padding: '2px 6px',
-                                                        borderRadius: '4px', backgroundColor: 'rgba(59,130,246,0.12)',
-                                                        color: '#3b82f6', flexShrink: 0
+                                                        borderRadius: '4px', backgroundColor: 'rgba(71,148,255,0.12)',
+                                                        color: '#4794FF', flexShrink: 0
                                                     }}>
                                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ marginRight: '2px', verticalAlign: 'middle' }}><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                                                         +{project._dateNudge}w
@@ -6581,7 +6581,7 @@ const ReprioritizationTab = ({
                                                 const newLaunch = project.proposedEnd;
                                                 const shift = project.shiftWeeks || 0;
                                                 const hasShift = shift !== 0;
-                                                const shiftColor = shift > 0 ? '#f59e0b' : '#22c55e';
+                                                const shiftColor = shift > 0 ? '#FE9922' : '#22c55e';
                                                 const shiftLabel = shift > 0 ? `+${shift}w` : `${shift}w`;
 
                                                 return (
@@ -6655,7 +6655,7 @@ const ReprioritizationTab = ({
                                                 <div style={{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' }}>
                                                     {project.assignments.map(a => {
                                                         const isAssigned = !!a.resourceId;
-                                                        const utilColor = a.newUtil > 100 ? '#ef4444' : a.newUtil > 85 ? '#f59e0b' : '#22c55e';
+                                                        const utilColor = a.newUtil > 100 ? '#E5554F' : a.newUtil > 85 ? '#FE9922' : '#22c55e';
                                                         return (
                                                             <span
                                                                 key={a.role}
@@ -6668,13 +6668,13 @@ const ReprioritizationTab = ({
                                                                     fontSize: '10px',
                                                                     fontWeight: '600',
                                                                     backgroundColor: isAssigned
-                                                                        ? (a.isProgramSpecialist ? 'rgba(139,92,246,0.12)' : (isDark ? '#0f172a' : '#f0fdf4'))
+                                                                        ? (a.isProgramSpecialist ? 'rgba(0,189,0,0.12)' : (isDark ? '#0f172a' : '#f0fdf4'))
                                                                         : (isDark ? 'rgba(239,68,68,0.1)' : '#fef2f2'),
                                                                     color: isAssigned
-                                                                        ? (a.isProgramSpecialist ? '#8b5cf6' : (isDark ? '#86efac' : '#16a34a'))
-                                                                        : '#ef4444',
+                                                                        ? (a.isProgramSpecialist ? '#00BD00' : (isDark ? '#86efac' : '#16a34a'))
+                                                                        : '#E5554F',
                                                                     border: `1px solid ${isAssigned
-                                                                        ? (a.isProgramSpecialist ? 'rgba(139,92,246,0.3)' : (isDark ? 'rgba(34,197,94,0.2)' : '#bbf7d0'))
+                                                                        ? (a.isProgramSpecialist ? 'rgba(0,189,0,0.3)' : (isDark ? 'rgba(34,197,94,0.2)' : '#bbf7d0'))
                                                                         : (isDark ? 'rgba(239,68,68,0.2)' : '#fecaca')
                                                                         }`
                                                                 }}
@@ -6683,14 +6683,14 @@ const ReprioritizationTab = ({
                                                                 {isAssigned ? (
                                                                     <>
                                                                         {a.resourceName}
-                                                                        {a.isCrossSquad && <span title={`Cross-squad: ${(a.resourceSquads || []).join(', ')} → project squad`} style={{ color: '#f59e0b', marginLeft: '2px', cursor: 'help' }}>⚠</span>}
+                                                                        {a.isCrossSquad && <span title={`Cross-squad: ${(a.resourceSquads || []).join(', ')} → project squad`} style={{ color: '#FE9922', marginLeft: '2px', cursor: 'help' }}>⚠</span>}
                                                                         <span style={{ color: utilColor, fontSize: '9px' }}>
                                                                             ({a.currentUtil}%→{a.newUtil}%)
                                                                         </span>
-                                                                        {a.isProgramSpecialist && <span title="Program Specialist"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg></span>}
+                                                                        {a.isProgramSpecialist && <span title="Program Specialist"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00BD00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg></span>}
                                                                     </>
                                                                 ) : (
-                                                                    <span><svg width="10" height="10" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" strokeWidth="2" style={{ marginRight: '2px', verticalAlign: 'middle' }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> No match</span>
+                                                                    <span><svg width="10" height="10" viewBox="0 0 24 24" fill="#E5554F" stroke="#E5554F" strokeWidth="2" style={{ marginRight: '2px', verticalAlign: 'middle' }}><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" stroke="white" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="white" /></svg> No match</span>
                                                                 )}
                                                             </span>
                                                         );
@@ -6749,9 +6749,9 @@ const ReprioritizationTab = ({
                                                         style={{
                                                             padding: '4px 10px', fontSize: '10px', fontWeight: '600',
                                                             borderRadius: '6px', cursor: 'pointer', transition: 'all 0.2s',
-                                                            border: `1px solid ${projectOverrides[project.id]?.pinTier ? '#8b5cf6' : (isDark ? '#475569' : '#d1d5db')}`,
-                                                            backgroundColor: projectOverrides[project.id]?.pinTier ? 'rgba(139,92,246,0.12)' : 'transparent',
-                                                            color: projectOverrides[project.id]?.pinTier ? '#8b5cf6' : (isDark ? '#94a3b8' : '#64748b')
+                                                            border: `1px solid ${projectOverrides[project.id]?.pinTier ? '#00BD00' : (isDark ? '#475569' : '#d1d5db')}`,
+                                                            backgroundColor: projectOverrides[project.id]?.pinTier ? 'rgba(0,189,0,0.12)' : 'transparent',
+                                                            color: projectOverrides[project.id]?.pinTier ? '#00BD00' : (isDark ? '#94a3b8' : '#64748b')
                                                         }}
                                                     >
                                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: '3px' }}><line x1="12" y1="17" x2="12" y2="3" /><path d="M5 12l7 7 7-7" /></svg> {projectOverrides[project.id]?.pinTier ? `Pinned T${projectOverrides[project.id].pinTier}` : 'Pin Tier'}
@@ -6793,7 +6793,7 @@ const ReprioritizationTab = ({
                                                                         padding: '6px 10px', fontSize: '11px', cursor: 'pointer',
                                                                         borderRadius: '6px', fontWeight: '600', marginTop: '2px',
                                                                         borderTop: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                                                                        color: '#ef4444'
+                                                                        color: '#E5554F'
                                                                     }}
                                                                 >
                                                                     ✕ Remove Pin
@@ -6811,7 +6811,7 @@ const ReprioritizationTab = ({
                                                         borderRadius: '6px', cursor: 'pointer', transition: 'all 0.2s',
                                                         border: `1px solid ${isDark ? '#475569' : '#d1d5db'}`,
                                                         backgroundColor: 'transparent',
-                                                        color: '#f59e0b'
+                                                        color: '#FE9922'
                                                     }}
                                                 >
                                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px' }}><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg> Defer
@@ -6906,9 +6906,9 @@ const ReprioritizationTab = ({
                                                             borderRadius: '6px',
                                                             fontSize: '10px',
                                                             fontWeight: '600',
-                                                            backgroundColor: isDark ? 'rgba(59,130,246,0.12)' : '#eff6ff',
-                                                            color: '#3b82f6',
-                                                            border: `1px solid ${isDark ? 'rgba(59,130,246,0.25)' : '#bfdbfe'}`,
+                                                            backgroundColor: isDark ? 'rgba(71,148,255,0.12)' : '#eff6ff',
+                                                            color: '#4794FF',
+                                                            border: `1px solid ${isDark ? 'rgba(71,148,255,0.25)' : '#bfdbfe'}`,
                                                             display: 'inline-flex',
                                                             alignItems: 'center',
                                                             gap: '3px'
@@ -7139,7 +7139,7 @@ const ReprioritizationTab = ({
                                     fontWeight: '700',
                                     borderRadius: '12px',
                                     border: 'none',
-                                    background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                    background: 'linear-gradient(135deg, #FE9922, #d97706)',
                                     color: 'white',
                                     cursor: 'pointer',
                                     transition: 'all 0.2s',
@@ -7470,8 +7470,8 @@ const ReprioritizationTab = ({
                                     fontWeight: '600',
                                     borderRadius: '12px',
                                     border: `1px solid ${isDark ? '#475569' : '#d1d5db'}`,
-                                    backgroundColor: isDark ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.06)',
-                                    color: '#3b82f6',
+                                    backgroundColor: isDark ? 'rgba(71,148,255,0.08)' : 'rgba(71,148,255,0.06)',
+                                    color: '#4794FF',
                                     cursor: 'pointer',
                                     transition: 'all 0.2s',
                                     display: 'flex', alignItems: 'center', gap: '6px'
@@ -7491,8 +7491,8 @@ const ReprioritizationTab = ({
                                 fontWeight: '600',
                                 borderRadius: '12px',
                                 border: `1px solid ${isDark ? '#475569' : '#d1d5db'}`,
-                                backgroundColor: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(99,102,241,0.06)',
-                                color: '#6366f1',
+                                backgroundColor: isDark ? 'rgba(8,47,36,0.08)' : 'rgba(8,47,36,0.06)',
+                                color: '#082F24',
                                 cursor: 'pointer',
                                 transition: 'all 0.2s',
                                 display: 'flex', alignItems: 'center', gap: '6px'
@@ -7566,7 +7566,7 @@ const ReprioritizationTab = ({
                                 onKeyDown={(e) => { if (e.key === 'Enter') handleSaveScenario(); }}
                             />
                             {overrideCount > 0 && (
-                                <div style={{ fontSize: '11px', color: '#8b5cf6', marginBottom: '12px' }}>
+                                <div style={{ fontSize: '11px', color: '#00BD00', marginBottom: '12px' }}>
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '3px', verticalAlign: 'middle' }}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" /></svg>{overrideCount} override{overrideCount !== 1 ? 's' : ''} will be saved
                                 </div>
                             )}
@@ -7587,7 +7587,7 @@ const ReprioritizationTab = ({
                                     style={{
                                         flex: 2, padding: '10px', fontSize: '12px', fontWeight: '700',
                                         borderRadius: '10px', border: 'none',
-                                        background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)',
+                                        background: 'linear-gradient(135deg, #00BD00, #86efac)',
                                         color: 'white', cursor: 'pointer'
                                     }}
                                 >
@@ -7655,7 +7655,7 @@ const ReprioritizationTab = ({
                                                         }}
                                                         style={{
                                                             flex: 1, padding: '4px 8px', fontSize: '13px', fontWeight: '700',
-                                                            borderRadius: '6px', border: `1px solid ${isDark ? '#6366f1' : '#8b5cf6'}`,
+                                                            borderRadius: '6px', border: `1px solid ${isDark ? '#082F24' : '#00BD00'}`,
                                                             backgroundColor: isDark ? '#0f172a' : 'white',
                                                             color: isDark ? '#f1f5f9' : '#1e293b',
                                                             outline: 'none'
@@ -7706,7 +7706,7 @@ const ReprioritizationTab = ({
                                                     style={{
                                                         flex: 2, padding: '6px', fontSize: '11px', fontWeight: '600',
                                                         borderRadius: '8px', border: 'none',
-                                                        background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)',
+                                                        background: 'linear-gradient(135deg, #00BD00, #86efac)',
                                                         color: 'white', cursor: 'pointer'
                                                     }}
                                                 >
@@ -7717,7 +7717,7 @@ const ReprioritizationTab = ({
                                                     style={{
                                                         flex: 1, padding: '6px', fontSize: '11px', fontWeight: '600',
                                                         borderRadius: '8px', border: `1px solid ${isDark ? '#475569' : '#d1d5db'}`,
-                                                        backgroundColor: 'transparent', color: '#ef4444',
+                                                        backgroundColor: 'transparent', color: '#E5554F',
                                                         cursor: 'pointer'
                                                     }}
                                                 >

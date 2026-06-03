@@ -269,9 +269,9 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)'
+                                                ? 'linear-gradient(135deg, #1e1b4b 0%, #061f18 100%)'
                                                 : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#4c1d95' : '#fcd34d'}`,
+                                            borderBottom: `1px solid ${isDark ? '#061f18' : '#fcd34d'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
@@ -280,7 +280,7 @@ export const SettingsModal = ({
                                                 width: '36px',
                                                 height: '36px',
                                                 borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)',
+                                                background: 'linear-gradient(135deg, #FE9922 0%, #fbbf24 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -322,7 +322,7 @@ export const SettingsModal = ({
                                                         fontSize: '14px',
                                                         fontWeight: '700',
                                                         fontFamily: 'monospace',
-                                                        color: '#f59e0b',
+                                                        color: '#FE9922',
                                                         backgroundColor: isDark ? 'rgba(245,158,11,0.1)' : 'rgba(245,158,11,0.1)',
                                                         padding: '4px 10px',
                                                         borderRadius: '6px'
@@ -371,7 +371,7 @@ export const SettingsModal = ({
                                                             width: '8px',
                                                             height: '8px',
                                                             borderRadius: '50%',
-                                                            backgroundColor: '#ef4444',
+                                                            backgroundColor: '#E5554F',
                                                             boxShadow: '0 0 8px rgba(239,68,68,0.5)'
                                                         }} />
                                                         <span style={{ fontSize: '13px', fontWeight: '600', color: isDark ? '#f1f5f9' : '#1e293b' }}>
@@ -382,7 +382,7 @@ export const SettingsModal = ({
                                                         fontSize: '14px',
                                                         fontWeight: '700',
                                                         fontFamily: 'monospace',
-                                                        color: '#ef4444',
+                                                        color: '#E5554F',
                                                         backgroundColor: isDark ? 'rgba(239,68,68,0.1)' : 'rgba(239,68,68,0.1)',
                                                         padding: '4px 10px',
                                                         borderRadius: '6px'
@@ -403,7 +403,7 @@ export const SettingsModal = ({
                                                         top: 0,
                                                         height: '100%',
                                                         width: `${((thresholds.redStart - 0.8) / 0.7) * 100}%`,
-                                                        background: 'linear-gradient(90deg, #fbbf24 0%, #ef4444 100%)',
+                                                        background: 'linear-gradient(90deg, #fbbf24 0%, #E5554F 100%)',
                                                         borderRadius: '4px'
                                                     }} />
                                                 </div>
@@ -415,7 +415,7 @@ export const SettingsModal = ({
                                                         width: '100%',
                                                         height: '24px',
                                                         cursor: 'pointer',
-                                                        accentColor: '#ef4444',
+                                                        accentColor: '#E5554F',
                                                         marginTop: '-4px',
                                                         opacity: 0.01,
                                                         position: 'relative',
@@ -442,9 +442,9 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #312e81 0%, #4c1d95 100%)'
-                                                : 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#7637E3' : '#c4b5fd'}`,
+                                                ? 'linear-gradient(135deg, #061f18 0%, #061f18 100%)'
+                                                : 'linear-gradient(135deg, #dcfce7 0%, #dcfce7 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
@@ -453,21 +453,21 @@ export const SettingsModal = ({
                                                 width: '36px',
                                                 height: '36px',
                                                 borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #BD65FF 0%, #BD65FF 100%)',
+                                                background: 'linear-gradient(135deg, #FF8EFB 0%, #FF8EFB 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                boxShadow: '0 2px 8px rgba(139,92,246,0.3)'
+                                                boxShadow: '0 2px 8px rgba(0,189,0,0.3)'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#e9d5ff' : '#6b21a8', margin: 0 }}>
+                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#dcfce7' : '#082F24', margin: 0 }}>
                                                     Capacity Buffer
                                                 </h4>
-                                                <p style={{ fontSize: '11px', color: isDark ? '#c4b5fd' : '#7637E3', margin: 0 }}>
+                                                <p style={{ fontSize: '11px', color: isDark ? '#bbf7d0' : '#082F24', margin: 0 }}>
                                                     Overhead buffer shown as dotted line on charts
                                                 </p>
                                             </div>
@@ -482,8 +482,8 @@ export const SettingsModal = ({
                                                     fontSize: '14px',
                                                     fontWeight: '700',
                                                     fontFamily: 'monospace',
-                                                    color: '#BD65FF',
-                                                    backgroundColor: isDark ? 'rgba(168,85,247,0.1)' : 'rgba(168,85,247,0.1)',
+                                                    color: '#FF8EFB',
+                                                    backgroundColor: isDark ? 'rgba(0,189,0,0.1)' : 'rgba(0,189,0,0.1)',
                                                     padding: '4px 10px',
                                                     borderRadius: '6px'
                                                 }}>
@@ -494,7 +494,7 @@ export const SettingsModal = ({
                                                 type="range" min="0" max="50" step="5"
                                                 value={storedSettings.capacityBuffer ?? 10}
                                                 onChange={e => saveSettingsToTable({ ...storedSettings, capacityBuffer: Number(e.target.value) })}
-                                                style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#BD65FF' }}
+                                                style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#FF8EFB' }}
                                             />
                                             <p style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -629,7 +629,7 @@ export const SettingsModal = ({
                                             background: isDark
                                                 ? 'linear-gradient(135deg, #1e3a5f 0%, #164e63 100%)'
                                                 : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#0891b2' : '#f59e0b'}`,
+                                            borderBottom: `1px solid ${isDark ? '#0891b2' : '#FE9922'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
@@ -638,7 +638,7 @@ export const SettingsModal = ({
                                                 width: '36px',
                                                 height: '36px',
                                                 borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)',
+                                                background: 'linear-gradient(135deg, #FE9922 0%, #fbbf24 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -675,7 +675,7 @@ export const SettingsModal = ({
                                                                 ? (isDark ? 'rgba(245,158,11,0.15)' : 'rgba(245,158,11,0.1)')
                                                                 : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
                                                             border: `1px solid ${isChecked
-                                                                ? (isDark ? '#f59e0b' : '#fbbf24')
+                                                                ? (isDark ? '#FE9922' : '#fbbf24')
                                                                 : (isDark ? '#334155' : '#e2e8f0')}`,
                                                             cursor: 'pointer',
                                                             transition: 'all 0.2s'
@@ -696,7 +696,7 @@ export const SettingsModal = ({
                                                                 style={{
                                                                     width: '18px',
                                                                     height: '18px',
-                                                                    accentColor: '#f59e0b',
+                                                                    accentColor: '#FE9922',
                                                                     cursor: 'pointer'
                                                                 }}
                                                             />
@@ -1024,8 +1024,8 @@ export const SettingsModal = ({
                                         <div>
                                             {[
                                                 { key: 'pm', label: 'PM', color: '#0284c7' },
-                                                { key: 'sc', label: 'SC', color: '#7637E3' },
-                                                { key: 'pd', label: 'Build / PD', color: '#f59e0b' }
+                                                { key: 'sc', label: 'SC', color: '#082F24' },
+                                                { key: 'pd', label: 'Build / PD', color: '#FE9922' }
                                             ].map(({ key, label, color }) => (
                                                 <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: compact ? '6px' : '10px' }}>
                                                     <span style={{ fontSize: '11px', fontWeight: '600', color, minWidth: '72px' }}>{label}</span>
@@ -1204,16 +1204,16 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #4338ca 0%, #3730a3 100%)'
-                                                : 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#4338ca' : '#a5b4fc'}`,
+                                                ? 'linear-gradient(135deg, #082F24 0%, #082F24 100%)'
+                                                : 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#082F24' : '#a5b4fc'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.15)',
+                                                background: isDark ? 'rgba(8, 47, 36, 0.2)' : 'rgba(8, 47, 36, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#818cf8' : '#4f46e5'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1221,10 +1221,10 @@ export const SettingsModal = ({
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#e0e7ff' : '#3730a3' }}>
+                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dcfce7' : '#082F24' }}>
                                                     Primary Role Mapping
                                                 </h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(224, 231, 255, 0.7)' : '#4338ca', marginTop: '2px' }}>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(224, 231, 255, 0.7)' : '#082F24', marginTop: '2px' }}>
                                                     Map job titles to their primary role for basic capacity calculations
                                                 </p>
                                             </div>
@@ -1296,16 +1296,16 @@ export const SettingsModal = ({
                                     <div style={{
                                         padding: '20px',
                                         background: isDark
-                                            ? 'linear-gradient(135deg, #312e81 0%, #1e1b4b 100%)'
-                                            : 'linear-gradient(135deg, #E8E1D9 0%, #ddd6fe 100%)',
+                                            ? 'linear-gradient(135deg, #061f18 0%, #1e1b4b 100%)'
+                                            : 'linear-gradient(135deg, #E8E1D9 0%, #bbf7d0 100%)',
                                         borderRadius: '16px',
-                                        border: `1px solid ${isDark ? '#4c1d95' : '#c4b5fd'}`,
+                                        border: `1px solid ${isDark ? '#061f18' : '#bbf7d0'}`,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'space-between',
                                         cursor: 'pointer',
                                         transition: 'transform 0.2s',
-                                        boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.2)' : '0 4px 12px rgba(124, 58, 237, 0.05)'
+                                        boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.2)' : '0 4px 12px rgba(8, 47, 36, 0.05)'
                                     }}
                                         onClick={() => setActiveTab('roleConfig')}
                                     >
@@ -1314,11 +1314,11 @@ export const SettingsModal = ({
                                                 width: '42px',
                                                 height: '42px',
                                                 borderRadius: '12px',
-                                                background: 'linear-gradient(135deg, #BD65FF 0%, #7637E3 100%)',
+                                                background: 'linear-gradient(135deg, #FF8EFB 0%, #082F24 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.3)'
+                                                boxShadow: '0 4px 12px rgba(8, 47, 36, 0.3)'
                                             }}>
                                                 <svg style={{ width: '22px', height: '22px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -1326,13 +1326,13 @@ export const SettingsModal = ({
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#ddd6fe' : '#5b21b6', margin: 0 }}>Advanced Role Configuration</h4>
-                                                <p style={{ fontSize: '12px', color: isDark ? '#a78bfa' : '#7637E3', margin: '2px 0 0 0' }}>
+                                                <h4 style={{ fontSize: '15px', fontWeight: '800', color: isDark ? '#bbf7d0' : '#082F24', margin: 0 }}>Advanced Role Configuration</h4>
+                                                <p style={{ fontSize: '12px', color: isDark ? '#86efac' : '#082F24', margin: '2px 0 0 0' }}>
                                                     Configure <strong>Secondary Roles</strong> and complex constraints
                                                 </p>
                                             </div>
                                         </div>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#a78bfa' : '#7637E3'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#86efac' : '#082F24'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M5 12h14" />
                                             <path d="m12 5 7 7-7 7" />
                                         </svg>
@@ -1359,9 +1359,9 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #4c1d95 0%, #7637E3 100%)'
-                                                : 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#7637E3' : '#c4b5fd'}`,
+                                                ? 'linear-gradient(135deg, #061f18 0%, #082F24 100%)'
+                                                : 'linear-gradient(135deg, #dcfce7 0%, #dcfce7 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
@@ -1369,10 +1369,10 @@ export const SettingsModal = ({
                                             <div style={{
                                                 width: '36px', height: '36px',
                                                 borderRadius: '10px',
-                                                background: isDark ? 'rgba(167, 139, 250, 0.2)' : 'rgba(139, 92, 246, 0.15)',
+                                                background: isDark ? 'rgba(134, 239, 172, 0.2)' : 'rgba(0, 189, 0, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#a78bfa' : '#7637E3'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#86efac' : '#082F24'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                                                     <circle cx="9" cy="7" r="4" />
                                                     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -1380,10 +1380,10 @@ export const SettingsModal = ({
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#f3e8ff' : '#581c87' }}>
+                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dcfce7' : '#061f18' }}>
                                                     Job Title Role Configuration
                                                 </h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(243, 232, 255, 0.7)' : '#7637E3', marginTop: '2px' }}>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(243, 232, 255, 0.7)' : '#082F24', marginTop: '2px' }}>
                                                     Define primary and secondary roles for slot capacity modeling
                                                 </p>
                                             </div>
@@ -1482,10 +1482,10 @@ export const SettingsModal = ({
                                                                                 padding: '6px 10px',
                                                                                 borderRadius: '6px',
                                                                                 backgroundColor: isSecondary
-                                                                                    ? (isDark ? 'rgba(124, 58, 237, 0.2)' : 'rgba(124, 58, 237, 0.1)')
+                                                                                    ? (isDark ? 'rgba(8, 47, 36, 0.2)' : 'rgba(8, 47, 36, 0.1)')
                                                                                     : (isDark ? 'rgba(30, 41, 59, 0.5)' : '#f1f5f9'),
                                                                                 border: isSecondary
-                                                                                    ? '1px solid rgba(124, 58, 237, 0.5)'
+                                                                                    ? '1px solid rgba(8, 47, 36, 0.5)'
                                                                                     : (isDark ? '1px solid rgba(148, 163, 184, 0.2)' : '1px solid #e2e8f0'),
                                                                                 cursor: 'pointer',
                                                                                 transition: 'all 0.15s ease'
@@ -1509,7 +1509,7 @@ export const SettingsModal = ({
                                                                                     fontSize: '12px',
                                                                                     fontWeight: isSecondary ? '600' : '500',
                                                                                     color: isSecondary
-                                                                                        ? (isDark ? '#c4b5fd' : '#7637E3')
+                                                                                        ? (isDark ? '#bbf7d0' : '#082F24')
                                                                                         : (isDark ? '#94a3b8' : '#64748b')
                                                                                 }}>
                                                                                     {role}
@@ -1613,7 +1613,7 @@ export const SettingsModal = ({
                                                         </div>
                                                     </div>
                                                     <span style={{ fontSize: '13px', color: isDark ? '#e2e8f0' : '#334155' }}>
-                                                        If <strong style={{ color: '#00BD00' }}>primary-SC</strong> fills SC slot → <strong style={{ color: '#3b82f6' }}>primary-PM</strong> required for PM slot
+                                                        If <strong style={{ color: '#00BD00' }}>primary-SC</strong> fills SC slot → <strong style={{ color: '#4794FF' }}>primary-PM</strong> required for PM slot
                                                     </span>
                                                 </label>
                                             </div>
@@ -1792,7 +1792,7 @@ export const SettingsModal = ({
                                         {/* Card Body */}
                                         <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                             {[
-                                                { key: 'pipeline - best', label: 'Pipeline - Best Case', default: 0.5, color: '#f59e0b', desc: 'Lower probability deals - reduced capacity impact' },
+                                                { key: 'pipeline - best', label: 'Pipeline - Best Case', default: 0.5, color: '#FE9922', desc: 'Lower probability deals - reduced capacity impact' },
                                                 { key: 'pipeline - commit', label: 'Pipeline - Commit', default: 1.0, color: '#00BD00', desc: 'Higher probability deals - full capacity impact' }
                                             ].map(({ key, label, default: def, color, desc }) => (
                                                 <div key={key} style={{
@@ -1847,8 +1847,8 @@ export const SettingsModal = ({
                                                     </div>
                                                     <span style={{
                                                         fontSize: '14px', fontWeight: '700',
-                                                        color: '#7637E3',
-                                                        backgroundColor: isDark ? 'rgba(99, 102, 241, 0.1)' : '#eff6ff',
+                                                        color: '#082F24',
+                                                        backgroundColor: isDark ? 'rgba(8, 47, 36, 0.1)' : '#eff6ff',
                                                         padding: '4px 10px',
                                                         borderRadius: '6px'
                                                     }}>
@@ -1862,7 +1862,7 @@ export const SettingsModal = ({
                                                         ...storedSettings,
                                                         slotOptimization: { ...slotOptimization, maxForwardWeeks: Number(e.target.value) }
                                                     })}
-                                                    style={{ width: '100%', accentColor: '#7637E3', height: '6px', cursor: 'pointer' }}
+                                                    style={{ width: '100%', accentColor: '#082F24', height: '6px', cursor: 'pointer' }}
                                                 />
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8', marginTop: '4px' }}>
                                                     <span>0 weeks</span>
@@ -1894,9 +1894,9 @@ export const SettingsModal = ({
                                             {[
                                                 { pct: '100%', desc: 'Guaranteed', color: '#00BD00' },
                                                 { pct: '75%', desc: 'High confidence', color: '#84cc16' },
-                                                { pct: '50%', desc: 'Medium', color: '#f59e0b' },
+                                                { pct: '50%', desc: 'Medium', color: '#FE9922' },
                                                 { pct: '25%', desc: 'Low', color: '#f97316' },
-                                                { pct: '0%', desc: 'Excluded', color: '#ef4444' }
+                                                { pct: '0%', desc: 'Excluded', color: '#E5554F' }
                                             ].map(({ pct, desc, color }) => (
                                                 <div key={pct} style={{
                                                     textAlign: 'center',
@@ -1942,7 +1942,7 @@ export const SettingsModal = ({
                                             <div style={{
                                                 width: '36px', height: '36px',
                                                 borderRadius: '10px',
-                                                background: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)',
+                                                background: isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(71, 148, 255, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#60a5fa' : '#2563eb'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1953,7 +1953,7 @@ export const SettingsModal = ({
                                                 <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dbeafe' : '#1e3a8a' }}>
                                                     Create Ramp-Up Profile
                                                 </h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#3b82f6', marginTop: '2px' }}>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#4794FF', marginTop: '2px' }}>
                                                     Define capacity percentages for new hire onboarding
                                                 </p>
                                             </div>
@@ -1997,11 +1997,11 @@ export const SettingsModal = ({
                                                 style={{
                                                     height: '40px', padding: '0 20px',
                                                     fontSize: '12px', fontWeight: '600',
-                                                    background: newProfileName ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : '#e2e8f0',
+                                                    background: newProfileName ? 'linear-gradient(135deg, #4794FF 0%, #2563eb 100%)' : '#e2e8f0',
                                                     color: newProfileName ? 'white' : '#94a3b8',
                                                     border: 'none', borderRadius: '8px',
                                                     cursor: newProfileName ? 'pointer' : 'not-allowed',
-                                                    boxShadow: newProfileName ? '0 2px 8px rgba(59, 130, 246, 0.3)' : 'none',
+                                                    boxShadow: newProfileName ? '0 2px 8px rgba(71, 148, 255, 0.3)' : 'none',
                                                     display: 'flex', alignItems: 'center', gap: '6px'
                                                 }}
                                             >
@@ -2104,7 +2104,7 @@ export const SettingsModal = ({
                                                                         {p.weeks.map((val, i) => (
                                                                             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', minWidth: '24px' }}>
                                                                                 <div style={{ width: '8px', backgroundColor: isDark ? '#334155' : '#e2e8f0', height: '36px', borderRadius: '999px', position: 'relative', overflow: 'hidden' }}>
-                                                                                    <div style={{ position: 'absolute', bottom: 0, width: '100%', background: 'linear-gradient(180deg, #3b82f6 0%, #7637E3 100%)', borderRadius: '999px', height: `${val}%` }} />
+                                                                                    <div style={{ position: 'absolute', bottom: 0, width: '100%', background: 'linear-gradient(180deg, #4794FF 0%, #082F24 100%)', borderRadius: '999px', height: `${val}%` }} />
                                                                                 </div>
                                                                                 <span style={{ fontSize: '9px', fontFamily: 'monospace', color: isDark ? '#94a3b8' : '#64748b' }}>{val}</span>
                                                                             </div>
@@ -2116,7 +2116,7 @@ export const SettingsModal = ({
                                                                     <button
                                                                         onClick={() => handleStartEdit(idx)}
                                                                         style={{ padding: '8px', color: isDark ? '#94a3b8' : '#94a3b8', cursor: 'pointer', background: 'none', border: 'none', borderRadius: '6px' }}
-                                                                        onMouseEnter={e => { e.currentTarget.style.color = '#3b82f6'; e.currentTarget.style.backgroundColor = isDark ? 'rgba(59, 130, 246, 0.1)' : '#eff6ff'; }}
+                                                                        onMouseEnter={e => { e.currentTarget.style.color = '#4794FF'; e.currentTarget.style.backgroundColor = isDark ? 'rgba(71, 148, 255, 0.1)' : '#eff6ff'; }}
                                                                         onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                                                                         title="Edit profile"
                                                                     >
@@ -2125,7 +2125,7 @@ export const SettingsModal = ({
                                                                     <button
                                                                         onClick={() => handleDeleteProfile(idx)}
                                                                         style={{ padding: '8px', color: '#cbd5e1', cursor: 'pointer', background: 'none', border: 'none', borderRadius: '6px' }}
-                                                                        onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.backgroundColor = isDark ? 'rgba(239, 68, 68, 0.1)' : '#fef2f2'; }}
+                                                                        onMouseEnter={e => { e.currentTarget.style.color = '#E5554F'; e.currentTarget.style.backgroundColor = isDark ? 'rgba(239, 68, 68, 0.1)' : '#fef2f2'; }}
                                                                         onMouseLeave={e => { e.currentTarget.style.color = '#cbd5e1'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                                                                         title="Delete profile"
                                                                     >
@@ -2168,7 +2168,7 @@ export const SettingsModal = ({
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)',
+                                                background: isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(71, 148, 255, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#60a5fa' : '#2563eb'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2177,7 +2177,7 @@ export const SettingsModal = ({
                                             </div>
                                             <div>
                                                 <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dbeafe' : '#1e3a8a' }}>Capacity Engine</h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#3b82f6', marginTop: '2px' }}>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#4794FF', marginTop: '2px' }}>
                                                     Core calculation parameters
                                                 </p>
                                             </div>
@@ -2203,7 +2203,7 @@ export const SettingsModal = ({
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                                     <label style={{ fontWeight: '600', color: isDark ? '#e2e8f0' : '#1e293b', fontSize: '13px' }}>Global Capacity Multiplier</label>
                                                     <span style={{
-                                                        fontSize: '14px', fontWeight: '700', color: '#3b82f6',
+                                                        fontSize: '14px', fontWeight: '700', color: '#4794FF',
                                                         backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'white',
                                                         padding: '6px 14px', borderRadius: '8px',
                                                         border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0'}`,
@@ -2219,7 +2219,7 @@ export const SettingsModal = ({
                                                         ...storedSettings,
                                                         modelParams: { ...storedSettings.modelParams, capacityMultiplier: Number(e.target.value) }
                                                     })}
-                                                    style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#3b82f6', borderRadius: '3px' }}
+                                                    style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#4794FF', borderRadius: '3px' }}
                                                 />
                                                 <p style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b', marginTop: '8px', marginBottom: 0 }}>
                                                     Adjusts total capacity availability (1.0 = 100%, 0.9 = 90%)
@@ -2243,26 +2243,26 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #581c87 0%, #7637E3 100%)'
-                                                : 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#7637E3' : '#c4b5fd'}`,
+                                                ? 'linear-gradient(135deg, #061f18 0%, #082F24 100%)'
+                                                : 'linear-gradient(135deg, #dcfce7 0%, #dcfce7 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: isDark ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
+                                                background: isDark ? 'rgba(0, 189, 0, 0.2)' : 'rgba(0, 189, 0, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#a78bfa' : '#7637E3'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#86efac' : '#082F24'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M3 3v18h18" />
                                                     <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#f3e8ff' : '#581c87' }}>Effort Profiles</h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(243, 232, 255, 0.7)' : '#7637E3', marginTop: '2px' }}>
+                                                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dcfce7' : '#061f18' }}>Effort Profiles</h4>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(243, 232, 255, 0.7)' : '#082F24', marginTop: '2px' }}>
                                                     How effort is distributed across project duration
                                                 </p>
                                             </div>
@@ -2277,7 +2277,7 @@ export const SettingsModal = ({
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                                     <label style={{ fontWeight: '600', color: isDark ? '#e2e8f0' : '#1e293b', fontSize: '13px' }}>Curve Aggressiveness (Peak Factor)</label>
                                                     <span style={{
-                                                        fontSize: '14px', fontWeight: '700', color: '#BD65FF',
+                                                        fontSize: '14px', fontWeight: '700', color: '#FF8EFB',
                                                         backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'white',
                                                         padding: '6px 14px', borderRadius: '8px',
                                                         border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0'}`,
@@ -2293,7 +2293,7 @@ export const SettingsModal = ({
                                                         ...storedSettings,
                                                         modelParams: { ...storedSettings.modelParams, curvePeak: Number(e.target.value) }
                                                     })}
-                                                    style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#BD65FF', borderRadius: '3px' }}
+                                                    style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#FF8EFB', borderRadius: '3px' }}
                                                 />
                                                 <p style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b', marginTop: '8px', marginBottom: 0 }}>
                                                     Controls the steepness of Front/Back loaded curves. Higher = more dramatic shift.
@@ -2303,11 +2303,11 @@ export const SettingsModal = ({
                                             {/* Curve Visualizations */}
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
                                                 {[
-                                                    { label: 'Front Loaded', desc: 'Peak Start', color: '#BD65FF', path: (peak) => `M0 ${100 - peak * 50} L100 100`, fill: 'M0 0 L100 100 L100 100 L0 100 Z' },
-                                                    { label: 'Back Loaded', desc: 'Peak End', color: '#BD65FF', path: (peak) => `M0 100 L100 ${100 - peak * 50}`, fill: 'M0 100 L100 0 L100 100 L0 100 Z' },
+                                                    { label: 'Front Loaded', desc: 'Peak Start', color: '#FF8EFB', path: (peak) => `M0 ${100 - peak * 50} L100 100`, fill: 'M0 0 L100 100 L100 100 L0 100 Z' },
+                                                    { label: 'Back Loaded', desc: 'Peak End', color: '#FF8EFB', path: (peak) => `M0 100 L100 ${100 - peak * 50}`, fill: 'M0 100 L100 0 L100 100 L0 100 Z' },
                                                     { label: 'Bell Curve', desc: 'Peak Middle', color: '#00BD00', path: () => 'M0 100 Q25 100 50 10 Q75 100 100 100', fill: 'M0 100 Q25 100 50 10 Q75 100 100 100 L100 100 L0 100 Z' },
-                                                    { label: 'FPS 3-Stage', desc: 'Impl→UAT→Close', color: '#f59e0b', path: () => 'M0 20 L40 20 L40 50 L70 50 L70 70 L100 70', fill: null, rects: true },
-                                                    { label: 'Domestic UK', desc: 'Flat + Hypercare', color: '#3b82f6', path: () => 'M0 35 L70 35 L70 35 L70 70 L100 70', fill: null, domestic: true }
+                                                    { label: 'FPS 3-Stage', desc: 'Impl→UAT→Close', color: '#FE9922', path: () => 'M0 20 L40 20 L40 50 L70 50 L70 70 L100 70', fill: null, rects: true },
+                                                    { label: 'Domestic UK', desc: 'Flat + Hypercare', color: '#4794FF', path: () => 'M0 35 L70 35 L70 35 L70 70 L100 70', fill: null, domestic: true }
                                                 ].map(({ label, desc, color, path, fill, rects, domestic }) => (
                                                     <div key={label} style={{
                                                         padding: '12px',
@@ -2322,9 +2322,9 @@ export const SettingsModal = ({
                                                                 {domestic ? (
                                                                     <>
                                                                         <rect x="0" y="35" width="70" height="65" fill={color} fillOpacity="0.1" />
-                                                                        <rect x="70" y="70" width="30" height="30" fill="#f59e0b" fillOpacity="0.2" />
+                                                                        <rect x="70" y="70" width="30" height="30" fill="#FE9922" fillOpacity="0.2" />
                                                                         <path d="M0 35 L70 35" stroke={color} strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" />
-                                                                        <path d="M70 70 L100 70" stroke="#f59e0b" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" strokeDasharray="4 2" />
+                                                                        <path d="M70 70 L100 70" stroke="#FE9922" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" strokeDasharray="4 2" />
                                                                         <line x1="70" y1="35" x2="70" y2="100" stroke={isDark ? '#475569' : '#cbd5e1'} strokeWidth="1" strokeDasharray="3 2" vectorEffect="non-scaling-stroke" />
                                                                     </>
                                                                 ) : rects ? (
@@ -2404,13 +2404,13 @@ export const SettingsModal = ({
                                                     border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0'}`
                                                 }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
+                                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FE9922' }} />
                                                         <span style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#e2e8f0' : '#1e293b' }}>Hypercare Duration</span>
                                                     </div>
                                                     <div style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8', marginBottom: '10px' }}>Weeks of support after go-live</div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                                                         <span style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>Weeks</span>
-                                                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#f59e0b', fontFamily: 'monospace' }}>
+                                                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#FE9922', fontFamily: 'monospace' }}>
                                                             {storedSettings.modelParams?.roleSpecificProfile?.hypercareWeeks ?? 13}
                                                         </span>
                                                     </div>
@@ -2433,7 +2433,7 @@ export const SettingsModal = ({
                                                                 }
                                                             });
                                                         }}
-                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#f59e0b' }}
+                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#FE9922' }}
                                                     />
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                         <span>4 wks</span>
@@ -2463,7 +2463,7 @@ export const SettingsModal = ({
                                                         }}>
                                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />
+                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4794FF' }} />
                                                                     <span style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#e2e8f0' : '#1e293b' }}>Hypercare Hours</span>
                                                                 </div>
                                                                 <div style={{ display: 'flex', gap: '0', borderRadius: '6px', overflow: 'hidden', border: `1px solid ${isDark ? '#334155' : '#cbd5e1'}` }}>
@@ -2476,7 +2476,7 @@ export const SettingsModal = ({
                                                                             style={{
                                                                                 padding: '3px 10px', fontSize: '10px', fontWeight: '600',
                                                                                 border: 'none', cursor: 'pointer',
-                                                                                backgroundColor: mode === key ? '#3b82f6' : (isDark ? 'transparent' : 'white'),
+                                                                                backgroundColor: mode === key ? '#4794FF' : (isDark ? 'transparent' : 'white'),
                                                                                 color: mode === key ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                                                                 transition: 'all 0.15s ease'
                                                                             }}
@@ -2491,7 +2491,7 @@ export const SettingsModal = ({
                                                             </div>
                                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                                                                 <span style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>{mode === 'fixed' ? 'hrs/week' : '% per week'}</span>
-                                                                <span style={{ fontSize: '14px', fontWeight: '700', color: '#3b82f6', fontFamily: 'monospace' }}>
+                                                                <span style={{ fontSize: '14px', fontWeight: '700', color: '#4794FF', fontFamily: 'monospace' }}>
                                                                     {mode === 'fixed' ? `${fixedHrs}h` : `${pctValue.toFixed(2)}%`}
                                                                 </span>
                                                             </div>
@@ -2500,7 +2500,7 @@ export const SettingsModal = ({
                                                                     <input type="range" min="1" max="15" step="1"
                                                                         value={fixedHrs}
                                                                         onChange={e => writeRP({ hypercareHoursPerWeek: Number(e.target.value) })}
-                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#3b82f6' }}
+                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#4794FF' }}
                                                                     />
                                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                                         <span>1 hr</span><span>15 hrs</span>
@@ -2511,7 +2511,7 @@ export const SettingsModal = ({
                                                                     <input type="range" min="0.25" max="5" step="0.25"
                                                                         value={pctValue}
                                                                         onChange={e => writeRP({ hypercarePercentPerWeek: Number(e.target.value) })}
-                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#3b82f6' }}
+                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#4794FF' }}
                                                                     />
                                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                                         <span>0.25%</span><span>5%</span>
@@ -2526,9 +2526,9 @@ export const SettingsModal = ({
                                             {/* Role Curve Selectors */}
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                                                 {[
-                                                    { role: 'sc', label: 'SC (Consulting)', defaultVal: 'front', color: '#3b82f6', desc: 'Solution Consulting' },
+                                                    { role: 'sc', label: 'SC (Consulting)', defaultVal: 'front', color: '#4794FF', desc: 'Solution Consulting' },
                                                     { role: 'pd', label: 'PD (Build)', defaultVal: 'back', color: '#00BD00', desc: 'Development' },
-                                                    { role: 'pm', label: 'PM', defaultVal: 'flat', color: '#BD65FF', desc: 'Project Management' }
+                                                    { role: 'pm', label: 'PM', defaultVal: 'flat', color: '#FF8EFB', desc: 'Project Management' }
                                                 ].map(({ role, label, defaultVal, color, desc }) => {
                                                     const currentValue = storedSettings.modelParams?.roleSpecificProfile?.[`${role}Profile`] || defaultVal;
                                                     return (
@@ -2684,7 +2684,7 @@ export const SettingsModal = ({
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)',
+                                                background: isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(71, 148, 255, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#93c5fd' : '#1d4ed8'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2694,7 +2694,7 @@ export const SettingsModal = ({
                                             </div>
                                             <div>
                                                 <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: isDark ? '#dbeafe' : '#1e3a8a' }}>Benifex Domestic UK</h4>
-                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#3b82f6', marginTop: '2px' }}>
+                                                <p style={{ margin: 0, fontSize: '11px', color: isDark ? 'rgba(219, 234, 254, 0.7)' : '#4794FF', marginTop: '2px' }}>
                                                     Flat demand + post go-live hypercare
                                                 </p>
                                             </div>
@@ -2714,13 +2714,13 @@ export const SettingsModal = ({
                                                     border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0'}`
                                                 }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
+                                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FE9922' }} />
                                                         <span style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#e2e8f0' : '#1e293b' }}>Hypercare Duration</span>
                                                     </div>
                                                     <div style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8', marginBottom: '10px' }}>Weeks of support after go-live</div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                                                         <span style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>Weeks</span>
-                                                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#f59e0b', fontFamily: 'monospace' }}>
+                                                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#FE9922', fontFamily: 'monospace' }}>
                                                             {storedSettings.modelParams?.domesticProfile?.hypercareWeeks ?? 13}
                                                         </span>
                                                     </div>
@@ -2743,7 +2743,7 @@ export const SettingsModal = ({
                                                                 }
                                                             });
                                                         }}
-                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#f59e0b' }}
+                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#FE9922' }}
                                                     />
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                         <span>4 wks</span>
@@ -2773,7 +2773,7 @@ export const SettingsModal = ({
                                                         }}>
                                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />
+                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4794FF' }} />
                                                                     <span style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#e2e8f0' : '#1e293b' }}>Hypercare Hours</span>
                                                                 </div>
                                                                 {/* Mode pills */}
@@ -2787,7 +2787,7 @@ export const SettingsModal = ({
                                                                             style={{
                                                                                 padding: '3px 10px', fontSize: '10px', fontWeight: '600',
                                                                                 border: 'none', cursor: 'pointer',
-                                                                                backgroundColor: mode === key ? '#3b82f6' : (isDark ? 'transparent' : 'white'),
+                                                                                backgroundColor: mode === key ? '#4794FF' : (isDark ? 'transparent' : 'white'),
                                                                                 color: mode === key ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                                                                 transition: 'all 0.15s ease'
                                                                             }}
@@ -2802,7 +2802,7 @@ export const SettingsModal = ({
                                                             </div>
                                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                                                                 <span style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>{mode === 'fixed' ? 'hrs/week' : '% per week'}</span>
-                                                                <span style={{ fontSize: '14px', fontWeight: '700', color: '#3b82f6', fontFamily: 'monospace' }}>
+                                                                <span style={{ fontSize: '14px', fontWeight: '700', color: '#4794FF', fontFamily: 'monospace' }}>
                                                                     {mode === 'fixed' ? `${fixedHrs}h` : `${pctValue.toFixed(2)}%`}
                                                                 </span>
                                                             </div>
@@ -2811,7 +2811,7 @@ export const SettingsModal = ({
                                                                     <input type="range" min="1" max="15" step="1"
                                                                         value={fixedHrs}
                                                                         onChange={e => writeDomestic({ hypercareHoursPerWeek: Number(e.target.value) })}
-                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#3b82f6' }}
+                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#4794FF' }}
                                                                     />
                                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                                         <span>1 hr</span><span>15 hrs</span>
@@ -2822,7 +2822,7 @@ export const SettingsModal = ({
                                                                     <input type="range" min="0.25" max="5" step="0.25"
                                                                         value={pctValue}
                                                                         onChange={e => writeDomestic({ hypercarePercentPerWeek: Number(e.target.value) })}
-                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#3b82f6' }}
+                                                                        style={{ width: '100%', height: '6px', borderRadius: '3px', cursor: 'pointer', accentColor: '#4794FF' }}
                                                                     />
                                                                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: isDark ? '#475569' : '#cbd5e1' }}>
                                                                         <span>0.25%</span><span>5%</span>
@@ -2852,17 +2852,17 @@ export const SettingsModal = ({
                                                         </div>
                                                         <div style={{ height: '50px', width: '100%', backgroundColor: isDark ? '#0f172a' : '#f1f5f9', borderRadius: '6px', overflow: 'hidden' }}>
                                                             <svg style={{ width: '100%', height: '100%' }} viewBox="0 0 100 100" preserveAspectRatio="none">
-                                                                <rect x="0" y="30" width={flatWidth} height="70" fill="#3b82f6" fillOpacity="0.1" />
-                                                                <rect x={flatWidth} y="70" width={hcPct} height="30" fill="#f59e0b" fillOpacity="0.2" />
-                                                                <path d={`M0 30 L${flatWidth} 30`} stroke="#3b82f6" strokeWidth="2.5" fill="none" vectorEffect="non-scaling-stroke" />
-                                                                <path d={`M${flatWidth} 70 L100 70`} stroke="#f59e0b" strokeWidth="2.5" fill="none" vectorEffect="non-scaling-stroke" strokeDasharray="4 2" />
+                                                                <rect x="0" y="30" width={flatWidth} height="70" fill="#4794FF" fillOpacity="0.1" />
+                                                                <rect x={flatWidth} y="70" width={hcPct} height="30" fill="#FE9922" fillOpacity="0.2" />
+                                                                <path d={`M0 30 L${flatWidth} 30`} stroke="#4794FF" strokeWidth="2.5" fill="none" vectorEffect="non-scaling-stroke" />
+                                                                <path d={`M${flatWidth} 70 L100 70`} stroke="#FE9922" strokeWidth="2.5" fill="none" vectorEffect="non-scaling-stroke" strokeDasharray="4 2" />
                                                                 <line x1={flatWidth} y1="20" x2={flatWidth} y2="100" stroke={isDark ? '#475569' : '#cbd5e1'} strokeWidth="1" strokeDasharray="3 2" vectorEffect="non-scaling-stroke" />
                                                             </svg>
                                                         </div>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', fontSize: '9px', fontFamily: 'monospace' }}>
-                                                            <span style={{ color: '#3b82f6', fontWeight: '600' }}>◼ Flat (project)</span>
+                                                            <span style={{ color: '#4794FF', fontWeight: '600' }}>◼ Flat (project)</span>
                                                             <span style={{ color: isDark ? '#475569' : '#cbd5e1' }}>│ Go-Live</span>
-                                                            <span style={{ color: '#f59e0b', fontWeight: '600' }}>◼ Hypercare ({hcWeeks}w × {hcHours}h)</span>
+                                                            <span style={{ color: '#FE9922', fontWeight: '600' }}>◼ Hypercare ({hcWeeks}w × {hcHours}h)</span>
                                                         </div>
                                                     </div>
                                                 );
@@ -2878,13 +2878,13 @@ export const SettingsModal = ({
                                     <div style={{
                                         padding: '28px',
                                         background: isDark
-                                            ? 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)'
+                                            ? 'linear-gradient(135deg, #1e1b4b 0%, #061f18 50%, #1e1b4b 100%)'
                                             : 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%)',
                                         borderRadius: '20px',
-                                        border: `1px solid ${isDark ? 'rgba(99, 102, 241, 0.3)' : 'rgba(59, 130, 246, 0.2)'}`,
+                                        border: `1px solid ${isDark ? 'rgba(8, 47, 36, 0.3)' : 'rgba(71, 148, 255, 0.2)'}`,
                                         boxShadow: isDark
-                                            ? '0 8px 32px rgba(99, 102, 241, 0.15), inset 0 1px 0 rgba(255,255,255,0.05)'
-                                            : '0 8px 32px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255,255,255,0.8)',
+                                            ? '0 8px 32px rgba(8, 47, 36, 0.15), inset 0 1px 0 rgba(255,255,255,0.05)'
+                                            : '0 8px 32px rgba(71, 148, 255, 0.1), inset 0 1px 0 rgba(255,255,255,0.8)',
                                         position: 'relative',
                                         overflow: 'hidden'
                                     }}>
@@ -2896,8 +2896,8 @@ export const SettingsModal = ({
                                             width: '300px',
                                             height: '300px',
                                             background: isDark
-                                                ? 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)'
-                                                : 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+                                                ? 'radial-gradient(circle, rgba(0, 189, 0, 0.15) 0%, transparent 70%)'
+                                                : 'radial-gradient(circle, rgba(71, 148, 255, 0.1) 0%, transparent 70%)',
                                             pointerEvents: 'none'
                                         }} />
 
@@ -2907,11 +2907,11 @@ export const SettingsModal = ({
                                                 width: '52px',
                                                 height: '52px',
                                                 borderRadius: '16px',
-                                                background: 'linear-gradient(135deg, #7637E3 0%, #BD65FF 100%)',
+                                                background: 'linear-gradient(135deg, #082F24 0%, #FF8EFB 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                boxShadow: '0 4px 12px rgba(99, 102, 241, 0.4)'
+                                                boxShadow: '0 4px 12px rgba(8, 47, 36, 0.4)'
                                             }}>
                                                 <svg style={{ width: '26px', height: '26px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
@@ -2921,11 +2921,11 @@ export const SettingsModal = ({
                                                 <h3 style={{
                                                     fontSize: '20px',
                                                     fontWeight: '800',
-                                                    color: isDark ? '#e0e7ff' : '#1e40af',
+                                                    color: isDark ? '#dcfce7' : '#1e40af',
                                                     margin: 0,
                                                     letterSpacing: '-0.02em'
                                                 }}>Standard Project Profile</h3>
-                                                <p style={{ fontSize: '13px', color: isDark ? '#a5b4fc' : '#3b82f6', margin: '4px 0 0 0' }}>
+                                                <p style={{ fontSize: '13px', color: isDark ? '#a5b4fc' : '#4794FF', margin: '4px 0 0 0' }}>
                                                     Define what "1 slot" means for capacity planning
                                                 </p>
                                             </div>
@@ -2950,16 +2950,16 @@ export const SettingsModal = ({
                                                     key: 'pmHours',
                                                     label: 'PM',
                                                     fullLabel: 'Project Management',
-                                                    color: '#BD65FF',
-                                                    gradient: 'linear-gradient(135deg, #BD65FF 0%, #a78bfa 100%)',
+                                                    color: '#FF8EFB',
+                                                    gradient: 'linear-gradient(135deg, #FF8EFB 0%, #86efac 100%)',
                                                     icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7h-9" /><path d="M14 17H5" /><circle cx="17" cy="17" r="3" /><circle cx="7" cy="7" r="3" /></svg>
                                                 },
                                                 {
                                                     key: 'scHours',
                                                     label: 'SC',
                                                     fullLabel: 'Solution Consulting',
-                                                    color: '#3b82f6',
-                                                    gradient: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+                                                    color: '#4794FF',
+                                                    gradient: 'linear-gradient(135deg, #4794FF 0%, #60a5fa 100%)',
                                                     icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
                                                 },
                                                 {
@@ -3055,7 +3055,7 @@ export const SettingsModal = ({
                                                     width: '36px',
                                                     height: '36px',
                                                     borderRadius: '10px',
-                                                    background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)',
+                                                    background: 'linear-gradient(135deg, #FE9922 0%, #fbbf24 100%)',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center'
@@ -3253,9 +3253,9 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)'
-                                                : 'linear-gradient(135deg, #E8E1D9 0%, #ddd6fe 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#BD65FF' : '#c4b5fd'}`,
+                                                ? 'linear-gradient(135deg, #082F24 0%, #082F24 100%)'
+                                                : 'linear-gradient(135deg, #E8E1D9 0%, #bbf7d0 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#FF8EFB' : '#bbf7d0'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
@@ -3264,21 +3264,21 @@ export const SettingsModal = ({
                                                 width: '36px',
                                                 height: '36px',
                                                 borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #BD65FF 0%, #7637E3 100%)',
+                                                background: 'linear-gradient(135deg, #FF8EFB 0%, #082F24 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                boxShadow: '0 2px 8px rgba(139,92,246,0.3)'
+                                                boxShadow: '0 2px 8px rgba(0,189,0,0.3)'
                                             }}>
                                                 <svg style={{ width: '18px', height: '18px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#E8E1D9' : '#5b21b6', margin: 0 }}>
+                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#E8E1D9' : '#082F24', margin: 0 }}>
                                                     AI & Metrics Field Mappings
                                                 </h4>
-                                                <p style={{ fontSize: '11px', color: isDark ? '#c4b5fd' : '#7637E3', margin: 0 }}>
+                                                <p style={{ fontSize: '11px', color: isDark ? '#bbf7d0' : '#082F24', margin: 0 }}>
                                                     Configured via Airtable custom properties
                                                 </p>
                                             </div>
@@ -3288,8 +3288,8 @@ export const SettingsModal = ({
                                             <div style={{
                                                 padding: '16px',
                                                 borderRadius: '10px',
-                                                background: isDark ? 'rgba(139,92,246,0.1)' : '#F7F3ED',
-                                                border: `1px solid ${isDark ? '#7637E3' : '#ddd6fe'}`,
+                                                background: isDark ? 'rgba(0,189,0,0.1)' : '#F5EDE1',
+                                                border: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`,
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 gap: '12px'
@@ -3332,7 +3332,7 @@ export const SettingsModal = ({
                                                 width: '36px',
                                                 height: '36px',
                                                 borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                                background: 'linear-gradient(135deg, #E5554F 0%, #dc2626 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -3361,7 +3361,7 @@ export const SettingsModal = ({
                                                     fontSize: '14px',
                                                     fontWeight: '700',
                                                     fontFamily: 'monospace',
-                                                    color: '#ef4444',
+                                                    color: '#E5554F',
                                                     backgroundColor: isDark ? 'rgba(239,68,68,0.1)' : 'rgba(239,68,68,0.1)',
                                                     padding: '4px 10px',
                                                     borderRadius: '6px'
@@ -3377,7 +3377,7 @@ export const SettingsModal = ({
                                                         ...storedSettings,
                                                         slotOptimization: { ...slotOptimization, programConcurrency: Number(e.target.value) }
                                                     })}
-                                                    style={{ flexGrow: 1, height: '6px', cursor: 'pointer', accentColor: '#ef4444' }}
+                                                    style={{ flexGrow: 1, height: '6px', cursor: 'pointer', accentColor: '#E5554F' }}
                                                 />
                                             </div>
                                             <p style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -3561,28 +3561,28 @@ export const SettingsModal = ({
                                         <div style={{
                                             padding: '16px 20px',
                                             background: isDark
-                                                ? 'linear-gradient(135deg, #4338ca 0%, #3730a3 100%)'
-                                                : 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
-                                            borderBottom: `1px solid ${isDark ? '#7637E3' : '#a5b4fc'}`,
+                                                ? 'linear-gradient(135deg, #082F24 0%, #082F24 100%)'
+                                                : 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                                            borderBottom: `1px solid ${isDark ? '#082F24' : '#a5b4fc'}`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '12px'
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: 'linear-gradient(135deg, #7637E3 0%, #4f46e5 100%)',
+                                                background: 'linear-gradient(135deg, #082F24 0%, #4f46e5 100%)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                boxShadow: '0 2px 8px rgba(99,102,241,0.3)'
+                                                boxShadow: '0 2px 8px rgba(8,47,36,0.3)'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#c7d2fe' : '#3730a3', margin: 0 }}>
+                                                <h4 style={{ fontSize: '14px', fontWeight: '700', color: isDark ? '#bbf7d0' : '#082F24', margin: 0 }}>
                                                     Efficiency Factor
                                                 </h4>
-                                                <p style={{ fontSize: '11px', color: isDark ? '#a5b4fc' : '#4338ca', margin: 0 }}>
+                                                <p style={{ fontSize: '11px', color: isDark ? '#a5b4fc' : '#082F24', margin: 0 }}>
                                                     Program efficiency gain (reduces transferred effort)
                                                 </p>
                                             </div>
@@ -3596,8 +3596,8 @@ export const SettingsModal = ({
                                                     fontSize: '14px',
                                                     fontWeight: '700',
                                                     fontFamily: 'monospace',
-                                                    color: '#7637E3',
-                                                    backgroundColor: isDark ? 'rgba(99,102,241,0.1)' : 'rgba(99,102,241,0.1)',
+                                                    color: '#082F24',
+                                                    backgroundColor: isDark ? 'rgba(8,47,36,0.1)' : 'rgba(8,47,36,0.1)',
                                                     padding: '4px 10px',
                                                     borderRadius: '6px'
                                                 }}>
@@ -3608,7 +3608,7 @@ export const SettingsModal = ({
                                                 type="range" min="0" max="50" step="5"
                                                 value={storedSettings.programEfficiencyFactor || 0}
                                                 onChange={e => saveSettingsToTable({ ...storedSettings, programEfficiencyFactor: Number(e.target.value) })}
-                                                style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#7637E3' }}
+                                                style={{ width: '100%', height: '6px', cursor: 'pointer', accentColor: '#082F24' }}
                                             />
                                             <p style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -3741,7 +3741,7 @@ export const SettingsModal = ({
                                                                     borderRadius: '6px',
                                                                     border: 'none',
                                                                     backgroundColor: isDark ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.1)',
-                                                                    color: '#ef4444',
+                                                                    color: '#E5554F',
                                                                     cursor: 'pointer'
                                                                 }}
                                                             >
@@ -3813,7 +3813,7 @@ export const SettingsModal = ({
                                         }}>
                                             <div style={{
                                                 width: '36px', height: '36px', borderRadius: '10px',
-                                                background: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(37, 99, 235, 0.15)',
+                                                background: isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(37, 99, 235, 0.15)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#60a5fa' : '#2563eb'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3885,7 +3885,7 @@ export const SettingsModal = ({
                                                 {!aiIntelligence.tableId && (
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
                                                         <span style={{ fontSize: '14px' }}>⚠️</span>
-                                                        <p style={{ margin: 0, fontSize: '12px', color: '#f59e0b' }}>
+                                                        <p style={{ margin: 0, fontSize: '12px', color: '#FE9922' }}>
                                                             Please select a table to enable AI features
                                                         </p>
                                                     </div>
@@ -3898,7 +3898,7 @@ export const SettingsModal = ({
                                                     padding: '16px',
                                                     backgroundColor: isDark ? 'rgba(15, 23, 42, 0.4)' : '#ffffff',
                                                     borderRadius: '12px',
-                                                    border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : '#e2e8f0'}`,
+                                                    border: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.2)' : '#e2e8f0'}`,
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
                                                     alignItems: 'center'
@@ -3935,7 +3935,7 @@ export const SettingsModal = ({
                                                             width: '44px',
                                                             height: '24px',
                                                             borderRadius: '12px',
-                                                            backgroundColor: aiIntelligence.enabled ? '#3b82f6' : (isDark ? '#475569' : '#cbd5e1'),
+                                                            backgroundColor: aiIntelligence.enabled ? '#4794FF' : (isDark ? '#475569' : '#cbd5e1'),
                                                             padding: '2px',
                                                             cursor: 'pointer',
                                                             transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -4033,7 +4033,7 @@ export const SettingsModal = ({
                                                         alignItems: 'center',
                                                         gap: '8px'
                                                     }}>
-                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#60a5fa' : '#3b82f6'} strokeWidth="2">
+                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#60a5fa' : '#4794FF'} strokeWidth="2">
                                                             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                                                             <polyline points="14 2 14 8 20 8" />
                                                             <line x1="16" y1="13" x2="8" y2="13" />
@@ -4081,7 +4081,7 @@ export const SettingsModal = ({
                                                                         <polyline points="20 6 9 17 4 12" />
                                                                     </svg>
                                                                 ) : (
-                                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="3">
+                                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E5554F" strokeWidth="3">
                                                                         <line x1="18" y1="6" x2="6" y2="18" />
                                                                         <line x1="6" y1="6" x2="18" y2="18" />
                                                                     </svg>
@@ -4134,7 +4134,7 @@ export const SettingsModal = ({
                                                             </div>
                                                         ))}
                                                         {tableFields.length === 0 && (
-                                                            <div style={{ color: '#f59e0b', padding: '8px' }}>
+                                                            <div style={{ color: '#FE9922', padding: '8px' }}>
                                                                 ⚠️ No fields returned from Airtable. This may indicate a permissions issue or stale table reference.
                                                             </div>
                                                         )}
@@ -4170,7 +4170,7 @@ export const SettingsModal = ({
                                                             alignItems: 'center',
                                                             gap: '8px'
                                                         }}>
-                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#a78bfa' : '#BD65FF'} strokeWidth="2">
+                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#86efac' : '#FF8EFB'} strokeWidth="2">
                                                                 <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                                                             </svg>
                                                             AI Performance Tracking
@@ -4235,7 +4235,7 @@ export const SettingsModal = ({
                                                                 <div style={{
                                                                     fontSize: '28px',
                                                                     fontWeight: '800',
-                                                                    color: '#f59e0b',
+                                                                    color: '#FE9922',
                                                                     marginBottom: '4px'
                                                                 }}>
                                                                     {metrics.avgDrift}w
@@ -4247,14 +4247,14 @@ export const SettingsModal = ({
                                                             {/* Trend */}
                                                             <div style={{
                                                                 padding: '16px',
-                                                                backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : '#eff6ff',
+                                                                backgroundColor: isDark ? 'rgba(71, 148, 255, 0.1)' : '#eff6ff',
                                                                 borderRadius: '12px',
                                                                 textAlign: 'center'
                                                             }}>
                                                                 <div style={{
                                                                     fontSize: '28px',
                                                                     fontWeight: '800',
-                                                                    color: metrics.trend === 'improving' ? '#00BD00' : metrics.trend === 'declining' ? '#ef4444' : '#3b82f6',
+                                                                    color: metrics.trend === 'improving' ? '#00BD00' : metrics.trend === 'declining' ? '#E5554F' : '#4794FF',
                                                                     marginBottom: '4px',
                                                                     display: 'flex',
                                                                     alignItems: 'center',

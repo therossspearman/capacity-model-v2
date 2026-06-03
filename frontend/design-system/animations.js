@@ -9,7 +9,7 @@ export const ANIMATION_STYLES = `
   }
   .animate-shimmer { 
     animation: shimmer 2s infinite linear; 
-    background: linear-gradient(to right, #f3e8ff 4%, #e9d5ff 25%, #f3e8ff 36%); 
+    background: linear-gradient(to right, #dcfce7 4%, #dcfce7 25%, #dcfce7 36%); 
     background-size: 1000px 100%; 
   }
   

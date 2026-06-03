@@ -1164,18 +1164,18 @@ export const OptimizationModal = ({
                             <div style={{
                                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                                 padding: '6px 12px', borderRadius: '20px',
-                                backgroundColor: mode === 'optimize' ? '#f0fdf4' : (mode === 'bulk' ? '#F7F3ED' : (mode === 'reprioritize' ? '#fff5f0' : '#fffbeb')),
+                                backgroundColor: mode === 'optimize' ? '#f0fdf4' : (mode === 'bulk' ? '#F5EDE1' : (mode === 'reprioritize' ? '#fff5f0' : '#fffbeb')),
                                 border: `1px solid ${mode === 'optimize' ? '#dcfce7' : (mode === 'bulk' ? '#E8E1D9' : (mode === 'reprioritize' ? '#fed7aa' : '#fcd34d'))}`,
                                 marginBottom: '16px'
                             }}>
                                 <div style={{
                                     width: '8px', height: '8px', borderRadius: '50%',
-                                    backgroundColor: mode === 'optimize' ? '#00BD00' : (mode === 'bulk' ? '#7637E3' : (mode === 'reprioritize' ? '#FF6B35' : '#f59e0b')),
-                                    boxShadow: `0 0 0 2px ${mode === 'optimize' ? 'rgba(34, 197, 94, 0.2)' : (mode === 'bulk' ? 'rgba(124, 58, 237, 0.2)' : (mode === 'reprioritize' ? 'rgba(255,107,53,0.2)' : 'rgba(245, 158, 11, 0.2)'))}`
+                                    backgroundColor: mode === 'optimize' ? '#00BD00' : (mode === 'bulk' ? '#082F24' : (mode === 'reprioritize' ? '#FF6B35' : '#FE9922')),
+                                    boxShadow: `0 0 0 2px ${mode === 'optimize' ? 'rgba(34, 197, 94, 0.2)' : (mode === 'bulk' ? 'rgba(8, 47, 36, 0.2)' : (mode === 'reprioritize' ? 'rgba(255,107,53,0.2)' : 'rgba(245, 158, 11, 0.2)'))}`
                                 }}></div>
                                 <span style={{
                                     fontSize: '11px', fontWeight: '700',
-                                    color: mode === 'optimize' ? '#166534' : (mode === 'bulk' ? '#5b21b6' : '#b45309'),
+                                    color: mode === 'optimize' ? '#166534' : (mode === 'bulk' ? '#082F24' : '#b45309'),
                                     textTransform: 'uppercase', letterSpacing: '0.05em'
                                 }}>
                                     {mode === 'optimize' ? 'Optimization Engine' : (mode === 'bulk' ? 'Bulk Scheduling' : (mode === 'ai_optimiser' ? 'AI Strategic Advisor' : (mode === 'reprioritize' ? 'Portfolio Reprioritization' : 'Allocation Review')))}
@@ -1233,7 +1233,7 @@ export const OptimizationModal = ({
                                     border: 'none',
                                     borderRadius: '6px',
                                     cursor: 'pointer',
-                                    backgroundColor: mode === 'bulk' ? (isDark ? '#BD65FF' : '#BD65FF') : 'transparent',
+                                    backgroundColor: mode === 'bulk' ? (isDark ? '#FF8EFB' : '#FF8EFB') : 'transparent',
                                     color: mode === 'bulk' ? 'white' : (isDark ? '#94a3b8' : '#64748b')
                                 }}
                             >
@@ -1249,7 +1249,7 @@ export const OptimizationModal = ({
                                     border: 'none',
                                     borderRadius: '6px',
                                     cursor: 'pointer',
-                                    backgroundColor: mode === 'allocations' ? (isDark ? '#f59e0b' : '#f59e0b') : 'transparent',
+                                    backgroundColor: mode === 'allocations' ? (isDark ? '#FE9922' : '#FE9922') : 'transparent',
                                     color: mode === 'allocations' ? 'white' : (isDark ? '#94a3b8' : '#64748b')
                                 }}
                             >
@@ -1265,10 +1265,10 @@ export const OptimizationModal = ({
                                     border: 'none',
                                     borderRadius: '6px',
                                     cursor: 'pointer',
-                                    backgroundColor: mode === 'ai_optimiser' ? '#7637E3' : 'transparent',
+                                    backgroundColor: mode === 'ai_optimiser' ? '#082F24' : 'transparent',
                                     color: mode === 'ai_optimiser' ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                     marginLeft: '4px',
-                                    boxShadow: mode === 'ai_optimiser' ? '0 2px 4px rgba(118, 55, 227, 0.3)' : 'none'
+                                    boxShadow: mode === 'ai_optimiser' ? '0 2px 4px rgba(8, 47, 36, 0.3)' : 'none'
                                 }}
                             >
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '4px' }}>
@@ -1342,7 +1342,7 @@ export const OptimizationModal = ({
                             </div>
                             <div style={{ width: '1px', backgroundColor: isDark ? '#334155' : '#e2e8f0' }} />
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ fontSize: '20px', fontWeight: '800', color: totals.weeksSaved >= 0 ? '#f59e0b' : '#00BD00' }}>
+                                <span style={{ fontSize: '20px', fontWeight: '800', color: totals.weeksSaved >= 0 ? '#FE9922' : '#00BD00' }}>
                                     {totals.weeksSaved >= 0 ? '+' : ''}{totals.weeksSaved}w
                                 </span>
                                 <span style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b' }}>
@@ -1352,7 +1352,7 @@ export const OptimizationModal = ({
                             <div style={{ width: '1px', backgroundColor: isDark ? '#334155' : '#e2e8f0' }} />
                             {/* Implementation Fee */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ fontSize: '20px', fontWeight: '800', color: '#BD65FF' }}>
+                                <span style={{ fontSize: '20px', fontWeight: '800', color: '#FF8EFB' }}>
                                     +£{(totals.implFeeTotal / 1000).toFixed(0)}k
                                 </span>
                                 <span style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b' }}>
@@ -1378,11 +1378,11 @@ export const OptimizationModal = ({
                             marginTop: '20px',
                             padding: '24px',
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(118, 55, 227, 0.1) 0%, rgba(24, 1, 38, 0.4) 100%)'
-                                : 'linear-gradient(135deg, #FDF4FF 0%, #F5F3FF 100%)',
+                                ? 'linear-gradient(135deg, rgba(8, 47, 36, 0.1) 0%, rgba(8, 47, 36, 0.4) 100%)'
+                                : 'linear-gradient(135deg, #fff0fe 0%, #f0fdf4 100%)',
                             borderRadius: '16px',
-                            border: `1px solid ${isDark ? '#7637E3' : '#E9D5FF'}`,
-                            boxShadow: '0 10px 30px -5px rgba(118, 55, 227, 0.15)'
+                            border: `1px solid ${isDark ? '#082F24' : '#dcfce7'}`,
+                            boxShadow: '0 10px 30px -5px rgba(8, 47, 36, 0.15)'
                         }}>
                             {/* Top: Tuning Options */}
                             <div style={{
@@ -1393,7 +1393,7 @@ export const OptimizationModal = ({
                             }}>
                                 {/* Priority Dial */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', marginBottom: '6px' }}>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', marginBottom: '6px' }}>
                                         Optimization Priority
                                     </label>
                                     <select
@@ -1407,8 +1407,8 @@ export const OptimizationModal = ({
                                         }}
                                         style={{
                                             width: '100%', padding: '8px', borderRadius: '8px',
-                                            border: '1px solid #7637E3', backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                            color: isDark ? 'white' : '#180126', fontSize: '12px'
+                                            border: '1px solid #082F24', backgroundColor: isDark ? '#1e1b4b' : 'white',
+                                            color: isDark ? 'white' : '#082F24', fontSize: '12px'
                                         }}
                                     >
                                         <option value="balanced">Balanced Approach</option>
@@ -1419,7 +1419,7 @@ export const OptimizationModal = ({
 
                                 {/* Compression */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', marginBottom: '6px' }}>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', marginBottom: '6px' }}>
                                         Max Compression
                                     </label>
                                     <select
@@ -1427,8 +1427,8 @@ export const OptimizationModal = ({
                                         onChange={(e) => setRunParams(prev => ({ ...prev, maxCompression: Number(e.target.value) }))}
                                         style={{
                                             width: '100%', padding: '8px', borderRadius: '8px',
-                                            border: '1px solid #7637E3', backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                            color: isDark ? 'white' : '#180126', fontSize: '12px'
+                                            border: '1px solid #082F24', backgroundColor: isDark ? '#1e1b4b' : 'white',
+                                            color: isDark ? 'white' : '#082F24', fontSize: '12px'
                                         }}
                                     >
                                         <option value={0}>None</option>
@@ -1440,7 +1440,7 @@ export const OptimizationModal = ({
 
                                 {/* Expansion/Delay */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', marginBottom: '6px' }}>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', marginBottom: '6px' }}>
                                         Max Delay
                                     </label>
                                     <select
@@ -1448,8 +1448,8 @@ export const OptimizationModal = ({
                                         onChange={(e) => setRunParams(prev => ({ ...prev, maxExpansion: Number(e.target.value) }))}
                                         style={{
                                             width: '100%', padding: '8px', borderRadius: '8px',
-                                            border: '1px solid #7637E3', backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                            color: isDark ? 'white' : '#180126', fontSize: '12px'
+                                            border: '1px solid #082F24', backgroundColor: isDark ? '#1e1b4b' : 'white',
+                                            color: isDark ? 'white' : '#082F24', fontSize: '12px'
                                         }}
                                     >
                                         <option value={2}>2 Weeks</option>
@@ -1462,7 +1462,7 @@ export const OptimizationModal = ({
 
                                 {/* Buffer */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', marginBottom: '6px' }}>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', marginBottom: '6px' }}>
                                         Capacity Buffer
                                     </label>
                                     <select
@@ -1470,8 +1470,8 @@ export const OptimizationModal = ({
                                         onChange={(e) => setRunParams(prev => ({ ...prev, capacityBuffer: Number(e.target.value) }))}
                                         style={{
                                             width: '100%', padding: '8px', borderRadius: '8px',
-                                            border: '1px solid #7637E3', backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                            color: isDark ? 'white' : '#180126', fontSize: '12px'
+                                            border: '1px solid #082F24', backgroundColor: isDark ? '#1e1b4b' : 'white',
+                                            color: isDark ? 'white' : '#082F24', fontSize: '12px'
                                         }}
                                     >
                                         <option value={0}>0% (Max Efficiency)</option>
@@ -1482,7 +1482,7 @@ export const OptimizationModal = ({
 
                                 {/* Squad Moves */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', marginBottom: '6px' }}>
+                                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', marginBottom: '6px' }}>
                                         Cross-Squad
                                     </label>
                                     <select
@@ -1490,8 +1490,8 @@ export const OptimizationModal = ({
                                         onChange={(e) => setRunParams(prev => ({ ...prev, allowSquadMoves: e.target.value === 'yes' }))}
                                         style={{
                                             width: '100%', padding: '8px', borderRadius: '8px',
-                                            border: '1px solid #7637E3', backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                            color: isDark ? 'white' : '#180126', fontSize: '12px'
+                                            border: '1px solid #082F24', backgroundColor: isDark ? '#1e1b4b' : 'white',
+                                            color: isDark ? 'white' : '#082F24', fontSize: '12px'
                                         }}
                                     >
                                         <option value="yes">Allowed</option>
@@ -1507,11 +1507,11 @@ export const OptimizationModal = ({
                                 gap: '12px',
                                 marginBottom: '24px',
                                 padding: '12px 16px',
-                                backgroundColor: isDark ? 'rgba(118, 55, 227, 0.05)' : 'rgba(255, 255, 255, 0.5)',
+                                backgroundColor: isDark ? 'rgba(8, 47, 36, 0.05)' : 'rgba(255, 255, 255, 0.5)',
                                 borderRadius: '10px',
-                                border: `1px solid ${isDark ? '#5b21b6' : '#E9D5FF'}`
+                                border: `1px solid ${isDark ? '#082F24' : '#dcfce7'}`
                             }}>
-                                <span style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#d8b4fe' : '#7e22ce', minWidth: '80px' }}>
+                                <span style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', minWidth: '80px' }}>
                                     Date Range
                                 </span>
                                 <input
@@ -1522,13 +1522,13 @@ export const OptimizationModal = ({
                                         flex: 1,
                                         padding: '8px 12px',
                                         fontSize: '12px',
-                                        border: '1px solid #7637E3',
+                                        border: '1px solid #082F24',
                                         borderRadius: '8px',
                                         backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                        color: isDark ? 'white' : '#180126'
+                                        color: isDark ? 'white' : '#082F24'
                                     }}
                                 />
-                                <span style={{ color: isDark ? '#a78bfa' : '#7e22ce' }}>→</span>
+                                <span style={{ color: isDark ? '#86efac' : '#082F24' }}>→</span>
                                 <input
                                     type="date"
                                     value={dateRangeEnd}
@@ -1537,10 +1537,10 @@ export const OptimizationModal = ({
                                         flex: 1,
                                         padding: '8px 12px',
                                         fontSize: '12px',
-                                        border: '1px solid #7637E3',
+                                        border: '1px solid #082F24',
                                         borderRadius: '8px',
                                         backgroundColor: isDark ? '#1e1b4b' : 'white',
-                                        color: isDark ? 'white' : '#180126'
+                                        color: isDark ? 'white' : '#082F24'
                                     }}
                                 />
                             </div>
@@ -1548,9 +1548,9 @@ export const OptimizationModal = ({
                             {/* Natural Language Summary */}
                             <div style={{
                                 padding: '16px',
-                                backgroundColor: isDark ? 'rgba(118, 55, 227, 0.1)' : 'rgba(255, 255, 255, 0.6)',
+                                backgroundColor: isDark ? 'rgba(8, 47, 36, 0.1)' : 'rgba(255, 255, 255, 0.6)',
                                 borderRadius: '12px',
-                                border: '1px dashed #7637E3',
+                                border: '1px dashed #082F24',
                                 display: 'flex',
                                 alignItems: 'flex-start',
                                 gap: '12px'
@@ -1562,13 +1562,13 @@ export const OptimizationModal = ({
                                 <div>
                                     <h4 style={{
                                         margin: '0 0 4px 0', fontSize: '14px', fontWeight: '700',
-                                        color: isDark ? '#E9D5FF' : '#4C1D95'
+                                        color: isDark ? '#dcfce7' : '#061f18'
                                     }}>
                                         Projected Optimization Outcome
                                     </h4>
                                     <p style={{
                                         margin: 0, fontSize: '13px', lineHeight: '1.6',
-                                        color: isDark ? '#d8b4fe' : '#581c87'
+                                        color: isDark ? '#bbf7d0' : '#061f18'
                                     }}>
                                         The AI will strategy will
                                         <strong> {runParams.priorityDial >= 75 ? ' prioritize meeting deadlines' : (runParams.priorityDial <= 25 ? ' aggressively pack slots to maximize utilization' : ' balance efficiency with schedule adherence')} </strong>.
@@ -1590,7 +1590,7 @@ export const OptimizationModal = ({
                                     gap: '8px',
                                     cursor: 'pointer',
                                     fontSize: '12px',
-                                    color: isDark ? '#d8b4fe' : '#4c1d95'
+                                    color: isDark ? '#bbf7d0' : '#061f18'
                                 }}>
                                     <input
                                         type="checkbox"
@@ -1599,7 +1599,7 @@ export const OptimizationModal = ({
                                         style={{
                                             width: '16px',
                                             height: '16px',
-                                            accentColor: '#7637E3',
+                                            accentColor: '#082F24',
                                             cursor: 'pointer'
                                         }}
                                     />
@@ -1609,14 +1609,14 @@ export const OptimizationModal = ({
                                     onClick={() => handleGenerateAIScenario('balanced')} // Defaults to balanced trigger but uses current runParams in logic
                                     style={{
                                         padding: '10px 24px',
-                                        backgroundColor: '#7637E3',
+                                        backgroundColor: '#082F24',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '8px',
                                         fontWeight: '600',
                                         fontSize: '13px',
                                         cursor: 'pointer',
-                                        boxShadow: '0 4px 12px rgba(118, 55, 227, 0.4)',
+                                        boxShadow: '0 4px 12px rgba(8, 47, 36, 0.4)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '8px',
@@ -1754,10 +1754,10 @@ export const OptimizationModal = ({
                             marginTop: '12px',
                             padding: '12px 14px',
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%)'
-                                : 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%)',
+                                ? 'linear-gradient(135deg, rgba(71, 148, 255, 0.15) 0%, rgba(8, 47, 36, 0.1) 100%)'
+                                : 'linear-gradient(135deg, rgba(71, 148, 255, 0.1) 0%, rgba(8, 47, 36, 0.05) 100%)',
                             borderRadius: '10px',
-                            border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'}`
+                            border: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.3)' : 'rgba(71, 148, 255, 0.2)'}`
                         }}>
                             <div
                                 style={{
@@ -1793,12 +1793,12 @@ export const OptimizationModal = ({
                                 <div style={{ fontSize: '11px', color: isDark ? '#e2e8f0' : '#334155', lineHeight: '1.6' }}>
                                     {aiInsights.latestAnalysis.text}
                                     {aiInsights.recommendations.length > 0 && (
-                                        <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)'}` }}>
-                                            <div style={{ fontWeight: '600', marginBottom: '6px', color: isDark ? '#93c5fd' : '#3b82f6' }}>
+                                        <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(71, 148, 255, 0.15)'}` }}>
+                                            <div style={{ fontWeight: '600', marginBottom: '6px', color: isDark ? '#93c5fd' : '#4794FF' }}>
                                                 Recommendations:
                                             </div>
                                             {aiInsights.recommendations.slice(0, 3).map((rec, idx) => (
-                                                <div key={idx} style={{ marginBottom: '4px', paddingLeft: '12px', borderLeft: `2px solid ${isDark ? '#3b82f6' : '#93c5fd'}` }}>
+                                                <div key={idx} style={{ marginBottom: '4px', paddingLeft: '12px', borderLeft: `2px solid ${isDark ? '#4794FF' : '#93c5fd'}` }}>
                                                     {rec.text}
                                                 </div>
                                             ))}
@@ -1864,7 +1864,7 @@ export const OptimizationModal = ({
                                         <div style={{ minWidth: '100px' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                                                 <label style={{ fontSize: '10px', fontWeight: '600', color: isDark ? '#9ca3af' : '#6b7280' }}>Priority</label>
-                                                <span style={{ fontSize: '9px', fontWeight: '700', color: '#BD65FF' }}>
+                                                <span style={{ fontSize: '9px', fontWeight: '700', color: '#FF8EFB' }}>
                                                     {runParams.priorityDial <= 33 ? 'Max Slots' : runParams.priorityDial >= 67 ? 'Stability' : 'Balanced'}
                                                 </span>
                                             </div>
@@ -1872,7 +1872,7 @@ export const OptimizationModal = ({
                                                 type="range" min="0" max="100" step="5"
                                                 value={runParams.priorityDial}
                                                 onChange={e => setRunParams(prev => ({ ...prev, priorityDial: Number(e.target.value) }))}
-                                                style={{ width: '100%', accentColor: '#BD65FF', height: '3px' }}
+                                                style={{ width: '100%', accentColor: '#FF8EFB', height: '3px' }}
                                             />
                                         </div>
 
@@ -1923,7 +1923,7 @@ export const OptimizationModal = ({
                                                         type="checkbox"
                                                         checked={includeGlobalBacklog}
                                                         onChange={e => setIncludeGlobalBacklog(e.target.checked)}
-                                                        style={{ accentColor: '#BD65FF' }}
+                                                        style={{ accentColor: '#FF8EFB' }}
                                                     />
                                                     Include Unassigned Backlog
                                                 </label>
@@ -1977,8 +1977,8 @@ export const OptimizationModal = ({
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                                     <div style={{
                                         width: '18px', height: '18px', borderRadius: '5px',
-                                        border: `2px solid ${bulkSelectedIds.size === filteredUnresourcedProjects.length && filteredUnresourcedProjects.length > 0 ? '#BD65FF' : (isDark ? '#475569' : '#cbd5e1')}`,
-                                        backgroundColor: bulkSelectedIds.size === filteredUnresourcedProjects.length && filteredUnresourcedProjects.length > 0 ? '#BD65FF' : 'transparent',
+                                        border: `2px solid ${bulkSelectedIds.size === filteredUnresourcedProjects.length && filteredUnresourcedProjects.length > 0 ? '#FF8EFB' : (isDark ? '#475569' : '#cbd5e1')}`,
+                                        backgroundColor: bulkSelectedIds.size === filteredUnresourcedProjects.length && filteredUnresourcedProjects.length > 0 ? '#FF8EFB' : 'transparent',
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                                         transition: 'all 0.2s'
                                     }}>
@@ -2026,19 +2026,19 @@ export const OptimizationModal = ({
                                                 gap: '12px',
                                                 padding: '12px 16px',
                                                 backgroundColor: isSelected
-                                                    ? (isDark ? 'rgba(139,92,246,0.15)' : '#F7F3ED')
+                                                    ? (isDark ? 'rgba(0,189,0,0.15)' : '#F5EDE1')
                                                     : (isDark ? '#0f172a' : 'white'),
-                                                border: `1px solid ${isSelected ? '#BD65FF' : (isDark ? '#334155' : '#e2e8f0')}`,
+                                                border: `1px solid ${isSelected ? '#FF8EFB' : (isDark ? '#334155' : '#e2e8f0')}`,
                                                 borderRadius: '12px',
                                                 cursor: 'pointer',
                                                 transition: 'all 0.15s',
-                                                boxShadow: isSelected ? '0 2px 8px rgba(139, 92, 246, 0.1)' : 'none'
+                                                boxShadow: isSelected ? '0 2px 8px rgba(0, 189, 0, 0.1)' : 'none'
                                             }}
                                         >
                                             <div style={{
                                                 width: '18px', height: '18px', borderRadius: '5px',
-                                                border: `2px solid ${isSelected ? '#BD65FF' : (isDark ? '#475569' : '#cbd5e1')}`,
-                                                backgroundColor: isSelected ? '#BD65FF' : 'transparent',
+                                                border: `2px solid ${isSelected ? '#FF8EFB' : (isDark ? '#475569' : '#cbd5e1')}`,
+                                                backgroundColor: isSelected ? '#FF8EFB' : 'transparent',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 flexShrink: 0
                                             }}>
@@ -2136,9 +2136,9 @@ export const OptimizationModal = ({
                                                 style={{
                                                     padding: '4px 8px',
                                                     borderRadius: '4px',
-                                                    border: `1px solid ${selectedBulkStrategy === key ? '#BD65FF' : (isDark ? '#334155' : '#e2e8f0')}`,
-                                                    backgroundColor: selectedBulkStrategy === key ? (isDark ? 'rgba(139, 92, 246, 0.2)' : '#F7F3ED') : 'transparent',
-                                                    color: selectedBulkStrategy === key ? '#BD65FF' : (isDark ? '#94a3b8' : '#64748b'),
+                                                    border: `1px solid ${selectedBulkStrategy === key ? '#FF8EFB' : (isDark ? '#334155' : '#e2e8f0')}`,
+                                                    backgroundColor: selectedBulkStrategy === key ? (isDark ? 'rgba(0, 189, 0, 0.2)' : '#F5EDE1') : 'transparent',
+                                                    color: selectedBulkStrategy === key ? '#FF8EFB' : (isDark ? '#94a3b8' : '#64748b'),
                                                     fontSize: '10px',
                                                     fontWeight: '600',
                                                     cursor: 'pointer',
@@ -2169,10 +2169,10 @@ export const OptimizationModal = ({
                                                 borderRadius: '10px',
                                                 border: 'none',
                                                 background: isComputingPlan
-                                                    ? 'linear-gradient(135deg, #7637E3, #BD65FF, #BD65FF)'
+                                                    ? 'linear-gradient(135deg, #082F24, #FF8EFB, #FF8EFB)'
                                                     : bulkSelectedIds.size === 0
                                                         ? '#cbd5e1'
-                                                        : 'linear-gradient(135deg, #7637E3, #BD65FF)',
+                                                        : 'linear-gradient(135deg, #082F24, #FF8EFB)',
                                                 color: 'white',
                                                 fontSize: '13px',
                                                 fontWeight: '700',
@@ -2184,8 +2184,8 @@ export const OptimizationModal = ({
                                                 margin: '0 auto',
                                                 minWidth: '180px',
                                                 boxShadow: isComputingPlan
-                                                    ? '0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)'
-                                                    : '0 4px 12px rgba(139, 92, 246, 0.3)',
+                                                    ? '0 0 20px rgba(0, 189, 0, 0.6), 0 0 40px rgba(0, 189, 0, 0.3)'
+                                                    : '0 4px 12px rgba(0, 189, 0, 0.3)',
                                                 animation: isComputingPlan ? 'pulseAlive 1.5s ease-in-out infinite' : 'none',
                                                 transition: 'all 0.3s ease'
                                             }}
@@ -2194,11 +2194,11 @@ export const OptimizationModal = ({
                                                 @keyframes pulseAlive {
                                                     0%, 100% { 
                                                         transform: scale(1);
-                                                        box-shadow: 0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3);
+                                                        box-shadow: 0 0 20px rgba(0, 189, 0, 0.6), 0 0 40px rgba(0, 189, 0, 0.3);
                                                     }
                                                     50% { 
                                                         transform: scale(1.03);
-                                                        box-shadow: 0 0 30px rgba(139, 92, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.5);
+                                                        box-shadow: 0 0 30px rgba(0, 189, 0, 0.8), 0 0 60px rgba(0, 189, 0, 0.5);
                                                     }
                                                 }
                                                 @keyframes brainPulse {
@@ -2270,7 +2270,7 @@ export const OptimizationModal = ({
                                             <div style={{ padding: '10px', backgroundColor: isDark ? '#1e293b' : '#f8fafc', borderRadius: '8px', marginBottom: '16px', border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}` }}>
                                                 <div style={{ fontSize: '11px', fontWeight: '600', marginBottom: '8px', color: isDark ? '#e2e8f0' : '#334155', display: 'flex', justifyContent: 'space-between' }}>
                                                     <span>Robustness (50 Runs)</span>
-                                                    <span style={{ color: monteCarloResult.confidence.p90 > 80 ? '#00BD00' : '#f59e0b' }}>
+                                                    <span style={{ color: monteCarloResult.confidence.p90 > 80 ? '#00BD00' : '#FE9922' }}>
                                                         {monteCarloResult.confidence.p50}% Reliable
                                                     </span>
                                                 </div>
@@ -2333,11 +2333,11 @@ export const OptimizationModal = ({
                                             <div style={{
                                                 padding: '10px',
                                                 background: isDark
-                                                    ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%)'
-                                                    : 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%)',
+                                                    ? 'linear-gradient(135deg, rgba(71, 148, 255, 0.1) 0%, rgba(8, 47, 36, 0.05) 100%)'
+                                                    : 'linear-gradient(135deg, rgba(71, 148, 255, 0.08) 0%, rgba(8, 47, 36, 0.03) 100%)',
                                                 borderRadius: '8px',
                                                 marginBottom: '12px',
-                                                border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.15)'}`
+                                                border: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.2)' : 'rgba(71, 148, 255, 0.15)'}`
                                             }}>
                                                 <div
                                                     style={{
@@ -2368,8 +2368,8 @@ export const OptimizationModal = ({
                                                     <div style={{ fontSize: '10px', color: isDark ? '#e2e8f0' : '#334155', lineHeight: '1.5' }}>
                                                         {reliefAiInsights}
                                                         {reliefAiNextActions && (
-                                                            <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.1)'}` }}>
-                                                                <div style={{ fontWeight: '600', color: isDark ? '#93c5fd' : '#3b82f6', marginBottom: '4px' }}>Next Actions:</div>
+                                                            <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.15)' : 'rgba(71, 148, 255, 0.1)'}` }}>
+                                                                <div style={{ fontWeight: '600', color: isDark ? '#93c5fd' : '#4794FF', marginBottom: '4px' }}>Next Actions:</div>
                                                                 {reliefAiNextActions}
                                                             </div>
                                                         )}
@@ -2409,7 +2409,7 @@ export const OptimizationModal = ({
                                                             return (
                                                                 <>
                                                                     → {a.suggestedSquad} • KO: {formatDate(a.suggestedKO)} • Launch: {formatDate(launchDate.toISOString())}
-                                                                    {a.crossSquad && <span style={{ color: '#f59e0b' }}> • Cross-squad</span>}
+                                                                    {a.crossSquad && <span style={{ color: '#FE9922' }}> • Cross-squad</span>}
                                                                 </>
                                                             );
                                                         })()}
@@ -2497,7 +2497,7 @@ export const OptimizationModal = ({
                                                 </div>
                                             </div>
                                             <div style={{ textAlign: 'right' }}>
-                                                <div style={{ fontSize: '12px', fontWeight: '600', color: rec.resultLoad > 100 ? '#ef4444' : '#00BD00' }}>
+                                                <div style={{ fontSize: '12px', fontWeight: '600', color: rec.resultLoad > 100 ? '#E5554F' : '#00BD00' }}>
                                                     {rec.currentLoad}% → {rec.resultLoad}% Load
                                                 </div>
                                                 <button style={{
@@ -2760,10 +2760,10 @@ export const OptimizationModal = ({
                                                                         Current Schedule
                                                                     </div>
                                                                     <div style={{ fontSize: '13px', color: isDark ? '#e2e8f0' : '#334155', marginBottom: '4px' }}>
-                                                                        <span style={{ color: '#f59e0b', fontWeight: '600' }}>KO:</span> {formatDate(rec.currentKickOff)}
+                                                                        <span style={{ color: '#FE9922', fontWeight: '600' }}>KO:</span> {formatDate(rec.currentKickOff)}
                                                                     </div>
                                                                     <div style={{ fontSize: '13px', color: isDark ? '#e2e8f0' : '#334155' }}>
-                                                                        <span style={{ color: '#BD65FF', fontWeight: '600' }}>Launch:</span> {formatDate(rec.currentLaunch)}
+                                                                        <span style={{ color: '#FF8EFB', fontWeight: '600' }}>Launch:</span> {formatDate(rec.currentLaunch)}
                                                                     </div>
                                                                 </div>
 
@@ -2846,7 +2846,7 @@ export const OptimizationModal = ({
                                                                     borderRadius: '12px', border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
                                                                     fontSize: '13px', lineHeight: '1.6', color: isDark ? '#e2e8f0' : '#334155'
                                                                 }}>
-                                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: '#7637E3', fontWeight: '700', fontSize: '11px', textTransform: 'uppercase' }}>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: '#082F24', fontWeight: '700', fontSize: '11px', textTransform: 'uppercase' }}>
                                                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2z" /><path d="M12 6v6l4 2" /></svg>
                                                                         Optimization Logic
                                                                     </div>
@@ -2882,14 +2882,14 @@ export const OptimizationModal = ({
                         {mode === 'bulk' ? (
                             bulkPlan && (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <span style={{ padding: '4px 8px', borderRadius: '6px', backgroundColor: isDark ? 'rgba(139, 92, 246, 0.2)' : '#f3e8ff', color: '#BD65FF', fontWeight: '700' }}>
+                                    <span style={{ padding: '4px 8px', borderRadius: '6px', backgroundColor: isDark ? 'rgba(0, 189, 0, 0.2)' : '#dcfce7', color: '#FF8EFB', fontWeight: '700' }}>
                                         {bulkPlan.stats.placed} Placed
                                     </span>
                                     <span>
                                         of {bulkSelectedIds.size} selected
                                     </span>
                                     {bulkPlan.stats.crossSquadCount > 0 && (
-                                        <span style={{ color: '#f59e0b', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <span style={{ color: '#FE9922', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /></svg>
                                             {bulkPlan.stats.crossSquadCount} cross-squad
                                         </span>
@@ -2908,7 +2908,7 @@ export const OptimizationModal = ({
                                         +{(totals.slotGain * 100).toFixed(0)}% Capacity
                                     </span>
                                     <span style={{ color: isDark ? '#334155' : '#cbd5e1' }}>|</span>
-                                    <span style={{ color: '#BD65FF', fontWeight: '600' }}>
+                                    <span style={{ color: '#FF8EFB', fontWeight: '600' }}>
                                         £{(totals.financialImpact / 1000).toFixed(0)}k ARR
                                     </span>
                                 </div>
@@ -3025,23 +3025,23 @@ export const OptimizationModal = ({
                                         borderRadius: '10px',
                                         background: !bulkPlan?.allocations?.length
                                             ? (isDark ? '#334155' : '#e2e8f0')
-                                            : 'linear-gradient(135deg, #BD65FF 0%, #7637E3 100%)',
+                                            : 'linear-gradient(135deg, #FF8EFB 0%, #082F24 100%)',
                                         color: !bulkPlan?.allocations?.length
                                             ? (isDark ? '#64748b' : '#94a3b8')
                                             : 'white',
                                         cursor: !bulkPlan?.allocations?.length ? 'not-allowed' : 'pointer',
-                                        boxShadow: !bulkPlan?.allocations?.length ? 'none' : '0 4px 12px rgba(139, 92, 246, 0.3)',
+                                        boxShadow: !bulkPlan?.allocations?.length ? 'none' : '0 4px 12px rgba(0, 189, 0, 0.3)',
                                         opacity: isCreating ? 0.7 : 1,
                                         display: 'flex', alignItems: 'center', gap: '8px',
                                         transition: 'all 0.2s'
                                     }}
                                     onMouseEnter={(!bulkPlan?.allocations?.length) ? undefined : e => {
                                         e.currentTarget.style.transform = 'translateY(-1px)';
-                                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
+                                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 189, 0, 0.4)';
                                     }}
                                     onMouseLeave={(!bulkPlan?.allocations?.length) ? undefined : e => {
                                         e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
+                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 189, 0, 0.3)';
                                     }}
                                 >
                                     {isCreating ? 'Saving...' : 'Save Bulk Draft'}
@@ -3138,7 +3138,7 @@ export const OptimizationModal = ({
                                 width: '40px',
                                 height: '40px',
                                 borderRadius: '10px',
-                                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                background: 'linear-gradient(135deg, #FE9922 0%, #d97706 100%)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -3434,14 +3434,14 @@ export const OptimizationModal = ({
                                                 fontSize: '10px',
                                                 fontWeight: selectedStrategy === key ? '700' : '500',
                                                 border: `1px solid ${selectedStrategy === key
-                                                    ? (isDark ? '#BD65FF' : '#7637E3')
+                                                    ? (isDark ? '#FF8EFB' : '#082F24')
                                                     : (isDark ? '#475569' : '#cbd5e1')}`,
                                                 borderRadius: '6px',
                                                 backgroundColor: selectedStrategy === key
-                                                    ? (isDark ? '#4c1d95' : '#E8E1D9')
+                                                    ? (isDark ? '#061f18' : '#E8E1D9')
                                                     : (isDark ? '#0f172a' : 'white'),
                                                 color: selectedStrategy === key
-                                                    ? (isDark ? '#c4b5fd' : '#7637E3')
+                                                    ? (isDark ? '#bbf7d0' : '#082F24')
                                                     : (isDark ? '#94a3b8' : '#64748b'),
                                                 cursor: 'pointer',
                                                 transition: 'all 0.2s ease'
@@ -3476,7 +3476,7 @@ export const OptimizationModal = ({
                                     <div style={{ marginBottom: '16px' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                                             <label style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#9ca3af' : '#6b7280' }}>Optimization Priority</label>
-                                            <span style={{ fontSize: '10px', fontWeight: '700', color: '#BD65FF' }}>
+                                            <span style={{ fontSize: '10px', fontWeight: '700', color: '#FF8EFB' }}>
                                                 {runParams.priorityDial <= 33 ? 'Max Slots' : runParams.priorityDial >= 67 ? 'Stability' : 'Balanced'}
                                             </span>
                                         </div>
@@ -3484,7 +3484,7 @@ export const OptimizationModal = ({
                                             type="range" min="0" max="100" step="5"
                                             value={runParams.priorityDial}
                                             onChange={e => setRunParams(prev => ({ ...prev, priorityDial: Number(e.target.value) }))}
-                                            style={{ width: '100%', accentColor: '#BD65FF', height: '4px' }}
+                                            style={{ width: '100%', accentColor: '#FF8EFB', height: '4px' }}
                                         />
                                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: isDark ? '#64748b' : '#94a3b8', marginTop: '4px' }}>
                                             <span>Slots</span>
@@ -3548,7 +3548,7 @@ export const OptimizationModal = ({
                                                             else newSet.delete(squad);
                                                             setScopeSquads(newSet);
                                                         }}
-                                                        style={{ accentColor: '#3b82f6' }}
+                                                        style={{ accentColor: '#4794FF' }}
                                                     />
                                                     <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={squad}>
                                                         {squad}
@@ -3791,14 +3791,14 @@ export const OptimizationModal = ({
                                                         {/* Bottleneck */}
                                                         <div style={{
                                                             padding: '10px 12px',
-                                                            background: isDark ? 'rgba(139, 92, 246, 0.1)' : '#F7F3ED',
+                                                            background: isDark ? 'rgba(0, 189, 0, 0.1)' : '#F5EDE1',
                                                             borderRadius: '8px',
-                                                            border: `1px solid ${isDark ? '#5b21b6' : '#ddd6fe'}`
+                                                            border: `1px solid ${isDark ? '#082F24' : '#bbf7d0'}`
                                                         }}>
-                                                            <div style={{ fontSize: '9px', fontWeight: '600', color: isDark ? '#c4b5fd' : '#7637E3', textTransform: 'uppercase', marginBottom: '2px' }}>
+                                                            <div style={{ fontSize: '9px', fontWeight: '600', color: isDark ? '#bbf7d0' : '#082F24', textTransform: 'uppercase', marginBottom: '2px' }}>
                                                                 Bottleneck
                                                             </div>
-                                                            <div style={{ fontSize: '14px', fontWeight: '800', color: isDark ? '#a78bfa' : '#7637E3' }}>
+                                                            <div style={{ fontSize: '14px', fontWeight: '800', color: isDark ? '#86efac' : '#082F24' }}>
                                                                 {reliefBottleneck || '—'}
                                                             </div>
                                                         </div>
@@ -3812,7 +3812,7 @@ export const OptimizationModal = ({
                                                         padding: '10px 12px',
                                                         backgroundColor: isDark ? '#1e3a5f' : '#eff6ff',
                                                         borderRadius: '8px',
-                                                        borderLeft: '3px solid #3b82f6',
+                                                        borderLeft: '3px solid #4794FF',
                                                         fontSize: '12px',
                                                         fontWeight: '600',
                                                         color: isDark ? '#93c5fd' : '#1e40af'
@@ -3941,7 +3941,7 @@ export const OptimizationModal = ({
                                                 fontSize: '9px',
                                                 fontWeight: '600',
                                                 backgroundColor: risk.severity === 'high' ? (isDark ? '#7f1d1d' : '#fee2e2') : (isDark ? '#78350f' : '#fef3c7'),
-                                                color: risk.severity === 'high' ? '#ef4444' : '#d97706'
+                                                color: risk.severity === 'high' ? '#E5554F' : '#d97706'
                                             }}>
                                                 {risk.message}
                                             </span>
@@ -3962,9 +3962,9 @@ export const OptimizationModal = ({
                                         <div key={idx} style={{
                                             padding: '16px', borderRadius: '12px',
                                             backgroundColor: isDark ? '#0f172a' : '#f8fafc',
-                                            border: `2px solid ${idx === 0 ? '#3b82f6' : '#BD65FF'}`
+                                            border: `2px solid ${idx === 0 ? '#4794FF' : '#FF8EFB'}`
                                         }}>
-                                            <div style={{ fontSize: '12px', fontWeight: '700', color: idx === 0 ? '#3b82f6' : '#BD65FF', marginBottom: '8px', textTransform: 'uppercase' }}>
+                                            <div style={{ fontSize: '12px', fontWeight: '700', color: idx === 0 ? '#4794FF' : '#FF8EFB', marginBottom: '8px', textTransform: 'uppercase' }}>
                                                 Scenario {idx === 0 ? 'A' : 'B'}
                                             </div>
                                             <div style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b', marginBottom: '12px' }}>
@@ -3975,7 +3975,7 @@ export const OptimizationModal = ({
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <span style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b' }}>Robustness</span>
-                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.monteCarlo.robustnessScore >= 80 ? '#00BD00' : '#f59e0b' }}>
+                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.monteCarlo.robustnessScore >= 80 ? '#00BD00' : '#FE9922' }}>
                                                         {scen.monteCarlo.robustnessScore}%
                                                     </span>
                                                 </div>
@@ -3987,13 +3987,13 @@ export const OptimizationModal = ({
                                                 </div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <span style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b' }}>Delays</span>
-                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.plan.optimizations.filter(o => o.suggestedWeek !== o.currentWeek).length > 5 ? '#ef4444' : '#00BD00' }}>
+                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.plan.optimizations.filter(o => o.suggestedWeek !== o.currentWeek).length > 5 ? '#E5554F' : '#00BD00' }}>
                                                         {scen.plan.optimizations.filter(o => o.suggestedWeek !== o.currentWeek).length} projects
                                                     </span>
                                                 </div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <span style={{ fontSize: '11px', color: isDark ? '#94a3b8' : '#64748b' }}>Unplaceable</span>
-                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.plan.stats.unallocatedUnplaceable > 0 ? '#ef4444' : '#00BD00' }}>
+                                                    <span style={{ fontSize: '12px', fontWeight: '700', color: scen.plan.stats.unallocatedUnplaceable > 0 ? '#E5554F' : '#00BD00' }}>
                                                         {scen.plan.stats.unallocatedUnplaceable} projects
                                                     </span>
                                                 </div>
@@ -4010,7 +4010,7 @@ export const OptimizationModal = ({
                                                     marginTop: '16px', width: '100%', padding: '8px',
                                                     fontSize: '11px', fontWeight: '600',
                                                     border: 'none', borderRadius: '6px',
-                                                    backgroundColor: idx === 0 ? '#3b82f6' : '#BD65FF',
+                                                    backgroundColor: idx === 0 ? '#4794FF' : '#FF8EFB',
                                                     color: 'white', cursor: 'pointer'
                                                 }}
                                             >
@@ -4361,7 +4361,7 @@ export const OptimizationModal = ({
                                                             width: '8px',
                                                             height: '8px',
                                                             borderRadius: '50%',
-                                                            backgroundColor: ['#00BD00', '#3b82f6', '#BD65FF', '#f59e0b', '#ef4444', '#06b6d4'][idx % 6]
+                                                            backgroundColor: ['#00BD00', '#4794FF', '#FF8EFB', '#FE9922', '#E5554F', '#06b6d4'][idx % 6]
                                                         }} />
                                                         <span style={{ fontSize: '10px', color: isDark ? '#e2e8f0' : '#334155', fontWeight: '500' }}>
                                                             {squad.length > 12 ? squad.slice(0, 12) + '...' : squad}
@@ -4478,7 +4478,7 @@ export const OptimizationModal = ({
                                             style={{
                                                 padding: '12px', fontSize: '13px', fontWeight: '700',
                                                 border: 'none', borderRadius: '10px',
-                                                background: '#BD65FF', color: 'white', cursor: 'pointer'
+                                                background: '#FF8EFB', color: 'white', cursor: 'pointer'
                                             }}
                                         >
                                             {comparisonMode ? 'Exit Compare' : 'Compare A vs B'}

@@ -193,7 +193,7 @@ export const CommitModal = ({
                     alignItems: 'center',
                     gap: '10px'
                 }}>
-                    <svg style={{ width: '16px', height: '16px', color: '#f59e0b', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style={{ width: '16px', height: '16px', color: '#FE9922', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <span style={{ fontSize: '12px', color: '#92400e', fontWeight: '500' }}>
@@ -241,7 +241,7 @@ export const CommitModal = ({
                     {projectIds.length > 0 && (
                         <div style={{ marginBottom: '16px' }}>
                             <div style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                <svg style={{ width: '14px', height: '14px', color: '#3b82f6' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg style={{ width: '14px', height: '14px', color: '#4794FF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                 </svg>
                                 Projects ({projectIds.length})
@@ -256,7 +256,7 @@ export const CommitModal = ({
                                             onChange={(c) => toggleProject(id, c)}
                                             label={project?.name || id}
                                             detail={formatChangeDetail(projectChanges[id])}
-                                            color="#3b82f6"
+                                            color="#4794FF"
                                         />
                                     );
                                 })}
@@ -268,7 +268,7 @@ export const CommitModal = ({
                     {resourceIds.length > 0 && (
                         <div style={{ marginBottom: '16px' }}>
                             <div style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                <svg style={{ width: '14px', height: '14px', color: '#8b5cf6' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg style={{ width: '14px', height: '14px', color: '#00BD00' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                                 Resources ({resourceIds.length})
@@ -284,7 +284,7 @@ export const CommitModal = ({
                                             onChange={(c) => toggleResource(id, c)}
                                             label={resource?.name || id}
                                             detail={detail}
-                                            color="#8b5cf6"
+                                            color="#00BD00"
                                         />
                                     );
                                 })}
@@ -296,7 +296,7 @@ export const CommitModal = ({
                     {hasPrograms && (
                         <div>
                             <div style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                <svg style={{ width: '14px', height: '14px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg style={{ width: '14px', height: '14px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
                                 Program Assignments
@@ -322,7 +322,7 @@ export const CommitModal = ({
                                             }}
                                             label={`${customer} — ${assignments.length} assignment${assignments.length !== 1 ? 's' : ''}`}
                                             detail={`${wsNames.join(', ')} · ${resourceNames.join(', ')}`}
-                                            color="#f59e0b"
+                                            color="#FE9922"
                                         />
                                     );
                                 })}

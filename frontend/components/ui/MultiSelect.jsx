@@ -4,14 +4,14 @@ import { ICONS } from '../../constants';
 import { SearchInput } from './Select';
 
 // Inline styles only — Tailwind JIT does not run inside the Airtable iframe.
-const PRIMARY = BRAND.primary;            // #180126
-const PRIMARY_LIGHT = BRAND.primaryLight; // #7637E3
+const PRIMARY = BRAND.primary;            // #082F24
+const PRIMARY_LIGHT = BRAND.primaryLight; // #082F24
 const BORDER = BRAND.border;
 const TEXT = BRAND.indigo;
 const MUTED = '#94a3b8';
-const DANGER = '#ef4444';
-const PRIMARY_TINT_05 = 'rgba(24, 1, 38, 0.05)';
-const PRIMARY_TINT_10 = 'rgba(24, 1, 38, 0.1)';
+const DANGER = '#E5554F';
+const PRIMARY_TINT_05 = 'rgba(8, 47, 36, 0.05)';
+const PRIMARY_TINT_10 = 'rgba(8, 47, 36, 0.1)';
 
 /**
  * Multi-select dropdown component
@@ -85,7 +85,7 @@ export const MultiSelect = ({ options = [], selected = [], onChange, label, isOp
                     fontSize: '12px',
                     fontWeight: 500,
                     color: hasSelection ? PRIMARY : TEXT,
-                    boxShadow: open ? '0 0 0 2px rgba(24, 1, 38, 0.2)' : '0 1px 2px rgba(0,0,0,0.05)',
+                    boxShadow: open ? '0 0 0 2px rgba(8, 47, 36, 0.2)' : '0 1px 2px rgba(0,0,0,0.05)',
                     transition: 'all 0.15s',
                     cursor: 'pointer',
                 }}

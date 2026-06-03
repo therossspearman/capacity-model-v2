@@ -44,7 +44,7 @@ const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
                 border: `1px solid ${isDark ? 'rgba(245, 158, 11, 0.3)' : '#fcd34d'}`
             }}>
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#f59e0b' }}>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#FE9922' }}>
                         {impact.totalHoursSaved}h
                     </div>
                     <div style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b' }}>Hours Freed</div>
@@ -56,7 +56,7 @@ const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
                     <div style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b' }}>Projects</div>
                 </div>
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#ef4444' }}>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#E5554F' }}>
                         {impact.bottlenecksAddressed}
                     </div>
                     <div style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b' }}>Bottlenecks</div>
@@ -84,7 +84,7 @@ const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
                             width: '4px',
                             height: '40px',
                             borderRadius: '4px',
-                            backgroundColor: rec.severity >= 7 ? '#ef4444' : rec.severity >= 4 ? '#f59e0b' : '#00BD00'
+                            backgroundColor: rec.severity >= 7 ? '#E5554F' : rec.severity >= 4 ? '#FE9922' : '#00BD00'
                         }} />
 
                         {/* Project info */}
@@ -156,7 +156,7 @@ const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
             <div style={{
                 marginTop: '16px',
                 padding: '12px',
-                backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : '#eff6ff',
+                backgroundColor: isDark ? 'rgba(71, 148, 255, 0.1)' : '#eff6ff',
                 borderRadius: '8px',
                 fontSize: '11px',
                 color: isDark ? '#93c5fd' : '#2563eb',

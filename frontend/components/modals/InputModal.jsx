@@ -135,7 +135,7 @@ export const InputModal = ({
                                         transition: 'all 0.2s',
                                         boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
                                     }}
-                                    onFocus={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.borderColor = '#3b82f6'; e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)'; }}
+                                    onFocus={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.borderColor = '#4794FF'; e.target.style.boxShadow = '0 0 0 3px rgba(71, 148, 255, 0.1)'; }}
                                     onBlur={(e) => { e.target.style.backgroundColor = '#f8fafc'; e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'inset 0 1px 2px rgba(0,0,0,0.05)'; }}
                                 />
                             </div>
@@ -174,17 +174,17 @@ export const InputModal = ({
                             style={{
                                 padding: '12px 24px',
                                 borderRadius: '12px',
-                                backgroundColor: '#3b82f6',
+                                backgroundColor: '#4794FF',
                                 border: 'none',
                                 color: 'white',
                                 fontWeight: '700',
                                 fontSize: '14px',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.25)',
+                                boxShadow: '0 4px 6px -1px rgba(71, 148, 255, 0.25)',
                                 transition: 'all 0.2s'
                             }}
-                            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.3)'; }}
-                            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(59, 130, 246, 0.25)'; }}
+                            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(71, 148, 255, 0.3)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(71, 148, 255, 0.25)'; }}
                         >
                             {confirmText}
                         </button>

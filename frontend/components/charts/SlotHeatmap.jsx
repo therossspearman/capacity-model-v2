@@ -16,7 +16,7 @@ import SlotAssignmentModal from '../modals/SlotAssignmentModal';
 const getSlotColor = (score, isDark) => {
     if (score >= 0.8) return isDark ? '#00BD00' : '#00BD00'; // Green - Open
     if (score >= 0.4) return isDark ? '#eab308' : '#ca8a04'; // Yellow - Partial
-    return isDark ? '#ef4444' : '#dc2626'; // Red - Full
+    return isDark ? '#E5554F' : '#dc2626'; // Red - Full
 };
 
 const getSlotBg = (score, isDark) => {
@@ -29,8 +29,8 @@ const getSlotBg = (score, isDark) => {
  * Bottleneck badge colors
  */
 const bottleneckColors = {
-    PM: { bg: '#BD65FF', text: 'white' },
-    SC: { bg: '#3b82f6', text: 'white' },
+    PM: { bg: '#FF8EFB', text: 'white' },
+    SC: { bg: '#4794FF', text: 'white' },
     Build: { bg: '#00BD00', text: 'white' }
 };
 
@@ -552,7 +552,7 @@ export const SlotHeatmap = ({
                                         alignItems: 'center',
                                         gap: '6px',
                                         padding: '8px 14px',
-                                        backgroundColor: isGenerating ? (isDark ? '#374151' : '#e2e8f0') : (isDark ? '#2563eb' : '#3b82f6'),
+                                        backgroundColor: isGenerating ? (isDark ? '#374151' : '#e2e8f0') : (isDark ? '#2563eb' : '#4794FF'),
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '8px',
@@ -612,7 +612,7 @@ export const SlotHeatmap = ({
                                         fontWeight: '600',
                                         border: 'none',
                                         cursor: 'pointer',
-                                        backgroundColor: viewMode === 'heatmap' ? (isDark ? '#3b82f6' : '#2563eb') : (isDark ? '#1e293b' : 'white'),
+                                        backgroundColor: viewMode === 'heatmap' ? (isDark ? '#4794FF' : '#2563eb') : (isDark ? '#1e293b' : 'white'),
                                         color: viewMode === 'heatmap' ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                         display: 'flex',
                                         alignItems: 'center',
@@ -637,7 +637,7 @@ export const SlotHeatmap = ({
                                         border: 'none',
                                         borderLeft: `1px solid ${isDark ? '#475569' : '#e2e8f0'}`,
                                         cursor: 'pointer',
-                                        backgroundColor: viewMode === 'gantt' ? (isDark ? '#3b82f6' : '#2563eb') : (isDark ? '#1e293b' : 'white'),
+                                        backgroundColor: viewMode === 'gantt' ? (isDark ? '#4794FF' : '#2563eb') : (isDark ? '#1e293b' : 'white'),
                                         color: viewMode === 'gantt' ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                         display: 'flex',
                                         alignItems: 'center',
@@ -721,7 +721,7 @@ export const SlotHeatmap = ({
                                         height: '6px',
                                         borderRadius: '3px',
                                         cursor: 'pointer',
-                                        accentColor: '#3b82f6'
+                                        accentColor: '#4794FF'
                                     }}
                                 />
 
@@ -879,12 +879,12 @@ export const SlotHeatmap = ({
                                                         })}
                                                         style={{
                                                             padding: '2px',
-                                                            outline: isFocused ? '2px solid #3b82f6' : isDropTarget ? '3px solid #f59e0b' : 'none',
+                                                            outline: isFocused ? '2px solid #4794FF' : isDropTarget ? '3px solid #FE9922' : 'none',
                                                             outlineOffset: '-2px',
                                                             backgroundColor: isDropTarget ? 'rgba(245, 158, 11, 0.25)' : 'transparent',
                                                             borderRadius: isFocused || isDropTarget ? '6px' : '0',
                                                             transition: 'all 0.1s',
-                                                            boxShadow: isFocused ? '0 0 0 4px rgba(59, 130, 246, 0.2)' : isDropTarget ? '0 0 8px rgba(245, 158, 11, 0.4)' : 'none',
+                                                            boxShadow: isFocused ? '0 0 0 4px rgba(71, 148, 255, 0.2)' : isDropTarget ? '0 0 8px rgba(245, 158, 11, 0.4)' : 'none',
                                                             cursor: 'pointer'
                                                         }}
                                                         onDragOver={(e) => handleDragOver(e, squad, d.isoKey)}
@@ -990,7 +990,7 @@ export const SlotHeatmap = ({
                                 marginBottom: '12px'
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <svg style={{ width: '18px', height: '18px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg style={{ width: '18px', height: '18px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                     </svg>
                                     <h4 style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#fcd34d' : '#92400e', margin: 0 }}>
@@ -1016,7 +1016,7 @@ export const SlotHeatmap = ({
                                                 alignItems: 'center',
                                                 gap: '4px',
                                                 padding: '4px 10px',
-                                                backgroundColor: isDark ? '#1e40af' : '#3b82f6',
+                                                backgroundColor: isDark ? '#1e40af' : '#4794FF',
                                                 color: 'white',
                                                 border: 'none',
                                                 borderRadius: '6px',
@@ -1174,7 +1174,7 @@ export const SlotHeatmap = ({
                                 marginBottom: '12px'
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <svg style={{ width: '18px', height: '18px', color: '#3b82f6' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg style={{ width: '18px', height: '18px', color: '#4794FF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                     <h4 style={{ fontSize: '13px', fontWeight: '700', color: isDark ? '#93c5fd' : '#1e40af', margin: 0 }}>
@@ -1196,8 +1196,8 @@ export const SlotHeatmap = ({
                                 {roleInsights.slice(0, 4).map((insight, idx) => {
                                     const severityColors = {
                                         success: { bg: '#dcfce7', border: '#00BD00', text: '#166534', icon: '✓' },
-                                        info: { bg: '#dbeafe', border: '#3b82f6', text: '#1e40af', icon: 'ℹ' },
-                                        warning: { bg: '#fef3c7', border: '#f59e0b', text: '#92400e', icon: '⚠' }
+                                        info: { bg: '#dbeafe', border: '#4794FF', text: '#1e40af', icon: 'ℹ' },
+                                        warning: { bg: '#fef3c7', border: '#FE9922', text: '#92400e', icon: '⚠' }
                                     };
                                     const style = severityColors[insight.severity] || severityColors.info;
 
@@ -1218,8 +1218,8 @@ export const SlotHeatmap = ({
                                             {insight.actionable && (
                                                 <span style={{
                                                     padding: '2px 6px',
-                                                    backgroundColor: isDark ? '#334155' : '#e0e7ff',
-                                                    color: isDark ? '#94a3b8' : '#4338ca',
+                                                    backgroundColor: isDark ? '#334155' : '#dcfce7',
+                                                    color: isDark ? '#94a3b8' : '#082F24',
                                                     borderRadius: '4px',
                                                     fontSize: '9px',
                                                     fontWeight: '600'
@@ -1386,9 +1386,9 @@ export const SlotHeatmap = ({
                                                 padding: '10px',
                                                 borderRadius: '8px',
                                                 backgroundColor: isSelected ? (isDark ? '#1e3a8a' : '#dbeafe') : (isDark ? '#0f172a' : '#fff'),
-                                                border: `2px solid ${isSelected ? '#3b82f6' : (isDark ? '#334155' : '#e2e8f0')}`,
+                                                border: `2px solid ${isSelected ? '#4794FF' : (isDark ? '#334155' : '#e2e8f0')}`,
                                                 cursor: onProjectClick ? 'pointer' : 'grab',
-                                                boxShadow: isSelected ? '0 0 0 2px rgba(59, 130, 246, 0.3)' : '0 1px 2px rgba(0,0,0,0.05)',
+                                                boxShadow: isSelected ? '0 0 0 2px rgba(71, 148, 255, 0.3)' : '0 1px 2px rgba(0,0,0,0.05)',
                                                 transition: 'transform 0.1s, box-shadow 0.1s'
                                             }}
                                             onMouseEnter={(e) => {
@@ -1443,7 +1443,7 @@ export const SlotHeatmap = ({
                                                                     fontSize: '9px',
                                                                     fontWeight: '700',
                                                                     color: 'white',
-                                                                    backgroundColor: slotsRequired >= 2 ? '#ef4444' : slotsRequired >= 1 ? '#f59e0b' : '#00BD00',
+                                                                    backgroundColor: slotsRequired >= 2 ? '#E5554F' : slotsRequired >= 1 ? '#FE9922' : '#00BD00',
                                                                     padding: '2px 5px',
                                                                     borderRadius: '4px',
                                                                     marginLeft: '6px',
@@ -1493,7 +1493,7 @@ export const SlotHeatmap = ({
                                                     }} title={p.team?.pd?.length > 0 ? 'PD assigned' : 'PD needed'} />
                                                 </span>
                                                 <span style={{
-                                                    color: p.staffingStatus === 'PARTIAL' ? '#f59e0b' : '#dc2626',
+                                                    color: p.staffingStatus === 'PARTIAL' ? '#FE9922' : '#dc2626',
                                                     fontWeight: '600'
                                                 }}>
                                                     {p.staffingStatus === 'PARTIAL' ? `${p.rolesFilled}/3 roles` : 'Unassigned'}
@@ -1638,7 +1638,7 @@ export const SlotHeatmap = ({
                                                     <div style={{ fontSize: '11px', fontWeight: '700', color: isDark ? '#94a3b8' : '#64748b', textTransform: 'uppercase' }}>
                                                         {role === 'build' ? 'PD' : role.toUpperCase()}
                                                     </div>
-                                                    <div style={{ fontSize: '24px', fontWeight: '700', color: util > 100 ? '#ef4444' : util > 80 ? '#f59e0b' : '#00BD00' }}>
+                                                    <div style={{ fontSize: '24px', fontWeight: '700', color: util > 100 ? '#E5554F' : util > 80 ? '#FE9922' : '#00BD00' }}>
                                                         {(Number(available) || 0).toFixed(0)}h
                                                     </div>
                                                     <div style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>
@@ -1672,7 +1672,7 @@ export const SlotHeatmap = ({
                                                             </div>
                                                         </div>
                                                         <div style={{ textAlign: 'right' }}>
-                                                            <div style={{ fontSize: '12px', fontWeight: '600', color: r.util > 100 ? '#ef4444' : isDark ? '#f1f5f9' : '#1e293b' }}>
+                                                            <div style={{ fontSize: '12px', fontWeight: '600', color: r.util > 100 ? '#E5554F' : isDark ? '#f1f5f9' : '#1e293b' }}>
                                                                 {(Number(r.util) || 0).toFixed(0)}%
                                                             </div>
                                                             <div style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8' }}>
@@ -1745,7 +1745,7 @@ export const SlotHeatmap = ({
                         pointerEvents: 'none',
                         padding: '10px 14px',
                         backgroundColor: isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.98)',
-                        border: `2px solid ${isDark ? '#7637E3' : '#BD65FF'}`,
+                        border: `2px solid ${isDark ? '#082F24' : '#FF8EFB'}`,
                         borderRadius: '10px',
                         boxShadow: '0 8px 25px -5px rgba(0, 0, 0, 0.3)',
                         backdropFilter: 'blur(8px)',
@@ -1755,7 +1755,7 @@ export const SlotHeatmap = ({
                     <div style={{
                         fontSize: '11px',
                         fontWeight: '600',
-                        color: isDark ? '#c4b5fd' : '#7637E3',
+                        color: isDark ? '#bbf7d0' : '#082F24',
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
                         marginBottom: '4px'

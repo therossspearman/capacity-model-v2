@@ -142,7 +142,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
                     position: 'absolute',
                     width: `${size}px`, height: `${size}px`,
                     borderRadius: '50%',
-                    border: `1px solid ${isDark ? `rgba(255,255,255,${0.06 - i * 0.015})` : `rgba(118,55,227,${0.06 - i * 0.015})`}`,
+                    border: `1px solid ${isDark ? `rgba(255,255,255,${0.06 - i * 0.015})` : `rgba(8, 47, 36,${0.06 - i * 0.015})`}`,
                     animation: `${i === 1 ? 'spinR' : 'spin'} ${25 + i * 12}s linear infinite`,
                 }} />
             ))}
@@ -183,7 +183,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
                         : `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(240,235,250,0.6) 100%)`,
                     backdropFilter: 'blur(10px)',
                     animation: 'glowPulse 3s ease-in-out infinite',
-                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(118,55,227,0.1)'}`,
+                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(8, 47, 36,0.1)'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                     {/* Pure CSS "B" lettermark — no external assets */}
@@ -230,7 +230,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
                     Benifex Capacity
                 </h1>
                 <p style={{
-                    color: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(24,1,38,0.4)',
+                    color: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(8, 47, 36,0.4)',
                     fontSize: '13px', fontWeight: 500,
                     letterSpacing: '0.3px',
                     minHeight: '18px',
@@ -249,7 +249,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
             }}>
                 <div style={{
                     width: '100%', height: '2.5px', borderRadius: '4px',
-                    backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(118,55,227,0.06)',
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(8, 47, 36,0.06)',
                     overflow: 'hidden', position: 'relative',
                 }}>
                     <div style={{
@@ -269,7 +269,7 @@ const LoadingScreen = ({ message = "Initializing..." }) => {
                 <div style={{
                     display: 'flex', justifyContent: 'space-between',
                     marginTop: '8px', fontSize: '10px', fontWeight: 600,
-                    color: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(24,1,38,0.2)',
+                    color: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(8, 47, 36,0.2)',
                     letterSpacing: '0.5px',
                 }}>
                     <span>{Math.round(progress)}%</span>

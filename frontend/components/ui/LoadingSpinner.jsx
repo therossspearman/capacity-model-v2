@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LoadingSpinner = ({ size = 20, color = '#7637E3', text = null, inline = false }) => {
+const LoadingSpinner = ({ size = 20, color = '#082F24', text = null, inline = false }) => {
     const spinnerStyle = {
         width: size,
         height: size,
@@ -64,7 +64,7 @@ export const LoadingOverlay = ({ message = 'Loading...', isDark = false }) => (
         borderRadius: 'inherit',
         zIndex: 10
     }}>
-        <LoadingSpinner size={32} color={isDark ? '#818cf8' : '#7637E3'} />
+        <LoadingSpinner size={32} color={isDark ? '#818cf8' : '#082F24'} />
         <p style={{
             marginTop: '16px',
             fontSize: '14px',

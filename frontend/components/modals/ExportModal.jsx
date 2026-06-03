@@ -545,7 +545,7 @@ const ExportModal = ({
                     {(() => {
                         const chips = [];
                         const f = activeFilters || {};
-                        if (f.squads?.length > 0) chips.push({ label: `Squad: ${f.squads.join(', ')}`, color: '#7637E3' });
+                        if (f.squads?.length > 0) chips.push({ label: `Squad: ${f.squads.join(', ')}`, color: '#082F24' });
                         if (f.entities?.length > 0) chips.push({ label: `Entity: ${f.entities.join(', ')}`, color: '#b45309' });
                         if (f.statuses?.length > 0) chips.push({ label: `Status: ${f.statuses.join(', ')}`, color: '#2563eb' });
                         if (f.search) chips.push({ label: `Search: "${f.search}"`, color: '#059669' });
@@ -641,21 +641,21 @@ const ExportModal = ({
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: '12px',
                                     padding: '12px 14px', borderRadius: '10px',
-                                    border: `1px solid ${exportAllocations ? '#7637E3' : colors.border}`,
-                                    backgroundColor: exportAllocations ? (isDark ? 'rgba(118,55,227,0.08)' : '#faf5ff') : colors.bgCard,
+                                    border: `1px solid ${exportAllocations ? '#082F24' : colors.border}`,
+                                    backgroundColor: exportAllocations ? (isDark ? 'rgba(8, 47, 36,0.08)' : '#f0fdf4') : colors.bgCard,
                                     cursor: 'pointer', transition: 'all 0.15s ease'
                                 }}
                             >
                                 <div style={{
                                     ...checkboxStyle(exportAllocations),
-                                    borderColor: exportAllocations ? '#7637E3' : colors.border,
-                                    backgroundColor: exportAllocations ? '#7637E3' : 'transparent'
+                                    borderColor: exportAllocations ? '#082F24' : colors.border,
+                                    backgroundColor: exportAllocations ? '#082F24' : 'transparent'
                                 }}>
                                     {exportAllocations && checkIcon}
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: colors.text }}>
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7637E3" strokeWidth="2" style={{ marginRight: '6px', verticalAlign: '-2px' }}>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#082F24" strokeWidth="2" style={{ marginRight: '6px', verticalAlign: '-2px' }}>
                                             <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
                                         </svg>
                                         Allocations (Person × Project × Week)

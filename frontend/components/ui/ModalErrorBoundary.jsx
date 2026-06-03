@@ -67,7 +67,7 @@ class ModalErrorBoundary extends React.Component {
                             justifyContent: 'center',
                             margin: '0 auto 16px'
                         }}>
-                            <svg style={{ width: '24px', height: '24px', color: '#ef4444' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg style={{ width: '24px', height: '24px', color: '#E5554F' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
@@ -91,7 +91,7 @@ class ModalErrorBoundary extends React.Component {
                             onClick={this.handleClose}
                             style={{
                                 padding: '10px 24px',
-                                backgroundColor: '#7637E3',
+                                backgroundColor: '#082F24',
                                 color: 'white',
                                 fontSize: '14px',
                                 fontWeight: '600',

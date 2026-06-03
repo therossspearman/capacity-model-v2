@@ -124,7 +124,7 @@ export const SlotSnapshotPanel = ({ slotMap, enabledSquads = [] }) => {
         cursor: 'pointer',
         fontSize: '12px',
         fontWeight: '600',
-        backgroundColor: variant === 'primary' ? '#3b82f6' : (isDark ? '#334155' : '#f1f5f9'),
+        backgroundColor: variant === 'primary' ? '#4794FF' : (isDark ? '#334155' : '#f1f5f9'),
         color: variant === 'primary' ? 'white' : (isDark ? '#f1f5f9' : '#334155')
     });
 
@@ -173,7 +173,7 @@ export const SlotSnapshotPanel = ({ slotMap, enabledSquads = [] }) => {
                         <div style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b' }}>Open</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: '800', color: '#f59e0b' }}>{currentSummary.partial}</div>
+                        <div style={{ fontSize: '24px', fontWeight: '800', color: '#FE9922' }}>{currentSummary.partial}</div>
                         <div style={{ fontSize: '10px', color: isDark ? '#94a3b8' : '#64748b' }}>Partial</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
@@ -201,10 +201,10 @@ export const SlotSnapshotPanel = ({ slotMap, enabledSquads = [] }) => {
                                     padding: '10px 12px',
                                     borderRadius: '8px',
                                     backgroundColor: selectedIdx === idx
-                                        ? (isDark ? 'rgba(59, 130, 246, 0.2)' : '#dbeafe')
+                                        ? (isDark ? 'rgba(71, 148, 255, 0.2)' : '#dbeafe')
                                         : (isDark ? '#0f172a' : '#f8fafc'),
                                     border: selectedIdx === idx
-                                        ? '2px solid #3b82f6'
+                                        ? '2px solid #4794FF'
                                         : `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
                                     cursor: 'pointer'
                                 }}
@@ -272,7 +272,7 @@ export const SlotSnapshotPanel = ({ slotMap, enabledSquads = [] }) => {
                                     fontWeight: '600',
                                     color: currentSummary.partial === comparison.prevSummary.partial
                                         ? (isDark ? '#94a3b8' : '#64748b')
-                                        : '#f59e0b'
+                                        : '#FE9922'
                                 }}>
                                     {currentSummary.partial > comparison.prevSummary.partial ? '↑' : currentSummary.partial < comparison.prevSummary.partial ? '↓' : '='} {Math.abs(currentSummary.partial - comparison.prevSummary.partial)}
                                 </span>

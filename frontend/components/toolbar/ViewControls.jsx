@@ -42,7 +42,7 @@ export const ViewModeToggle = () => {
                         border: 'none',
                         cursor: 'pointer',
                         backgroundColor: viewMode === key ? 'white' : 'transparent',
-                        color: viewMode === key ? '#7637E3' : '#64748b',
+                        color: viewMode === key ? '#082F24' : '#64748b',
                         boxShadow: viewMode === key ? '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)' : 'none',
                         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                         letterSpacing: '-0.01em'
@@ -86,7 +86,7 @@ export const CellDisplayToggle = () => {
                         padding: '4px 10px', fontSize: '11px', fontWeight: '600',
                         borderRadius: '8px', border: 'none', cursor: 'pointer',
                         backgroundColor: cellDisplayMode === key ? 'white' : 'transparent',
-                        color: cellDisplayMode === key ? '#7637E3' : '#64748b',
+                        color: cellDisplayMode === key ? '#082F24' : '#64748b',
                         boxShadow: cellDisplayMode === key ? '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)' : 'none',
                         transition: 'all 0.2s ease'
                     }}
@@ -124,7 +124,7 @@ export const ZoomToggle = () => {
                             padding: '4px 8px', fontSize: '12px',
                             borderRadius: '8px', border: 'none', cursor: 'pointer',
                             backgroundColor: isActive ? 'white' : 'transparent',
-                            color: isActive ? '#7637E3' : '#64748b',
+                            color: isActive ? '#082F24' : '#64748b',
                             boxShadow: isActive ? '0 1px 3px rgba(0, 0, 0, 0.08)' : 'none',
                             transition: 'all 0.2s ease'
                         }}
@@ -158,7 +158,7 @@ export const ExpandCollapseToggle = () => {
                     padding: '4px 8px', fontSize: '12px', fontWeight: '600',
                     borderRadius: '6px', border: 'none', cursor: 'pointer',
                     backgroundColor: allGroupsExpanded ? 'white' : 'transparent',
-                    color: allGroupsExpanded ? '#7637E3' : '#64748b',
+                    color: allGroupsExpanded ? '#082F24' : '#64748b',
                     boxShadow: allGroupsExpanded ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
                     transition: 'all 0.15s ease'
                 }}
@@ -170,7 +170,7 @@ export const ExpandCollapseToggle = () => {
                     padding: '4px 8px', fontSize: '12px', fontWeight: '600',
                     borderRadius: '6px', border: 'none', cursor: 'pointer',
                     backgroundColor: !allGroupsExpanded ? 'white' : 'transparent',
-                    color: !allGroupsExpanded ? '#7637E3' : '#64748b',
+                    color: !allGroupsExpanded ? '#082F24' : '#64748b',
                     boxShadow: !allGroupsExpanded ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
                     transition: 'all 0.15s ease'
                 }}

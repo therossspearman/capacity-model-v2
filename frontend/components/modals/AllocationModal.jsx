@@ -121,7 +121,7 @@ export const AllocationModal = ({
     if (!resource) return null;
 
     const getTypeColor = (type) => {
-        if (type === 'pm') return { bg: isDark ? '#312e81' : '#e0e7ff', text: isDark ? '#c7d2fe' : '#4338ca', border: isDark ? '#4338ca' : '#c7d2fe' };
+        if (type === 'pm') return { bg: isDark ? '#061f18' : '#dcfce7', text: isDark ? '#bbf7d0' : '#082F24', border: isDark ? '#082F24' : '#bbf7d0' };
         if (type === 'sc') return { bg: isDark ? '#1e3a8a' : '#dbeafe', text: isDark ? '#bfdbfe' : '#1d4ed8', border: isDark ? '#1e40af' : '#93c5fd' };
         return { bg: isDark ? '#064e3b' : '#dcfce7', text: isDark ? '#6ee7b7' : '#15803d', border: isDark ? '#065f46' : '#86efac' };
     };
@@ -183,7 +183,7 @@ export const AllocationModal = ({
                             width: '56px', height: '56px', borderRadius: '16px',
                             backgroundColor: '#eff6ff',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.1)'
+                            boxShadow: '0 4px 6px -1px rgba(71, 148, 255, 0.1)'
                         }}>
                             <svg style={{ width: '28px', height: '28px', color: '#2563eb' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -194,7 +194,7 @@ export const AllocationModal = ({
                                 Edit Allocations
                             </h2>
                             <p style={{ fontSize: '13px', color: colors.textSecondary || '#64748b', margin: '4px 0 0', fontWeight: '500' }}>
-                                {resource.name} • <span style={{ color: '#3b82f6' }}>{new Date(dateKey).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                                {resource.name} • <span style={{ color: '#4794FF' }}>{new Date(dateKey).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                             </p>
                         </div>
                     </div>
@@ -230,7 +230,7 @@ export const AllocationModal = ({
                             }}>
                                 <div style={{
                                     width: '40px', height: '40px', borderRadius: '10px',
-                                    backgroundColor: '#f3e8ff', color: '#7637E3',
+                                    backgroundColor: '#dcfce7', color: '#082F24',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                                 }}>
                                     {ICONS.COPY || 'C'}
@@ -268,8 +268,8 @@ export const AllocationModal = ({
                                             <div style={{
                                                 width: '20px', height: '20px',
                                                 borderRadius: '6px',
-                                                border: `2px solid ${copyTargets.includes(project.id) ? '#3b82f6' : '#cbd5e1'}`,
-                                                backgroundColor: copyTargets.includes(project.id) ? '#3b82f6' : 'white',
+                                                border: `2px solid ${copyTargets.includes(project.id) ? '#4794FF' : '#cbd5e1'}`,
+                                                backgroundColor: copyTargets.includes(project.id) ? '#4794FF' : 'white',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 marginRight: '16px',
                                                 color: 'white',
@@ -305,10 +305,10 @@ export const AllocationModal = ({
                                     disabled={copyTargets.length === 0}
                                     style={{
                                         padding: '12px 24px', borderRadius: '12px', border: 'none',
-                                        backgroundColor: '#3b82f6', color: 'white', fontSize: '13px', fontWeight: '700',
+                                        backgroundColor: '#4794FF', color: 'white', fontSize: '13px', fontWeight: '700',
                                         cursor: copyTargets.length === 0 ? 'not-allowed' : 'pointer',
                                         opacity: copyTargets.length === 0 ? 0.5 : 1,
-                                        boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.25)'
+                                        boxShadow: '0 4px 6px -1px rgba(71, 148, 255, 0.25)'
                                     }}
                                 >
                                     Copy to {copyTargets.length} Projects
@@ -400,7 +400,7 @@ export const AllocationModal = ({
                                                             type="number"
                                                             value={Math.round(alloc.allocation * 100)}
                                                             onChange={(e) => { const n = parseFloat(e.target.value); updateAllocation(alloc.id, 'allocation', Number.isNaN(n) ? 0 : n / 100); }}
-                                                            style={{ ...inputStyle, paddingRight: '30px', fontWeight: '700', color: '#3b82f6' }}
+                                                            style={{ ...inputStyle, paddingRight: '30px', fontWeight: '700', color: '#4794FF' }}
                                                         />
                                                         <span style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>%</span>
                                                     </div>
@@ -428,8 +428,8 @@ export const AllocationModal = ({
                     <div style={{
                         padding: '12px 40px',
                         backgroundColor: colors.dangerBg || '#fef2f2',
-                        color: colors.danger || '#ef4444',
-                        borderTop: `1px solid ${colors.danger || '#ef4444'}`,
+                        color: colors.danger || '#E5554F',
+                        borderTop: `1px solid ${colors.danger || '#E5554F'}`,
                         fontSize: '13px',
                         fontWeight: '600'
                     }}>
@@ -470,12 +470,12 @@ export const AllocationModal = ({
                             borderRadius: '12px',
                             fontSize: '14px',
                             fontWeight: '700',
-                            backgroundColor: '#3b82f6',
+                            backgroundColor: '#4794FF',
                             border: 'none',
                             color: 'white',
                             cursor: isSaving ? 'not-allowed' : 'pointer',
                             opacity: isSaving ? 0.7 : 1,
-                            boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.4)',
+                            boxShadow: '0 4px 6px -1px rgba(71, 148, 255, 0.4)',
                             transition: 'all 0.2s',
                             display: 'flex', alignItems: 'center', gap: '8px'
                         }}

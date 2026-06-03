@@ -20,11 +20,11 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
         // barColor is consumed as an inline backgroundColor — must be a raw CSS color,
         // not a Tailwind class (Tailwind JIT does not run in the iframe).
         let barColor = 'transparent';
-        if (isPositive) barColor = '#ef4444';
+        if (isPositive) barColor = '#E5554F';
         if (isNegative) barColor = BRAND.success;
         let heightPercent = Math.min(Math.abs(dem) * 10, 100);
         let content = Math.ceil(Math.abs(dem)) !== 0 ? (dem > 0 ? `+${Math.ceil(dem)}` : Math.floor(dem)) : '';
-        let textColor = Math.abs(dem) > 5 ? '#ffffff' : (dem === 0 ? 'transparent' : (dem > 0 ? '#ef4444' : BRAND.success));
+        let textColor = Math.abs(dem) > 5 ? '#ffffff' : (dem === 0 ? 'transparent' : (dem > 0 ? '#E5554F' : BRAND.success));
         return { util: 0, isOverloaded: false, heightPercent, barColor, content, textColor, dem, cap };
     }
 
@@ -51,7 +51,7 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
     } else if (cap === 0 && dem > 0) {
         // Demand but no capacity - overallocated
         heightPercent = 100;
-        barColor = '#ef4444'; // Red
+        barColor = '#E5554F'; // Red
         content = Math.ceil(dem);
     } else {
         // Normal utilization case
@@ -63,7 +63,7 @@ export const getCellMetrics = (bucket, forecastMode, thresholds) => {
         //   >120%    → red    (severe overload)
         if (util > 1.20) barColor = '#dc2626';        // Red (>120%)
         else if (util > 1.10) barColor = '#ea580c';   // Orange (110-120%)
-        else if (util > 1.00) barColor = '#f59e0b';   // Amber (100-110%)
+        else if (util > 1.00) barColor = '#FE9922';   // Amber (100-110%)
         else if (util > 0.80) barColor = '#15803d';   // Deep Green (80-100%)
         else if (util > 0.60) barColor = '#00BD00';   // Green (60-80%)
         else if (util > 0.40) barColor = '#86efac';   // Light Green (40-60%)

@@ -11,9 +11,9 @@ import { useTheme } from '../../design-system';
 const TSHIRT_OPTIONS = [
     { value: 'XS', label: 'XS', color: '#94a3b8', hours: 40 },
     { value: 'S', label: 'S', color: '#00BD00', hours: 80 },
-    { value: 'M', label: 'M', color: '#3b82f6', hours: 160 },
-    { value: 'L', label: 'L', color: '#f59e0b', hours: 320 },
-    { value: 'XL', label: 'XL', color: '#ef4444', hours: 640 }
+    { value: 'M', label: 'M', color: '#4794FF', hours: 160 },
+    { value: 'L', label: 'L', color: '#FE9922', hours: 320 },
+    { value: 'XL', label: 'XL', color: '#E5554F', hours: 640 }
 ];
 
 // Format date for display
@@ -114,8 +114,8 @@ const BAUProjectEditModal = ({
                 {/* Read-only Info Banner */}
                 <div style={{
                     padding: '12px 20px',
-                    backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : '#eff6ff',
-                    borderBottom: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : '#dbeafe'}`,
+                    backgroundColor: isDark ? 'rgba(71, 148, 255, 0.1)' : '#eff6ff',
+                    borderBottom: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.2)' : '#dbeafe'}`,
                     fontSize: '12px',
                     color: isDark ? '#93c5fd' : '#1e40af',
                     display: 'flex',
@@ -225,7 +225,7 @@ const BAUProjectEditModal = ({
                             padding: '10px 24px',
                             borderRadius: '6px',
                             border: 'none',
-                            backgroundColor: '#3b82f6',
+                            backgroundColor: '#4794FF',
                             color: '#fff',
                             fontSize: '14px',
                             fontWeight: 600,

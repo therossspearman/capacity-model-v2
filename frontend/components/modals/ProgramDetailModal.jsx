@@ -702,7 +702,7 @@ const ProgramDetailModal = ({
                                                         <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '500' }}>
                                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                                 {p.countryFlag ? <img src={p.countryFlag} style={{ width: '20px', height: '20px', borderRadius: '50%' }} /> : <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#e2e8f0' }}></div>}
-                                                                <span style={{ color: onProjectClick ? '#7637E3' : '#1e293b' }}>{p.name}</span>
+                                                                <span style={{ color: onProjectClick ? '#082F24' : '#1e293b' }}>{p.name}</span>
                                                             </div>
                                                         </td>
                                                         <td style={{ padding: '16px 24px', textAlign: 'right', color: '#94a3b8' }}>
@@ -885,7 +885,7 @@ const ProgramDetailModal = ({
                                                                         onClick={() => handleRemoveAssignment(a.id)}
                                                                         style={{
                                                                             width: '28px', height: '28px', borderRadius: '8px',
-                                                                            backgroundColor: '#fee2e2', color: '#ef4444', border: 'none',
+                                                                            backgroundColor: '#fee2e2', color: '#E5554F', border: 'none',
                                                                             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
                                                                             transition: 'all 0.2s'
                                                                         }}

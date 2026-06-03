@@ -405,8 +405,8 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
         const lowerField = field.toLowerCase();
         if (lowerField.includes('kick') || lowerField.includes('start')) return { icon: Icons.Rocket, label: 'Kick-Off', color: '#00BD00' };
         if (lowerField.includes('launch') || lowerField.includes('end')) return { icon: Icons.Target, label: 'Launch', color: '#f97316' };
-        if (lowerField.includes('squad')) return { icon: Icons.Users, label: 'Squad', color: '#BD65FF' };
-        if (lowerField.includes('status')) return { icon: Icons.Chart, label: 'Status', color: '#3b82f6' };
+        if (lowerField.includes('squad')) return { icon: Icons.Users, label: 'Squad', color: '#FF8EFB' };
+        if (lowerField.includes('status')) return { icon: Icons.Chart, label: 'Status', color: '#4794FF' };
         if (lowerField.includes('priority')) return { icon: Icons.Zap, label: 'Priority', color: '#eab308' };
         if (lowerField.includes('allocation') || lowerField.includes('assign')) return { icon: Icons.Clipboard, label: 'Allocation', color: '#06b6d4' };
         return { icon: Icons.FileText, label: field.replace(/([A-Z])/g, ' $1').trim(), color: '#64748b' };
@@ -435,7 +435,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                     : `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
                 backgroundColor: isDark ? '#0f172a' : 'white',
                 boxShadow: isUsingDraft
-                    ? `0 0 0 1px ${BRAND.benifexPurple}, 0 4px 12px rgba(124, 58, 237, 0.1)`
+                    ? `0 0 0 1px ${BRAND.benifexPurple}, 0 4px 12px rgba(8, 47, 36, 0.1)`
                     : '0 2px 4px rgba(0,0,0,0.02)',
                 transition: 'all 0.2s ease'
             }}>
@@ -515,14 +515,14 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                         style={{
                             padding: '16px',
                             borderRadius: '12px',
-                            backgroundColor: isUsingDraft ? (isDark ? 'rgba(124, 58, 237, 0.15)' : '#F7F3ED') : (isDark ? '#1e293b' : '#f8fafc'),
-                            border: `2px solid ${isUsingDraft ? '#7637E3' : 'transparent'}`,
+                            backgroundColor: isUsingDraft ? (isDark ? 'rgba(8, 47, 36, 0.15)' : '#F5EDE1') : (isDark ? '#1e293b' : '#f8fafc'),
+                            border: `2px solid ${isUsingDraft ? '#082F24' : 'transparent'}`,
                             cursor: 'pointer',
                             transition: 'all 0.2s',
                             position: 'relative'
                         }}
                     >
-                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#7637E3', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <div style={{ fontSize: '10px', fontWeight: '700', color: '#082F24', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Your Draft Change
                         </div>
                         <div style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#e2e8f0' : '#1e293b' }}>
@@ -530,7 +530,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                         </div>
                         {/* Checkmark overlay */}
                         {isUsingDraft && (
-                            <div style={{ position: 'absolute', top: '12px', right: '12px', color: '#7637E3' }}>
+                            <div style={{ position: 'absolute', top: '12px', right: '12px', color: '#082F24' }}>
                                 <Icons.Check size={18} />
                             </div>
                         )}
@@ -597,7 +597,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                             <div style={{
                                 fontWeight: '700',
                                 fontSize: '16px',
-                                color: data.deleted ? '#ef4444' : (isDark ? '#f1f5f9' : '#1e293b'),
+                                color: data.deleted ? '#E5554F' : (isDark ? '#f1f5f9' : '#1e293b'),
                                 letterSpacing: '-0.01em'
                             }}>
                                 {data.name}
@@ -689,7 +689,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                             backgroundColor: '#fef2f2', border: '1px solid #fee2e2',
                             marginBottom: '16px'
                         }}>
-                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ef4444', boxShadow: '0 0 0 2px rgba(239,68,68,0.2)' }}></div>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#E5554F', boxShadow: '0 0 0 2px rgba(239,68,68,0.2)' }}></div>
                             <span style={{ fontSize: '11px', fontWeight: '700', color: '#b91c1c', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Conflict Detected</span>
                         </div>
                         <h2 style={{
@@ -770,14 +770,14 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                                 padding: '12px 20px',
                                 backgroundColor: isDark ? '#0f172a' : 'white',
                                 color: BRAND.benifexPurple,
-                                border: '1px solid #f3e8ff',
+                                border: '1px solid #dcfce7',
                                 borderRadius: '12px',
                                 fontSize: '13px',
                                 fontWeight: '600',
                                 cursor: 'pointer',
                                 transition: 'all 0.2s'
                             }}
-                            onMouseOver={e => { e.target.style.backgroundColor = '#faf5ff'; e.target.style.transform = 'translateY(-1px)'; }}
+                            onMouseOver={e => { e.target.style.backgroundColor = '#f0fdf4'; e.target.style.transform = 'translateY(-1px)'; }}
                             onMouseOut={e => { e.target.style.backgroundColor = isDark ? '#0f172a' : 'white'; e.target.style.transform = 'translateY(0)'; }}
                         >
                             Take All Draft
@@ -786,19 +786,19 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
                             onClick={() => onResolve(buildResolutions())}
                             style={{
                                 padding: '12px 32px',
-                                background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)',
+                                background: 'linear-gradient(135deg, #082F24 0%, #082F24 100%)',
                                 color: 'white',
                                 fontSize: '14px',
                                 fontWeight: '700',
                                 border: 'none',
                                 borderRadius: '12px',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.3)',
+                                boxShadow: '0 4px 12px rgba(8, 47, 36, 0.3)',
                                 transition: 'all 0.2s',
                                 marginLeft: '12px'
                             }}
-                            onMouseOver={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 20px rgba(124, 58, 237, 0.4)'; }}
-                            onMouseOut={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 12px rgba(124, 58, 237, 0.3)'; }}
+                            onMouseOver={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 20px rgba(8, 47, 36, 0.4)'; }}
+                            onMouseOut={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 12px rgba(8, 47, 36, 0.3)'; }}
                         >
                             Apply Resolutions
                         </button>

@@ -88,7 +88,7 @@ export const FinancialBreakdownDrawer = ({
         { id: 'fy_next', label: `FY${String(currentFyEndYear + 1).slice(-2)}`, color: '#059669' },
         { id: 'fy_next2', label: `FY${String(currentFyEndYear + 2).slice(-2)}`, color: '#047857' },
         { id: 'cy', label: `CY ${currentYear}`, color: '#0284c7' },
-        { id: 'cy_next', label: `CY ${currentYear + 1}`, color: '#7637E3' }
+        { id: 'cy_next', label: `CY ${currentYear + 1}`, color: '#082F24' }
     ];
 
     if (!isOpen) return null;
@@ -190,8 +190,8 @@ export const FinancialBreakdownDrawer = ({
                             boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)',
                             border: '1px solid #e2e8f0'
                         }}>
-                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#7637E3', textTransform: 'uppercase', marginBottom: '8px' }}>ARR</div>
-                            <div style={{ fontSize: '20px', fontWeight: '800', color: '#7637E3', letterSpacing: '-0.03em' }}>
+                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#082F24', textTransform: 'uppercase', marginBottom: '8px' }}>ARR</div>
+                            <div style={{ fontSize: '20px', fontWeight: '800', color: '#082F24', letterSpacing: '-0.03em' }}>
                                 £{Math.round(revRecTotals?.arr?.fullYear || 0).toLocaleString()}
                             </div>
                         </div>
@@ -290,7 +290,7 @@ export const FinancialBreakdownDrawer = ({
                                 <th onClick={() => handleSort('name')} style={{ padding: '16px', textAlign: 'left', fontSize: '11px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', cursor: 'pointer' }}>PROJECT<SortIcon field="name" /></th>
                                 <th style={{ padding: '16px', textAlign: 'center', fontSize: '11px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>STATUS</th>
                                 <th onClick={() => handleSort('implFee')} style={{ padding: '16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#0284c7', textTransform: 'uppercase', cursor: 'pointer' }}>IMPL FEE<SortIcon field="implFee" /></th>
-                                <th onClick={() => handleSort('arr')} style={{ padding: '16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', cursor: 'pointer' }}>ARR<SortIcon field="arr" /></th>
+                                <th onClick={() => handleSort('arr')} style={{ padding: '16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', cursor: 'pointer' }}>ARR<SortIcon field="arr" /></th>
                                 <th onClick={() => handleSort('total')} style={{ padding: '16px 24px 16px 16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#00BD00', textTransform: 'uppercase', cursor: 'pointer' }}>TOTAL<SortIcon field="total" /></th>
                             </tr>
                         </thead>
@@ -336,7 +336,7 @@ export const FinancialBreakdownDrawer = ({
                                             <td style={{ padding: '16px', textAlign: 'right', fontSize: '13px', fontWeight: '500', color: '#0369a1' }}>
                                                 £{Math.round(project.implFee || 0).toLocaleString()}
                                             </td>
-                                            <td style={{ padding: '16px', textAlign: 'right', fontSize: '13px', fontWeight: '500', color: '#7637E3' }}>
+                                            <td style={{ padding: '16px', textAlign: 'right', fontSize: '13px', fontWeight: '500', color: '#082F24' }}>
                                                 £{Math.round(project.arr || 0).toLocaleString()}
                                             </td>
                                             <td style={{ padding: '16px 24px 16px 16px', textAlign: 'right', fontWeight: '700', color: '#15803d', fontSize: '14px' }}>
@@ -376,7 +376,7 @@ export const FinancialBreakdownDrawer = ({
                                                                 </div>
                                                             )}
                                                             {project.debug.arrReason && (
-                                                                <div style={{ fontSize: '12px', color: '#7637E3', padding: '6px', backgroundColor: '#efe9fd', borderRadius: '6px', display: 'flex', gap: '6px' }}>
+                                                                <div style={{ fontSize: '12px', color: '#082F24', padding: '6px', backgroundColor: '#efe9fd', borderRadius: '6px', display: 'flex', gap: '6px' }}>
                                                                     <span style={{ fontWeight: '700' }}>ARR:</span> {project.debug.arrReason}
                                                                 </div>
                                                             )}

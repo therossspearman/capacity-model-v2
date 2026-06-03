@@ -132,7 +132,7 @@ export const ActionsMenu = ({ onExport, onSettings, onHelp, onAudit, showAuditor
                                     </div>
                                 </button>
                                 <button onClick={() => handleFinancialPeriod('cy_next')} style={menuItemStyle}>
-                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#7637E3' }}></div>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#082F24' }}></div>
                                     <div>
                                         <div style={{ fontSize: '13px', fontWeight: '500', color: colors.text }}>Calendar Year {new Date().getFullYear() + 1}</div>
                                         <div style={{ fontSize: '11px', color: colors.textMuted }}>Following year</div>
@@ -174,7 +174,7 @@ export const ActionsMenu = ({ onExport, onSettings, onHelp, onAudit, showAuditor
                     </button>
                     <div style={{ height: '1px', backgroundColor: colors.border, margin: '8px 0' }}></div>
                     <button onClick={() => { onAudit(); setIsOpen(false); }} style={menuItemStyle}>
-                        <svg style={{ width: '16px', height: '16px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style={{ width: '16px', height: '16px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
                         <div>
@@ -349,8 +349,8 @@ export const KeyboardShortcutsModal = ({ onClose }) => {
                 <div style={{
                     marginTop: '24px',
                     padding: '16px',
-                    backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : '#eff6ff',
-                    border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.3)' : '#bfdbfe'}`,
+                    backgroundColor: isDark ? 'rgba(71, 148, 255, 0.1)' : '#eff6ff',
+                    border: `1px solid ${isDark ? 'rgba(71, 148, 255, 0.3)' : '#bfdbfe'}`,
                     borderRadius: '8px'
                 }}>
                     <p style={{ fontSize: '13px', color: isDark ? '#93c5fd' : '#1e40af', margin: 0 }}>

@@ -5227,7 +5227,7 @@ export const REPRI_STRATEGY_PRESETS = {
         name: 'Balanced',
         icon: '⚖️',
         description: 'Equal weight to all scoring factors',
-        color: '#8b5cf6',
+        color: '#00BD00',
         overrides: {} // Use default weights
     },
     arrMax: {
@@ -5245,7 +5245,7 @@ export const REPRI_STRATEGY_PRESETS = {
         name: 'On-Time Delivery',
         icon: '⏰',
         description: 'Prioritise projects with compelling events and imminent launches',
-        color: '#f59e0b',
+        color: '#FE9922',
         overrides: {
             arrWeight: 0.5,
             eventWeight: 2.0,         // Double compelling event importance
@@ -5256,7 +5256,7 @@ export const REPRI_STRATEGY_PRESETS = {
         name: 'Volume Maximiser',
         icon: '📈',
         description: 'Schedule as many projects as possible, even if ARR is lower',
-        color: '#3b82f6',
+        color: '#4794FF',
         overrides: {
             defaultMaxShiftWeeks: 52,  // Allow much more flexibility
             cornerstoneMaxShiftWeeks: 16,

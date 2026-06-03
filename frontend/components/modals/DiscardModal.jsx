@@ -21,7 +21,7 @@ export const DiscardModal = ({
         <div style={{
             position: 'fixed',
             top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(24, 1, 38, 0.7)',
+            backgroundColor: 'rgba(8, 47, 36, 0.7)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',

@@ -28,7 +28,7 @@ const CalendarIcon = ({ color = '#cbd5e1', size = 13 }) => (
     </svg>
 );
 const AlertIcon = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FE9922" strokeWidth="2.5" strokeLinecap="round">
         <path d="M12 9v4M12 17h.01" /><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
     </svg>
 );
@@ -42,7 +42,7 @@ const formatDateShort = (d) => {
     if (!d) return '—';
     try { return new Date(d).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: '2-digit' }); } catch { return '—'; }
 };
-const roleColors = { pm: '#BD65FF', sc: '#3b82f6', pd: '#ec4899' };
+const roleColors = { pm: '#FF8EFB', sc: '#4794FF', pd: '#ec4899' };
 const roleLabels = { pm: 'Project Manager', sc: 'Solution Consultant', pd: 'Platform Developer' };
 
 /* ─── inline resource row used inside expander ─── */
@@ -71,23 +71,23 @@ const ResourceChip = ({ member, allResources, onUnassign, onUpdateAllocation, te
     return (
         <div style={{
             display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px',
-            backgroundColor: member.isPlaceholder ? '#faf5ff' : BRAND.bgAlt,
+            backgroundColor: member.isPlaceholder ? '#f0fdf4' : BRAND.bgAlt,
             border: member.isPlaceholder ? '1px dashed #c084fc' : `1px solid ${BRAND.border}`,
             borderRadius: '10px', fontSize: '12px'
         }}>
             {headshot ? (
                 <img src={headshot} alt={member.name} style={{ width: '26px', height: '26px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #e2e8f0', flexShrink: 0 }} />
             ) : (
-                <div style={{ width: '26px', height: '26px', borderRadius: '50%', backgroundColor: member.isPlaceholder ? '#e9d5ff' : '#f1f5f9', color: member.isPlaceholder ? '#7637E3' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', flexShrink: 0 }}>{initials}</div>
+                <div style={{ width: '26px', height: '26px', borderRadius: '50%', backgroundColor: member.isPlaceholder ? '#dcfce7' : '#f1f5f9', color: member.isPlaceholder ? '#082F24' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', flexShrink: 0 }}>{initials}</div>
             )}
             <div style={{ minWidth: 0, flex: 1 }}>
-                <span title={member.name} style={{ fontWeight: '600', color: member.isPlaceholder ? '#7637E3' : BRAND.dark, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', cursor: 'help' }}>{member.name}</span>
+                <span title={member.name} style={{ fontWeight: '600', color: member.isPlaceholder ? '#082F24' : BRAND.dark, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', cursor: 'help' }}>{member.name}</span>
                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '1px' }}>
                     {full?.squads?.[0] && <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: '500' }}>{full.squads[0]}</span>}
                     {/* Constraint indicators */}
-                    {isRamping && <span title={`Ramping: ${full.rampProfile}`} style={{ fontSize: '8px', fontWeight: '600', color: '#f59e0b', backgroundColor: '#fefce8', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fde68a' }}>⚡ Ramp</span>}
-                    {targetPct < 100 && <span title={`Target utilisation: ${targetPct}%`} style={{ fontSize: '8px', fontWeight: '600', color: '#3b82f6', backgroundColor: '#eff6ff', padding: '1px 4px', borderRadius: '3px', border: '1px solid #bfdbfe' }}>🎯 {targetPct}%</span>}
-                    {hasLeaveDate && <span title={`Leaving: ${formatDateShort(leaveDate)}`} style={{ fontSize: '8px', fontWeight: '600', color: '#ef4444', backgroundColor: '#fef2f2', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fecaca' }}>🚪 {formatDateShort(leaveDate)}</span>}
+                    {isRamping && <span title={`Ramping: ${full.rampProfile}`} style={{ fontSize: '8px', fontWeight: '600', color: '#FE9922', backgroundColor: '#fefce8', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fde68a' }}>⚡ Ramp</span>}
+                    {targetPct < 100 && <span title={`Target utilisation: ${targetPct}%`} style={{ fontSize: '8px', fontWeight: '600', color: '#4794FF', backgroundColor: '#eff6ff', padding: '1px 4px', borderRadius: '3px', border: '1px solid #bfdbfe' }}>🎯 {targetPct}%</span>}
+                    {hasLeaveDate && <span title={`Leaving: ${formatDateShort(leaveDate)}`} style={{ fontSize: '8px', fontWeight: '600', color: '#E5554F', backgroundColor: '#fef2f2', padding: '1px 4px', borderRadius: '3px', border: '1px solid #fecaca' }}>🚪 {formatDateShort(leaveDate)}</span>}
                 </div>
             </div>
             {/* Allocation Percentage */}
@@ -145,19 +145,19 @@ const ResourcePicker = ({ role, availableResources, projectSquad, roleMapping, o
         <div style={{ position: 'relative', marginTop: '4px' }} onClick={e => e.stopPropagation()}>
             <input ref={inputRef} type="text" placeholder="Search resources…" value={query} onChange={e => setQuery(e.target.value)}
                 onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} onBlur={() => setTimeout(onClose, 200)}
-                style={{ width: '100%', padding: '8px 10px', fontSize: '11px', border: '2px solid #7637E3', borderRadius: '8px 8px 0 0', backgroundColor: 'white', outline: 'none' }} />
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: 'white', border: '2px solid #7637E3', borderTop: 'none', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 200, boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+                style={{ width: '100%', padding: '8px 10px', fontSize: '11px', border: '2px solid #082F24', borderRadius: '8px 8px 0 0', backgroundColor: 'white', outline: 'none' }} />
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: 'white', border: '2px solid #082F24', borderTop: 'none', borderRadius: '0 0 8px 8px', maxHeight: '200px', overflowY: 'auto', zIndex: 200, boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
                 {/* Placeholder option */}
                 <div onClick={e => { e.stopPropagation(); onAssign(`PLACEHOLDER_${Date.now()}`, role, { isPlaceholder: true, name: `TBD ${roleLabels[role] || role}` }); onClose(); }}
                     onMouseDown={e => e.stopPropagation()}
-                    style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', color: '#7637E3', backgroundColor: '#faf5ff', borderBottom: '2px solid #e2e8f0' }}
-                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f3e8ff'} onMouseLeave={e => e.currentTarget.style.backgroundColor = '#faf5ff'}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#e9d5ff', color: '#7637E3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>?</div>
+                    style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '11px', fontWeight: '600', color: '#082F24', backgroundColor: '#f0fdf4', borderBottom: '2px solid #e2e8f0' }}
+                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#dcfce7'} onMouseLeave={e => e.currentTarget.style.backgroundColor = '#f0fdf4'}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#dcfce7', color: '#082F24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>?</div>
                     <span>➕ Add Placeholder (TBD)</span>
                 </div>
                 {groups.filter(g => g.resources.some(r => r.name.toLowerCase().includes(query.toLowerCase()))).map(g => (
                     <div key={g.squad}>
-                        <div style={{ padding: '6px 10px', fontSize: '9px', fontWeight: '700', color: g.isRecommended ? '#7637E3' : '#64748b', backgroundColor: g.isRecommended ? '#F7F3ED' : '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0' }}>{g.squad}</div>
+                        <div style={{ padding: '6px 10px', fontSize: '9px', fontWeight: '700', color: g.isRecommended ? '#082F24' : '#64748b', backgroundColor: g.isRecommended ? '#F5EDE1' : '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.05em', borderTop: '1px solid #e2e8f0' }}>{g.squad}</div>
                         {g.resources.filter(r => r.name.toLowerCase().includes(query.toLowerCase())).map(r => {
                             const hs = r.headshot?.[0]?.url || r.headshot?.[0]?.thumbnails?.small?.url;
                             const ini = (r.name || 'U').split(' ').map(n => n[0]).join('').slice(0, 2);
@@ -171,10 +171,10 @@ const ResourcePicker = ({ role, availableResources, projectSquad, roleMapping, o
                                         <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#f1f5f9', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', fontWeight: '700' }}>{ini}</div>}
                                     <span style={{ fontWeight: '500', flex: 1 }}>{r.name}</span>
                                     {/* Constraint badges in picker */}
-                                    {r.rampProfile && <span style={{ fontSize: '8px', fontWeight: '600', color: '#f59e0b', backgroundColor: '#fefce8', padding: '1px 4px', borderRadius: '3px' }}>⚡ Ramp</span>}
-                                    {targetPct < 100 && <span style={{ fontSize: '8px', fontWeight: '600', color: '#3b82f6', backgroundColor: '#eff6ff', padding: '1px 4px', borderRadius: '3px' }}>🎯{targetPct}%</span>}
-                                    {isLeaving && <span style={{ fontSize: '8px', fontWeight: '600', color: '#ef4444', backgroundColor: '#fef2f2', padding: '1px 4px', borderRadius: '3px' }}>🚪</span>}
-                                    {r.matchesRole && <span style={{ fontSize: '8px', fontWeight: '600', color: '#7637E3', backgroundColor: '#F7F3ED', padding: '2px 4px', borderRadius: '3px' }}>{targetCategory}</span>}
+                                    {r.rampProfile && <span style={{ fontSize: '8px', fontWeight: '600', color: '#FE9922', backgroundColor: '#fefce8', padding: '1px 4px', borderRadius: '3px' }}>⚡ Ramp</span>}
+                                    {targetPct < 100 && <span style={{ fontSize: '8px', fontWeight: '600', color: '#4794FF', backgroundColor: '#eff6ff', padding: '1px 4px', borderRadius: '3px' }}>🎯{targetPct}%</span>}
+                                    {isLeaving && <span style={{ fontSize: '8px', fontWeight: '600', color: '#E5554F', backgroundColor: '#fef2f2', padding: '1px 4px', borderRadius: '3px' }}>🚪</span>}
+                                    {r.matchesRole && <span style={{ fontSize: '8px', fontWeight: '600', color: '#082F24', backgroundColor: '#F5EDE1', padding: '2px 4px', borderRadius: '3px' }}>{targetCategory}</span>}
                                 </div>
                             );
                         })}
@@ -456,9 +456,9 @@ const ResourcingTab = ({
                     style={{
                         padding: '8px 14px', fontSize: '11px', fontWeight: '600', borderRadius: '8px', cursor: 'pointer',
                         display: 'flex', alignItems: 'center', gap: '6px', border: 'none',
-                        backgroundColor: showMergePanel ? '#7637E3' : (isDark ? '#334155' : '#f1f5f9'),
+                        backgroundColor: showMergePanel ? '#082F24' : (isDark ? '#334155' : '#f1f5f9'),
                         color: showMergePanel ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
-                        boxShadow: showMergePanel ? '0 2px 4px rgba(118,55,227,0.3)' : 'none'
+                        boxShadow: showMergePanel ? '0 2px 4px rgba(8, 47, 36,0.3)' : 'none'
                     }}>
                     <MergeIcon /> Merge Squads ({mergedSquads.size})
                 </button>
@@ -466,8 +466,8 @@ const ResourcingTab = ({
                 <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: '#94a3b8', marginLeft: 'auto' }}>
                     <span><strong style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>{totalProjects}</strong> projects</span>
                     <span><strong style={{ color: '#00BD00' }}>{projectsWithAssignments}</strong> with assignments</span>
-                    <span><strong style={{ color: '#7637E3' }}>{totalAssignments}</strong> resources assigned</span>
-                    <span><strong style={{ color: '#3b82f6' }}>{resourcePool.length}</strong> in pool</span>
+                    <span><strong style={{ color: '#082F24' }}>{totalAssignments}</strong> resources assigned</span>
+                    <span><strong style={{ color: '#4794FF' }}>{resourcePool.length}</strong> in pool</span>
                 </div>
             </div>
 
@@ -475,14 +475,14 @@ const ResourcingTab = ({
             {showMergePanel && (
                 <div style={{
                     padding: '14px 18px', marginBottom: '12px', borderRadius: '12px',
-                    backgroundColor: isDark ? '#0f172a' : '#faf5ff',
-                    border: `1px solid ${isDark ? '#4c1d95' : '#e9d5ff'}`,
+                    backgroundColor: isDark ? '#0f172a' : '#f0fdf4',
+                    border: `1px solid ${isDark ? '#061f18' : '#dcfce7'}`,
                     display: 'flex', flexDirection: 'column', gap: '10px'
                 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '12px', fontWeight: '700', color: '#7637E3' }}>Virtual Squad Merge</span>
+                        <span style={{ fontSize: '12px', fontWeight: '700', color: '#082F24' }}>Virtual Squad Merge</span>
                         <div style={{ display: 'flex', gap: '6px' }}>
-                            <button onClick={() => setMergedSquads(new Set(allSquads))} style={{ padding: '4px 10px', fontSize: '10px', fontWeight: '600', border: '1px solid #7637E3', borderRadius: '6px', backgroundColor: 'white', color: '#7637E3', cursor: 'pointer' }}>Select All</button>
+                            <button onClick={() => setMergedSquads(new Set(allSquads))} style={{ padding: '4px 10px', fontSize: '10px', fontWeight: '600', border: '1px solid #082F24', borderRadius: '6px', backgroundColor: 'white', color: '#082F24', cursor: 'pointer' }}>Select All</button>
                             <button onClick={() => setMergedSquads(new Set(enabledSquads || []))} style={{ padding: '4px 10px', fontSize: '10px', fontWeight: '600', border: '1px solid #e2e8f0', borderRadius: '6px', backgroundColor: 'white', color: '#64748b', cursor: 'pointer' }}>Reset</button>
                         </div>
                     </div>
@@ -498,13 +498,13 @@ const ResourcingTab = ({
                                     style={{
                                         padding: '6px 12px', fontSize: '11px', fontWeight: '600', borderRadius: '20px', cursor: 'pointer',
                                         display: 'flex', alignItems: 'center', gap: '4px',
-                                        border: active ? '2px solid #7637E3' : '1px solid #e2e8f0',
-                                        backgroundColor: active ? '#f3e8ff' : 'white',
-                                        color: active ? '#7637E3' : '#64748b',
+                                        border: active ? '2px solid #082F24' : '1px solid #e2e8f0',
+                                        backgroundColor: active ? '#dcfce7' : 'white',
+                                        color: active ? '#082F24' : '#64748b',
                                         transition: 'all 0.15s'
                                     }}>
-                                    {active && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7637E3" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>}
-                                    {s} <span style={{ fontSize: '9px', fontWeight: '400', color: active ? '#a78bfa' : '#cbd5e1' }}>({membersInSquad})</span>
+                                    {active && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#082F24" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>}
+                                    {s} <span style={{ fontSize: '9px', fontWeight: '400', color: active ? '#86efac' : '#cbd5e1' }}>({membersInSquad})</span>
                                 </button>
                             );
                         })}
@@ -515,7 +515,7 @@ const ResourcingTab = ({
             {/* ─── Zero-Based Callout ─── */}
             <div style={{
                 padding: '10px 16px', marginBottom: '12px', borderRadius: '10px',
-                backgroundColor: isDark ? 'rgba(59,130,246,0.1)' : '#eff6ff',
+                backgroundColor: isDark ? 'rgba(71,148,255,0.1)' : '#eff6ff',
                 border: `1px solid ${isDark ? '#1e40af' : '#bfdbfe'}`,
                 display: 'flex', alignItems: 'center', gap: '10px', fontSize: '11px', color: isDark ? '#93c5fd' : '#1e40af'
             }}>
@@ -555,13 +555,13 @@ const ResourcingTab = ({
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center'
                 }}>
                     <div style={{ fontSize: '12px', color: '#64748b' }}>
-                        <strong style={{ color: '#7637E3' }}>{totalAssignments}</strong> assignments across <strong>{projectsWithAssignments}</strong> projects
+                        <strong style={{ color: '#082F24' }}>{totalAssignments}</strong> assignments across <strong>{projectsWithAssignments}</strong> projects
                     </div>
                     <button onClick={handleCreateDraft} disabled={isCreatingDraft || totalAssignments === 0}
                         style={{
                             padding: '10px 24px', fontSize: '13px', fontWeight: '700', borderRadius: '10px', border: 'none', cursor: 'pointer',
-                            background: 'linear-gradient(135deg, #7637E3 0%, #BD65FF 100%)', color: 'white',
-                            opacity: isCreatingDraft ? 0.6 : 1, boxShadow: '0 4px 12px rgba(118,55,227,0.3)',
+                            background: 'linear-gradient(135deg, #082F24 0%, #FF8EFB 100%)', color: 'white',
+                            opacity: isCreatingDraft ? 0.6 : 1, boxShadow: '0 4px 12px rgba(8, 47, 36,0.3)',
                             display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s'
                         }}>
                         {isCreatingDraft ? (

@@ -182,9 +182,9 @@ const SlotAssignmentModal = ({
                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                         <div style={{
                             width: '56px', height: '56px', borderRadius: '16px',
-                            backgroundColor: '#F7F3ED',
+                            backgroundColor: '#F5EDE1',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 4px 6px -1px rgba(124, 58, 237, 0.1)'
+                            boxShadow: '0 4px 6px -1px rgba(8, 47, 36, 0.1)'
                         }}>
                             <span style={{ fontSize: '28px' }}>📅</span>
                         </div>
@@ -248,16 +248,16 @@ const SlotAssignmentModal = ({
                             border: '1px solid #e2e8f0'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#7637E3', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#082F24', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                     Date Alignment
                                 </h4>
                                 <div style={{ display: 'flex', gap: '16px' }}>
                                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#64748b' }}>
-                                        <input type="checkbox" checked={lockKickOff} onChange={(e) => setLockKickOff(e.target.checked)} style={{ accentColor: '#7637E3' }} />
+                                        <input type="checkbox" checked={lockKickOff} onChange={(e) => setLockKickOff(e.target.checked)} style={{ accentColor: '#082F24' }} />
                                         Lock Kick-Off
                                     </label>
                                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#64748b' }}>
-                                        <input type="checkbox" checked={lockLaunch} onChange={(e) => setLockLaunch(e.target.checked)} style={{ accentColor: '#7637E3' }} />
+                                        <input type="checkbox" checked={lockLaunch} onChange={(e) => setLockLaunch(e.target.checked)} style={{ accentColor: '#082F24' }} />
                                         Lock Launch
                                     </label>
                                 </div>
@@ -275,8 +275,8 @@ const SlotAssignmentModal = ({
 
                                 {/* Arrow */}
                                 <div style={{
-                                    width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#f3e8ff',
-                                    color: '#7637E3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'
+                                    width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#dcfce7',
+                                    color: '#082F24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'
                                 }}>→</div>
 
                                 {/* Aligned */}
@@ -302,7 +302,7 @@ const SlotAssignmentModal = ({
                     <div style={{ padding: '0 40px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '24px', marginBottom: '24px' }}>
                         {/* Left: Fit Metrics */}
                         <div style={{ backgroundColor: 'white', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
-                            <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#7637E3', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#082F24', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                 Capacity Check
                             </h4>
 
@@ -310,7 +310,7 @@ const SlotAssignmentModal = ({
                                 {['pm', 'sc', 'pd'].map(role => {
                                     const util = analysis.utilization[role];
                                     const isOver = util.pct > 100;
-                                    const barColor = isOver ? '#ef4444' : util.pct > 80 ? '#f59e0b' : '#00BD00';
+                                    const barColor = isOver ? '#E5554F' : util.pct > 80 ? '#FE9922' : '#00BD00';
 
                                     return (
                                         <div key={role}>
@@ -370,9 +370,9 @@ const SlotAssignmentModal = ({
                                         <button
                                             onClick={() => setSelectedOptimization(selectedOptimization === 'multiSlot' ? null : 'multiSlot')}
                                             style={{
-                                                flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'multiSlot' ? '2px solid #BD65FF' : '1px solid #c4b5fd',
-                                                backgroundColor: selectedOptimization === 'multiSlot' ? '#f3e8ff' : 'white',
-                                                color: '#5b21b6', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
+                                                flex: 1, padding: '8px', borderRadius: '8px', border: selectedOptimization === 'multiSlot' ? '2px solid #FF8EFB' : '1px solid #bbf7d0',
+                                                backgroundColor: selectedOptimization === 'multiSlot' ? '#dcfce7' : 'white',
+                                                color: '#082F24', fontSize: '11px', fontWeight: '700', cursor: 'pointer'
                                             }}
                                         >
                                             Multi-Slot
@@ -387,7 +387,7 @@ const SlotAssignmentModal = ({
                     <div style={{ padding: '0 40px 40px 40px' }}>
                         <div style={{ padding: '24px', backgroundColor: 'white', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#7637E3', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#082F24', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                     Staffing Recommendations (Preview)
                                 </h4>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -459,9 +459,9 @@ const SlotAssignmentModal = ({
                         onClick={handleConfirm}
                         style={{
                             padding: '12px 32px', borderRadius: '12px',
-                            fontWeight: '700', color: 'white', backgroundColor: '#7637E3',
+                            fontWeight: '700', color: 'white', backgroundColor: '#082F24',
                             border: 'none', fontSize: '13px', cursor: 'pointer',
-                            boxShadow: '0 4px 6px -1px rgba(124, 58, 237, 0.25)'
+                            boxShadow: '0 4px 6px -1px rgba(8, 47, 36, 0.25)'
                         }}
                     >
                         {useDirectUpdate ? 'Confirm Assignment' : 'Create Draft Scenario'}

@@ -231,9 +231,9 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                         })}
                         style={{
                             padding: '6px 10px', borderRadius: '8px',
-                            border: selected ? '2px solid #7637E3' : '1px solid #e2e8f0',
-                            backgroundColor: selected ? '#f3e8ff' : 'white',
-                            color: selected ? '#5b21b6' : '#64748b',
+                            border: selected ? '2px solid #082F24' : '1px solid #e2e8f0',
+                            backgroundColor: selected ? '#dcfce7' : 'white',
+                            color: selected ? '#082F24' : '#64748b',
                             fontSize: '12px', fontWeight: 600, cursor: 'pointer'
                         }}
                     >
@@ -508,7 +508,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                             padding: '10px 16px',
                                             borderRadius: '8px',
                                             border: 'none',
-                                            background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                                            background: 'linear-gradient(135deg, #fbbf24, #FE9922)',
                                             color: 'white',
                                             fontSize: '12px',
                                             fontWeight: '600',

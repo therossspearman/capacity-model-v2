@@ -53,7 +53,7 @@ const formatHours = (hours) => {
 
 // Role display names
 const ROLE_LABELS = { pm: 'PM', sc: 'SC', pd: 'PD' };
-const ROLE_COLORS = { pm: '#BD65FF', sc: '#00BD00', pd: '#7637E3' };
+const ROLE_COLORS = { pm: '#FF8EFB', sc: '#00BD00', pd: '#082F24' };
 
 export const ForecastImpactPanel = ({
     isOpen,
@@ -87,9 +87,9 @@ export const ForecastImpactPanel = ({
     } = fteImpact;
 
     const utilizationColor = summary.projectedUtilization > 100
-        ? '#ef4444'
+        ? '#E5554F'
         : summary.projectedUtilization > 80
-            ? '#f59e0b'
+            ? '#FE9922'
             : '#00BD00';
 
     return (
@@ -136,7 +136,7 @@ export const ForecastImpactPanel = ({
                             width: '36px',
                             height: '36px',
                             borderRadius: '10px',
-                            background: 'linear-gradient(135deg, #3b82f6 0%, #BD65FF 100%)',
+                            background: 'linear-gradient(135deg, #4794FF 0%, #FF8EFB 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -226,13 +226,13 @@ export const ForecastImpactPanel = ({
                         <div style={{
                             padding: '14px',
                             borderRadius: '10px',
-                            background: 'linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%)',
-                            border: '1px solid rgba(59,130,246,0.2)'
+                            background: 'linear-gradient(135deg, rgba(71,148,255,0.1) 0%, rgba(0,189,0,0.1) 100%)',
+                            border: '1px solid rgba(71,148,255,0.2)'
                         }}>
-                            <div style={{ fontSize: '10px', fontWeight: '600', color: '#3b82f6', textTransform: 'uppercase', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '10px', fontWeight: '600', color: '#4794FF', textTransform: 'uppercase', marginBottom: '4px' }}>
                                 Additional FTE Needed
                             </div>
-                            <div style={{ fontSize: '22px', fontWeight: '700', color: '#3b82f6' }}>
+                            <div style={{ fontSize: '22px', fontWeight: '700', color: '#4794FF' }}>
                                 +{summary.totalAdditionalFteNeeded}
                             </div>
                         </div>
@@ -271,12 +271,12 @@ export const ForecastImpactPanel = ({
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 borderBottom: `1px solid ${colors.border}`,
-                                backgroundColor: isDark ? 'rgba(59,130,246,0.05)' : 'rgba(59,130,246,0.03)'
+                                backgroundColor: isDark ? 'rgba(71,148,255,0.05)' : 'rgba(71,148,255,0.03)'
                             }}>
-                                <span style={{ fontSize: '12px', color: '#3b82f6', fontWeight: '500' }}>
+                                <span style={{ fontSize: '12px', color: '#4794FF', fontWeight: '500' }}>
                                     + Forecast Demand
                                 </span>
-                                <span style={{ fontSize: '13px', fontWeight: '600', color: '#3b82f6' }}>
+                                <span style={{ fontSize: '13px', fontWeight: '600', color: '#4794FF' }}>
                                     {formatHours(forecast.total)}h
                                 </span>
                             </div>
@@ -288,12 +288,12 @@ export const ForecastImpactPanel = ({
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 borderBottom: `1px solid ${colors.border}`,
-                                backgroundColor: isDark ? 'rgba(139,92,246,0.05)' : 'rgba(139,92,246,0.03)'
+                                backgroundColor: isDark ? 'rgba(0,189,0,0.05)' : 'rgba(0,189,0,0.03)'
                             }}>
-                                <span style={{ fontSize: '12px', color: '#BD65FF', fontWeight: '500' }}>
+                                <span style={{ fontSize: '12px', color: '#FF8EFB', fontWeight: '500' }}>
                                     + Initiative Impact
                                 </span>
-                                <span style={{ fontSize: '13px', fontWeight: '600', color: '#BD65FF' }}>
+                                <span style={{ fontSize: '13px', fontWeight: '600', color: '#FF8EFB' }}>
                                     {formatHours(initiatives.total)}h
                                 </span>
                             </div>
@@ -352,7 +352,7 @@ export const ForecastImpactPanel = ({
                                                 padding: '2px 8px',
                                                 borderRadius: '4px',
                                                 backgroundColor: data.status === 'hire' ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)',
-                                                color: data.status === 'hire' ? '#ef4444' : '#00BD00'
+                                                color: data.status === 'hire' ? '#E5554F' : '#00BD00'
                                             }}>
                                                 {data.status === 'hire' ? `+${data.recommendedHires} needed` : 'Sufficient'}
                                             </span>
@@ -360,9 +360,9 @@ export const ForecastImpactPanel = ({
 
                                         <div style={{ display: 'flex', gap: '16px', fontSize: '11px', color: colors.textMuted }}>
                                             <span>Current: <strong style={{ color: colors.textPrimary }}>{data.currentFte}</strong></span>
-                                            <span>Forecast: <strong style={{ color: '#3b82f6' }}>{formatHours(data.forecastHours)}h</strong></span>
+                                            <span>Forecast: <strong style={{ color: '#4794FF' }}>{formatHours(data.forecastHours)}h</strong></span>
                                             {data.initiativeHours > 0 && (
-                                                <span>Initiatives: <strong style={{ color: '#BD65FF' }}>{formatHours(data.initiativeHours)}h</strong></span>
+                                                <span>Initiatives: <strong style={{ color: '#FF8EFB' }}>{formatHours(data.initiativeHours)}h</strong></span>
                                             )}
                                         </div>
                                     </div>
@@ -398,7 +398,7 @@ export const ForecastImpactPanel = ({
                                                 fontWeight: '700',
                                                 padding: '2px 6px',
                                                 borderRadius: '3px',
-                                                backgroundColor: rec.priority === 'high' ? '#ef4444' : '#f59e0b',
+                                                backgroundColor: rec.priority === 'high' ? '#E5554F' : '#FE9922',
                                                 color: 'white',
                                                 textTransform: 'uppercase'
                                             }}>
