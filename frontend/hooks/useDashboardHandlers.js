@@ -676,13 +676,25 @@ export const useDashboardHandlers = (deps) => {
                 for (const [field, value] of Object.entries(updates)) {
                     if (field === 'rampProfile') addField(SETTINGS.RAMP_UP_PROFILE, value);
                     else if (field === 'rampStartDate') addField(SETTINGS.RAMP_START_DATE, value, { datelike: true });
-                    else if (field === 'targetUtilization') addField(SETTINGS.TARGET_UTILIZATION, value, { numeric: true });
+                    else if (field === 'targetUtilization') {
+                        // Airtable stores a literal 0 in a Percent/Number field as empty, which the
+                        // read path (Dashboard.jsx) then treats as "unset" and defaults to 80%.
+                        // Persist an explicit 0% as the -1 sentinel; the read path maps any negative
+                        // value back to 0, so 0% now survives the round-trip instead of showing 80%.
+                        const num = (value === '' || value === null || value === undefined) ? null : Number(value);
+                        addField(SETTINGS.TARGET_UTILIZATION, num === 0 ? -1 : value, { numeric: true });
+                    }
                     else if (field === 'workingHours') addField(SETTINGS.WORKING_HOURS, value, { numeric: true });
                     else if (field === 'startDate') addField(SETTINGS.START_DATE, value, { datelike: true });
                     else if (field === 'leaveDate') addField(SETTINGS.LEAVE_DATE, value, { datelike: true });
                     else if (field === 'leaveStartDate') addField(SETTINGS.LEAVE_START_DATE, value, { datelike: true });
                     else if (field === 'leaveEndDate') addField(SETTINGS.LEAVE_END_DATE, value, { datelike: true });
-                    else if (field === 'annualUtilization') addField(SETTINGS.ANNUAL_UTILIZATION, value, { numeric: true });
+                    else if (field === 'annualUtilization') {
+                        // Same Airtable 0-as-empty problem as targetUtilization; the read path
+                        // already maps a negative sentinel back to 0, so persist 0% as -1.
+                        const num = (value === '' || value === null || value === undefined) ? null : Number(value);
+                        addField(SETTINGS.ANNUAL_UTILIZATION, num === 0 ? -1 : value, { numeric: true });
+                    }
                     // Silently drop unknown fields rather than mis-writing.
                 }
 
