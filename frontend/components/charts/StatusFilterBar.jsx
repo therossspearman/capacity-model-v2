@@ -12,7 +12,11 @@ export const StatusFilterBar = ({ statuses, hiddenLines, onToggle, onHover, onLe
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'flex-start' }}>
             {statuses.map((status, index) => {
-                const color = getStatusColor(status, index);
+                // `statuses` is passed reversed (statusOrder.slice().reverse()), but the chart
+                // colours each series by its index in the ORIGINAL statusOrder. getStatusColor
+                // falls back to a palette[index] for statuses not in the colour map, so we must
+                // pass the original index (len-1-index) or the legend swatch won't match the line.
+                const color = getStatusColor(status, statuses.length - 1 - index);
                 const isHidden = (hiddenLines || []).includes(status);
                 return (
                     <button

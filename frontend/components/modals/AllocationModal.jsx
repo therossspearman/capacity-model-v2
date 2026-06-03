@@ -327,15 +327,7 @@ export const AllocationModal = ({
                             }}>
                                 <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
                                 <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#475569', margin: '0 0 8px 0' }}>No Active Allocations</h3>
-                                <p style={{ margin: '0 0 24px 0', fontSize: '13px' }}>There are no projects assigned to {resource.name} for this period.</p>
-                                <button style={{
-                                    padding: '12px 24px', borderRadius: '12px',
-                                    color: 'white', backgroundColor: '#3b82f6',
-                                    border: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
-                                    boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.25)'
-                                }}>
-                                    + Add New Allocation
-                                </button>
+                                <p style={{ margin: '0', fontSize: '13px' }}>There are no projects assigned to {resource.name} for this period.</p>
                             </div>
                         ) : (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -427,24 +419,6 @@ export const AllocationModal = ({
                                         </div>
                                     );
                                 })}
-
-                                <button style={{
-                                    width: '100%',
-                                    padding: '16px',
-                                    border: '2px dashed #e2e8f0',
-                                    borderRadius: '16px',
-                                    backgroundColor: 'transparent',
-                                    color: '#64748b',
-                                    fontSize: '13px',
-                                    fontWeight: '700',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s'
-                                }}
-                                    onMouseEnter={e => { e.currentTarget.style.borderColor = '#3b82f6'; e.currentTarget.style.color = '#3b82f6'; e.currentTarget.style.backgroundColor = '#eff6ff'; }}
-                                    onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#64748b'; e.currentTarget.style.backgroundColor = 'transparent'; }}
-                                >
-                                    + Add Another Project
-                                </button>
                             </div>
                         ))}
                 </div>
