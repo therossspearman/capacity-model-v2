@@ -986,16 +986,14 @@ export const Dashboard = ({
                 role: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.FUNCTION])) || 'Unknown',
                 workingHours: getSafeCellValue(record, resolveFieldId(stableSettings[SETTINGS.WORKING_HOURS])) || 40,
                 targetUtilization: (() => {
-                    // Airtable treats 0 as null for both Percent and Number fields.
-                    // Workaround: use -1 in Airtable to mean "explicitly 0% utilization".
+                    // No default: a blank/unset field, a 0, or a negative value all resolve to 0%.
+                    // (Airtable's SDK reads a 0-valued Percent/Number cell as null, so blank and 0
+                    // are indistinguishable here — both intentionally mean 0% now.)
                     const fieldId = resolveFieldId(stableSettings[SETTINGS.TARGET_UTILIZATION]);
-                    if (!fieldId) return 0.8;
+                    if (!fieldId) return 0;
                     const rawVal = getSafeCellValue(record, fieldId);
-                    if (rawVal !== null && rawVal !== undefined) {
-                        if (rawVal < 0) return 0; // Sentinel: -1 (or any negative) = 0%
-                        return rawVal > 1 ? rawVal / 100 : rawVal;
-                    }
-                    return 0.8; // Null/empty = default 80%
+                    if (rawVal === null || rawVal === undefined || rawVal < 0) return 0;
+                    return rawVal > 1 ? rawVal / 100 : rawVal;
                 })(),
                 startDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.START_DATE])),
                 leaveDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.LEAVE_DATE])),
