@@ -282,6 +282,18 @@ const processDateRange = (start, end, load, type, pMeta, minDate, maxDate, confi
                 }
             }
 
+            // Scoped-initiative demand reduction: a platform/project-type-targeted initiative
+            // reduces the effort needed for matching projects, per role, after it launches.
+            // Applied to both plan and EAC so utilisation reflects the efficiency consistently.
+            if (type === 'demand' && self._initiatives && self._initiatives.length > 0) {
+                const projId = pMeta.projectId || pMeta.id;
+                const proj = projId ? projectMap[projId] : null;
+                if (proj) {
+                    const dm = getInitiativeDemandMultiplier(proj, pMeta.breakdownCategory, rawDate, self._initiatives);
+                    if (dm !== 1) { valPlan *= dm; valEac *= dm; }
+                }
+            }
+
             let valImpact = (bucketEnd > todayTime) ? (valEac - valPlan) : 0;
 
             if (Math.abs(valPlan) > 0.01 || Math.abs(valEac) > 0.01) {
@@ -516,6 +528,11 @@ const getInitiativeMultiplier = (bucketDate, role, initiatives) => {
     for (const init of initiatives) {
         if (!init.enabled || init.status === 'archived') continue;
 
+        // Scoped initiatives (targeted at specific platforms and/or project types) apply
+        // on the DEMAND side (getInitiativeDemandMultiplier) — skip them here so they don't
+        // also boost capacity (which would double-count).
+        if (isScopedInitiative(init)) continue;
+
         const launchTime = new Date(init.launchDate).getTime();
         // Initiative takes effect at NEXT bucket after launch
         if (bucketTime < launchTime) continue;
@@ -532,6 +549,57 @@ const getInitiativeMultiplier = (bucketDate, role, initiatives) => {
         // Stack multiplicatively
         const boost = (init.efficiencyPct || 0) / 100;
         multiplier *= (1 + boost * rampPct);
+    }
+
+    return multiplier;
+};
+
+// An initiative is "scoped" when it targets specific platform(s) and/or project type(s)
+// (i.e. not the 'all' wildcard). Scoped initiatives reduce the DEMAND of matching projects
+// rather than boosting role capacity globally.
+const isScopedInitiative = (init) => {
+    const plat = init.targetPlatforms || ['all'];
+    const types = init.targetProjectTypes || ['all'];
+    const platScoped = plat.length > 0 && !plat.includes('all');
+    const typeScoped = types.length > 0 && !types.includes('all');
+    return platScoped || typeScoped;
+};
+
+// Demand-side multiplier for SCOPED initiatives: reduces the effort of a project that
+// matches the initiative's platform AND project-type filters (AND logic), for the given
+// role, after launch (ramped). Returns a value in [0, 1] (efficiency reduces demand).
+const getInitiativeDemandMultiplier = (project, role, bucketDate, initiatives) => {
+    if (!project || !initiatives || initiatives.length === 0) return 1;
+
+    let multiplier = 1.0;
+    const bucketTime = new Date(bucketDate).getTime();
+    const r = (role || '').toLowerCase();
+
+    for (const init of initiatives) {
+        if (!init.enabled || init.status === 'archived') continue;
+        if (!isScopedInitiative(init)) continue; // unscoped → handled by capacity multiplier
+
+        const launchTime = new Date(init.launchDate).getTime();
+        if (bucketTime < launchTime) continue;
+
+        // AND matching: the project must satisfy every ACTIVE filter dimension.
+        const plat = init.targetPlatforms || ['all'];
+        const types = init.targetProjectTypes || ['all'];
+        if (plat.length > 0 && !plat.includes('all') && !plat.includes(project.platform)) continue;
+        if (types.length > 0 && !types.includes('all') && !types.includes(project.projectType)) continue;
+
+        // Role filter (same semantics as the capacity multiplier).
+        const targetTeams = init.targetTeams || ['all'];
+        if (!targetTeams.includes('all') && !targetTeams.includes(r)) continue;
+
+        // Ramp
+        const weeksSinceLaunch = (bucketTime - launchTime) / (7 * 24 * 60 * 60 * 1000);
+        const rampWeeks = init.rampWeeks || 0;
+        const rampPct = rampWeeks > 0 ? Math.min(1, weeksSinceLaunch / rampWeeks) : 1;
+
+        // Efficiency REDUCES required effort: e.g. 10% efficiency → demand × 0.9.
+        const boost = (init.efficiencyPct || 0) / 100;
+        multiplier *= Math.max(0, 1 - boost * rampPct);
     }
 
     return multiplier;
