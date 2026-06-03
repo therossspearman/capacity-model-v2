@@ -186,6 +186,7 @@ export const Dashboard = ({
     const [zoomLevel, setZoomLevel] = useState('comfortable');
     const [squadViewFilter, setSquadViewFilter] = useState([]);
     const [statusViewFilter, setStatusViewFilter] = useState([]);
+    const [platformViewFilter, setPlatformViewFilter] = useState([]); // Platform menu filter (resources by squad platform, projects by project platform)
     const [mergeSquads, setMergeSquads] = useState(false); // Squad Merging Experiment
     const [resourceSearch, setResourceSearch] = useState('');
     const [menuCollapsed, setMenuCollapsed] = useState(() => {
@@ -322,7 +323,7 @@ export const Dashboard = ({
             id: Date.now().toString(),
             name: name.trim(),
             filters: {
-                squadViewFilter, statusViewFilter, selectedCategory, selectedEntities,
+                squadViewFilter, statusViewFilter, platformViewFilter, selectedCategory, selectedEntities,
                 viewMode, groupBy, sortBy, exceptionsOnly
             },
             createdAt: Date.now()
@@ -333,11 +334,12 @@ export const Dashboard = ({
             return updated;
         });
         setPresetName('');
-    }, [squadViewFilter, statusViewFilter, selectedCategory, selectedEntities, viewMode, groupBy, sortBy, exceptionsOnly]);
+    }, [squadViewFilter, statusViewFilter, platformViewFilter, selectedCategory, selectedEntities, viewMode, groupBy, sortBy, exceptionsOnly]);
 
     const loadFilterPreset = useCallback((preset) => {
         if (preset.filters.squadViewFilter) setSquadViewFilter(preset.filters.squadViewFilter);
         if (preset.filters.statusViewFilter) setStatusViewFilter(preset.filters.statusViewFilter);
+        if (preset.filters.platformViewFilter) setPlatformViewFilter(preset.filters.platformViewFilter);
         // Support legacy presets with old key name
         if (preset.filters.selectedSquads) setSquadViewFilter(preset.filters.selectedSquads);
         if (preset.filters.selectedCategory) setSelectedCategory(preset.filters.selectedCategory);
@@ -974,6 +976,21 @@ export const Dashboard = ({
         return map;
     }, [squadRecords, stableSettings]);
 
+    // Platform Filter: squad → platform lookup (mirrors squadCategoryMap). Reads the
+    // single-select SQUAD_PLATFORM field on the Squads table; unmapped squads => null.
+    const squadPlatformMap = useMemo(() => {
+        if (!squadRecords) return {};
+        const map = {};
+        const fieldId = resolveFieldId(stableSettings[SETTINGS.SQUAD_PLATFORM]);
+        if (!fieldId) return map;
+        squadRecords.forEach(record => {
+            const squadName = record.name;
+            const platform = getStringValue(record, fieldId) || null;
+            if (squadName && platform) map[squadName] = platform;
+        });
+        return map;
+    }, [squadRecords, stableSettings]);
+
     // Process resources
     const allResources = useMemo(() => {
         if (!resRecords) return [];
@@ -993,6 +1010,9 @@ export const Dashboard = ({
                     squadCategory = uniqueCategories[0];
                 }
             }
+            // Platform Filter: the distinct platform(s) this resource is aligned to via
+            // its squads (empty when no squad has a mapped platform).
+            const squadPlatforms = [...new Set(squads.map(s => squadPlatformMap[s]).filter(Boolean))];
             return {
                 id: record.id,
                 name: record.name,
@@ -1027,6 +1047,8 @@ export const Dashboard = ({
                 origin: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.RES_ENTITY])) || null,
                 // BAU Feature: Squad category derived from squad membership
                 squadCategory,
+                // Platform Filter: platform(s) the resource's squad(s) are aligned to
+                squadPlatforms,
                 // Presence-Based Utilisation: annual % from new ANNUAL_UTILIZATION field.
                 // Accepts both 0.67 and 67 formats (mirrors targetUtilization handling).
                 // Returns null when the field isn't mapped or has no value — annualCapacity
@@ -1051,7 +1073,7 @@ export const Dashboard = ({
                 })()
             };
         });
-    }, [resRecords, stableSettings, squadCategoryMap]);
+    }, [resRecords, stableSettings, squadCategoryMap, squadPlatformMap]);
 
     // Process projects
     const allProjects = useMemo(() => {
@@ -1714,6 +1736,7 @@ export const Dashboard = ({
         // Project squad filter: ONLY filter projects when user explicitly selects squads in dropdown
         // This allows showing ALL projects (demand) while limiting capacity to settings-defined squads
         projectSquadFilter: squadViewFilter, // Empty array = show all projects
+        platformFilter: platformViewFilter, // Platform filter: resources by squad platform, projects by project platform
         resourceSearch: debouncedSearch,
         selectedCategory,
         sortBy,
@@ -1754,7 +1777,18 @@ export const Dashboard = ({
             });
         });
 
-        // Entity filters  
+        // Platform filters
+        platformViewFilter.forEach(platform => {
+            filters.push({
+                type: 'platform',
+                label: platform,
+                icon: '🧩',
+                color: '#0ea5e9',
+                onRemove: () => setPlatformViewFilter(prev => prev.filter(p => p !== platform))
+            });
+        });
+
+        // Entity filters
         selectedEntities.forEach(entity => {
             filters.push({
                 type: 'entity',
@@ -1814,7 +1848,7 @@ export const Dashboard = ({
         }
 
         return filters;
-    }, [squadViewFilter, statusViewFilter, selectedEntities, selectedCategory, exceptionsOnly, highlightProject]);
+    }, [squadViewFilter, statusViewFilter, platformViewFilter, selectedEntities, selectedCategory, exceptionsOnly, highlightProject]);
 
 
     // Grouping
@@ -2412,10 +2446,11 @@ export const Dashboard = ({
     }, [statsRevenue, liveProjectsRevenue]);
 
     // V1 Parity: Check if any filters are active
-    const hasActiveFilters = squadViewFilter.length > 0 || statusViewFilter.length > 0 || selectedEntities.length > 0 || selectedCategory !== 'All' || resourceSearch || highlightProject || exceptionsOnly || showNotesOnly;
+    const hasActiveFilters = squadViewFilter.length > 0 || statusViewFilter.length > 0 || platformViewFilter.length > 0 || selectedEntities.length > 0 || selectedCategory !== 'All' || resourceSearch || highlightProject || exceptionsOnly || showNotesOnly;
     const resetFilters = () => {
         setSquadViewFilter([]);
         setStatusViewFilter([]);
+        setPlatformViewFilter([]);
         setSelectedEntities([]);
         setSelectedCategory('All');
         setResourceSearch('');
@@ -3065,6 +3100,70 @@ export const Dashboard = ({
                                                             <span style={{ fontSize: '12px', color: '#334155', fontWeight: '500' }}>{squad}</span>
                                                         </label>
                                                     ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Platform Filter Dropdown — resources by squad platform, projects by project platform */}
+                                    <div style={{ position: 'relative' }}>
+                                        <button
+                                            onClick={() => setActiveMenu(activeMenu === 'platform' ? null : 'platform')}
+                                            style={{
+                                                display: 'flex', alignItems: 'center', gap: '8px',
+                                                padding: '7px 14px', fontSize: '11px', fontWeight: '600',
+                                                border: '1px solid rgba(226, 232, 240, 0.6)', borderRadius: '10px',
+                                                backgroundColor: platformViewFilter.length > 0 ? '#eff6ff' : 'rgba(248, 250, 252, 0.8)',
+                                                color: platformViewFilter.length > 0 ? '#3b82f6' : '#475569',
+                                                cursor: 'pointer', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
+                                                transition: 'all 0.15s ease', letterSpacing: '-0.01em'
+                                            }}
+                                        >
+                                            <svg style={{ width: '14px', height: '14px', opacity: 0.8 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                                            {platformViewFilter.length > 0 ? `${platformViewFilter.length} Platform${platformViewFilter.length > 1 ? 's' : ''}` : 'All Platforms'}
+                                            <svg style={{ width: '10px', height: '10px', opacity: 0.5, marginLeft: '2px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                        </button>
+                                        {activeMenu === 'platform' && (
+                                            <div data-dropdown style={{
+                                                position: 'absolute', top: 'calc(100% + 6px)', left: 0,
+                                                backgroundColor: themedStyles.dropdownBg, border: themedStyles.dropdownBorder,
+                                                borderRadius: '12px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                                zIndex: 9999, minWidth: '200px', maxHeight: '320px', display: 'flex', flexDirection: 'column'
+                                            }}>
+                                                <div style={{ padding: '8px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+                                                    <span style={{ fontSize: '10px', fontWeight: '600', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Filter Platform</span>
+                                                    <button
+                                                        onClick={() => setPlatformViewFilter([])}
+                                                        style={{ padding: '4px 8px', fontSize: '10px', fontWeight: '600', border: 'none', borderRadius: '4px', backgroundColor: '#f1f5f9', color: '#64748b', cursor: 'pointer' }}
+                                                    >
+                                                        Clear
+                                                    </button>
+                                                </div>
+                                                <div style={{ overflowY: 'auto', flex: 1 }}>
+                                                    {(() => {
+                                                        const platforms = [...new Set(Object.values(squadPlatformMap))].filter(Boolean).sort();
+                                                        if (platforms.length === 0) {
+                                                            return (
+                                                                <div style={{ padding: '12px', fontSize: '11px', color: '#94a3b8', lineHeight: 1.4 }}>
+                                                                    No squad platforms found. Map the <strong>Squad Platform</strong> field in Settings → field mapping and set it on your squads.
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return platforms.map(pl => {
+                                                            const checked = platformViewFilter.includes(pl);
+                                                            return (
+                                                                <label key={pl} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', cursor: 'pointer' }}>
+                                                                    <div
+                                                                        onClick={(e) => { e.preventDefault(); setPlatformViewFilter(prev => checked ? prev.filter(x => x !== pl) : [...prev, pl]); }}
+                                                                        style={{ width: '16px', height: '16px', borderRadius: '4px', border: `2px solid ${checked ? '#3b82f6' : '#cbd5e1'}`, backgroundColor: checked ? '#3b82f6' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+                                                                    >
+                                                                        {checked && <svg style={{ width: '10px', height: '10px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                                                                    </div>
+                                                                    <span style={{ fontSize: '12px', color: '#334155', fontWeight: '500' }}>{pl}</span>
+                                                                </label>
+                                                            );
+                                                        });
+                                                    })()}
                                                 </div>
                                             </div>
                                         )}
@@ -4401,6 +4500,7 @@ export const Dashboard = ({
                             <button
                                 onClick={() => {
                                     setSquadViewFilter([]);
+                                    setPlatformViewFilter([]);
                                     setSelectedEntities([]);
                                     setSelectedCategory('All');
                                     setExceptionsOnly(false);

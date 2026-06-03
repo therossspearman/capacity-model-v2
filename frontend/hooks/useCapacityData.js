@@ -34,7 +34,8 @@ export const useCapacityData = ({
     initiatives = [],      // Team Efficiency Initiatives
     showInitiativesEffect = false, // Toggle for applying initiatives
     slotProfile = null,    // Slot Optimization: Standard project profile
-    demandCategory = 'all' // BAU Feature: 'all' | 'implementation' | 'bau'
+    demandCategory = 'all', // BAU Feature: 'all' | 'implementation' | 'bau'
+    platformFilter = []    // Platform Filter: [] = all; else resources by squadPlatforms, projects by p.platform
 }) => {
     // State
     const [workerResult, setWorkerResult] = useState({
@@ -148,14 +149,20 @@ export const useCapacityData = ({
         // Filter by Entity (Origin) BEFORE sending to worker
         // This ensures Slot Mode (which uses worker data directly) respects the filter
         const safeSelectedEntities = Array.isArray(selectedEntities) ? selectedEntities : [];
+        const safePlatformFilter = Array.isArray(platformFilter) ? platformFilter : [];
 
         const filteredProjList = (projList || []).filter(p => {
-            if (safeSelectedEntities.length === 0) return true;
-            return p.origin && safeSelectedEntities.includes(p.origin);
+            if (safeSelectedEntities.length > 0 && !(p.origin && safeSelectedEntities.includes(p.origin))) return false;
+            // Platform Filter: projects matched by their OWN Platform field.
+            if (safePlatformFilter.length > 0 && !safePlatformFilter.includes(p.platform)) return false;
+            return true;
         });
 
         const filteredResList = (resList || []).filter(r => {
             if (safeSelectedEntities.length > 0 && (!r.origin || !safeSelectedEntities.includes(r.origin))) return false;
+
+            // Platform Filter: resources matched if any of their squads' platforms is selected.
+            if (safePlatformFilter.length > 0 && !(Array.isArray(r.squadPlatforms) && r.squadPlatforms.some(pl => safePlatformFilter.includes(pl)))) return false;
 
             // BAU Feature: Filter resources by squad category BEFORE worker processing
             // This ensures capacity is only computed for matching squads
@@ -400,6 +407,7 @@ export const useCapacityData = ({
                 JSON.stringify(config.bauProjectTypes || []),
                 // Entity filter fingerprint: ensures hash changes when entity selection changes
                 safeSelectedEntities.join(','),
+                safePlatformFilter.join(','), // Platform filter changes must re-run the worker
                 // Capacity utilisation model fingerprint — toggling Field/Presence or the productivity default re-runs the worker.
                 config.capacityUtilizationModel || 'field',
                 config.modelParams?.presenceModel?.weeklyProductivityDefault ?? 80,
@@ -423,7 +431,7 @@ export const useCapacityData = ({
         } catch (err) {
             console.error("Worker PostMessage Error:", err);
         }
-    }, [resList, projList, timeRange, fiscalYearMode, customStartDate, customEndDate, config, sprintStartDate, modelParams, rampProfiles, winRates, initiatives, showInitiativesEffect, slotProfile, roleMapping, roleConfig, demandCategory, selectedEntities]);
+    }, [resList, projList, timeRange, fiscalYearMode, customStartDate, customEndDate, config, sprintStartDate, modelParams, rampProfiles, winRates, initiatives, showInitiativesEffect, slotProfile, roleMapping, roleConfig, demandCategory, selectedEntities, platformFilter]);
 
     // Helper to normalize squads
     const getSquads = (p) => {

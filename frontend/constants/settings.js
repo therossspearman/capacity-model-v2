@@ -2,7 +2,7 @@ import { BRAND } from '../design-system';
 
 // App Version - Update this on every release
 // AGENT NOTE: Always increment version when deploying changes
-export const APP_VERSION = '2.99.008';
+export const APP_VERSION = '2.99.009';
 
 // Airtable Field Mappings
 export const SETTINGS = {
@@ -212,6 +212,7 @@ export const SETTINGS = {
     PROJECT_TYPE: 'fld_project_type',                          // Single Select: Implementation, Change Request
     BAU_TSHIRT_SIZE: 'fld_bau_tshirt_size',                    // Single Select: XXS, XS, S, M, L, XL, XXL
     SQUAD_CATEGORY: 'fld_squad_category',                      // Single Select: Implementation, BAU, Both
+    SQUAD_PLATFORM: 'fld_squad_platform',                      // Single Select on the Squad table: platform the squad is aligned to (e.g. Benifex, FPS)
     BAU_HOURS_MAPPING: 'fld_bau_hours_mapping',                // Long Text (JSON) - Maps T-shirt sizes to hours/year
 
     // Portfolio Reprioritization Fields (Project Table)
