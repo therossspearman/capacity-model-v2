@@ -27,7 +27,8 @@ const BAUProjectEditModal = ({
     onClose,
     project,
     onSave,
-    bauHoursMapping
+    bauHoursMapping,
+    squads = []
 }) => {
     const { isDark, colors } = useTheme();
 
@@ -38,12 +39,14 @@ const BAUProjectEditModal = ({
     // Local selection so the chip highlight + annual-hours update instantly on click;
     // the underlying virtual project is a worker-derived snapshot and won't mutate live.
     const [selectedSize, setSelectedSize] = useState(project?.bauTshirtSize || fallbackSize);
+    const [selectedSquad, setSelectedSquad] = useState((project?.squad && project.squad !== 'Unassigned' ? project.squad : ''));
     const [saving, setSaving] = useState(false);
 
     // Re-sync when a different BAU project is opened.
     useEffect(() => {
         setSelectedSize(project?.bauTshirtSize || fallbackSize);
-    }, [project?.id, project?.bauTshirtSize, fallbackSize]);
+        setSelectedSquad((project?.squad && project.squad !== 'Unassigned' ? project.squad : ''));
+    }, [project?.id, project?.bauTshirtSize, project?.squad, fallbackSize]);
 
     if (!isOpen || !project) return null;
 
@@ -69,6 +72,27 @@ const BAUProjectEditModal = ({
             setSaving(false);
         }
     };
+
+    const handleSelectSquad = async (squadValue) => {
+        if (!editable || saving || squadValue === selectedSquad) return;
+        const prev = selectedSquad;
+        setSelectedSquad(squadValue); // optimistic
+        setSaving(true);
+        try {
+            await onSave(sourceProjectId, {
+                name: project.name,
+                squad: squadValue || null // null clears a single-select; '' would be rejected
+            });
+        } catch (e) {
+            setSelectedSquad(prev); // revert on failure (onSave surfaces its own error toast)
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // Ensure the project's current squad is selectable even if it's not in the
+    // derived list (e.g. an option no longer used by any active project).
+    const squadChoices = Array.from(new Set([selectedSquad, ...squads].filter(Boolean)));
 
     const readOnlyStyle = {
         width: '100%',
@@ -157,7 +181,7 @@ const BAUProjectEditModal = ({
                 }}>
                     <span>ℹ️</span>
                     <span>{editable
-                        ? 'Virtual BAU project — name, country, launch and squad come from the source project. Click a T-Shirt size below to change it (saved to the source project).'
+                        ? 'Virtual BAU project — name, country and launch come from the source project. You can change the Squad and T-Shirt size below (saved to the source project).'
                         : 'This is a virtual BAU project. Details are derived from the source project and are read-only.'}</span>
                 </div>
 
@@ -190,10 +214,28 @@ const BAUProjectEditModal = ({
                         <div style={readOnlyStyle}>{formatDate(project.launch || project.end)}</div>
                     </div>
 
-                    {/* Squad */}
+                    {/* Squad - editable when onSave is provided */}
                     <div>
-                        <label style={labelStyle}>Squad</label>
-                        <div style={readOnlyStyle}>{project.squad || 'Unassigned'}</div>
+                        <label style={labelStyle}>Squad{editable && <span style={{ fontWeight: 400, color: isDark ? '#64748b' : '#94a3b8' }}> — change to reassign</span>}</label>
+                        {editable ? (
+                            <select
+                                value={selectedSquad}
+                                disabled={saving}
+                                onChange={e => handleSelectSquad(e.target.value)}
+                                style={{
+                                    ...readOnlyStyle,
+                                    cursor: saving ? 'default' : 'pointer',
+                                    appearance: 'auto'
+                                }}
+                            >
+                                <option value="">Unassigned</option>
+                                {squadChoices.map(s => (
+                                    <option key={s} value={s}>{s}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <div style={readOnlyStyle}>{project.squad || 'Unassigned'}</div>
+                        )}
                     </div>
 
                     {/* T-shirt Size - editable size picker (driven by Settings hours) */}
@@ -296,10 +338,13 @@ BAUProjectEditModal.propTypes = {
         squad: PropTypes.string,
         bauTshirtSize: PropTypes.string
     }),
-    // When provided, the T-Shirt size becomes editable. Signature: (sourceProjectId, { name, bauTshirtSize }).
+    // When provided, Squad and T-Shirt size become editable.
+    // Signature: (sourceProjectId, { name, squad?, bauTshirtSize? }).
     onSave: PropTypes.func,
     // Size → annual-hours mapping from Settings (merged over defaults in utils/bauSizing).
-    bauHoursMapping: PropTypes.object
+    bauHoursMapping: PropTypes.object,
+    // Squad options for the Squad picker (array of names).
+    squads: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default BAUProjectEditModal;

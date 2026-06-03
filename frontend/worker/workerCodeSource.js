@@ -1099,6 +1099,10 @@ self.onmessage = (e) => {
                 // Include source project data for display
                 countryFlag: p.countryFlag,
                 country: p.country,
+                // Expose the source project's squad as a string so the grid can group
+                // by it and the BAU detail modal can show/edit the current squad.
+                // (bauMeta carries only the squads[] array.)
+                squad: (Array.isArray(p.squads) && p.squads[0]) || 'Unassigned',
                 launch: launchDate.toISOString(), // Use 'launch' to match card expectations
                 sourceProjectId: p.id,
                 sourceProjectName: p.name
