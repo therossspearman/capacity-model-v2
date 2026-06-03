@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { BRAND, Z_INDEX, useTheme } from '../../design-system';
 import { ICONS } from '../../constants';
+import { deriveFyWindow, calculateProjectRevenue } from '../../utils/revenueRecognition';
 
 export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRecTotals, liveRevenueData, periodContext, allProjects = [], onMerge, onMergeToNew, onMultiMerge, onMultiMergeToNew }) => {
     const { isDark, colors } = useTheme();
@@ -130,75 +131,11 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
         const liveArr = liveRevenue.arr?.fullYear || 0;
         const liveTotal = liveRevenue.total?.fullYear || 0;
 
-        // FY calculation helpers - use passed context or default to current year logic
-        let fyStart, fyEnd;
-
-        if (periodContext && periodContext.start && periodContext.end) {
-            fyStart = new Date(periodContext.start);
-            fyEnd = new Date(periodContext.end);
-        } else {
-            // Fallback (matches original logic)
-            const todayDate = new Date();
-            todayDate.setHours(0, 0, 0, 0);
-            const currentYear = todayDate.getFullYear();
-            const currentMonth = todayDate.getMonth();
-            const fyStartMonth = 4; // May (0-indexed)
-            const fyStartYear = currentMonth < fyStartMonth ? currentYear - 1 : currentYear;
-            fyStart = new Date(fyStartYear, fyStartMonth, 1);
-            const fyEndMonth = fyStartMonth === 0 ? 11 : fyStartMonth - 1;
-            const fyEndYear = fyStartMonth === 0 ? fyStartYear : fyStartYear + 1;
-            fyEnd = new Date(fyEndYear, fyEndMonth + 1, 0, 23, 59, 59);
-        }
-
-        // Helper to safely parse dates
-        const safeDate = (val) => {
-            if (!val) return null;
-            try {
-                const d = new Date(val);
-                return isNaN(d.getTime()) ? null : d;
-            } catch {
-                return null;
-            }
-        };
-
-        // Revenue recognition calculation for a single project
-        const calculateProjectRevenue = (p) => {
-            const launchDate = safeDate(p.launch || p.end);
-            const kickOffDate = safeDate(p.kickOff || p.start);
-            const implFee = p.implFee || 0;
-            const arrVal = p.arr || 0;
-            const isPOC = p.revenueModel && p.revenueModel.toLowerCase().includes('poc');
-
-            if (!launchDate) return { implFee: 0, arr: 0 };
-
-            let projectImplFee = 0;
-            let projectArr = 0;
-
-            // ARR is ALWAYS recognized at Launch (if within FY)
-            if (launchDate >= fyStart && launchDate <= fyEnd) {
-                projectArr = arrVal;
-            }
-
-            // Implementation Fee recognition depends on model
-            if (isPOC && kickOffDate && launchDate > kickOffDate) {
-                // POC Model: Proportional recognition from KickOff to Launch
-                const projectDuration = launchDate - kickOffDate;
-                const effectiveStart = Math.max(kickOffDate.getTime(), fyStart.getTime());
-                const effectiveEnd = Math.min(launchDate.getTime(), fyEnd.getTime());
-
-                if (effectiveEnd > effectiveStart) {
-                    const overlapDuration = effectiveEnd - effectiveStart;
-                    projectImplFee = (overlapDuration / projectDuration) * implFee;
-                }
-            } else {
-                // Non-POC Model: Full recognition at Launch
-                if (launchDate >= fyStart && launchDate <= fyEnd) {
-                    projectImplFee = implFee;
-                }
-            }
-
-            return { implFee: projectImplFee, arr: projectArr };
-        };
+        // FY window + per-project revenue recognition now live in a shared module
+        // (utils/revenueRecognition.js) that mirrors the canonical worker algorithm —
+        // see that file's header. This removes the hand-duplicated copy that used to
+        // live inline here and could drift from the worker.
+        const { fyStart, fyEnd } = deriveFyWindow(periodContext);
 
         for (const id of selectedIds) {
             const scenario = scenarios.find(s => s.id === id);
@@ -233,7 +170,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                 }
 
                 // Calculate revenue for this effective project
-                const projectRev = calculateProjectRevenue(effectiveProject);
+                const projectRev = calculateProjectRevenue(effectiveProject, fyStart, fyEnd);
                 scenarioImplFee += projectRev.implFee;
                 scenarioArr += projectRev.arr;
             });

@@ -54,7 +54,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             onToggleSelection(resource.id, e.shiftKey);
                         }}
                         onChange={() => { }}
-                        className="w-3.5 h-3.5 rounded border-slate-300 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                        style={{ width: '14px', height: '14px', borderRadius: '4px', borderColor: '#cbd5e1', accentColor: '#7637E3', cursor: 'pointer' }}
                     />
                 )}
                 <button

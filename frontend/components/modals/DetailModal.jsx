@@ -23,35 +23,35 @@ const Sparkline = ({ planned = 0, actuals = 0, eac = 0, pctComplete = 0 }) => {
     const varianceLabel = isUnderBudget
         ? `Projected Saving: ${Math.round(Math.abs(variance))}h`
         : `Projected Overburn: ${Math.round(Math.abs(variance))}h`;
-    const varianceColor = isUnderBudget ? 'text-emerald-600' : 'text-red-600';
+    const varianceColor = isUnderBudget ? '#059669' : '#dc2626';
 
     return (
-        <div className="flex flex-col gap-1 w-full">
-            <div className="flex justify-between items-end mb-2">
-                <div className="flex flex-col">
-                    <div className="flex items-center gap-1 group relative">
-                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Budget Performance</span>
-                        <div className="cursor-help w-3 h-3 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[8px] font-bold border border-slate-200" title="EAC (Estimate at Completion) projects your final total hours based on your current burn rate (% complete vs actuals).">?</div>
-                        {pctComplete > 0 && <span className="ml-2 px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-[9px] font-bold">{Math.round(pctComplete * 100)}% Complete</span>}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', position: 'relative' }}>
+                        <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Budget Performance</span>
+                        <div style={{ cursor: 'help', width: '12px', height: '12px', borderRadius: '9999px', backgroundColor: '#f1f5f9', color: '#94a3b8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', fontWeight: 700, border: '1px solid #e2e8f0' }} title="EAC (Estimate at Completion) projects your final total hours based on your current burn rate (% complete vs actuals).">?</div>
+                        {pctComplete > 0 && <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '9999px', backgroundColor: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0', fontSize: '9px', fontWeight: 700 }}>{Math.round(pctComplete * 100)}% Complete</span>}
                     </div>
                 </div>
-                <div className="flex flex-col items-end">
-                    <span className={`text-[10px] font-bold ${varianceColor}`}>{varianceLabel}</span>
-                    <span className="text-[9px] text-slate-400 font-medium">{formatNumber(Math.round(eac))}h Total EAC</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 700, color: varianceColor }}>{varianceLabel}</span>
+                    <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500 }}>{formatNumber(Math.round(eac))}h Total EAC</span>
                 </div>
             </div>
 
-            <div className="relative h-2.5 bg-slate-200/50 rounded-full overflow-hidden w-full">
+            <div style={{ position: 'relative', height: '10px', backgroundColor: 'rgba(226,232,240,0.5)', borderRadius: '9999px', overflow: 'hidden', width: '100%' }}>
                 {/* EAC Context Bar */}
-                <div className="absolute top-0 left-0 h-full bg-slate-300/30" style={{ width: `${eacW}%` }}></div>
+                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', backgroundColor: 'rgba(203,213,225,0.3)', width: `${eacW}%` }}></div>
                 {/* Actuals Bar */}
-                <div className={`absolute top-0 left-0 h-full rounded-full transition-all duration-500 ${actuals > planned ? 'bg-amber-500' : 'bg-blue-500'}`} style={{ width: `${actW}%` }}></div>
+                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', borderRadius: '9999px', transition: 'all 0.5s', backgroundColor: actuals > planned ? '#f59e0b' : '#3b82f6', width: `${actW}%` }}></div>
                 {/* Planned Marker */}
-                <div className="absolute top-0 bottom-0 w-0.5 bg-green-500 z-10 shadow-[0_0_4px_rgba(34,197,94,0.6)]" style={{ left: `${planW}%` }}></div>
+                <div style={{ position: 'absolute', top: 0, bottom: 0, width: '2px', backgroundColor: '#22c55e', zIndex: 10, boxShadow: '0 0 4px rgba(34,197,94,0.6)', left: `${planW}%` }}></div>
             </div>
-            <div className="flex justify-between text-[9px] font-medium pt-1">
-                <span className={actuals > planned ? 'text-amber-600 font-bold' : 'text-blue-600'}>{formatNumber(Math.round(actuals))}h Actuals</span>
-                <span className="text-green-600 font-bold">{formatNumber(Math.round(planned))}h Original Budget</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', fontWeight: 500, paddingTop: '4px' }}>
+                <span style={{ color: actuals > planned ? '#d97706' : '#2563eb', fontWeight: actuals > planned ? 700 : 500 }}>{formatNumber(Math.round(actuals))}h Actuals</span>
+                <span style={{ color: '#16a34a', fontWeight: 700 }}>{formatNumber(Math.round(planned))}h Original Budget</span>
             </div>
         </div>
     );
