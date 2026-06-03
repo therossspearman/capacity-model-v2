@@ -3648,34 +3648,40 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
     // ═══════════════════════════════════════════════════════════════════
     // SAVE SETTINGS HANDLER
     // ═══════════════════════════════════════════════════════════════════
-    const handleSaveSettings = useCallback(async (newSettings) => {
-        // Update local state immediately
-        setStoredSettings(newSettings);
-
-        // Persist to Airtable
-        if (settingsTable && settingsRecords) {
-            try {
-                const jsonString = JSON.stringify(newSettings);
-                const fieldId = resolveFieldId(stableSettings[SETTINGS.SETTINGS_JSON_FIELD]);
-
-                if (settingsRecords.length > 0) {
-                    // Update existing
-                    await settingsTable.updateRecordAsync(settingsRecords[0].id, {
-                        [fieldId]: jsonString
-                    });
-                } else {
-                    // Create new
-                    await settingsTable.createRecordAsync({
-                        [fieldId]: jsonString
-                    });
-                }
-                addToast({ type: 'success', title: 'Settings saved', duration: 2000 });
-            } catch (err) {
-                console.error('Failed to save settings to Airtable:', err);
-                addToast({ type: 'error', title: 'Settings failed to save', message: err.message });
+    // The Airtable write + toast, separated from state update so it can be debounced.
+    const persistSettings = useCallback(async (newSettings) => {
+        if (!settingsTable || !settingsRecords) return;
+        try {
+            const jsonString = JSON.stringify(newSettings);
+            const fieldId = resolveFieldId(stableSettings[SETTINGS.SETTINGS_JSON_FIELD]);
+            if (settingsRecords.length > 0) {
+                await settingsTable.updateRecordAsync(settingsRecords[0].id, { [fieldId]: jsonString });
+            } else {
+                await settingsTable.createRecordAsync({ [fieldId]: jsonString });
             }
+            addToast({ type: 'success', title: 'Settings saved', duration: 2000 });
+        } catch (err) {
+            console.error('Failed to save settings to Airtable:', err);
+            addToast({ type: 'error', title: 'Settings failed to save', message: err.message });
         }
-    }, [settingsTable, settingsRecords, setStoredSettings, resolveFieldId, stableSettings, SETTINGS, addToast]);
+    }, [settingsTable, settingsRecords, resolveFieldId, stableSettings, SETTINGS, addToast]);
+
+    // State updates immediately (responsive); the Airtable write + toast are DEBOUNCED.
+    // Previously every slider drag tick fired its own write + "Settings saved" toast,
+    // flooding Airtable (rate-limit risk) and the toast stack.
+    const settingsPersistTimerRef = useRef(null);
+    const pendingSettingsRef = useRef(null);
+    const handleSaveSettings = useCallback((newSettings) => {
+        setStoredSettings(newSettings);
+        pendingSettingsRef.current = newSettings;
+        if (settingsPersistTimerRef.current) clearTimeout(settingsPersistTimerRef.current);
+        settingsPersistTimerRef.current = setTimeout(() => {
+            settingsPersistTimerRef.current = null;
+            const s = pendingSettingsRef.current;
+            pendingSettingsRef.current = null;
+            if (s) persistSettings(s);
+        }, 600);
+    }, [setStoredSettings, persistSettings]);
 
     // ═══════════════════════════════════════════════════════════════════
     // SAVE INITIATIVES HANDLER
