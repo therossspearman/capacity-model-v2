@@ -79,6 +79,53 @@ const ProgramDetailModal = ({
         return program?.workstreams || []; // These come from project aggregation (virtual)
     }, [program]);
 
+    // Pre-compute the weekly-effort sparkline per workstream ONCE per data change.
+    // Previously this nested date-bucketing (workstreams × projects × weeks) ran inline
+    // in JSX on every render of the modal. Logic is unchanged — just memoised.
+    const sparklineByWorkstream = useMemo(() => {
+        const projects = program?.programProjects || [];
+        const discount = storedSettings?.programDiscount || 15;
+        const out = {};
+        for (const ws of workstreams) {
+            if (projects.length === 0) { out[ws.name] = null; continue; }
+            const wsShare = ws.allocationPct / 100;
+            let minDate = null, maxDate = null;
+            projects.forEach(p => {
+                const start = p.start ? new Date(p.start) : null;
+                const end = p.end ? new Date(p.end) : null;
+                if (start && (!minDate || start < minDate)) minDate = start;
+                if (end && (!maxDate || end > maxDate)) maxDate = end;
+            });
+            if (!minDate || !maxDate || minDate >= maxDate) { out[ws.name] = null; continue; }
+            const weeklyData = [];
+            const current = new Date(minDate);
+            const dayOfWeek = current.getDay();
+            const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            current.setDate(current.getDate() + daysToMonday);
+            while (current <= maxDate) {
+                const weekStart = new Date(current);
+                const weekEnd = new Date(current);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                let weekHours = 0;
+                projects.forEach(p => {
+                    const pStart = p.start ? new Date(p.start) : null;
+                    const pEnd = p.end ? new Date(p.end) : null;
+                    if (!pStart || !pEnd) return;
+                    if (weekEnd >= pStart && weekStart <= pEnd) {
+                        const totalHours = (p.pmValOriginal || p.pmVal || 0) + (p.scValOriginal || p.scVal || 0) + (p.pdValOriginal || p.pdVal || 0);
+                        const programHours = totalHours * (discount / 100) * wsShare;
+                        const projectDuration = Math.max(1, (pEnd - pStart) / (1000 * 60 * 60 * 24 * 7));
+                        weekHours += programHours / projectDuration;
+                    }
+                });
+                weeklyData.push({ date: new Date(current), hours: weekHours });
+                current.setDate(current.getDate() + 7);
+            }
+            out[ws.name] = weeklyData.length ? { weeklyData, maxHours: Math.max(...weeklyData.map(w => w.hours), 1) } : null;
+        }
+        return out;
+    }, [program, storedSettings?.programDiscount, workstreams]);
+
 
     // Find the actual Airtable Record for this program
     // Priority: 1. Explicit mapping in programRecordMap  2. Name/customer field match
@@ -858,63 +905,10 @@ const ProgramDetailModal = ({
 
                                             {/* Weekly Effort Sparkline Chart */}
                                             {(() => {
-                                                // Calculate weekly effort from program projects
-                                                const projects = program?.programProjects || [];
-                                                if (projects.length === 0) return null;
-
-                                                const discount = storedSettings?.programDiscount || 15;
-                                                const wsShare = ws.allocationPct / 100;
-
-                                                // Find date range
-                                                let minDate = null, maxDate = null;
-                                                projects.forEach(p => {
-                                                    const start = p.start ? new Date(p.start) : null;
-                                                    const end = p.end ? new Date(p.end) : null;
-                                                    if (start && (!minDate || start < minDate)) minDate = start;
-                                                    if (end && (!maxDate || end > maxDate)) maxDate = end;
-                                                });
-
-                                                if (!minDate || !maxDate || minDate >= maxDate) return null;
-
-                                                // Generate weekly buckets
-                                                const weeklyData = [];
-                                                const current = new Date(minDate);
-                                                // Align to Monday
-                                                const dayOfWeek = current.getDay();
-                                                const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-                                                current.setDate(current.getDate() + daysToMonday);
-
-                                                while (current <= maxDate) {
-                                                    const weekStart = new Date(current);
-                                                    const weekEnd = new Date(current);
-                                                    weekEnd.setDate(weekEnd.getDate() + 6);
-
-                                                    let weekHours = 0;
-                                                    projects.forEach(p => {
-                                                        const pStart = p.start ? new Date(p.start) : null;
-                                                        const pEnd = p.end ? new Date(p.end) : null;
-                                                        if (!pStart || !pEnd) return;
-
-                                                        // Check overlap
-                                                        if (weekEnd >= pStart && weekStart <= pEnd) {
-                                                            const totalHours = (p.pmValOriginal || p.pmVal || 0) + (p.scValOriginal || p.scVal || 0) + (p.pdValOriginal || p.pdVal || 0);
-                                                            const programHours = totalHours * (discount / 100) * wsShare;
-                                                            const projectDuration = Math.max(1, (pEnd - pStart) / (1000 * 60 * 60 * 24 * 7));
-                                                            weekHours += programHours / projectDuration;
-                                                        }
-                                                    });
-
-                                                    weeklyData.push({
-                                                        date: new Date(current),
-                                                        hours: weekHours
-                                                    });
-
-                                                    current.setDate(current.getDate() + 7);
-                                                }
-
-                                                if (weeklyData.length === 0) return null;
-
-                                                const maxHours = Math.max(...weeklyData.map(w => w.hours), 1);
+                                                // Memoised in sparklineByWorkstream (see above) — no per-render recompute.
+                                                const sk = sparklineByWorkstream[ws.name];
+                                                if (!sk) return null;
+                                                const { weeklyData, maxHours } = sk;
 
                                                 return (
                                                     <div style={{
