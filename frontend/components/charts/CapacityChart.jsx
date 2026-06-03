@@ -132,7 +132,7 @@ const GlassTooltip = ({ active, payload, label }) => {
                 <span style={{
                     fontFamily: 'monospace',
                     fontWeight: 'bold',
-                    color: totalDemand > capacity ? '#ef4444' : '#00BD00'
+                    color: totalDemand > capacity ? '#E5554F' : '#00BD00'
                 }}>
                     {Math.round(totalDemand).toLocaleString()}h
                 </span>
@@ -142,7 +142,7 @@ const GlassTooltip = ({ active, payload, label }) => {
                 <span style={{
                     fontFamily: 'monospace',
                     fontWeight: 'bold',
-                    color: utilization > 100 ? '#ef4444' : utilization > 80 ? '#f59e0b' : '#00BD00'
+                    color: utilization > 100 ? '#E5554F' : utilization > 80 ? '#FE9922' : '#00BD00'
                 }}>
                     {utilization}%
                 </span>
@@ -201,8 +201,8 @@ const CapacityChartDisplay = React.memo(({ data, statusOrder, hiddenLines, hover
             </linearGradient>
             {/* Finance Forecast Gradient - Blue */}
             <linearGradient id="gradForecast" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05} />
+                <stop offset="5%" stopColor="#4794FF" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#4794FF" stopOpacity={0.05} />
             </linearGradient>
             {statusOrder.map((s, i) => (
                 <linearGradient key={`grad-${s}`} id={`grad-${cleanId(s)}`} x1="0" y1="0" x2="0" y2="1">
@@ -383,7 +383,7 @@ const CapacityChartDisplay = React.memo(({ data, statusOrder, hiddenLines, hover
                             type="monotone"
                             dataKey="forecastDemand"
                             stackId="eac_stack"
-                            stroke="#3b82f6"
+                            stroke="#4794FF"
                             strokeWidth={2}
                             fill="url(#gradForecast)"
                             fillOpacity={0.8}
@@ -399,10 +399,10 @@ const CapacityChartDisplay = React.memo(({ data, statusOrder, hiddenLines, hover
                         <ReferenceLine
                             yAxisId="left"
                             x={fyStartKey}
-                            stroke="#3b82f6"
+                            stroke="#4794FF"
                             strokeWidth={2}
                             strokeDasharray="5 5"
-                            label={{ position: 'top', value: 'FY Start', fill: '#3b82f6', fontSize: 10, fontWeight: 'bold' }}
+                            label={{ position: 'top', value: 'FY Start', fill: '#4794FF', fontSize: 10, fontWeight: 'bold' }}
                         />
                     )}
                 </ComposedChart>

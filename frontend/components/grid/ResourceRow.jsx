@@ -54,7 +54,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             onToggleSelection(resource.id, e.shiftKey);
                         }}
                         onChange={() => { }}
-                        style={{ width: '14px', height: '14px', borderRadius: '4px', borderColor: '#cbd5e1', accentColor: '#7637E3', cursor: 'pointer' }}
+                        style={{ width: '14px', height: '14px', borderRadius: '4px', borderColor: '#cbd5e1', accentColor: '#082F24', cursor: 'pointer' }}
                     />
                 )}
                 <button
@@ -132,7 +132,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                 )}
                                 {resource.resourcingNotes && (
                                     <span title={resource.resourcingNotes} style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                                        <svg style={{ width: '13px', height: '13px', color: '#7637E3' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg style={{ width: '13px', height: '13px', color: '#082F24' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                     </span>
@@ -356,7 +356,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             shadowHeightPercent = 0;
                             mainHeightPercent = Math.min(Math.abs(impact) / scaleMax * 100, 100);
                             shadowColor = 'transparent';
-                            if (impact > 0.5) mainColor = '#ef4444'; // Red - overburn
+                            if (impact > 0.5) mainColor = '#E5554F'; // Red - overburn
                             else if (impact < -0.5) mainColor = BRAND.success; // Green - savings
                             else mainColor = 'transparent';
                             displayContent = Math.abs(impact) > 0.1 ? (impact > 0 ? `+${Math.ceil(impact)}` : Math.floor(impact)) : '';
@@ -385,10 +385,10 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             unresourcedHeightPct = mainHeightPercent - resourcedHeightPct;
 
                             // For color, use dark purple for EAC text color since we have mixed bars
-                            mainColor = totalDemand > 0.1 ? '#7637E3' : 'transparent';
+                            mainColor = totalDemand > 0.1 ? '#082F24' : 'transparent';
 
                             // Shadow color for planned bar
-                            shadowColor = resourcedPct > 0 ? '#7637E3' : '#e2e8f0';
+                            shadowColor = resourcedPct > 0 ? '#082F24' : '#e2e8f0';
 
                             // Flag for the stacked-bar render path below
                             hasStackedBars = totalDemand > 0.1;
@@ -416,7 +416,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
 
 
                     return (
-                        <div key={key} data-tour="capacity-cell" style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', borderRight: `1px solid ${BRAND.border}70`, width: `${columnWidth}px`, backgroundColor: isToday ? `${BRAND.primary}0D` : (isColHover ? BRAND.bgAlt : 'transparent'), transition: 'opacity 0.3s', ...(focusedColIdx !== null && focusedColIdx === dateIdx + (colLeftOffset / columnWidth) ? { outline: '2px solid #7637E3', outlineOffset: '-2px', borderRadius: '4px', zIndex: 5 } : {}) }}>
+                        <div key={key} data-tour="capacity-cell" style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', borderRight: `1px solid ${BRAND.border}70`, width: `${columnWidth}px`, backgroundColor: isToday ? `${BRAND.primary}0D` : (isColHover ? BRAND.bgAlt : 'transparent'), transition: 'opacity 0.3s', ...(focusedColIdx !== null && focusedColIdx === dateIdx + (colLeftOffset / columnWidth) ? { outline: '2px solid #082F24', outlineOffset: '-2px', borderRadius: '4px', zIndex: 5 } : {}) }}>
                             {isUnassigned ? (
                                 <div style={{
                                     width: '90%',
@@ -449,7 +449,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                         backgroundColor: isOnLeave ? (isDark ? '#1e293b' : '#f1f5f9') : (isOOO ? colors.bgHover : 'transparent'),
                                         // Visual Indicator for Slot Allocations (purple dashed border)
                                         ...(hasSlotAllocation && {
-                                            border: `2px dashed ${BRAND.violet}`, // Accent violet (#BD65FF)
+                                            border: `2px dashed ${BRAND.violet}`, // Accent violet (#FF8EFB)
                                             boxShadow: `inset 0 0 4px ${BRAND.violet}20` // Subtle glow
                                         }),
                                         // Diagonal stripe patterns — leave + OOO both use a muted slate hash
@@ -479,17 +479,17 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                         isProjectView && hasStackedBars ? (
                                             <>
                                                 {/* Purple bar (resourced) - starts at bottom */}
-                                                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${resourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#7637E3', zIndex: 2 }} />
+                                                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${resourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#082F24', zIndex: 2 }} />
                                                 {/* Red bar (unresourced) - stacked on top of purple */}
-                                                <div style={{ position: 'absolute', bottom: `${resourcedHeightPct || 0}%`, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${unresourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#ef4444', zIndex: 2 }} />
+                                                <div style={{ position: 'absolute', bottom: `${resourcedHeightPct || 0}%`, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${unresourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#E5554F', zIndex: 2 }} />
                                             </>
                                         ) : (
                                             /* Resource View or no demand: Single bar */
                                             <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${mainHeightPercent}%`, opacity: 0.85, backgroundColor: mainColor, zIndex: 2, mixBlendMode: isProjectView ? 'multiply' : 'normal' }} />
                                         )
                                     )}
-                                    {!isOnLeave && !isOOO && isOverloaded && <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', backgroundColor: '#ef4444' }} />}
-                                    {!isOnLeave && !isOOO && isRamping && <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', backgroundColor: '#f59e0b', borderRadius: '0 0 4px 4px', zIndex: 15 }} />}
+                                    {!isOnLeave && !isOOO && isOverloaded && <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', backgroundColor: '#E5554F' }} />}
+                                    {!isOnLeave && !isOOO && isRamping && <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', backgroundColor: '#FE9922', borderRadius: '0 0 4px 4px', zIndex: 15 }} />}
                                     <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '600', zIndex: 10, color: isProjectView && Math.abs(bucket.dem - bucket.planned) > 2 ? '#1e293b' : 'inherit' }}>{(isOnLeave || isOOO) ? '' : displayContent}</div>
                                 </div>
                             )}

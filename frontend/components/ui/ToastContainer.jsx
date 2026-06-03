@@ -21,7 +21,7 @@ const TOAST_CONFIG = {
     },
     error: {
         icon: '✕',
-        gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        gradient: 'linear-gradient(135deg, #E5554F 0%, #dc2626 100%)',
         bgLight: '#fef2f2',
         bgDark: '#450a0a',
         borderLight: '#fca5a5',
@@ -31,7 +31,7 @@ const TOAST_CONFIG = {
     },
     warning: {
         icon: '⚠',
-        gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        gradient: 'linear-gradient(135deg, #FE9922 0%, #d97706 100%)',
         bgLight: '#fffbeb',
         bgDark: '#451a03',
         borderLight: '#fcd34d',
@@ -41,7 +41,7 @@ const TOAST_CONFIG = {
     },
     info: {
         icon: 'ℹ',
-        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+        gradient: 'linear-gradient(135deg, #4794FF 0%, #2563eb 100%)',
         bgLight: '#eff6ff',
         bgDark: '#1e1b4b',
         borderLight: '#93c5fd',

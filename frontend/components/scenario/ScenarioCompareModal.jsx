@@ -319,12 +319,12 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                 padding: '6px 12px',
                                 borderRadius: '8px',
                                 border: selectedIds.has(s.id)
-                                    ? '2px solid #7637E3'
+                                    ? '2px solid #082F24'
                                     : `1px solid ${colors.border}`,
                                 backgroundColor: selectedIds.has(s.id)
-                                    ? (isDark ? 'rgba(139, 92, 246, 0.2)' : '#F7F3ED')
+                                    ? (isDark ? 'rgba(0, 189, 0, 0.2)' : '#F5EDE1')
                                     : colors.bgCard,
-                                color: selectedIds.has(s.id) ? '#7637E3' : colors.text,
+                                color: selectedIds.has(s.id) ? '#082F24' : colors.text,
                                 fontSize: '13px',
                                 fontWeight: selectedIds.has(s.id) ? '600' : '500',
                                 cursor: 'pointer',
@@ -402,7 +402,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                             padding: '6px 12px',
                                             borderRadius: '6px',
                                             border: 'none',
-                                            background: 'linear-gradient(135deg, #BD65FF, #7637E3)',
+                                            background: 'linear-gradient(135deg, #FF8EFB, #082F24)',
                                             color: 'white',
                                             fontSize: '11px',
                                             fontWeight: '600',
@@ -523,7 +523,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                     }}>Cancel</button>
                                     <button onClick={handleMerge} style={{
                                         padding: '8px 16px', borderRadius: '6px', border: 'none',
-                                        background: 'linear-gradient(135deg, #BD65FF, #7637E3)', color: 'white', fontSize: '13px', fontWeight: '600', cursor: 'pointer'
+                                        background: 'linear-gradient(135deg, #FF8EFB, #082F24)', color: 'white', fontSize: '13px', fontWeight: '600', cursor: 'pointer'
                                     }}>Merge {sourceNames.length} into Target</button>
                                 </div>
                             </div>
@@ -631,8 +631,8 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                     }}>Scenario</th>
                                     <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#0284c7', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Impl Fees</th>
                                     <th style={{ padding: '12px 8px', textAlign: 'center', fontSize: '11px', fontWeight: '700', color: '#0284c7', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Δ</th>
-                                    <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>ARR</th>
-                                    <th style={{ padding: '12px 8px', textAlign: 'center', fontSize: '11px', fontWeight: '700', color: '#7637E3', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Δ</th>
+                                    <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>ARR</th>
+                                    <th style={{ padding: '12px 8px', textAlign: 'center', fontSize: '11px', fontWeight: '700', color: '#082F24', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Δ</th>
                                     <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: '700', color: '#00BD00', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Total</th>
                                     <th style={{ padding: '12px 8px', textAlign: 'center', fontSize: '11px', fontWeight: '700', color: '#00BD00', textTransform: 'uppercase', borderBottom: `2px solid ${colors.border}` }}>Δ</th>
                                 </tr>
@@ -663,7 +663,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                         £{Math.round(liveRevenue.implFee?.fullYear || 0).toLocaleString()}
                                     </td>
                                     <td style={{ padding: '14px 8px', textAlign: 'center', fontSize: '12px', color: colors.textMuted, borderBottom: `1px solid ${colors.border}` }}>—</td>
-                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '600', color: '#7637E3', borderBottom: `1px solid ${colors.border}` }}>
+                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '600', color: '#082F24', borderBottom: `1px solid ${colors.border}` }}>
                                         £{Math.round(liveRevenue.arr?.fullYear || 0).toLocaleString()}
                                     </td>
                                     <td style={{ padding: '14px 8px', textAlign: 'center', fontSize: '12px', color: colors.textMuted, borderBottom: `1px solid ${colors.border}` }}>—</td>
@@ -723,7 +723,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                                                             display: 'inline-flex',
                                                                             alignItems: 'center',
                                                                             justifyContent: 'center',
-                                                                            color: '#f59e0b',
+                                                                            color: '#FE9922',
                                                                             cursor: 'help'
                                                                         }}
                                                                     >
@@ -745,7 +745,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                                 <td style={{ padding: '14px 8px', textAlign: 'center', fontSize: '12px', fontWeight: '600', color: implDelta.color, borderBottom: isExpanded ? 'none' : `1px solid ${colors.border}` }}>
                                                     {implDelta.text}
                                                 </td>
-                                                <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '500', color: '#7637E3', borderBottom: isExpanded ? 'none' : `1px solid ${colors.border}` }}>
+                                                <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '500', color: '#082F24', borderBottom: isExpanded ? 'none' : `1px solid ${colors.border}` }}>
                                                     £{Math.round(sr.arr).toLocaleString()}
                                                 </td>
                                                 <td style={{ padding: '14px 8px', textAlign: 'center', fontSize: '12px', fontWeight: '600', color: arrDelta.color, borderBottom: isExpanded ? 'none' : `1px solid ${colors.border}` }}>
@@ -779,7 +779,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                                                     <div style={{
                                                                         fontSize: '11px',
                                                                         fontWeight: '700',
-                                                                        color: '#7637E3',
+                                                                        color: '#082F24',
                                                                         textTransform: 'uppercase',
                                                                         marginBottom: '12px',
                                                                         display: 'flex',
@@ -812,7 +812,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                                                                     marginTop: '4px'
                                                                                 }}>
                                                                                     <span style={{ color: colors.textMuted, minWidth: '80px' }}>{c.field}:</span>
-                                                                                    <span style={{ textDecoration: 'line-through', color: '#ef4444' }}>{formatValue(c.from)}</span>
+                                                                                    <span style={{ textDecoration: 'line-through', color: '#E5554F' }}>{formatValue(c.from)}</span>
                                                                                     <span style={{ color: colors.textMuted }}>→</span>
                                                                                     <span style={{ color: '#00BD00', fontWeight: '500' }}>{formatValue(c.to)}</span>
                                                                                 </div>
@@ -861,7 +861,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
                                                                                     marginTop: '4px'
                                                                                 }}>
                                                                                     <span style={{ color: colors.textMuted, minWidth: '80px' }}>{c.field}:</span>
-                                                                                    <span style={{ textDecoration: 'line-through', color: '#ef4444' }}>{formatValue(c.from)}</span>
+                                                                                    <span style={{ textDecoration: 'line-through', color: '#E5554F' }}>{formatValue(c.from)}</span>
                                                                                     <span style={{ color: colors.textMuted }}>→</span>
                                                                                     <span style={{ color: '#00BD00', fontWeight: '500' }}>{formatValue(c.to)}</span>
                                                                                 </div>

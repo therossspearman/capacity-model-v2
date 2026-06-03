@@ -97,10 +97,10 @@ const AuditDrawer = ({ isOpen, onClose }) => {
 
     const getEventColor = (type) => {
         if (type.includes('ASSIGNED') || type.includes('CREATED')) return '#00BD00';
-        if (type.includes('MOVED') || type.includes('UPDATED') || type.includes('CHANGED')) return '#3b82f6';
-        if (type.includes('DELETED') || type.includes('UNASSIGNED')) return '#ef4444';
-        if (type.includes('LOCKED')) return '#f59e0b';
-        if (type.includes('COMMITTED') || type.includes('ACTIVATED')) return '#BD65FF';
+        if (type.includes('MOVED') || type.includes('UPDATED') || type.includes('CHANGED')) return '#4794FF';
+        if (type.includes('DELETED') || type.includes('UNASSIGNED')) return '#E5554F';
+        if (type.includes('LOCKED')) return '#FE9922';
+        if (type.includes('COMMITTED') || type.includes('ACTIVATED')) return '#FF8EFB';
         return '#64748b';
     };
 
@@ -199,7 +199,7 @@ const AuditDrawer = ({ isOpen, onClose }) => {
                                     fontWeight: '600',
                                     cursor: 'pointer',
                                     backgroundColor: filter === f
-                                        ? (isDark ? '#3b82f6' : '#3b82f6')
+                                        ? (isDark ? '#4794FF' : '#4794FF')
                                         : (isDark ? '#334155' : '#e2e8f0'),
                                     color: filter === f ? 'white' : (isDark ? '#94a3b8' : '#64748b'),
                                     textTransform: 'capitalize'
@@ -316,7 +316,7 @@ const AuditDrawer = ({ isOpen, onClose }) => {
                                 borderRadius: '4px',
                                 border: 'none',
                                 fontSize: '11px',
-                                color: '#ef4444',
+                                color: '#E5554F',
                                 backgroundColor: isDark ? '#1e293b' : 'white',
                                 cursor: 'pointer'
                             }}

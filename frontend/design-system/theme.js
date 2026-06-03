@@ -31,7 +31,7 @@ try {
 export const LIGHT = {
     // Backgrounds
     bg: '#ffffff',
-    bgAlt: '#F7F3ED',           // Oat
+    bgAlt: '#F5EDE1',           // Oat
     bgAccent: '#E8E1D9',        // Taupe
     bgHover: '#f8fafc',
     bgCard: '#ffffff',
@@ -47,34 +47,34 @@ export const LIGHT = {
     // Borders
     border: '#E0D8CC',
     borderLight: '#F0EBE3',
-    borderFocus: '#7637E3',
+    borderFocus: '#082F24',
 
     // Brand Colors (consistent in both modes)
-    primary: '#180126',
-    primaryLight: '#7637E3',
-    primaryDark: '#0D0113',
+    primary: '#082F24',
+    primaryLight: '#082F24',
+    primaryDark: '#061f18',
 
     // Semantic
     success: '#00BD00',
     successLight: '#dcfce7',
     successBg: '#f0fdf4',
 
-    danger: '#ef4444',
+    danger: '#E5554F',
     dangerLight: '#fee2e2',
     dangerBg: '#fef2f2',
 
-    warning: '#f59e0b',
+    warning: '#FE9922',
     warningLight: '#fef3c7',
     warningBg: '#fffbeb',
 
-    info: '#3b82f6',
+    info: '#4794FF',
     infoLight: '#dbeafe',
     infoBg: '#eff6ff',
 
     // Grid/Chart specific
     gridLine: '#e2e8f0',
     capacityLine: '#00BD00',
-    todayHighlight: 'rgba(118, 55, 227, 0.08)',
+    todayHighlight: 'rgba(8, 47, 36, 0.08)',
 
     // Shadows
     shadowSm: '0 1px 2px rgba(0, 0, 0, 0.05)',
@@ -105,12 +105,12 @@ export const DARK = {
     // Borders
     border: '#334155',          // More visible borders
     borderLight: '#1e293b',
-    borderFocus: '#a78bfa',     // Brighter focus ring
+    borderFocus: '#86efac',     // Brighter focus ring
 
     // Brand Colors (adjusted for dark mode visibility)
-    primary: '#c4b5fd',         // Brighter purple for dark backgrounds
-    primaryLight: '#a78bfa',
-    primaryDark: '#7637E3',
+    primary: '#bbf7d0',         // Brighter purple for dark backgrounds
+    primaryLight: '#86efac',
+    primaryDark: '#082F24',
 
     // Semantic (IMPROVED VISIBILITY)
     success: '#00BD00',         // Brighter green
@@ -132,7 +132,7 @@ export const DARK = {
     // Grid/Chart specific - IMPROVED VISIBILITY
     gridLine: '#334155',        // More visible grid
     capacityLine: '#00BD00',    // Brighter capacity line
-    todayHighlight: 'rgba(167, 139, 250, 0.2)',
+    todayHighlight: 'rgba(134, 239, 172, 0.2)',
 
     // Shadows (more subtle in dark mode)
     shadowSm: '0 1px 2px rgba(0, 0, 0, 0.4)',

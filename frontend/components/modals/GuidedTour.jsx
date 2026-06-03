@@ -264,7 +264,7 @@ export const GuidedTour = ({ onComplete, onSkip }) => {
                 {/* Header with gradient */}
                 <div style={{
                     padding: '16px 20px',
-                    backgroundColor: '#7637E3',
+                    backgroundColor: '#082F24',
                     color: 'white'
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -339,11 +339,11 @@ export const GuidedTour = ({ onComplete, onSkip }) => {
                                 fontSize: '13px',
                                 fontWeight: '700',
                                 color: 'white',
-                                backgroundColor: '#7637E3',
+                                backgroundColor: '#082F24',
                                 border: 'none',
                                 borderRadius: '8px',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 12px rgba(118, 55, 227, 0.3)'
+                                boxShadow: '0 4px 12px rgba(8, 47, 36, 0.3)'
                             }}
                         >
                             {isLast ? 'Get Started!' : 'Next'}

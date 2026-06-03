@@ -2,15 +2,15 @@ import { BRAND } from '../design-system';
 
 // High-Contrast Color Palette for Charts
 export const MODERN_COLORS = [
-    BRAND.indigo,          // #180126 - Indigo (Dark base)
+    BRAND.indigo,          // #082F24 - Indigo (Dark base)
     BRAND.benifexGreen,    // #00BD00 - Benifex Green (Primary Action)
-    BRAND.amber,           // #F59E0B - Amber (Warning)
-    BRAND.lime,            // #B8FF00 - Lime (Pop)
+    BRAND.amber,           // #FE9922 - Amber (Warning)
+    BRAND.lime,            // #8DF01F - Lime (Pop)
     BRAND.cyan,            // #00D9FF - Cyan (Pop)
-    BRAND.benifexPurple,   // #7637E3 - Benifex Purple (Secondary)
+    BRAND.benifexPurple,   // #082F24 - Benifex Purple (Secondary)
     BRAND.crimson,         // #DC2626 - Crimson (Pipeline)
-    BRAND.financeBlue,     // #3B82F6 - Finance Blue
-    BRAND.violet,          // #BD65FF - Violet
+    BRAND.financeBlue,     // #4794FF - Finance Blue
+    BRAND.violet,          // #FF8EFB - Violet
     BRAND.crimsonLight     // #F87171 - Crimson Light
 ];
 
@@ -37,16 +37,16 @@ export const STATUS_COLOR_MAP = {
     'pipeline - commit': BRAND.crimson,        // #DC2626 - Main crimson
 
     // Contracted - Indigo (flagship status, dark purple base)
-    'contracted': BRAND.indigo,                // #180126 - Dark purple
+    'contracted': BRAND.indigo,                // #082F24 - Dark purple
 
     // Onboarding - Lime (light green, early stage projects)
-    'onboarding': BRAND.lime,                  // #B8FF00 - Bright lime green
+    'onboarding': BRAND.lime,                  // #8DF01F - Bright lime green
 
     // Support States - Cyan (calm, maintenance)
     'in hypercare': BRAND.cyan,                // #00D9FF - Cyan
 
     // Hold/Draft States - Warm neutrals
-    'on hold': BRAND.amber,                    // #F59E0B - Amber (attention needed)
+    'on hold': BRAND.amber,                    // #FE9922 - Amber (attention needed)
     'draft': BRAND.taupe,                      // Warm grey
 
     // Closed States - Cool greys

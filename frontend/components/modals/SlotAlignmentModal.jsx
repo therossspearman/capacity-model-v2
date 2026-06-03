@@ -139,7 +139,7 @@ export const SlotAlignmentModal = ({
                             borderRadius: '10px',
                             background: alignment.isPerfectFit
                                 ? 'linear-gradient(135deg, #00BD00 0%, #00BD00 100%)'
-                                : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                : 'linear-gradient(135deg, #FE9922 0%, #d97706 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -205,7 +205,7 @@ export const SlotAlignmentModal = ({
                             <div style={{ fontSize: '10px', color: isDark ? '#64748b' : '#94a3b8', textTransform: 'uppercase', marginBottom: '6px' }}>
                                 Project Dates
                             </div>
-                            <div style={{ fontSize: '13px', fontWeight: '600', color: '#BD65FF', marginBottom: '4px' }}>
+                            <div style={{ fontSize: '13px', fontWeight: '600', color: '#FF8EFB', marginBottom: '4px' }}>
                                 {project.name}
                             </div>
                             <div style={{ fontSize: '11px', color: colors.textSecondary }}>
@@ -223,7 +223,7 @@ export const SlotAlignmentModal = ({
                             padding: '12px 16px',
                             backgroundColor: isDark ? 'rgba(245, 158, 11, 0.1)' : '#fef3c7',
                             borderRadius: '8px',
-                            border: '1px solid #f59e0b',
+                            border: '1px solid #FE9922',
                             marginBottom: '20px'
                         }}>
                             <div style={{ fontSize: '11px', fontWeight: '600', color: '#92400e', marginBottom: '8px' }}>
@@ -293,7 +293,7 @@ export const SlotAlignmentModal = ({
                                         ? (isDark ? 'rgba(245, 158, 11, 0.1)' : '#fefce8')
                                         : (isDark ? '#0f172a' : 'white'),
                                     borderRadius: '8px',
-                                    border: `2px solid ${selectedOption === 'accept' ? '#f59e0b' : (isDark ? '#334155' : '#e2e8f0')}`,
+                                    border: `2px solid ${selectedOption === 'accept' ? '#FE9922' : (isDark ? '#334155' : '#e2e8f0')}`,
                                     cursor: 'pointer'
                                 }}
                             >
@@ -301,7 +301,7 @@ export const SlotAlignmentModal = ({
                                     type="radio"
                                     checked={selectedOption === 'accept'}
                                     onChange={() => setSelectedOption('accept')}
-                                    style={{ marginTop: '2px', accentColor: '#f59e0b' }}
+                                    style={{ marginTop: '2px', accentColor: '#FE9922' }}
                                 />
                                 <div>
                                     <div style={{ fontSize: '12px', fontWeight: '600', color: colors.textPrimary }}>
@@ -350,7 +350,7 @@ export const SlotAlignmentModal = ({
                         variant="primary"
                         onClick={handleConfirm}
                         style={{
-                            backgroundColor: alignment.isPerfectFit ? '#00BD00' : (selectedOption === 'align' ? '#00BD00' : '#f59e0b')
+                            backgroundColor: alignment.isPerfectFit ? '#00BD00' : (selectedOption === 'align' ? '#00BD00' : '#FE9922')
                         }}
                     >
                         {alignment.isPerfectFit ? 'Confirm Assignment' : (selectedOption === 'align' ? 'Align & Assign' : 'Assign (Accept Waste)')}

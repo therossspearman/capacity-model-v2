@@ -53,11 +53,11 @@ class ErrorBoundary extends React.Component {
         if (this.state.hasError) {
             return (
                 <div style={{ padding: '32px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '48px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}><svg style={{ width: '48px', height: '48px', color: '#f59e0b' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>
+                    <div style={{ fontSize: '48px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}><svg style={{ width: '48px', height: '48px', color: '#FE9922' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div>
                     <h2 style={{ fontSize: '18px', fontWeight: 'bold', color: '#1e293b', marginBottom: '8px' }}>
                         Dashboard Error
                     </h2>
-                    <p style={{ fontSize: '14px', color: '#ef4444', marginBottom: '16px' }}>
+                    <p style={{ fontSize: '14px', color: '#E5554F', marginBottom: '16px' }}>
                         {this.state.error?.message || 'Something went wrong'}
                     </p>
                     <details style={{ textAlign: 'left', fontSize: '12px', color: '#64748b' }}>
@@ -167,7 +167,7 @@ export const Dashboard = ({
         // Pills/chips
         pillBg: isDark ? colors.bgAccent : 'rgba(248, 250, 252, 0.8)',
         pillBorder: `1px solid ${isDark ? colors.border : 'rgba(226, 232, 240, 0.6)'}`,
-        pillActiveBg: isDark ? colors.primary : '#7637E3',
+        pillActiveBg: isDark ? colors.primary : '#082F24',
         // Text colors
         textPrimary: colors.text,
         textSecondary: colors.textSecondary,
@@ -1776,7 +1776,7 @@ export const Dashboard = ({
                 type: 'squad',
                 label: squad,
                 icon: '👥',
-                color: '#3b82f6',
+                color: '#4794FF',
                 onRemove: () => setSquadViewFilter(prev => prev.filter(s => s !== squad))
             });
         });
@@ -1798,7 +1798,7 @@ export const Dashboard = ({
                 type: 'entity',
                 label: entity,
                 icon: '🏢',
-                color: '#BD65FF',
+                color: '#FF8EFB',
                 onRemove: () => setSelectedEntities(prev => {
                     const updated = prev.filter(e => e !== entity);
                     try { localStorage.setItem('capacitySelectedEntities', JSON.stringify(updated)); } catch (e) { }
@@ -1824,7 +1824,7 @@ export const Dashboard = ({
                 type: 'exceptions',
                 label: 'Exceptions Only',
                 icon: '⚠️',
-                color: '#f59e0b',
+                color: '#FE9922',
                 onRemove: () => setExceptionsOnly(false)
             });
         }
@@ -1835,7 +1835,7 @@ export const Dashboard = ({
                 type: 'status',
                 label: status,
                 icon: '📋',
-                color: '#8b5cf6',
+                color: '#00BD00',
                 onRemove: () => setStatusViewFilter(prev => prev.filter(s => s !== status))
             });
         });
@@ -1846,7 +1846,7 @@ export const Dashboard = ({
                 type: 'highlight',
                 label: highlightProject,
                 icon: '✨',
-                color: '#f59e0b',
+                color: '#FE9922',
                 onRemove: () => setHighlightProject('')
             });
         }
@@ -2545,7 +2545,7 @@ export const Dashboard = ({
                     {/* Settings Restored Banner */}
                     {settingsRestoredFromBackup && (
                         <div style={{
-                            background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                            background: 'linear-gradient(135deg, #fbbf24 0%, #FE9922 100%)',
                             color: '#78350f',
                             padding: '8px 16px',
                             fontSize: '12px',
@@ -2775,7 +2775,7 @@ export const Dashboard = ({
                                                     >Clear</button>
                                                     <button
                                                         onClick={() => { setTimeRange('Custom'); setActiveMenu(null); }}
-                                                        style={{ flex: 1, padding: '7px', fontSize: '11px', fontWeight: '600', border: 'none', borderRadius: '6px', backgroundColor: '#7637E3', color: 'white', cursor: 'pointer' }}
+                                                        style={{ flex: 1, padding: '7px', fontSize: '11px', fontWeight: '600', border: 'none', borderRadius: '6px', backgroundColor: '#082F24', color: 'white', cursor: 'pointer' }}
                                                     >Apply</button>
                                                 </div>
                                             </div>
@@ -2811,7 +2811,7 @@ export const Dashboard = ({
                                                     borderRadius: '8px',
                                                     cursor: 'pointer',
                                                     backgroundColor: forecastMode === key ? 'white' : 'transparent',
-                                                    color: forecastMode === key ? '#7637E3' : '#64748b',
+                                                    color: forecastMode === key ? '#082F24' : '#64748b',
                                                     boxShadow: forecastMode === key ? '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)' : 'none',
                                                     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                                                     letterSpacing: '-0.01em'
@@ -2962,7 +2962,7 @@ export const Dashboard = ({
                                                 border: '1px solid rgba(226, 232, 240, 0.6)',
                                                 borderRadius: '10px',
                                                 backgroundColor: squadViewFilter.length > 0 ? '#eff6ff' : 'rgba(248, 250, 252, 0.8)',
-                                                color: squadViewFilter.length > 0 ? '#3b82f6' : '#475569',
+                                                color: squadViewFilter.length > 0 ? '#4794FF' : '#475569',
                                                 cursor: 'pointer',
                                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease',
@@ -3012,7 +3012,7 @@ export const Dashboard = ({
                                                             backgroundColor: 'white', color: '#334155',
                                                             outline: 'none', boxSizing: 'border-box'
                                                         }}
-                                                        onFocus={e => e.target.style.borderColor = '#3b82f6'}
+                                                        onFocus={e => e.target.style.borderColor = '#4794FF'}
                                                         onBlur={e => e.target.style.borderColor = '#e2e8f0'}
                                                     />
                                                 </div>
@@ -3063,8 +3063,8 @@ export const Dashboard = ({
                                                     >
                                                         <div style={{
                                                             width: '16px', height: '16px', borderRadius: '4px',
-                                                            border: squadViewFilter.includes('__none__') ? '1px solid #f59e0b' : '1px solid #cbd5e1',
-                                                            backgroundColor: squadViewFilter.includes('__none__') ? '#f59e0b' : 'white',
+                                                            border: squadViewFilter.includes('__none__') ? '1px solid #FE9922' : '1px solid #cbd5e1',
+                                                            backgroundColor: squadViewFilter.includes('__none__') ? '#FE9922' : 'white',
                                                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                             flexShrink: 0
                                                         }}>
@@ -3094,8 +3094,8 @@ export const Dashboard = ({
                                                         >
                                                             <div style={{
                                                                 width: '16px', height: '16px', borderRadius: '4px',
-                                                                border: squadViewFilter.includes(squad) ? '1px solid #3b82f6' : '1px solid #cbd5e1',
-                                                                backgroundColor: squadViewFilter.includes(squad) ? '#3b82f6' : 'white',
+                                                                border: squadViewFilter.includes(squad) ? '1px solid #4794FF' : '1px solid #cbd5e1',
+                                                                backgroundColor: squadViewFilter.includes(squad) ? '#4794FF' : 'white',
                                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                                 flexShrink: 0
                                                             }}>
@@ -3118,7 +3118,7 @@ export const Dashboard = ({
                                                 padding: '7px 14px', fontSize: '11px', fontWeight: '600',
                                                 border: '1px solid rgba(226, 232, 240, 0.6)', borderRadius: '10px',
                                                 backgroundColor: platformViewFilter.length > 0 ? '#eff6ff' : 'rgba(248, 250, 252, 0.8)',
-                                                color: platformViewFilter.length > 0 ? '#3b82f6' : '#475569',
+                                                color: platformViewFilter.length > 0 ? '#4794FF' : '#475569',
                                                 cursor: 'pointer', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease', letterSpacing: '-0.01em'
                                             }}
@@ -3159,7 +3159,7 @@ export const Dashboard = ({
                                                                 <label key={pl} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', cursor: 'pointer' }}>
                                                                     <div
                                                                         onClick={(e) => { e.preventDefault(); setPlatformViewFilter(prev => checked ? prev.filter(x => x !== pl) : [...prev, pl]); }}
-                                                                        style={{ width: '16px', height: '16px', borderRadius: '4px', border: `2px solid ${checked ? '#3b82f6' : '#cbd5e1'}`, backgroundColor: checked ? '#3b82f6' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+                                                                        style={{ width: '16px', height: '16px', borderRadius: '4px', border: `2px solid ${checked ? '#4794FF' : '#cbd5e1'}`, backgroundColor: checked ? '#4794FF' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
                                                                     >
                                                                         {checked && <svg style={{ width: '10px', height: '10px', color: 'white' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                                                                     </div>
@@ -3186,8 +3186,8 @@ export const Dashboard = ({
                                                 fontWeight: '600',
                                                 border: '1px solid rgba(226, 232, 240, 0.6)',
                                                 borderRadius: '10px',
-                                                backgroundColor: statusViewFilter.length > 0 ? '#f5f3ff' : 'rgba(248, 250, 252, 0.8)',
-                                                color: statusViewFilter.length > 0 ? '#8b5cf6' : '#475569',
+                                                backgroundColor: statusViewFilter.length > 0 ? '#f0fdf4' : 'rgba(248, 250, 252, 0.8)',
+                                                color: statusViewFilter.length > 0 ? '#00BD00' : '#475569',
                                                 cursor: 'pointer',
                                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease',
@@ -3235,7 +3235,7 @@ export const Dashboard = ({
                                                             backgroundColor: 'white', color: '#334155',
                                                             outline: 'none', boxSizing: 'border-box'
                                                         }}
-                                                        onFocus={e => e.target.style.borderColor = '#8b5cf6'}
+                                                        onFocus={e => e.target.style.borderColor = '#00BD00'}
                                                         onBlur={e => e.target.style.borderColor = '#e2e8f0'}
                                                     />
                                                 </div>
@@ -3255,15 +3255,15 @@ export const Dashboard = ({
                                                                 display: 'flex', alignItems: 'center', gap: '10px',
                                                                 padding: '8px 12px', cursor: 'pointer',
                                                                 transition: 'background-color 0.1s',
-                                                                backgroundColor: statusViewFilter.includes(status) ? '#f5f3ff' : 'transparent'
+                                                                backgroundColor: statusViewFilter.includes(status) ? '#f0fdf4' : 'transparent'
                                                             }}
-                                                            onMouseEnter={e => e.currentTarget.style.backgroundColor = statusViewFilter.includes(status) ? '#f5f3ff' : '#f8fafc'}
-                                                            onMouseLeave={e => e.currentTarget.style.backgroundColor = statusViewFilter.includes(status) ? '#f5f3ff' : 'transparent'}
+                                                            onMouseEnter={e => e.currentTarget.style.backgroundColor = statusViewFilter.includes(status) ? '#f0fdf4' : '#f8fafc'}
+                                                            onMouseLeave={e => e.currentTarget.style.backgroundColor = statusViewFilter.includes(status) ? '#f0fdf4' : 'transparent'}
                                                         >
                                                             <div style={{
                                                                 width: '16px', height: '16px', borderRadius: '4px',
-                                                                border: statusViewFilter.includes(status) ? '1px solid #8b5cf6' : '1px solid #cbd5e1',
-                                                                backgroundColor: statusViewFilter.includes(status) ? '#8b5cf6' : 'white',
+                                                                border: statusViewFilter.includes(status) ? '1px solid #00BD00' : '1px solid #cbd5e1',
+                                                                backgroundColor: statusViewFilter.includes(status) ? '#00BD00' : 'white',
                                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                                 flexShrink: 0
                                                             }}>
@@ -3366,7 +3366,7 @@ export const Dashboard = ({
                                                                 <div style={{
                                                                     width: '16px', height: '16px', borderRadius: '4px',
                                                                     border: selectedEntities.includes(entity) ? '1px solid #b45309' : '1px solid #cbd5e1',
-                                                                    backgroundColor: selectedEntities.includes(entity) ? '#f59e0b' : 'white',
+                                                                    backgroundColor: selectedEntities.includes(entity) ? '#FE9922' : 'white',
                                                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                                     flexShrink: 0
                                                                 }}>
@@ -3419,7 +3419,7 @@ export const Dashboard = ({
                                                         style={{
                                                             display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 14px',
                                                             textAlign: 'left', border: 'none', backgroundColor: companyFilter === 'all' ? '#f8fafc' : 'white',
-                                                            color: companyFilter === 'all' ? '#7637E3' : '#64748b',
+                                                            color: companyFilter === 'all' ? '#082F24' : '#64748b',
                                                             fontSize: '12px', fontWeight: '500', cursor: 'pointer'
                                                         }}
                                                     >
@@ -3433,7 +3433,7 @@ export const Dashboard = ({
                                                             style={{
                                                                 display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 14px',
                                                                 textAlign: 'left', border: 'none', backgroundColor: companyFilter === c ? '#f8fafc' : 'white',
-                                                                color: companyFilter === c ? '#7637E3' : '#64748b',
+                                                                color: companyFilter === c ? '#082F24' : '#64748b',
                                                                 fontSize: '12px', fontWeight: '500', cursor: 'pointer'
                                                             }}
                                                         >
@@ -3453,10 +3453,10 @@ export const Dashboard = ({
                                             style={{
                                                 display: 'flex', alignItems: 'center', gap: '6px',
                                                 padding: '7px 12px', fontSize: '11px', fontWeight: '600',
-                                                border: filterPresets.length > 0 ? '1px solid #c4b5fd' : '1px solid rgba(226, 232, 240, 0.6)',
+                                                border: filterPresets.length > 0 ? '1px solid #bbf7d0' : '1px solid rgba(226, 232, 240, 0.6)',
                                                 borderRadius: '10px',
-                                                backgroundColor: filterPresets.length > 0 ? '#F7F3ED' : 'rgba(248, 250, 252, 0.8)',
-                                                color: filterPresets.length > 0 ? '#7637E3' : '#475569',
+                                                backgroundColor: filterPresets.length > 0 ? '#F5EDE1' : 'rgba(248, 250, 252, 0.8)',
+                                                color: filterPresets.length > 0 ? '#082F24' : '#475569',
                                                 cursor: 'pointer',
                                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease'
@@ -3488,7 +3488,7 @@ export const Dashboard = ({
                                                             disabled={!presetName.trim()}
                                                             style={{
                                                                 padding: '6px 12px', fontSize: '11px', fontWeight: '600',
-                                                                backgroundColor: presetName.trim() ? '#7637E3' : '#e2e8f0',
+                                                                backgroundColor: presetName.trim() ? '#082F24' : '#e2e8f0',
                                                                 color: presetName.trim() ? 'white' : '#94a3b8',
                                                                 border: 'none', borderRadius: '6px', cursor: presetName.trim() ? 'pointer' : 'not-allowed'
                                                             }}
@@ -3535,7 +3535,7 @@ export const Dashboard = ({
 
                                     {/* Compact Unified Search */}
                                     <div style={{ position: 'relative' }}>
-                                        <svg style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', width: '11px', height: '11px', color: resourceSearch ? '#7637E3' : '#94a3b8' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                        <svg style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', width: '11px', height: '11px', color: resourceSearch ? '#082F24' : '#94a3b8' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                                         <input
                                             data-tour="search"
                                             type="text"
@@ -3547,14 +3547,14 @@ export const Dashboard = ({
                                                 width: '140px',
                                                 padding: '5px 26px 5px 24px',
                                                 fontSize: '11px',
-                                                border: resourceSearch ? '1px solid #7637E3' : '1px solid #e2e8f0',
+                                                border: resourceSearch ? '1px solid #082F24' : '1px solid #e2e8f0',
                                                 borderRadius: '6px',
                                                 outline: 'none',
                                                 backgroundColor: resourceSearch ? '#f5f0ff' : 'white',
                                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease',
                                                 letterSpacing: '-0.01em',
-                                                color: resourceSearch ? '#5b21b6' : '#1e293b'
+                                                color: resourceSearch ? '#082F24' : '#1e293b'
                                             }}
                                             onFocus={e => { if (!resourceSearch) { e.target.style.borderColor = '#94a3b8'; e.target.style.boxShadow = '0 0 0 2px rgba(148, 163, 184, 0.1)'; } }}
                                             onBlur={e => { if (!resourceSearch) { e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.02)'; } }}
@@ -3577,8 +3577,8 @@ export const Dashboard = ({
                                             <div style={{
                                                 display: 'flex', alignItems: 'center', gap: '4px',
                                                 padding: '4px 8px', borderRadius: '12px',
-                                                backgroundColor: '#f5f0ff', border: '1px solid #c4b5fd',
-                                                fontSize: '10px', fontWeight: '600', color: '#7637E3'
+                                                backgroundColor: '#f5f0ff', border: '1px solid #bbf7d0',
+                                                fontSize: '10px', fontWeight: '600', color: '#082F24'
                                             }}>
                                                 <svg style={{ width: '10px', height: '10px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -3594,7 +3594,7 @@ export const Dashboard = ({
                                                     border: '1px solid #e2e8f0', backgroundColor: 'white',
                                                     cursor: 'pointer', color: '#94a3b8', transition: 'all 0.15s ease'
                                                 }}
-                                                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#fee2e2'; e.currentTarget.style.borderColor = '#fca5a5'; e.currentTarget.style.color = '#ef4444'; }}
+                                                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#fee2e2'; e.currentTarget.style.borderColor = '#fca5a5'; e.currentTarget.style.color = '#E5554F'; }}
                                                 onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#94a3b8'; }}
                                             >
                                                 <svg style={{ width: '10px', height: '10px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3646,12 +3646,12 @@ export const Dashboard = ({
                                                             style={{
                                                                 display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '8px 12px',
                                                                 textAlign: 'left', border: 'none', backgroundColor: selectedCategory === cat ? '#f8fafc' : 'white',
-                                                                color: selectedCategory === cat ? '#7637E3' : '#64748b',
+                                                                color: selectedCategory === cat ? '#082F24' : '#64748b',
                                                                 fontSize: '11px', fontWeight: '500', cursor: 'pointer'
                                                             }}
                                                         >
                                                             {cat === 'All' && <svg style={{ width: '12px', height: '12px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>}
-                                                            {cat !== 'All' && <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#7637E3', opacity: selectedCategory === cat ? 1 : 0.3 }} ></div>}
+                                                            {cat !== 'All' && <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#082F24', opacity: selectedCategory === cat ? 1 : 0.3 }} ></div>}
                                                             {cat}
                                                         </button>
                                                     ))}
@@ -3682,7 +3682,7 @@ export const Dashboard = ({
                                                         borderRadius: '6px', border: 'none',
                                                         cursor: isDisabled ? 'not-allowed' : 'pointer',
                                                         backgroundColor: groupBy === key ? 'white' : 'transparent',
-                                                        color: isDisabled ? '#cbd5e1' : (groupBy === key ? '#7637E3' : '#64748b'),
+                                                        color: isDisabled ? '#cbd5e1' : (groupBy === key ? '#082F24' : '#64748b'),
                                                         boxShadow: groupBy === key ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
                                                         opacity: isDisabled ? 0.5 : 1,
                                                         transition: 'all 0.15s ease'
@@ -3751,12 +3751,12 @@ export const Dashboard = ({
                                                             display: 'flex', alignItems: 'center', width: '100%', padding: '8px 12px',
                                                             textAlign: 'left', border: 'none',
                                                             backgroundColor: (key === 'country_az' ? groupBy === 'country' : key === 'customer_az' ? customerSort : sortBy === key) ? '#f8fafc' : 'white',
-                                                            color: (key === 'country_az' ? groupBy === 'country' : key === 'customer_az' ? customerSort : sortBy === key) ? '#7637E3' : '#64748b',
+                                                            color: (key === 'country_az' ? groupBy === 'country' : key === 'customer_az' ? customerSort : sortBy === key) ? '#082F24' : '#64748b',
                                                             fontSize: '11px', fontWeight: '500', cursor: 'pointer'
                                                         }}
                                                     >
                                                         {label}
-                                                        {(key === 'country_az' ? groupBy === 'country' : key === 'customer_az' ? customerSort : sortBy === key) && <svg style={{ width: '12px', height: '12px', marginLeft: 'auto', color: '#7637E3' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
+                                                        {(key === 'country_az' ? groupBy === 'country' : key === 'customer_az' ? customerSort : sortBy === key) && <svg style={{ width: '12px', height: '12px', marginLeft: 'auto', color: '#082F24' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
                                                     </button>
                                                 ))}
                                             </div>
@@ -3791,12 +3791,12 @@ export const Dashboard = ({
                                             style={{
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 width: '32px', height: '32px',
-                                                border: showNotesOnly ? '1px solid #c4b5fd' : '1px solid rgba(226, 232, 240, 0.8)',
+                                                border: showNotesOnly ? '1px solid #bbf7d0' : '1px solid rgba(226, 232, 240, 0.8)',
                                                 borderRadius: '8px',
-                                                backgroundColor: showNotesOnly ? '#f5f3ff' : 'white',
-                                                color: showNotesOnly ? '#7637E3' : '#475569',
+                                                backgroundColor: showNotesOnly ? '#f0fdf4' : 'white',
+                                                color: showNotesOnly ? '#082F24' : '#475569',
                                                 cursor: 'pointer',
-                                                boxShadow: showNotesOnly ? '0 1px 2px rgba(118, 55, 227, 0.1)' : '0 1px 2px rgba(0, 0, 0, 0.02)',
+                                                boxShadow: showNotesOnly ? '0 1px 2px rgba(8, 47, 36, 0.1)' : '0 1px 2px rgba(0, 0, 0, 0.02)',
                                                 transition: 'all 0.15s ease'
                                             }}
                                         >
@@ -3839,7 +3839,7 @@ export const Dashboard = ({
                                                 cursor: 'default'
                                             }}
                                         >
-                                            <svg style={{ width: '14px', height: '14px', color: '#ef4444' }} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" /></svg>
+                                            <svg style={{ width: '14px', height: '14px', color: '#E5554F' }} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" /></svg>
                                             {/* Badge */}
                                             <span style={{
                                                 position: 'absolute',
@@ -3880,7 +3880,7 @@ export const Dashboard = ({
                                                             setSelectedProjects(new Set());
                                                         }
                                                     }}
-                                                    style={{ width: '14px', height: '14px', accentColor: '#7637E3' }}
+                                                    style={{ width: '14px', height: '14px', accentColor: '#082F24' }}
                                                 />
                                                 Select All
                                             </label>
@@ -3890,10 +3890,10 @@ export const Dashboard = ({
                                                     style={{
                                                         display: 'flex', alignItems: 'center', gap: '6px',
                                                         padding: '6px 12px',
-                                                        background: 'linear-gradient(135deg, #7637E3 0%, #4f46e5 100%)',
+                                                        background: 'linear-gradient(135deg, #082F24 0%, #4f46e5 100%)',
                                                         color: 'white', fontSize: '11px', fontWeight: '600',
                                                         borderRadius: '8px', border: 'none', cursor: 'pointer',
-                                                        boxShadow: '0 2px 4px rgba(99, 102, 241, 0.3), 0 1px 2px rgba(99, 102, 241, 0.2)',
+                                                        boxShadow: '0 2px 4px rgba(8, 47, 36, 0.3), 0 1px 2px rgba(8, 47, 36, 0.2)',
                                                         transition: 'all 0.15s ease'
                                                     }}
                                                 >
@@ -4013,7 +4013,7 @@ export const Dashboard = ({
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 width: '32px', height: '32px',
                                                 borderRadius: '8px',
-                                                border: showFinanceForecast ? '1px solid #3b82f6' : '1px solid #e2e8f0',
+                                                border: showFinanceForecast ? '1px solid #4794FF' : '1px solid #e2e8f0',
                                                 backgroundColor: showFinanceForecast ? '#dbeafe' : 'white',
                                                 color: showFinanceForecast ? '#2563eb' : '#64748b',
                                                 cursor: 'pointer',
@@ -4037,7 +4037,7 @@ export const Dashboard = ({
                                                     gap: '6px',
                                                     padding: '6px 10px',
                                                     borderRadius: '8px',
-                                                    border: '1px solid #3b82f6',
+                                                    border: '1px solid #4794FF',
                                                     backgroundColor: '#dbeafe',
                                                     cursor: 'pointer',
                                                     transition: 'all 0.2s ease',
@@ -4081,8 +4081,8 @@ export const Dashboard = ({
                                             style={{
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 width: '32px', height: '32px',
-                                                borderRadius: '8px', border: '1px solid #c4b5fd',
-                                                backgroundColor: '#F7F3ED', color: '#7637E3', cursor: 'pointer',
+                                                borderRadius: '8px', border: '1px solid #bbf7d0',
+                                                backgroundColor: '#F5EDE1', color: '#082F24', cursor: 'pointer',
                                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
                                                 transition: 'all 0.2s ease'
                                             }}
@@ -4100,9 +4100,9 @@ export const Dashboard = ({
                                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                     width: '32px', height: '32px',
                                                     borderRadius: '8px',
-                                                    border: showRecentlyViewed ? '1px solid #7637E3' : '1px solid #e2e8f0',
-                                                    backgroundColor: showRecentlyViewed ? '#F7F3ED' : 'white',
-                                                    color: showRecentlyViewed ? '#7637E3' : '#64748b',
+                                                    border: showRecentlyViewed ? '1px solid #082F24' : '1px solid #e2e8f0',
+                                                    backgroundColor: showRecentlyViewed ? '#F5EDE1' : 'white',
+                                                    color: showRecentlyViewed ? '#082F24' : '#64748b',
                                                     cursor: 'pointer',
                                                     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
                                                     transition: 'all 0.2s ease'
@@ -4194,22 +4194,22 @@ export const Dashboard = ({
                                                 display: 'flex', alignItems: 'center', gap: '6px',
                                                 padding: '6px 12px',
                                                 borderRadius: '8px',
-                                                border: '1px solid #c4b5fd',
-                                                background: 'linear-gradient(135deg, #7637E3 0%, #9333ea 100%)',
+                                                border: '1px solid #bbf7d0',
+                                                background: 'linear-gradient(135deg, #082F24 0%, #082F24 100%)',
                                                 color: 'white',
                                                 cursor: 'pointer',
-                                                boxShadow: '0 1px 3px rgba(118, 55, 227, 0.3)',
+                                                boxShadow: '0 1px 3px rgba(8, 47, 36, 0.3)',
                                                 transition: 'all 0.2s ease',
                                                 fontSize: '11px', fontWeight: '600',
                                                 letterSpacing: '-0.01em'
                                             }}
                                             onMouseEnter={e => {
                                                 e.currentTarget.style.transform = 'translateY(-1px)';
-                                                e.currentTarget.style.boxShadow = '0 4px 8px rgba(118, 55, 227, 0.4)';
+                                                e.currentTarget.style.boxShadow = '0 4px 8px rgba(8, 47, 36, 0.4)';
                                             }}
                                             onMouseLeave={e => {
                                                 e.currentTarget.style.transform = 'translateY(0)';
-                                                e.currentTarget.style.boxShadow = '0 1px 3px rgba(118, 55, 227, 0.3)';
+                                                e.currentTarget.style.boxShadow = '0 1px 3px rgba(8, 47, 36, 0.3)';
                                             }}
                                         >
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -4311,7 +4311,7 @@ export const Dashboard = ({
                                                         padding: '3px 8px', fontSize: '10px', fontWeight: '600',
                                                         border: 'none', borderRadius: '4px', cursor: 'pointer',
                                                         backgroundColor: viewMode === key ? (isDark ? '#1e293b' : 'white') : 'transparent',
-                                                        color: viewMode === key ? '#7637E3' : (isDark ? '#94a3b8' : '#64748b'),
+                                                        color: viewMode === key ? '#082F24' : (isDark ? '#94a3b8' : '#64748b'),
                                                         boxShadow: viewMode === key ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
                                                         transition: 'all 0.15s ease'
                                                     }}
@@ -4361,7 +4361,7 @@ export const Dashboard = ({
                                                     color: isDark ? '#e2e8f0' : '#334155',
                                                     outline: 'none', transition: 'border-color 0.15s ease'
                                                 }}
-                                                onFocus={e => e.target.style.borderColor = '#7637E3'}
+                                                onFocus={e => e.target.style.borderColor = '#082F24'}
                                                 onBlur={e => e.target.style.borderColor = isDark ? '#475569' : '#e2e8f0'}
                                             />
                                         </div>
@@ -4373,13 +4373,13 @@ export const Dashboard = ({
                                             <div style={{
                                                 display: 'flex', alignItems: 'center', gap: '4px',
                                                 padding: '3px 8px', borderRadius: '10px',
-                                                backgroundColor: isDark ? 'rgba(118, 55, 227, 0.2)' : '#f5f3ff',
-                                                border: `1px solid ${isDark ? 'rgba(118, 55, 227, 0.4)' : '#c4b5fd'}`,
+                                                backgroundColor: isDark ? 'rgba(8, 47, 36, 0.2)' : '#f0fdf4',
+                                                border: `1px solid ${isDark ? 'rgba(8, 47, 36, 0.4)' : '#bbf7d0'}`,
                                             }}>
-                                                <svg style={{ width: '10px', height: '10px', color: '#7637E3' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg style={{ width: '10px', height: '10px', color: '#082F24' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                                                 </svg>
-                                                <span style={{ fontSize: '10px', fontWeight: '700', color: '#7637E3' }}>
+                                                <span style={{ fontSize: '10px', fontWeight: '700', color: '#082F24' }}>
                                                     {activeFilters.length} filter{activeFilters.length !== 1 ? 's' : ''}
                                                 </span>
                                             </div>
@@ -4394,13 +4394,13 @@ export const Dashboard = ({
                                             position: 'absolute', right: '16px',
                                             display: 'flex', alignItems: 'center', gap: '4px',
                                             padding: '2px 6px', borderRadius: '8px',
-                                            backgroundColor: isDark ? 'rgba(118, 55, 227, 0.15)' : '#f5f3ff',
-                                            border: `1px solid ${isDark ? 'rgba(118, 55, 227, 0.3)' : '#ddd6fe'}`
+                                            backgroundColor: isDark ? 'rgba(8, 47, 36, 0.15)' : '#f0fdf4',
+                                            border: `1px solid ${isDark ? 'rgba(8, 47, 36, 0.3)' : '#bbf7d0'}`
                                         }}>
-                                            <svg style={{ width: '9px', height: '9px', color: '#7637E3' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg style={{ width: '9px', height: '9px', color: '#082F24' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                                             </svg>
-                                            <span style={{ fontSize: '9px', fontWeight: '600', color: '#7637E3' }}>{activeFilters.length}</span>
+                                            <span style={{ fontSize: '9px', fontWeight: '600', color: '#082F24' }}>{activeFilters.length}</span>
                                         </div>
                                     )}
                                     <svg
@@ -4666,7 +4666,7 @@ export const Dashboard = ({
                                                         alignItems: 'center',
                                                         justifyContent: 'space-between',
                                                         padding: '12px 16px',
-                                                        backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.05)',
+                                                        backgroundColor: isDark ? 'rgba(71, 148, 255, 0.1)' : 'rgba(71, 148, 255, 0.05)',
                                                         cursor: 'pointer',
                                                         userSelect: 'none',
                                                         borderBottom: bauGridExpanded ? `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#e2e8f0'}` : 'none'
@@ -4677,9 +4677,9 @@ export const Dashboard = ({
                                                             fontSize: '12px',
                                                             transform: bauGridExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
                                                             transition: 'transform 0.2s ease',
-                                                            color: isDark ? '#93c5fd' : '#3b82f6'
+                                                            color: isDark ? '#93c5fd' : '#4794FF'
                                                         }}>▶</span>
-                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#93c5fd' : '#3b82f6'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#93c5fd' : '#4794FF'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                             <path d="M12 20V10" />
                                                             <path d="M18 20V4" />
                                                             <path d="M6 20v-4" />
@@ -4687,7 +4687,7 @@ export const Dashboard = ({
                                                         <span style={{
                                                             fontSize: '14px',
                                                             fontWeight: 600,
-                                                            color: isDark ? '#93c5fd' : '#3b82f6'
+                                                            color: isDark ? '#93c5fd' : '#4794FF'
                                                         }}>
                                                             Virtual BAU Projects
                                                         </span>
@@ -4824,7 +4824,7 @@ export const Dashboard = ({
                                                                 <path
                                                                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                                                     fill="none"
-                                                                    stroke={isOverloaded ? '#ef4444' : '#1e3a5f'}
+                                                                    stroke={isOverloaded ? '#E5554F' : '#1e3a5f'}
                                                                     strokeWidth="3"
                                                                     strokeLinecap="round"
                                                                     strokeDasharray={`${Math.min(utilizationRate, 100)}, 100`}
@@ -4848,7 +4848,7 @@ export const Dashboard = ({
                                                             <div style={{
                                                                 fontSize: '22px',
                                                                 fontWeight: 'bold',
-                                                                color: isOverloaded ? '#ef4444' : '#1e293b',
+                                                                color: isOverloaded ? '#E5554F' : '#1e293b',
                                                                 lineHeight: 1.1
                                                             }}>{utilizationRate}%</div>
                                                         </div>
@@ -4929,7 +4929,7 @@ export const Dashboard = ({
                                                                     <circle
                                                                         cx="22" cy="22" r={radius}
                                                                         fill="none"
-                                                                        stroke="#f59e0b"
+                                                                        stroke="#FE9922"
                                                                         strokeWidth="6"
                                                                         strokeDasharray={`${(bauPct / 100) * circumference} ${circumference}`}
                                                                         strokeDashoffset={-implLength}
@@ -4950,8 +4950,8 @@ export const Dashboard = ({
                                                                     <span style={{ fontSize: '9px', color: '#64748b' }}>Impl</span>
                                                                 </div>
                                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#f59e0b' }} />
-                                                                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#f59e0b' }}>{bauPct}%</span>
+                                                                    <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#FE9922' }} />
+                                                                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#FE9922' }}>{bauPct}%</span>
                                                                     <span style={{ fontSize: '9px', color: '#64748b' }}>BAU</span>
                                                                 </div>
                                                             </div>
@@ -5028,7 +5028,7 @@ export const Dashboard = ({
                                                                 </div>
                                                                 <div>
                                                                     <div style={{ fontSize: '9px', color: '#94a3b8' }}>ARR</div>
-                                                                    <div style={{ fontSize: '14px', fontWeight: '600', color: '#7637E3' }}>£{Math.round(statsRevenue?.arr?.toDate || 0).toLocaleString()}</div>
+                                                                    <div style={{ fontSize: '14px', fontWeight: '600', color: '#082F24' }}>£{Math.round(statsRevenue?.arr?.toDate || 0).toLocaleString()}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -5042,7 +5042,7 @@ export const Dashboard = ({
                                                                 </div>
                                                                 <div>
                                                                     <div style={{ fontSize: '9px', color: '#94a3b8' }}>ARR</div>
-                                                                    <div style={{ fontSize: '14px', fontWeight: '600', color: '#7637E3' }}>£{Math.round(statsRevenue?.arr?.fullYear || 0).toLocaleString()}</div>
+                                                                    <div style={{ fontSize: '14px', fontWeight: '600', color: '#082F24' }}>£{Math.round(statsRevenue?.arr?.fullYear || 0).toLocaleString()}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -5104,7 +5104,7 @@ export const Dashboard = ({
                                                         }}
                                                         onMouseOver={(e) => {
                                                             e.target.style.backgroundColor = 'white';
-                                                            e.target.style.color = '#7637E3';
+                                                            e.target.style.color = '#082F24';
                                                         }}
                                                         onMouseOut={(e) => {
                                                             e.target.style.backgroundColor = 'transparent';
@@ -5170,8 +5170,8 @@ export const Dashboard = ({
                                                             <div style={{
                                                                 width: '32px',
                                                                 height: '32px',
-                                                                border: `3px solid ${isDark ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.2)'}`,
-                                                                borderTopColor: '#7637E3',
+                                                                border: `3px solid ${isDark ? 'rgba(8, 47, 36, 0.3)' : 'rgba(8, 47, 36, 0.2)'}`,
+                                                                borderTopColor: '#082F24',
                                                                 borderRadius: '50%',
                                                                 animation: 'spin 0.8s linear infinite'
                                                             }} />
@@ -5262,8 +5262,8 @@ export const Dashboard = ({
                             height: '48px',
                             borderRadius: '50%',
                             background: isDark
-                                ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%)'
-                                : 'linear-gradient(135deg, #2563eb 0%, #7637E3 100%)',
+                                ? 'linear-gradient(135deg, rgba(71, 148, 255, 0.9) 0%, rgba(0, 189, 0, 0.9) 100%)'
+                                : 'linear-gradient(135deg, #2563eb 0%, #082F24 100%)',
                             border: 'none',
                             boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4), 0 2px 6px rgba(0, 0, 0, 0.15)',
                             cursor: 'pointer',

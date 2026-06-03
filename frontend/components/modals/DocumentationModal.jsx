@@ -815,7 +815,7 @@ const DocumentationModal = ({ onClose }) => {
                 <div style={{
                     padding: '20px 24px',
                     borderBottom: '1px solid #e2e8f0',
-                    background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)'
+                    background: 'linear-gradient(135deg, #082F24 0%, #082F24 100%)'
                 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                         <div>
@@ -898,7 +898,7 @@ const DocumentationModal = ({ onClose }) => {
                                             marginBottom: '4px',
                                             textAlign: 'left',
                                             backgroundColor: selectedArticle?.id === article.id ? '#E8E1D9' : 'white',
-                                            border: selectedArticle?.id === article.id ? '1px solid #c4b5fd' : '1px solid #e2e8f0',
+                                            border: selectedArticle?.id === article.id ? '1px solid #bbf7d0' : '1px solid #e2e8f0',
                                             borderRadius: '10px',
                                             cursor: 'pointer',
                                             transition: 'all 0.15s'

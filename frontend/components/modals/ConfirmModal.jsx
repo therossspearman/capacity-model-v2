@@ -28,8 +28,8 @@ export const ConfirmModal = ({
                 </svg>
             ),
             iconBg: '#fef2f2',
-            iconColor: '#ef4444',
-            confirmButtonBg: '#ef4444',
+            iconColor: '#E5554F',
+            confirmButtonBg: '#E5554F',
             confirmButtonColor: 'white',
             shadowColor: 'rgba(239, 68, 68, 0.25)'
         },
@@ -40,8 +40,8 @@ export const ConfirmModal = ({
                 </svg>
             ),
             iconBg: '#fffbeb',
-            iconColor: '#f59e0b',
-            confirmButtonBg: '#f59e0b',
+            iconColor: '#FE9922',
+            confirmButtonBg: '#FE9922',
             confirmButtonColor: 'white',
             shadowColor: 'rgba(245, 158, 11, 0.25)'
         },
@@ -52,10 +52,10 @@ export const ConfirmModal = ({
                 </svg>
             ),
             iconBg: '#eff6ff',
-            iconColor: '#3b82f6',
-            confirmButtonBg: '#3b82f6',
+            iconColor: '#4794FF',
+            confirmButtonBg: '#4794FF',
             confirmButtonColor: 'white',
-            shadowColor: 'rgba(59, 130, 246, 0.25)'
+            shadowColor: 'rgba(71, 148, 255, 0.25)'
         }
     };
 

@@ -81,11 +81,11 @@ const ResourceGrid = React.memo(({ groupedData, dates, onCellClick, todayKey, ce
         >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px', marginBottom: '8px' }}>
                 <span style={{ fontWeight: '700', color: 'white' }}>{data.dateKey}</span>
-                {data.isOverloaded && <span style={{ fontSize: '9px', backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', padding: '0 4px', borderRadius: '4px' }}>OVERLOAD</span>}
+                {data.isOverloaded && <span style={{ fontSize: '9px', backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#E5554F', padding: '0 4px', borderRadius: '4px' }}>OVERLOAD</span>}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '11px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#94a3b8' }}>Capacity:</span><span style={{ fontFamily: 'monospace', fontWeight: '500' }}>{Math.round(data.cap)}h</span></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#94a3b8' }}>Demand:</span><span style={{ fontFamily: 'monospace', fontWeight: '700', color: data.isOverloaded ? '#ef4444' : BRAND.success }}>{Math.round(data.dem)}h</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#94a3b8' }}>Demand:</span><span style={{ fontFamily: 'monospace', fontWeight: '700', color: data.isOverloaded ? '#E5554F' : BRAND.success }}>{Math.round(data.dem)}h</span></div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '4px' }}><span style={{ color: '#94a3b8' }}>Utilization:</span><span style={{ fontFamily: 'monospace' }}>{data.cap > 0 ? Math.round((data.dem / data.cap) * 100) : (data.dem > 0 ? '∞' : '0')}%</span></div>
             </div>
         </div>

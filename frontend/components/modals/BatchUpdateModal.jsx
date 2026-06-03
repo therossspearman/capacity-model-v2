@@ -174,10 +174,10 @@ const BatchUpdateModal = ({
                     <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
                         <div style={{
                             width: '64px', height: '64px', borderRadius: '16px',
-                            backgroundColor: '#F7F3ED', color: '#7637E3',
+                            backgroundColor: '#F5EDE1', color: '#082F24',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             fontSize: '28px',
-                            boxShadow: '0 4px 6px -1px rgba(124, 58, 237, 0.1)'
+                            boxShadow: '0 4px 6px -1px rgba(8, 47, 36, 0.1)'
                         }}>
                             {ICONS.MAGIC_WAND}
                         </div>
@@ -186,7 +186,7 @@ const BatchUpdateModal = ({
                                 Batch Update
                             </h3>
                             <p style={{ fontSize: '14px', color: '#64748b', margin: '4px 0 0', fontWeight: '500' }}>
-                                Updating <span style={{ color: '#7637E3', fontWeight: '700' }}>{count}</span> project{count !== 1 ? 's' : ''}
+                                Updating <span style={{ color: '#082F24', fontWeight: '700' }}>{count}</span> project{count !== 1 ? 's' : ''}
                             </p>
                         </div>
                     </div>
@@ -230,7 +230,7 @@ const BatchUpdateModal = ({
                                     cursor: 'pointer',
                                     textAlign: 'left',
                                     backgroundColor: activeTab === tab.key ? 'white' : 'transparent',
-                                    color: activeTab === tab.key ? '#7637E3' : '#64748b',
+                                    color: activeTab === tab.key ? '#082F24' : '#64748b',
                                     fontWeight: activeTab === tab.key ? '700' : '600',
                                     fontSize: '14px',
                                     boxShadow: activeTab === tab.key ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
@@ -305,7 +305,7 @@ const BatchUpdateModal = ({
                                 <label style={labelStyle}>Assign Squad</label>
                                 <select value={selectedSquad} onChange={(e) => setSelectedSquad(e.target.value)} style={inputStyle}>
                                     <option value="">Select squad...</option>
-                                    <option value="__UNASSIGN__" style={{ color: '#ef4444' }}>— Unassign Squad</option>
+                                    <option value="__UNASSIGN__" style={{ color: '#E5554F' }}>— Unassign Squad</option>
                                     {allSquads.map(squad => <option key={squad} value={squad}>{squad}</option>)}
                                 </select>
                             </div>
@@ -341,7 +341,7 @@ const BatchUpdateModal = ({
                                             <label style={labelStyle}>Lock {label}</label>
                                             <div style={{ display: 'flex', gap: '8px' }}>
                                                 {['', 'Fixed', 'Flexible'].map(opt => (
-                                                    <button key={opt} onClick={() => setter(opt)} style={{ flex: 1, padding: '10px', borderRadius: '8px', border: state === opt ? `2px solid ${BRAND.primary}` : '1px solid #e2e8f0', backgroundColor: state === opt ? '#F7F3ED' : 'white', color: state === opt ? '#7637E3' : '#64748b', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>{opt === '' ? 'No Change' : opt}</button>
+                                                    <button key={opt} onClick={() => setter(opt)} style={{ flex: 1, padding: '10px', borderRadius: '8px', border: state === opt ? `2px solid ${BRAND.primary}` : '1px solid #e2e8f0', backgroundColor: state === opt ? '#F5EDE1' : 'white', color: state === opt ? '#082F24' : '#64748b', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>{opt === '' ? 'No Change' : opt}</button>
                                                 ))}
                                             </div>
                                         </div>
@@ -440,11 +440,11 @@ const BatchUpdateModal = ({
                             disabled={isApplyDisabled}
                             style={{
                                 padding: '12px 32px', borderRadius: '12px',
-                                backgroundColor: isApplyDisabled ? '#e2e8f0' : '#7637E3',
+                                backgroundColor: isApplyDisabled ? '#e2e8f0' : '#082F24',
                                 color: isApplyDisabled ? '#94a3b8' : 'white',
                                 border: 'none', fontWeight: '700', fontSize: '14px',
                                 cursor: isApplyDisabled ? 'not-allowed' : 'pointer',
-                                boxShadow: isApplyDisabled ? 'none' : '0 4px 6px -1px rgba(124, 58, 237, 0.4)'
+                                boxShadow: isApplyDisabled ? 'none' : '0 4px 6px -1px rgba(8, 47, 36, 0.4)'
                             }}
                         >
                             {isLoading ? 'Applying...' : 'Apply Changes'}

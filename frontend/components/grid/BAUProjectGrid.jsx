@@ -10,9 +10,9 @@ import { useTheme } from '../../design-system';
 const TSHIRT_CONFIG = {
     XS: { color: '#94a3b8', hours: 40, label: 'XS' },
     S: { color: '#00BD00', hours: 80, label: 'S' },
-    M: { color: '#3b82f6', hours: 160, label: 'M' },
-    L: { color: '#f59e0b', hours: 320, label: 'L' },
-    XL: { color: '#ef4444', hours: 640, label: 'XL' }
+    M: { color: '#4794FF', hours: 160, label: 'M' },
+    L: { color: '#FE9922', hours: 320, label: 'L' },
+    XL: { color: '#E5554F', hours: 640, label: 'XL' }
 };
 
 // Country flag emoji mapping (common ones)

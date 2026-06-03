@@ -577,11 +577,11 @@ const SlotGanttView = ({
                 borderTopRightRadius: '12px',
                 gap: '12px'
             }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4794FF" strokeWidth="2">
                     <line x1="4" y1="6" x2="20" y2="6" />
-                    <rect x="4" y="10" width="12" height="2" rx="1" fill="#3b82f6" />
-                    <rect x="8" y="14" width="10" height="2" rx="1" fill="#3b82f6" />
-                    <rect x="6" y="18" width="14" height="2" rx="1" fill="#3b82f6" />
+                    <rect x="4" y="10" width="12" height="2" rx="1" fill="#4794FF" />
+                    <rect x="8" y="14" width="10" height="2" rx="1" fill="#4794FF" />
+                    <rect x="6" y="18" width="14" height="2" rx="1" fill="#4794FF" />
                 </svg>
                 <span style={{ fontSize: '12px', fontWeight: '600', color: colors.textPrimary }}>
                     Timeline View
@@ -589,7 +589,7 @@ const SlotGanttView = ({
                 <span style={{
                     fontSize: '10px',
                     color: 'white',
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: '#4794FF',
                     padding: '2px 6px',
                     borderRadius: '4px'
                 }}>
@@ -610,7 +610,7 @@ const SlotGanttView = ({
                             border: 'none',
                             borderRight: `1px solid ${isDark ? '#475569' : '#e2e8f0'}`,
                             backgroundColor: isDark ? '#1e293b' : 'white',
-                            color: '#3b82f6',
+                            color: '#4794FF',
                             fontSize: '14px',
                             fontWeight: '700',
                             cursor: 'pointer'
@@ -629,7 +629,7 @@ const SlotGanttView = ({
                             justifyContent: 'center',
                             border: 'none',
                             backgroundColor: isDark ? '#1e293b' : 'white',
-                            color: '#3b82f6',
+                            color: '#4794FF',
                             fontSize: '14px',
                             fontWeight: '700',
                             cursor: 'pointer'
@@ -718,7 +718,7 @@ const SlotGanttView = ({
                                 </span>
                                 <span style={{ fontSize: '9px', fontWeight: '700', color: 'white', backgroundColor: '#00BD00', padding: '1px 5px', borderRadius: '3px' }}>{row.slotCount}</span>
                                 {row.projectCount > 0 && (
-                                    <span style={{ fontSize: '9px', fontWeight: '700', color: 'white', backgroundColor: '#3b82f6', padding: '1px 5px', borderRadius: '3px' }}>{row.projectCount}</span>
+                                    <span style={{ fontSize: '9px', fontWeight: '700', color: 'white', backgroundColor: '#4794FF', padding: '1px 5px', borderRadius: '3px' }}>{row.projectCount}</span>
                                 )}
                             </div>
                             <div style={{ flex: 1, height: HEADER_HEIGHT, backgroundColor: isDark ? '#1e293b' : '#f1f5f9' }} />
@@ -742,16 +742,16 @@ const SlotGanttView = ({
 
                 if (isSlot || isGhost) {
                     const score = row.score || 0.8;
-                    barColor = score >= 0.8 ? '#00BD00' : score >= 0.5 ? '#f59e0b' : '#ef4444';
+                    barColor = score >= 0.8 ? '#00BD00' : score >= 0.5 ? '#FE9922' : '#E5554F';
 
                     if (isGhost) {
-                        barColor = '#ef4444';
+                        barColor = '#E5554F';
                         barBg = 'transparent';
-                        barBorder = '2px dashed #ef4444';
+                        barBorder = '2px dashed #E5554F';
                     } else if (row.isReserved) {
-                        barColor = '#BD65FF'; // Purple for reserved
-                        barBg = isDark ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)';
-                        barBorder = `1px dashed ${isDark ? '#BD65FF' : '#a78bfa'}`;
+                        barColor = '#FF8EFB'; // Purple for reserved
+                        barBg = isDark ? 'rgba(0, 189, 0, 0.15)' : 'rgba(0, 189, 0, 0.1)';
+                        barBorder = `1px dashed ${isDark ? '#FF8EFB' : '#86efac'}`;
                     } else if (isInDragGroup) {
                         // Drag group styling
                         barBg = isDragTarget ? '#00BD00' : '#00BD00';
@@ -765,19 +765,19 @@ const SlotGanttView = ({
 
                     // Group Box Styling (Container)
                     if (isInDragGroup) {
-                        const boxColor = '#7637E3'; // Indigo for group
+                        const boxColor = '#082F24'; // Indigo for group
                         containerStyle = {
                             borderLeft: `2px dashed ${boxColor}`,
                             borderRight: `2px dashed ${boxColor}`,
                             borderTop: row.isGroupTop ? `2px dashed ${boxColor}` : 'none',
                             borderBottom: row.isGroupBottom ? `2px dashed ${boxColor}` : 'none',
-                            backgroundColor: 'rgba(99, 102, 241, 0.05)', // Faint tint
+                            backgroundColor: 'rgba(8, 47, 36, 0.05)', // Faint tint
                         };
                     }
                 } else {
                     // Project
-                    barColor = '#3b82f6';
-                    barBg = '#3b82f6';
+                    barColor = '#4794FF';
+                    barBg = '#4794FF';
                     barBorder = 'none';
                 }
 
@@ -835,9 +835,9 @@ const SlotGanttView = ({
                                     </span>
                                     {/* Staffing dots */}
                                     <span style={{ display: 'flex', gap: '2px' }}>
-                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.pm?.length ? '#00BD00' : '#ef4444' }} />
-                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.sc?.length ? '#00BD00' : '#ef4444' }} />
-                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.pd?.length ? '#00BD00' : '#ef4444' }} />
+                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.pm?.length ? '#00BD00' : '#E5554F' }} />
+                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.sc?.length ? '#00BD00' : '#E5554F' }} />
+                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: row.team?.pd?.length ? '#00BD00' : '#E5554F' }} />
                                     </span>
                                 </>
                             )}
@@ -944,7 +944,7 @@ const SlotGanttView = ({
                                                 fontSize: '8px',
                                                 padding: '1px 4px',
                                                 backgroundColor: 'rgba(245,158,11,0.3)',
-                                                color: '#f59e0b',
+                                                color: '#FE9922',
                                                 borderRadius: '3px',
                                                 fontWeight: '600',
                                                 flexShrink: 0

@@ -258,7 +258,7 @@ export const SlotOverlayChart = React.memo(({ slotMap, enabledSquads = [], dateS
                     // Slot row
                     const left = row.startColIndex * columnWidth;
                     const width = Math.max((row.endColIndex - row.startColIndex + 1) * columnWidth - 4, columnWidth - 4);
-                    const healthColor = row.score >= 0.8 ? '#00BD00' : row.score >= 0.5 ? '#f59e0b' : '#ef4444';
+                    const healthColor = row.score >= 0.8 ? '#00BD00' : row.score >= 0.5 ? '#FE9922' : '#E5554F';
 
                     return (
                         <div key={row.id} style={{ display: 'flex', borderTop: `1px solid ${isDark ? '#1e293b' : '#f1f5f9'}` }}>

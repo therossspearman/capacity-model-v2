@@ -372,7 +372,7 @@ export const FinanceForecastModal = ({
                                 width: '32px',
                                 height: '32px',
                                 borderRadius: '8px',
-                                background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                                background: 'linear-gradient(135deg, #4794FF, #1d4ed8)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -405,7 +405,7 @@ export const FinanceForecastModal = ({
                                         cursor: 'pointer',
                                         transition: 'all 0.15s',
                                         backgroundColor: activeTab === tab.id ? colors.bgCard : 'transparent',
-                                        color: activeTab === tab.id ? '#3b82f6' : colors.textSecondary,
+                                        color: activeTab === tab.id ? '#4794FF' : colors.textSecondary,
                                         boxShadow: activeTab === tab.id ? `0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px ${colors.border}` : 'none'
                                     }}
                                 >
@@ -418,13 +418,13 @@ export const FinanceForecastModal = ({
                         {/* Summary Card */}
                         <div style={{
                             padding: '16px',
-                            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                            backgroundColor: 'rgba(71, 148, 255, 0.05)',
                             borderRadius: '10px',
-                            border: '1px solid rgba(59, 130, 246, 0.2)',
+                            border: '1px solid rgba(71, 148, 255, 0.2)',
                             marginTop: '16px'
                         }}>
                             <div style={{ fontSize: '10px', fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase', marginBottom: '12px' }}>Summary</div>
-                            <div style={{ fontSize: '24px', fontWeight: '800', color: '#3b82f6', lineHeight: 1 }}>
+                            <div style={{ fontSize: '24px', fontWeight: '800', color: '#4794FF', lineHeight: 1 }}>
                                 {formatCurrency(totals.arr)}
                             </div>
                             <div style={{ fontSize: '10px', color: colors.textMuted, marginTop: '4px' }}>Total FY ARR</div>
@@ -500,7 +500,7 @@ export const FinanceForecastModal = ({
                                                     {QUARTERS.map(q => (
                                                         <th key={q} style={{ padding: '12px 16px', textAlign: 'center', fontSize: '10px', fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase' }}>{q}</th>
                                                     ))}
-                                                    <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '10px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase' }}>Total</th>
+                                                    <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '10px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase' }}>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -533,7 +533,7 @@ export const FinanceForecastModal = ({
                                                                     </div>
                                                                 </td>
                                                             ))}
-                                                            <td style={{ padding: '12px 16px', textAlign: 'right', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#3b82f6' }}>
+                                                            <td style={{ padding: '12px 16px', textAlign: 'right', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#4794FF' }}>
                                                                 {formatCurrency(marketTotal)}
                                                             </td>
                                                         </tr>
@@ -541,17 +541,17 @@ export const FinanceForecastModal = ({
                                                 })}
                                             </tbody>
                                             <tfoot>
-                                                <tr style={{ backgroundColor: 'rgba(59, 130, 246, 0.05)', borderTop: `2px solid ${colors.border}` }}>
-                                                    <td style={{ padding: '12px 16px', fontSize: '12px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase' }}>Total</td>
+                                                <tr style={{ backgroundColor: 'rgba(71, 148, 255, 0.05)', borderTop: `2px solid ${colors.border}` }}>
+                                                    <td style={{ padding: '12px 16px', fontSize: '12px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase' }}>Total</td>
                                                     {QUARTERS.map(q => {
                                                         const qTotal = MARKETS.reduce((sum, m) => sum + (arrData[q]?.[m] || 0), 0);
                                                         return (
-                                                            <td key={q} style={{ padding: '12px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#3b82f6' }}>
+                                                            <td key={q} style={{ padding: '12px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#4794FF' }}>
                                                                 {formatCurrency(qTotal)}
                                                             </td>
                                                         );
                                                     })}
-                                                    <td style={{ padding: '12px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '800', fontFamily: 'monospace', color: '#3b82f6' }}>
+                                                    <td style={{ padding: '12px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '800', fontFamily: 'monospace', color: '#4794FF' }}>
                                                         {formatCurrency(totals.arr)}
                                                     </td>
                                                 </tr>
@@ -582,11 +582,11 @@ export const FinanceForecastModal = ({
                                                     ))}
                                                 </tbody>
                                                 <tfoot>
-                                                    <tr style={{ backgroundColor: 'rgba(59, 130, 246, 0.05)', borderTop: `2px solid ${colors.border}` }}>
-                                                        <td style={{ padding: '10px 16px', fontSize: '12px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase' }}>Total</td>
-                                                        <td style={{ padding: '10px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#3b82f6' }}>{Math.round(quarterlyBreakdown.reduce((s, q) => s + q.deals, 0) * 10) / 10}</td>
-                                                        <td style={{ padding: '10px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#3b82f6' }}>{Math.round(totals.projects)}</td>
-                                                        <td style={{ padding: '10px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '800', fontFamily: 'monospace', color: '#3b82f6' }}>{formatHours(totals.totalHours.total)}h</td>
+                                                    <tr style={{ backgroundColor: 'rgba(71, 148, 255, 0.05)', borderTop: `2px solid ${colors.border}` }}>
+                                                        <td style={{ padding: '10px 16px', fontSize: '12px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase' }}>Total</td>
+                                                        <td style={{ padding: '10px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#4794FF' }}>{Math.round(quarterlyBreakdown.reduce((s, q) => s + q.deals, 0) * 10) / 10}</td>
+                                                        <td style={{ padding: '10px 16px', textAlign: 'center', fontSize: '13px', fontWeight: '700', fontFamily: 'monospace', color: '#4794FF' }}>{Math.round(totals.projects)}</td>
+                                                        <td style={{ padding: '10px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '800', fontFamily: 'monospace', color: '#4794FF' }}>{formatHours(totals.totalHours.total)}h</td>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -611,7 +611,7 @@ export const FinanceForecastModal = ({
                                                     fontWeight: '600',
                                                     border: 'none',
                                                     cursor: 'pointer',
-                                                    backgroundColor: selectedMarket === m ? '#3b82f6' : 'transparent',
+                                                    backgroundColor: selectedMarket === m ? '#4794FF' : 'transparent',
                                                     color: selectedMarket === m ? 'white' : colors.textSecondary,
                                                     transition: 'all 0.15s'
                                                 }}
@@ -658,12 +658,12 @@ export const FinanceForecastModal = ({
                                                 return (
                                                     <div style={{
                                                         padding: '8px 12px',
-                                                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                                                        backgroundColor: 'rgba(71, 148, 255, 0.05)',
                                                         borderRadius: '6px',
-                                                        border: '1px solid rgba(59, 130, 246, 0.15)'
+                                                        border: '1px solid rgba(71, 148, 255, 0.15)'
                                                     }}>
                                                         <div style={{ fontSize: '9px', fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase', marginBottom: '2px' }}>Derived Avg ARR per Project</div>
-                                                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#3b82f6', fontFamily: 'monospace' }}>
+                                                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#4794FF', fontFamily: 'monospace' }}>
                                                             {marketArr > 0 ? formatCurrency(derivedArr) : '—'}
                                                         </div>
                                                         {marketArr > 0 && (
@@ -703,8 +703,8 @@ export const FinanceForecastModal = ({
                                     </div>
 
                                     {/* Hours per Project */}
-                                    <div style={{ padding: '16px', backgroundColor: 'rgba(59, 130, 246, 0.05)', border: '1px solid rgba(59, 130, 246, 0.2)', borderRadius: '10px' }}>
-                                        <h4 style={{ fontSize: '11px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase', marginBottom: '16px' }}>Hours per Project (by Role)</h4>
+                                    <div style={{ padding: '16px', backgroundColor: 'rgba(71, 148, 255, 0.05)', border: '1px solid rgba(71, 148, 255, 0.2)', borderRadius: '10px' }}>
+                                        <h4 style={{ fontSize: '11px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase', marginBottom: '16px' }}>Hours per Project (by Role)</h4>
 
                                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
                                             <div>
@@ -796,17 +796,17 @@ export const FinanceForecastModal = ({
                                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
                                                 <div style={{ padding: '16px', backgroundColor: colors.bgCard, border: `1px solid ${colors.border}`, borderRadius: '10px', textAlign: 'center' }}>
                                                     <div style={{ fontSize: '10px', fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase', marginBottom: '8px' }}>Hours-Based FTE</div>
-                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: binding === 'hours' ? '#3b82f6' : colors.textSecondary }}>{hourBasedFte.toFixed(1)}</div>
+                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: binding === 'hours' ? '#4794FF' : colors.textSecondary }}>{hourBasedFte.toFixed(1)}</div>
                                                     <div style={{ fontSize: '10px', color: colors.textMuted, marginTop: '4px' }}>{formatHours(fteAnalysis.total.forecastHours)}h ÷ {formatHours(avgBillableHoursPerWeek * 52)}h/FTE</div>
                                                 </div>
                                                 <div style={{ padding: '16px', backgroundColor: colors.bgCard, border: `1px solid ${colors.border}`, borderRadius: '10px', textAlign: 'center' }}>
                                                     <div style={{ fontSize: '10px', fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase', marginBottom: '8px' }}>Project-Based FTE</div>
-                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: binding === 'projects' ? '#3b82f6' : colors.textSecondary }}>{projectBasedFte.toFixed(1)}</div>
+                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: binding === 'projects' ? '#4794FF' : colors.textSecondary }}>{projectBasedFte.toFixed(1)}</div>
                                                     <div style={{ fontSize: '10px', color: colors.textMuted, marginTop: '4px' }}>{Math.round(peakProjects)} peak projects ÷ {maxProjectsPerPerson}/person</div>
                                                 </div>
-                                                <div style={{ padding: '16px', backgroundColor: 'rgba(59, 130, 246, 0.05)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '10px', textAlign: 'center' }}>
-                                                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase', marginBottom: '8px' }}>Effective FTE Needed</div>
-                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: '#3b82f6' }}>{effectiveFte.toFixed(1)}</div>
+                                                <div style={{ padding: '16px', backgroundColor: 'rgba(71, 148, 255, 0.05)', border: '1px solid rgba(71, 148, 255, 0.3)', borderRadius: '10px', textAlign: 'center' }}>
+                                                    <div style={{ fontSize: '10px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase', marginBottom: '8px' }}>Effective FTE Needed</div>
+                                                    <div style={{ fontSize: '28px', fontWeight: '800', color: '#4794FF' }}>{effectiveFte.toFixed(1)}</div>
                                                     <div style={{ fontSize: '10px', color: colors.textMuted, marginTop: '4px' }}>Constrained by {binding}</div>
                                                 </div>
                                             </div>
@@ -828,7 +828,7 @@ export const FinanceForecastModal = ({
                                             <tbody>
                                                 {['pm', 'sc', 'pd'].map(role => {
                                                     const data = fteAnalysis[role];
-                                                    const gapColor = data.gap > 0.5 ? '#ef4444' : (data.gap < -0.5 ? BRAND.benifexGreen : colors.textSecondary);
+                                                    const gapColor = data.gap > 0.5 ? '#E5554F' : (data.gap < -0.5 ? BRAND.benifexGreen : colors.textSecondary);
                                                     const gapIcon = data.gap > 0.5 ? '⚠️' : (data.gap < -0.5 ? '✓' : '');
 
                                                     return (
@@ -845,12 +845,12 @@ export const FinanceForecastModal = ({
                                                 })}
                                             </tbody>
                                             <tfoot>
-                                                <tr style={{ backgroundColor: 'rgba(59, 130, 246, 0.05)', borderTop: `2px solid ${colors.border}` }}>
-                                                    <td style={{ padding: '14px 16px', fontSize: '12px', fontWeight: '700', color: '#3b82f6', textTransform: 'uppercase' }}>Total</td>
-                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '13px', fontWeight: '600', fontFamily: 'monospace', color: '#3b82f6' }}>{formatHours(fteAnalysis.total.forecastHours)}h</td>
-                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '700', fontFamily: 'monospace', color: '#3b82f6' }}>{fteAnalysis.total.fteRequired.toFixed(1)}</td>
+                                                <tr style={{ backgroundColor: 'rgba(71, 148, 255, 0.05)', borderTop: `2px solid ${colors.border}` }}>
+                                                    <td style={{ padding: '14px 16px', fontSize: '12px', fontWeight: '700', color: '#4794FF', textTransform: 'uppercase' }}>Total</td>
+                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '13px', fontWeight: '600', fontFamily: 'monospace', color: '#4794FF' }}>{formatHours(fteAnalysis.total.forecastHours)}h</td>
+                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '700', fontFamily: 'monospace', color: '#4794FF' }}>{fteAnalysis.total.fteRequired.toFixed(1)}</td>
                                                     <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '13px', fontFamily: 'monospace', color: colors.textSecondary }}>{fteAnalysis.total.currentFte}</td>
-                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '700', fontFamily: 'monospace', color: fteAnalysis.total.gap > 0.5 ? '#ef4444' : BRAND.benifexGreen }}>
+                                                    <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', fontWeight: '700', fontFamily: 'monospace', color: fteAnalysis.total.gap > 0.5 ? '#E5554F' : BRAND.benifexGreen }}>
                                                         {fteAnalysis.total.gap > 0 ? '+' : ''}{fteAnalysis.total.gap.toFixed(1)} {fteAnalysis.total.gap > 0.5 ? '⚠️' : '✓'}
                                                     </td>
                                                 </tr>
@@ -992,7 +992,7 @@ export const FinanceForecastModal = ({
                                                                 padding: '4px 6px',
                                                                 border: 'none',
                                                                 backgroundColor: 'transparent',
-                                                                color: '#ef4444',
+                                                                color: '#E5554F',
                                                                 cursor: 'pointer',
                                                                 borderRadius: '4px',
                                                                 display: 'flex',
@@ -1025,12 +1025,12 @@ export const FinanceForecastModal = ({
                                     padding: '10px 20px',
                                     borderRadius: '8px',
                                     border: 'none',
-                                    background: forecastName ? 'linear-gradient(135deg, #3b82f6, #1d4ed8)' : colors.bgAlt,
+                                    background: forecastName ? 'linear-gradient(135deg, #4794FF, #1d4ed8)' : colors.bgAlt,
                                     color: forecastName ? 'white' : colors.textMuted,
                                     fontSize: '13px',
                                     fontWeight: '600',
                                     cursor: forecastName ? 'pointer' : 'not-allowed',
-                                    boxShadow: forecastName ? '0 2px 4px rgba(59, 130, 246, 0.3)' : 'none',
+                                    boxShadow: forecastName ? '0 2px 4px rgba(71, 148, 255, 0.3)' : 'none',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '6px'

@@ -46,22 +46,22 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                     fontWeight: '500',
                     border: '1px solid rgba(226, 232, 240, 0.6)',
                     borderRadius: '10px',
-                    background: isLiveMode ? 'rgba(248, 250, 252, 0.8)' : 'linear-gradient(to right, #F7F3ED, #eef2ff)',
-                    color: isLiveMode ? '#475569' : '#7637E3',
+                    background: isLiveMode ? 'rgba(248, 250, 252, 0.8)' : 'linear-gradient(to right, #F5EDE1, #f0fdf4)',
+                    color: isLiveMode ? '#475569' : '#082F24',
                     cursor: 'pointer',
                     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
                     transition: 'all 0.15s ease',
                     letterSpacing: '-0.01em'
                 }}
             >
-                <svg style={{ width: '14px', height: '14px', color: isLiveMode ? '#00BD00' : '#BD65FF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ width: '14px', height: '14px', color: isLiveMode ? '#00BD00' : '#FF8EFB' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isLiveMode ? "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" : "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"} />
                 </svg>
                 <span>{displayName}</span>
                 {draftScenarios.length > 0 && (
                     <span style={{
                         padding: '1px 6px',
-                        backgroundColor: '#BD65FF',
+                        backgroundColor: '#FF8EFB',
                         color: 'white',
                         fontSize: '10px',
                         fontWeight: '700',
@@ -128,7 +128,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                     style={{
                                         width: '100%', padding: '12px 16px',
                                         display: 'flex', alignItems: 'center', gap: '12px',
-                                        backgroundColor: activeScenario?.id === scenario.id ? (isDark ? 'rgba(139, 92, 246, 0.15)' : '#F7F3ED') : colors.bgModal,
+                                        backgroundColor: activeScenario?.id === scenario.id ? (isDark ? 'rgba(0, 189, 0, 0.15)' : '#F5EDE1') : colors.bgModal,
                                         transition: 'background-color 0.1s'
                                     }}
                                 >
@@ -142,7 +142,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                     >
                                         <span style={{
                                             width: '32px', height: '32px', borderRadius: '50%',
-                                            backgroundColor: '#E8E1D9', color: '#7637E3',
+                                            backgroundColor: '#E8E1D9', color: '#082F24',
                                             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                                         }}>
                                             <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +150,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                             </svg>
                                         </span>
                                         <div style={{ flex: 1, minWidth: 0 }}>
-                                            <div style={{ fontSize: '13px', fontWeight: activeScenario?.id === scenario.id ? '600' : '500', color: activeScenario?.id === scenario.id ? '#BD65FF' : colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            <div style={{ fontSize: '13px', fontWeight: activeScenario?.id === scenario.id ? '600' : '500', color: activeScenario?.id === scenario.id ? '#FF8EFB' : colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                                 {scenario.name}
                                             </div>
                                             <div style={{ fontSize: '11px', color: colors.textMuted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -161,7 +161,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                 {scenario.metadata?.lastEditedBy && (
                                                     <span style={{
                                                         fontSize: '10px',
-                                                        color: '#f59e0b',
+                                                        color: '#FE9922',
                                                         backgroundColor: '#fef3c7',
                                                         padding: '1px 5px',
                                                         borderRadius: '4px',
@@ -173,7 +173,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                             </div>
                                         </div>
                                         {activeScenario?.id === scenario.id && (
-                                            <svg style={{ width: '16px', height: '16px', color: '#BD65FF', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg style={{ width: '16px', height: '16px', color: '#FF8EFB', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                             </svg>
                                         )}
@@ -187,7 +187,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}
                                             title={`Rename "${scenario.name}"`}
-                                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#eff6ff'; e.currentTarget.style.color = '#3b82f6'; }}
+                                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#eff6ff'; e.currentTarget.style.color = '#4794FF'; }}
                                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}
                                         >
                                             {RenameIcon}
@@ -217,7 +217,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center'
                                             }}
                                             title={`Delete "${scenario.name}"`}
-                                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; e.currentTarget.style.color = '#ef4444'; }}
+                                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; e.currentTarget.style.color = '#E5554F'; }}
                                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}
                                         >
                                             <svg style={{ width: '14px', height: '14px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -277,7 +277,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                 <div style={{ fontSize: '12px', fontWeight: '500', color: colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                                     {scenario.name}
                                                     {scenario.status === 'Reverted' && (
-                                                        <span style={{ fontSize: '9px', color: '#f59e0b', backgroundColor: '#fef3c7', padding: '1px 5px', borderRadius: '4px', marginLeft: '6px', fontWeight: '600' }}>REVERTED</span>
+                                                        <span style={{ fontSize: '9px', color: '#FE9922', backgroundColor: '#fef3c7', padding: '1px 5px', borderRadius: '4px', marginLeft: '6px', fontWeight: '600' }}>REVERTED</span>
                                                     )}
                                                 </div>
                                                 <div style={{ fontSize: '10px', color: colors.textMuted }}>
@@ -293,7 +293,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                                                     }}
                                                     title={`Revert "${scenario.name}" — undo this commit`}
-                                                    onMouseEnter={(e) => { e.currentTarget.style.color = '#f59e0b'; e.currentTarget.style.backgroundColor = '#fef3c7'; }}
+                                                    onMouseEnter={(e) => { e.currentTarget.style.color = '#FE9922'; e.currentTarget.style.backgroundColor = '#fef3c7'; }}
                                                     onMouseLeave={(e) => { e.currentTarget.style.color = '#d1d5db'; e.currentTarget.style.backgroundColor = 'transparent'; }}
                                                 >
                                                     <svg style={{ width: '12px', height: '12px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -309,7 +309,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                                                         backgroundColor: 'transparent', cursor: 'pointer', color: '#d1d5db'
                                                     }}
                                                     title="Remove from history"
-                                                    onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; }}
+                                                    onMouseEnter={(e) => { e.currentTarget.style.color = '#E5554F'; }}
                                                     onMouseLeave={(e) => { e.currentTarget.style.color = '#d1d5db'; }}
                                                 >
                                                     <svg style={{ width: '12px', height: '12px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,7 +333,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                             onClick={() => { onCreate(); setIsOpen(false); }}
                             style={{
                                 flex: 1, padding: '8px 12px',
-                                background: 'linear-gradient(to right, #7637E3, #7637E3)',
+                                background: 'linear-gradient(to right, #082F24, #082F24)',
                                 color: 'white', fontSize: '12px', fontWeight: '600',
                                 border: 'none', borderRadius: '8px', cursor: 'pointer'
                             }}
@@ -583,7 +583,7 @@ export const DraftModeBanner = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: '9px', color: '#ddd6fe' }}>ARR</div>
+                                    <div style={{ fontSize: '9px', color: '#bbf7d0' }}>ARR</div>
                                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                                         <span style={{ fontSize: '12px', fontWeight: '600' }}>£{Math.round(arrTotal).toLocaleString()}</span>
                                         {formatDelta(arrDelta) && (
@@ -615,7 +615,7 @@ export const DraftModeBanner = ({
                                 flexWrap: 'wrap'
                             }}>
                                 <div style={{
-                                    fontSize: '9px', color: '#c4b5fd', textTransform: 'uppercase',
+                                    fontSize: '9px', color: '#bbf7d0', textTransform: 'uppercase',
                                     letterSpacing: '0.05em', fontWeight: '700'
                                 }}>Optimizer</div>
                                 <span style={{
@@ -626,8 +626,8 @@ export const DraftModeBanner = ({
                                 }}>{os.fillRate}% fill</span>
                                 <span style={{
                                     padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '600',
-                                    backgroundColor: 'rgba(99,102,241,0.2)', color: '#c7d2fe',
-                                    border: '1px solid rgba(99,102,241,0.3)'
+                                    backgroundColor: 'rgba(8,47,36,0.2)', color: '#bbf7d0',
+                                    border: '1px solid rgba(8,47,36,0.3)'
                                 }}>{os.scheduled} sched / {os.deferred} def</span>
                                 {os.arrProtected > 0 && (
                                     <span style={{
@@ -856,7 +856,7 @@ export const DraftModeBanner = ({
                         >
                             <span style={{
                                 fontWeight: '600',
-                                color: adj.type === 'arr' ? '#c4b5fd' : '#a5f3fc'
+                                color: adj.type === 'arr' ? '#bbf7d0' : '#a5f3fc'
                             }}>
                                 {adj.type === 'arr' ? 'ARR' : 'IMPL'}
                             </span>
