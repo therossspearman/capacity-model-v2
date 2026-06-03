@@ -4426,10 +4426,10 @@ export const Dashboard = ({
                             {isCapacityLoading && !hasInitialLoadedRef.current ? (
                                 <LoadingScreen message="Calculating capacity model..." />
                             ) : (!processedData || processedData.length === 0) ? (
-                                <div className="flex flex-col items-center justify-center h-full text-slate-400">
-                                    <span className="text-4xl mb-4">📭</span>
-                                    <h3 className="text-lg font-semibold text-slate-600">No Data Found</h3>
-                                    <p className="text-sm">Check your settings or active view filters.</p>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8' }}>
+                                    <span style={{ fontSize: '36px', marginBottom: '16px' }}>📭</span>
+                                    <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#475569' }}>No Data Found</h3>
+                                    <p style={{ fontSize: '14px' }}>Check your settings or active view filters.</p>
                                 </div>
                             ) : viewMode === 'slots' ? (
                                 <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>

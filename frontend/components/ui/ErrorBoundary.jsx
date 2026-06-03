@@ -35,24 +35,24 @@ export class ErrorBoundary extends React.Component {
             if (fallback) return fallback;
 
             return (
-                <div className={`p-6 bg-red-50 border-2 border-red-200 rounded-xl`}>
-                    <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0">
+                <div style={{ padding: '24px', backgroundColor: '#fef2f2', border: '2px solid #fecaca', borderRadius: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                        <div style={{ flexShrink: 0 }}>
                             <svg style={{ width: '24px', height: '24px', color: '#dc2626' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
-                        <div className="flex-1">
-                            <h3 className="text-sm font-bold text-red-900 mb-1">
+                        <div style={{ flex: 1 }}>
+                            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#7f1d1d', marginBottom: '4px' }}>
                                 {componentName} Error
                             </h3>
-                            <p className="text-xs text-red-700 mb-2">
+                            <p style={{ fontSize: '12px', color: '#b91c1c', marginBottom: '8px' }}>
                                 Something went wrong. Please try refreshing the page.
                             </p>
                             {this.state.error && (
-                                <details className="text-xs text-red-600 bg-white p-2 rounded border border-red-200">
-                                    <summary className="cursor-pointer font-semibold">Error Details</summary>
-                                    <pre className="mt-2 text-[10px] overflow-auto">
+                                <details style={{ fontSize: '12px', color: '#dc2626', backgroundColor: '#ffffff', padding: '8px', borderRadius: '6px', border: '1px solid #fecaca' }}>
+                                    <summary style={{ cursor: 'pointer', fontWeight: 600 }}>Error Details</summary>
+                                    <pre style={{ marginTop: '8px', fontSize: '10px', overflow: 'auto' }}>
                                         {this.state.error.toString()}
                                         {this.state.errorInfo?.componentStack}
                                     </pre>
@@ -60,7 +60,9 @@ export class ErrorBoundary extends React.Component {
                             )}
                             <button
                                 onClick={() => window.location.reload()}
-                                className="mt-3 px-3 py-1.5 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition-colors"
+                                onMouseOver={e => { e.currentTarget.style.backgroundColor = '#b91c1c'; }}
+                                onMouseOut={e => { e.currentTarget.style.backgroundColor = '#dc2626'; }}
+                                style={{ marginTop: '12px', padding: '6px 12px', backgroundColor: '#dc2626', color: '#ffffff', fontSize: '12px', fontWeight: 700, borderRadius: '8px', border: 'none', cursor: 'pointer', transition: 'background-color 0.15s' }}
                             >
                                 Reload Page
                             </button>
