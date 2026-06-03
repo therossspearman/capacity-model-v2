@@ -1,20 +1,14 @@
 /**
- * BAUProjectViewModal - Read-only modal for viewing BAU virtual projects
- * Shows project details (Name, Country, Launch Date, Squad, T-shirt Size) as read-only
- * These are derived from source projects and cannot be edited here
+ * BAUProjectEditModal - Detail modal for virtual BAU projects.
+ * Name / Country / Launch / Squad are derived from the source project and are
+ * read-only here. The T-shirt size IS editable: the chips are driven by the
+ * Settings BAU hours mapping and clicking one writes the new size back to the
+ * source project (via onSave), which the worker then uses to recompute BAU demand.
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '../../design-system';
-
-// T-shirt size options for display
-const TSHIRT_OPTIONS = [
-    { value: 'XS', label: 'XS', color: '#94a3b8', hours: 40 },
-    { value: 'S', label: 'S', color: '#00BD00', hours: 80 },
-    { value: 'M', label: 'M', color: '#4794FF', hours: 160 },
-    { value: 'L', label: 'L', color: '#FE9922', hours: 320 },
-    { value: 'XL', label: 'XL', color: '#E5554F', hours: 640 }
-];
+import { getBauSizeOptions, getBauHours } from '../../utils/bauSizing';
 
 // Format date for display
 const formatDate = (dateStr) => {
@@ -31,11 +25,50 @@ const formatDate = (dateStr) => {
 const BAUProjectEditModal = ({
     isOpen,
     onClose,
-    project
+    project,
+    onSave,
+    bauHoursMapping
 }) => {
     const { isDark, colors } = useTheme();
 
+    // Size options + hours come from Settings (merged over defaults), never hardcoded.
+    const sizeOptions = getBauSizeOptions(bauHoursMapping);
+    const fallbackSize = sizeOptions.find(o => o.value === 'M')?.value || sizeOptions[0]?.value || 'M';
+
+    // Local selection so the chip highlight + annual-hours update instantly on click;
+    // the underlying virtual project is a worker-derived snapshot and won't mutate live.
+    const [selectedSize, setSelectedSize] = useState(project?.bauTshirtSize || fallbackSize);
+    const [saving, setSaving] = useState(false);
+
+    // Re-sync when a different BAU project is opened.
+    useEffect(() => {
+        setSelectedSize(project?.bauTshirtSize || fallbackSize);
+    }, [project?.id, project?.bauTshirtSize, fallbackSize]);
+
     if (!isOpen || !project) return null;
+
+    const editable = typeof onSave === 'function';
+
+    // BAU rows are virtual (id "bau-<realId>"); writes must target the SOURCE project.
+    const sourceProjectId = project.sourceProjectId
+        || (typeof project.id === 'string' ? project.id.replace(/^bau-/, '') : project.id);
+
+    const handleSelectSize = async (sizeValue) => {
+        if (!editable || saving || sizeValue === selectedSize) return;
+        const prev = selectedSize;
+        setSelectedSize(sizeValue); // optimistic
+        setSaving(true);
+        try {
+            await onSave(sourceProjectId, {
+                name: project.name,
+                bauTshirtSize: sizeValue
+            });
+        } catch (e) {
+            setSelectedSize(prev); // revert on failure (onSave surfaces its own error toast)
+        } finally {
+            setSaving(false);
+        }
+    };
 
     const readOnlyStyle = {
         width: '100%',
@@ -55,8 +88,8 @@ const BAUProjectEditModal = ({
         marginBottom: '6px'
     };
 
-    // Find current t-shirt size
-    const currentSize = TSHIRT_OPTIONS.find(opt => opt.value === project.bauTshirtSize) || TSHIRT_OPTIONS[2]; // Default M
+    // Annual hours for the currently-selected size, from Settings.
+    const currentHours = getBauHours(selectedSize, bauHoursMapping);
 
     return (
         <div style={{
@@ -123,7 +156,9 @@ const BAUProjectEditModal = ({
                     gap: '8px'
                 }}>
                     <span>ℹ️</span>
-                    <span>This is a virtual BAU project. Details are derived from the source project and are read-only.</span>
+                    <span>{editable
+                        ? 'Virtual BAU project — name, country, launch and squad come from the source project. Click a T-Shirt size below to change it (saved to the source project).'
+                        : 'This is a virtual BAU project. Details are derived from the source project and are read-only.'}</span>
                 </div>
 
                 {/* Form - Read Only */}
@@ -161,38 +196,45 @@ const BAUProjectEditModal = ({
                         <div style={readOnlyStyle}>{project.squad || 'Unassigned'}</div>
                     </div>
 
-                    {/* T-shirt Size - Visual display */}
+                    {/* T-shirt Size - editable size picker (driven by Settings hours) */}
                     <div>
-                        <label style={labelStyle}>T-Shirt Size</label>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            {TSHIRT_OPTIONS.map(opt => (
-                                <div
-                                    key={opt.value}
-                                    style={{
-                                        flex: 1,
-                                        padding: '10px 0',
-                                        borderRadius: '6px',
-                                        textAlign: 'center',
-                                        border: project.bauTshirtSize === opt.value
-                                            ? `2px solid ${opt.color}`
-                                            : `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : '#e2e8f0'}`,
-                                        backgroundColor: project.bauTshirtSize === opt.value
-                                            ? `${opt.color}20`
-                                            : 'transparent',
-                                        color: project.bauTshirtSize === opt.value
-                                            ? opt.color
-                                            : (isDark ? '#64748b' : '#94a3b8'),
-                                        fontWeight: project.bauTshirtSize === opt.value ? 700 : 400,
-                                        fontSize: '13px',
-                                        opacity: project.bauTshirtSize === opt.value ? 1 : 0.5
-                                    }}
-                                >
-                                    {opt.label}
-                                    <div style={{ fontSize: '10px', fontWeight: 400, marginTop: '2px' }}>
-                                        {opt.hours}h
-                                    </div>
-                                </div>
-                            ))}
+                        <label style={labelStyle}>T-Shirt Size{editable && <span style={{ fontWeight: 400, color: isDark ? '#64748b' : '#94a3b8' }}> — click to change</span>}</label>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                            {sizeOptions.map(opt => {
+                                const isSelected = selectedSize === opt.value;
+                                return (
+                                    <button
+                                        key={opt.value}
+                                        type="button"
+                                        disabled={!editable || saving}
+                                        onClick={() => handleSelectSize(opt.value)}
+                                        title={`${opt.label} · ${opt.hours.toLocaleString()}h/yr`}
+                                        style={{
+                                            flex: 1,
+                                            padding: '10px 0',
+                                            borderRadius: '6px',
+                                            textAlign: 'center',
+                                            border: isSelected
+                                                ? `2px solid ${opt.color}`
+                                                : `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : '#e2e8f0'}`,
+                                            backgroundColor: isSelected ? `${opt.color}20` : 'transparent',
+                                            color: isSelected ? opt.color : (isDark ? '#64748b' : '#94a3b8'),
+                                            fontWeight: isSelected ? 700 : 500,
+                                            fontSize: '13px',
+                                            opacity: isSelected ? 1 : (editable ? 0.7 : 0.5),
+                                            cursor: editable && !saving ? 'pointer' : 'default',
+                                            transition: 'all 0.15s ease'
+                                        }}
+                                        onMouseEnter={e => { if (editable && !saving && !isSelected) e.currentTarget.style.opacity = '1'; }}
+                                        onMouseLeave={e => { if (editable && !saving && !isSelected) e.currentTarget.style.opacity = '0.7'; }}
+                                    >
+                                        {opt.label}
+                                        <div style={{ fontSize: '10px', fontWeight: 400, marginTop: '2px' }}>
+                                            {opt.hours.toLocaleString()}h
+                                        </div>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -207,7 +249,7 @@ const BAUProjectEditModal = ({
                             Estimated Annual BAU Hours
                         </div>
                         <div style={{ fontSize: '24px', fontWeight: 700, color: isDark ? '#00BD00' : '#15803d' }}>
-                            {currentSize.hours.toLocaleString()}h
+                            {currentHours.toLocaleString()}h
                         </div>
                     </div>
                 </div>
@@ -245,6 +287,7 @@ BAUProjectEditModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     project: PropTypes.shape({
         id: PropTypes.string.isRequired,
+        sourceProjectId: PropTypes.string,
         name: PropTypes.string,
         country: PropTypes.string,
         countryFlag: PropTypes.string,
@@ -252,7 +295,11 @@ BAUProjectEditModal.propTypes = {
         end: PropTypes.string,
         squad: PropTypes.string,
         bauTshirtSize: PropTypes.string
-    })
+    }),
+    // When provided, the T-Shirt size becomes editable. Signature: (sourceProjectId, { name, bauTshirtSize }).
+    onSave: PropTypes.func,
+    // Size → annual-hours mapping from Settings (merged over defaults in utils/bauSizing).
+    bauHoursMapping: PropTypes.object
 };
 
 export default BAUProjectEditModal;

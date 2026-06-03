@@ -5,15 +5,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '../../design-system';
-
-// T-shirt size configuration
-const TSHIRT_CONFIG = {
-    XS: { color: '#94a3b8', hours: 40, label: 'XS' },
-    S: { color: '#00BD00', hours: 80, label: 'S' },
-    M: { color: '#4794FF', hours: 160, label: 'M' },
-    L: { color: '#FE9922', hours: 320, label: 'L' },
-    XL: { color: '#E5554F', hours: 640, label: 'XL' }
-};
+import { getBauHours, getBauSizeColor } from '../../utils/bauSizing';
 
 // Country flag emoji mapping (common ones)
 const countryFlags = {
@@ -57,7 +49,8 @@ const formatDate = (dateStr) => {
 
 // Compact Project Card
 const ProjectCard = ({ project, onClick, isDark }) => {
-    const size = TSHIRT_CONFIG[project.bauTshirtSize] || TSHIRT_CONFIG.M;
+    const sizeLabel = project.bauTshirtSize || 'M';
+    const sizeColor = getBauSizeColor(sizeLabel);
 
     const borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
 
@@ -110,12 +103,12 @@ const ProjectCard = ({ project, onClick, isDark }) => {
                 <span style={{
                     padding: '2px 6px',
                     borderRadius: '4px',
-                    backgroundColor: size.color,
+                    backgroundColor: sizeColor,
                     color: '#fff',
                     fontSize: '10px',
                     fontWeight: 700
                 }}>
-                    {size.label}
+                    {sizeLabel}
                 </span>
             </div>
             {/* Footer: Squad + Launch */}
@@ -134,15 +127,12 @@ const ProjectCard = ({ project, onClick, isDark }) => {
 };
 
 // Squad Group Accordion
-const SquadGroup = ({ squad, projects, onProjectClick, isDark, defaultExpanded = true, groupBy = 'squad' }) => {
+const SquadGroup = ({ squad, projects, onProjectClick, isDark, defaultExpanded = true, groupBy = 'squad', bauHoursMapping }) => {
     const [expanded, setExpanded] = useState(defaultExpanded);
 
     const totalHours = useMemo(() => {
-        return projects.reduce((sum, p) => {
-            const size = TSHIRT_CONFIG[p.bauTshirtSize] || TSHIRT_CONFIG.M;
-            return sum + size.hours;
-        }, 0);
-    }, [projects]);
+        return projects.reduce((sum, p) => sum + getBauHours(p.bauTshirtSize, bauHoursMapping), 0);
+    }, [projects, bauHoursMapping]);
 
     // Calculate earliest launch date in this group
     const earliestLaunch = useMemo(() => {
@@ -239,7 +229,7 @@ const SquadGroup = ({ squad, projects, onProjectClick, isDark, defaultExpanded =
  * Displays virtual BAU projects in a compact, grouped grid
  * Supports grouping by squad (default), customer, or country
  */
-const BAUProjectGrid = ({ projects = [], onEditProject, groupBy = 'squad' }) => {
+const BAUProjectGrid = ({ projects = [], onEditProject, groupBy = 'squad', bauHoursMapping }) => {
     const { isDark, colors } = useTheme();
 
     // Group projects by the selected field (squad, customer, or country)
@@ -277,11 +267,8 @@ const BAUProjectGrid = ({ projects = [], onEditProject, groupBy = 'squad' }) => 
 
     const totalProjects = projects.length;
     const totalHours = useMemo(() => {
-        return projects.reduce((sum, p) => {
-            const size = TSHIRT_CONFIG[p.bauTshirtSize] || TSHIRT_CONFIG.M;
-            return sum + size.hours;
-        }, 0);
-    }, [projects]);
+        return projects.reduce((sum, p) => sum + getBauHours(p.bauTshirtSize, bauHoursMapping), 0);
+    }, [projects, bauHoursMapping]);
 
     if (projects.length === 0) {
         return (
@@ -309,6 +296,7 @@ const BAUProjectGrid = ({ projects = [], onEditProject, groupBy = 'squad' }) => 
                     onProjectClick={onEditProject}
                     isDark={isDark}
                     groupBy={groupBy}
+                    bauHoursMapping={bauHoursMapping}
                 />
             ))}
         </div>
@@ -326,7 +314,8 @@ BAUProjectGrid.propTypes = {
         bauTshirtSize: PropTypes.string
     })),
     onEditProject: PropTypes.func,
-    groupBy: PropTypes.oneOf(['squad', 'customer', 'country'])
+    groupBy: PropTypes.oneOf(['squad', 'customer', 'country']),
+    bauHoursMapping: PropTypes.object
 };
 
 export default BAUProjectGrid;

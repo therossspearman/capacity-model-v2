@@ -4711,6 +4711,7 @@ export const Dashboard = ({
                                                         projects={virtualBAUProjects}
                                                         onEditProject={setBauEditProject}
                                                         groupBy={groupBy}
+                                                        bauHoursMapping={storedSettings.bauHoursMapping}
                                                     />
                                                 )}
                                             </div>
@@ -6163,6 +6164,7 @@ export const Dashboard = ({
                             onClose={() => setBauEditProject(null)}
                             project={bauEditProject}
                             squads={availableSquads}
+                            bauHoursMapping={storedSettings.bauHoursMapping}
                             onSave={async (projectId, formData) => {
                                 // Update the project directly on the table (updateRecord is an
                                 // instance method, not static — AirtableService.updateRecord was
