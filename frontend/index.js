@@ -259,7 +259,9 @@ function CapacityApp() {
         if (squadsTable) {
             props.push(
                 // BAU Feature: Squad category for capacity filtering
-                { key: SETTINGS.SQUAD_CATEGORY, label: 'Squad Category', type: 'field', table: squadsTable }
+                { key: SETTINGS.SQUAD_CATEGORY, label: 'Squad Category', type: 'field', table: squadsTable },
+                // Platform the squad is aligned to (drives the Platform menu filter)
+                { key: SETTINGS.SQUAD_PLATFORM, label: 'Squad Platform', type: 'field', table: squadsTable }
             );
         }
 
