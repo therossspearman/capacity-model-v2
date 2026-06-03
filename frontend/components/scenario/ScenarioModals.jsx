@@ -8,10 +8,20 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
     const { isDark, colors } = useTheme();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    // Internal submit guard: the parent passes isLoading={false}, so without this
+    // the loading UI is dead and a fast double-click can fire onCreate twice.
+    // Dismissal contract: the parent owns closing this modal after onCreate resolves.
+    const [submitting, setSubmitting] = useState(false);
+    const busy = submitting || isLoading;
 
     const handleCreate = async () => {
-        if (!name.trim()) return;
-        await onCreate(name.trim(), description.trim());
+        if (!name.trim() || busy) return;
+        setSubmitting(true);
+        try {
+            await onCreate(name.trim(), description.trim());
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const inputStyle = {
@@ -69,7 +79,7 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g., Q2 2026 Expansion Plan"
                             autoFocus
-                            disabled={isLoading}
+                            disabled={busy}
                             style={inputStyle}
                         />
                     </div>
@@ -82,7 +92,7 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Describe the purpose of this scenario..."
                             rows={3}
-                            disabled={isLoading}
+                            disabled={busy}
                             style={{
                                 ...inputStyle,
                                 resize: 'none',
@@ -102,7 +112,7 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
                 }}>
                     <button
                         onClick={onClose}
-                        disabled={isLoading}
+                        disabled={busy}
                         style={{
                             flex: 1,
                             padding: '10px 16px',
@@ -113,12 +123,12 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
                             fontSize: '14px',
                             borderRadius: '8px',
                             cursor: 'pointer',
-                            opacity: isLoading ? 0.5 : 1
+                            opacity: busy ? 0.5 : 1
                         }}
                     >Cancel</button>
                     <button
                         onClick={handleCreate}
-                        disabled={!name.trim() || isLoading}
+                        disabled={!name.trim() || busy}
                         style={{
                             flex: 1,
                             padding: '10px 16px',
@@ -128,10 +138,10 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
                             fontSize: '14px',
                             border: 'none',
                             borderRadius: '8px',
-                            cursor: (!name.trim() || isLoading) ? 'not-allowed' : 'pointer',
-                            opacity: (!name.trim() || isLoading) ? 0.5 : 1
+                            cursor: (!name.trim() || busy) ? 'not-allowed' : 'pointer',
+                            opacity: (!name.trim() || busy) ? 0.5 : 1
                         }}
-                    >{isLoading ? 'Creating...' : 'Create Scenario'}</button>
+                    >{busy ? 'Creating...' : 'Create Scenario'}</button>
                 </div>
             </div>
         </div>
@@ -144,11 +154,21 @@ export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
 export const CopyScenarioModal = ({ sourceScenario, onClose, onCopy, isLoading }) => {
     const { isDark, colors } = useTheme();
     const [name, setName] = useState(sourceScenario ? `${sourceScenario.name} (Copy)` : '');
+    // Internal submit guard (see CreateScenarioModal): prevents double-submit and
+    // drives the loading UI even when the parent passes a static isLoading.
+    const [submitting, setSubmitting] = useState(false);
+    const busy = submitting || isLoading;
 
     const handleCopy = async () => {
-        if (!name.trim() || !sourceScenario) return;
-        await onCopy(sourceScenario, name.trim());
-        onClose();
+        if (!name.trim() || !sourceScenario || busy) return;
+        setSubmitting(true);
+        try {
+            await onCopy(sourceScenario, name.trim());
+            // Dismissal contract: this modal closes itself once the copy resolves.
+            onClose();
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (!sourceScenario) return null;
@@ -193,7 +213,7 @@ export const CopyScenarioModal = ({ sourceScenario, onClose, onCopy, isLoading }
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g., Q2 Plan v2"
                             autoFocus
-                            disabled={isLoading}
+                            disabled={busy}
                             style={{
                                 width: '100%',
                                 padding: '10px 14px',
@@ -214,15 +234,15 @@ export const CopyScenarioModal = ({ sourceScenario, onClose, onCopy, isLoading }
                     </div>
                 </div>
                 <div style={{ padding: '16px 24px', backgroundColor: colors.bgAlt, borderTop: `1px solid ${colors.border}`, display: 'flex', gap: '12px' }}>
-                    <button onClick={onClose} disabled={isLoading} style={{
+                    <button onClick={onClose} disabled={busy} style={{
                         flex: 1, padding: '10px 16px', backgroundColor: colors.bgCard, border: `2px solid ${colors.border}`,
-                        color: colors.textSecondary, fontWeight: '500', fontSize: '14px', borderRadius: '8px', cursor: 'pointer', opacity: isLoading ? 0.5 : 1
+                        color: colors.textSecondary, fontWeight: '500', fontSize: '14px', borderRadius: '8px', cursor: 'pointer', opacity: busy ? 0.5 : 1
                     }}>Cancel</button>
-                    <button onClick={handleCopy} disabled={!name.trim() || isLoading} style={{
+                    <button onClick={handleCopy} disabled={!name.trim() || busy} style={{
                         flex: 1, padding: '10px 16px', background: 'linear-gradient(to right, #7637E3, #7637E3)',
                         color: 'white', fontWeight: '600', fontSize: '14px', border: 'none', borderRadius: '8px',
-                        cursor: (!name.trim() || isLoading) ? 'not-allowed' : 'pointer', opacity: (!name.trim() || isLoading) ? 0.5 : 1
-                    }}>{isLoading ? 'Copying...' : 'Create Copy'}</button>
+                        cursor: (!name.trim() || busy) ? 'not-allowed' : 'pointer', opacity: (!name.trim() || busy) ? 0.5 : 1
+                    }}>{busy ? 'Copying...' : 'Create Copy'}</button>
                 </div>
             </div>
         </div>
@@ -235,7 +255,20 @@ export const CopyScenarioModal = ({ sourceScenario, onClose, onCopy, isLoading }
 export const ScenarioNotesModal = ({ scenario, onSave, onClose, isLoading }) => {
     const { isDark, colors } = useTheme();
     const [notes, setNotes] = useState(scenario?.metadata?.notes || '');
-    const handleSave = async () => { await onSave(notes); };
+    // Internal submit guard (see CreateScenarioModal): prevents double-submit and
+    // drives the loading UI even when the parent passes a static isLoading.
+    // Dismissal contract: the parent owns closing this modal after onSave resolves.
+    const [submitting, setSubmitting] = useState(false);
+    const busy = submitting || isLoading;
+    const handleSave = async () => {
+        if (busy) return;
+        setSubmitting(true);
+        try {
+            await onSave(notes);
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <div style={{
@@ -272,7 +305,7 @@ export const ScenarioNotesModal = ({ scenario, onSave, onClose, isLoading }) => 
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Add notes, assumptions, or commentary about this scenario..."
                         rows={6}
-                        disabled={isLoading}
+                        disabled={busy}
                         autoFocus
                         style={{
                             width: '100%',
@@ -291,15 +324,15 @@ export const ScenarioNotesModal = ({ scenario, onSave, onClose, isLoading }) => 
                     <p style={{ fontSize: '11px', color: colors.textMuted, marginTop: '8px' }}>Notes are saved with the scenario and visible in commit preview.</p>
                 </div>
                 <div style={{ padding: '16px 24px', backgroundColor: colors.bgAlt, borderTop: `1px solid ${colors.border}`, display: 'flex', gap: '12px' }}>
-                    <button onClick={onClose} disabled={isLoading} style={{
+                    <button onClick={onClose} disabled={busy} style={{
                         flex: 1, padding: '10px 16px', backgroundColor: colors.bgCard, border: `2px solid ${colors.border}`,
-                        color: colors.textSecondary, fontWeight: '500', fontSize: '14px', borderRadius: '8px', cursor: 'pointer', opacity: isLoading ? 0.5 : 1
+                        color: colors.textSecondary, fontWeight: '500', fontSize: '14px', borderRadius: '8px', cursor: 'pointer', opacity: busy ? 0.5 : 1
                     }}>Cancel</button>
-                    <button onClick={handleSave} disabled={isLoading} style={{
+                    <button onClick={handleSave} disabled={busy} style={{
                         flex: 1, padding: '10px 16px', background: 'linear-gradient(to right, #d97706, #ea580c)',
                         color: 'white', fontWeight: '600', fontSize: '14px', border: 'none', borderRadius: '8px',
-                        cursor: isLoading ? 'not-allowed' : 'pointer', opacity: isLoading ? 0.5 : 1
-                    }}>{isLoading ? 'Saving...' : 'Save Notes'}</button>
+                        cursor: busy ? 'not-allowed' : 'pointer', opacity: busy ? 0.5 : 1
+                    }}>{busy ? 'Saving...' : 'Save Notes'}</button>
                 </div>
             </div>
         </div>

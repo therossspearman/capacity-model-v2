@@ -16,6 +16,25 @@ export const AllocationModal = ({
     // resource.projects contains the allocations
     const [allocations, setAllocations] = useState([]);
     const [isSaving, setIsSaving] = useState(false);
+    const [saveError, setSaveError] = useState(null);
+
+    // Format a date-only value (Date | 'YYYY-MM-DD' | ISO string) to 'YYYY-MM-DD'
+    // without timezone shifting. Avoids toISOString() which converts to UTC and
+    // can roll a stored midnight date back a day for negative-UTC-offset users.
+    const toDateInputValue = (value) => {
+        if (!value) return '';
+        if (typeof value === 'string') {
+            // Already a date-only string, or take the date portion of an ISO string.
+            const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (match) return `${match[1]}-${match[2]}-${match[3]}`;
+        }
+        const d = value instanceof Date ? value : new Date(value);
+        if (Number.isNaN(d.getTime())) return '';
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+    };
 
     // Copy State
     const [copySource, setCopySource] = useState(null); // Allocation object being copied
@@ -81,11 +100,13 @@ export const AllocationModal = ({
 
     const handleSave = async () => {
         setIsSaving(true);
+        setSaveError(null);
         try {
             await onSave(allocations);
             onClose();
         } catch (err) {
             console.error(err);
+            setSaveError(err && err.message ? err.message : 'Failed to save changes. Please try again.');
         } finally {
             setIsSaving(false);
         }
@@ -108,11 +129,11 @@ export const AllocationModal = ({
     const inputStyle = {
         width: '100%',
         fontSize: '13px',
-        border: '1px solid #e2e8f0',
+        border: `1px solid ${colors.border || '#e2e8f0'}`,
         borderRadius: '8px',
         padding: '8px 12px',
-        backgroundColor: '#f8fafc',
-        color: '#1e293b',
+        backgroundColor: colors.bgHover || '#f8fafc',
+        color: colors.text || '#1e293b',
         outline: 'none',
         transition: 'all 0.2s'
     };
@@ -151,8 +172,8 @@ export const AllocationModal = ({
                 {/* Header */}
                 <div style={{
                     padding: '32px 40px',
-                    borderBottom: '1px solid #f1f5f9',
-                    backgroundColor: 'white',
+                    borderBottom: `1px solid ${colors.borderLight || '#f1f5f9'}`,
+                    backgroundColor: colors.bgModal || 'white',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
@@ -169,10 +190,10 @@ export const AllocationModal = ({
                             </svg>
                         </div>
                         <div>
-                            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#1e293b', margin: 0, letterSpacing: '-0.02em' }}>
+                            <h2 style={{ fontSize: '24px', fontWeight: '800', color: colors.text || '#1e293b', margin: 0, letterSpacing: '-0.02em' }}>
                                 Edit Allocations
                             </h2>
-                            <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0', fontWeight: '500' }}>
+                            <p style={{ fontSize: '13px', color: colors.textSecondary || '#64748b', margin: '4px 0 0', fontWeight: '500' }}>
                                 {resource.name} • <span style={{ color: '#3b82f6' }}>{new Date(dateKey).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                             </p>
                         </div>
@@ -181,14 +202,14 @@ export const AllocationModal = ({
                         onClick={onClose}
                         style={{
                             width: '40px', height: '40px', borderRadius: '50%',
-                            border: '1px solid #e2e8f0', backgroundColor: 'white',
-                            cursor: 'pointer', color: '#64748b',
+                            border: `1px solid ${colors.border || '#e2e8f0'}`, backgroundColor: colors.bgModal || 'white',
+                            cursor: 'pointer', color: colors.textSecondary || '#64748b',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             transition: 'all 0.2s',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
                         }}
-                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f8fafc'; e.currentTarget.style.transform = 'rotate(90deg)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.transform = 'rotate(0)'; }}
+                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = colors.bgHover || '#f8fafc'; e.currentTarget.style.transform = 'rotate(90deg)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = colors.bgModal || 'white'; e.currentTarget.style.transform = 'rotate(0)'; }}
                     >
                         {ICONS.CLOSE}
                     </button>
@@ -199,7 +220,7 @@ export const AllocationModal = ({
                     padding: '32px 40px',
                     overflowY: 'auto',
                     flex: 1,
-                    backgroundColor: '#fafafa'
+                    backgroundColor: colors.bgAlt || '#fafafa'
                 }}>
                     {copySource ? (
                         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '24px' }}>
@@ -323,9 +344,9 @@ export const AllocationModal = ({
                                     return (
                                         <div key={alloc.id} style={{
                                             padding: '24px',
-                                            border: '1px solid #e2e8f0',
+                                            border: `1px solid ${colors.border || '#e2e8f0'}`,
                                             borderRadius: '20px',
-                                            backgroundColor: 'white',
+                                            backgroundColor: colors.bgCard || 'white',
                                             boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02)',
                                             transition: 'all 0.2s',
                                         }}
@@ -335,7 +356,7 @@ export const AllocationModal = ({
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                                                     <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: typeColors.text, boxShadow: `0 0 0 4px ${typeColors.bg}` }}></div>
-                                                    <h4 style={{ fontWeight: '800', color: '#1e293b', margin: 0, fontSize: '16px' }}>{alloc.projectName}</h4>
+                                                    <h4 style={{ fontWeight: '800', color: colors.text || '#1e293b', margin: 0, fontSize: '16px' }}>{alloc.projectName}</h4>
                                                     <span style={{
                                                         fontSize: '11px', padding: '4px 10px', borderRadius: '8px',
                                                         fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em',
@@ -366,7 +387,7 @@ export const AllocationModal = ({
                                                     <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px' }}>Start Date</label>
                                                     <input
                                                         type="date"
-                                                        value={alloc.start ? new Date(alloc.start).toISOString().split('T')[0] : ''}
+                                                        value={toDateInputValue(alloc.start)}
                                                         onChange={(e) => updateAllocation(alloc.id, 'start', e.target.value)}
                                                         style={inputStyle}
                                                     />
@@ -375,7 +396,7 @@ export const AllocationModal = ({
                                                     <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px' }}>End Date</label>
                                                     <input
                                                         type="date"
-                                                        value={alloc.end ? new Date(alloc.end).toISOString().split('T')[0] : ''}
+                                                        value={toDateInputValue(alloc.end)}
                                                         onChange={(e) => updateAllocation(alloc.id, 'end', e.target.value)}
                                                         style={inputStyle}
                                                     />
@@ -429,10 +450,22 @@ export const AllocationModal = ({
                 </div>
 
                 {/* Footer */}
+                {saveError && (
+                    <div style={{
+                        padding: '12px 40px',
+                        backgroundColor: colors.dangerBg || '#fef2f2',
+                        color: colors.danger || '#ef4444',
+                        borderTop: `1px solid ${colors.danger || '#ef4444'}`,
+                        fontSize: '13px',
+                        fontWeight: '600'
+                    }}>
+                        {saveError}
+                    </div>
+                )}
                 <div style={{
                     padding: '24px 40px',
-                    borderTop: '1px solid #f1f5f9',
-                    backgroundColor: 'white',
+                    borderTop: `1px solid ${colors.borderLight || '#f1f5f9'}`,
+                    backgroundColor: colors.bgModal || 'white',
                     display: 'flex',
                     justifyContent: 'flex-end',
                     gap: '16px'
@@ -444,14 +477,14 @@ export const AllocationModal = ({
                             borderRadius: '12px',
                             fontSize: '14px',
                             fontWeight: '600',
-                            backgroundColor: 'white',
-                            border: '1px solid #e2e8f0',
-                            color: '#64748b',
+                            backgroundColor: colors.bgModal || 'white',
+                            border: `1px solid ${colors.border || '#e2e8f0'}`,
+                            color: colors.textSecondary || '#64748b',
                             cursor: 'pointer',
                             transition: 'all 0.2s'
                         }}
-                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f8fafc'; e.currentTarget.style.color = '#1e293b'; }}
-                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.color = '#64748b'; }}
+                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = colors.bgHover || '#f8fafc'; e.currentTarget.style.color = colors.text || '#1e293b'; }}
+                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = colors.bgModal || 'white'; e.currentTarget.style.color = colors.textSecondary || '#64748b'; }}
                     >
                         Cancel
                     </button>

@@ -218,7 +218,16 @@ const getCountryFlag = (name) => {
 const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onCancel }) => {
     const { isDark, colors } = useTheme();
     const [localConflicts, setLocalConflicts] = useState(conflicts);
-    const [expandedItems, setExpandedItems] = useState(new Set());
+    // Seed the expanded set with the first entity's key so it starts open,
+    // but keep the toggle fully user-controlled (no render-time `|| index === 0`
+    // override that would silently re-expand the first card on collapse).
+    const [expandedItems, setExpandedItems] = useState(() => {
+        const projectIds = Object.keys(conflicts?.projects || {});
+        const resourceIds = Object.keys(conflicts?.resources || {});
+        if (projectIds.length > 0) return new Set([`projects-${projectIds[0]}`]);
+        if (resourceIds.length > 0) return new Set([`resources-${resourceIds[0]}`]);
+        return new Set();
+    });
 
     const toggleExpand = (key) => {
         setExpandedItems(prev => {
@@ -549,7 +558,7 @@ const ConflictResolutionModal = ({ conflicts, draftName, isStale, onResolve, onC
     };
 
     const renderEntityCard = (type, id, data, index) => {
-        const isExpanded = expandedItems.has(`${type}-${id}`) || index === 0;
+        const isExpanded = expandedItems.has(`${type}-${id}`);
         const fieldCount = Object.keys(data.fields || {}).length;
 
         return (

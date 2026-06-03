@@ -50,6 +50,12 @@ const extractDiscreteSlots = (slotMap, dateRange, squad, durationWeeks = 12, slo
         if (wholeSlots < 1) return;
 
         for (let s = 0; s < wholeSlots; s++) {
+            // Reserve this slot's capacity across the next `durationWeeks` columns:
+            // a slot started here occupies one unit of availableSlots in every week
+            // it spans, so those weeks see reduced netAvailable above and we don't
+            // double-count the same engineer capacity for overlapping slots.
+            // Cost is O(wholeSlots * durationWeeks) per squad — fine at current sizes;
+            // see handover note about hoisting this into the worker (processedData).
             for (let w = 0; w < durationWeeks && colIndex + w < dateRange.length; w++) {
                 const futureKey = dateRange[colIndex + w];
                 consumedSlots[futureKey] = (consumedSlots[futureKey] || 0) + 1;
@@ -103,6 +109,39 @@ const extractDiscreteSlots = (slotMap, dateRange, squad, durationWeeks = 12, slo
     }
 
     return slots;
+};
+
+/**
+ * Compute forward allocation / backward shortfall for dropping a project
+ * spanning `slotsRequired` slots starting at `hoverIndex` within `slots`.
+ * Shared by handleDrop and the dragImpact preview so the two stay in sync.
+ */
+const computeAllocation = (slots, hoverIndex, slotsRequired, maxForwardWeeks) => {
+    const hoverSlotStart = new Date(slots[hoverIndex]?.startDateKey);
+
+    let validForwardCount = 1;
+    for (let i = 1; i < slotsRequired; i++) {
+        const targetIndex = hoverIndex + i;
+        if (targetIndex < slots.length) {
+            const targetStart = new Date(slots[targetIndex].startDateKey);
+            const diffTime = Math.abs(targetStart - hoverSlotStart);
+            const diffWeeks = diffTime / (1000 * 60 * 60 * 24 * 7);
+            if (diffWeeks <= maxForwardWeeks) {
+                validForwardCount++;
+            } else {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+
+    const forwardAllocated = validForwardCount;
+    const backwardShortfall = Math.max(0, slotsRequired - forwardAllocated);
+    const forwardEndIndex = hoverIndex + forwardAllocated - 1;
+    const backwardStartIndex = hoverIndex - backwardShortfall;
+
+    return { forwardAllocated, backwardShortfall, forwardEndIndex, backwardStartIndex };
 };
 
 /**
@@ -280,16 +319,35 @@ const SlotGanttView = ({
         return rawData;
     }, [slotMap, enabledSquads, dateRange, durationWeeks, projects, slotOptimization, mergeSquads]);
 
-    // Effect to handle global expand/collapse
+    // Bulk expand/collapse: only fire when the parent's globalExpand toggle changes,
+    // so we don't clobber the user's manual per-squad expand/collapse every time
+    // squadData is recomputed (e.g. on drag, prop changes, etc.).
     useEffect(() => {
-        if (squadData) {
-            const newExpandedState = {};
-            squadData.forEach(s => {
-                newExpandedState[s.squad] = globalExpand;
+        setExpandedSquads(prev => {
+            const next = { ...prev };
+            (squadData || []).forEach(s => { next[s.squad] = globalExpand; });
+            return next;
+        });
+        // Intentionally depends on globalExpand only — see comment above.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [globalExpand]);
+
+    // Initialise expand state for any newly-appeared squads (default expanded)
+    // without resetting squads the user has already toggled.
+    useEffect(() => {
+        setExpandedSquads(prev => {
+            let changed = false;
+            const next = { ...prev };
+            (squadData || []).forEach(s => {
+                if (next[s.squad] === undefined) {
+                    next[s.squad] = globalExpand;
+                    changed = true;
+                }
             });
-            setExpandedSquads(newExpandedState);
-        }
-    }, [globalExpand, squadData]);
+            return changed ? next : prev;
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [squadData]);
 
     // Calculate slots required for dragged project (using prop from parent)
     const draggedProjectInfo = useMemo(() => {
@@ -344,31 +402,12 @@ const SlotGanttView = ({
             const slotsRequired = Math.ceil(totalEffort / slotHours) || 1;
             const slotIndex = squadSlots.findIndex(s => s.id === slot.id);
 
-            // Time-based constraint logic (matches render loop)
+            // Time-based constraint logic (matches render loop / dragImpact preview)
             const maxForwardWeeks = slotOptimization?.maxForwardWeeks !== undefined ? slotOptimization.maxForwardWeeks : 4;
-            const hoverSlotStart = new Date(squadSlots[slotIndex]?.startDateKey);
-
-            let validForwardCount = 1;
-            for (let i = 1; i < slotsRequired; i++) {
-                const targetIndex = slotIndex + i;
-                if (targetIndex < squadSlots.length) {
-                    const targetStart = new Date(squadSlots[targetIndex].startDateKey);
-                    const diffTime = Math.abs(targetStart - hoverSlotStart);
-                    const diffWeeks = diffTime / (1000 * 60 * 60 * 24 * 7);
-                    if (diffWeeks <= maxForwardWeeks) {
-                        validForwardCount++;
-                    } else {
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            const backwardShortfall = Math.max(0, slotsRequired - validForwardCount);
+            const { forwardAllocated, backwardShortfall } = computeAllocation(squadSlots, slotIndex, slotsRequired, maxForwardWeeks);
 
             // Available is just what we found valid forward
-            const availableSlots = validForwardCount;
+            const availableSlots = forwardAllocated;
 
             onSlotDrop(projectId, {
                 ...slot,
@@ -411,26 +450,9 @@ const SlotGanttView = ({
 
         const { slotsRequired } = draggedProjectInfo;
         const maxForwardWeeks = slotOptimization?.maxForwardWeeks !== undefined ? slotOptimization.maxForwardWeeks : 4;
-        const hoverSlotStart = new Date(slots[hoverIndex].startDateKey);
 
-        let validForwardCount = 1;
-        for (let i = 1; i < slotsRequired; i++) {
-            const targetIndex = hoverIndex + i;
-            if (targetIndex < slots.length) {
-                const targetStart = new Date(slots[targetIndex].startDateKey);
-                const diffTime = Math.abs(targetStart - hoverSlotStart);
-                const diffWeeks = diffTime / (1000 * 60 * 60 * 24 * 7);
-                if (diffWeeks <= maxForwardWeeks) validForwardCount++;
-                else break;
-            } else break;
-        }
-
-        const forwardAllocated = validForwardCount;
-        const backwardShortfall = Math.max(0, slotsRequired - forwardAllocated);
-
-        // Calculate ranges
-        const forwardEndIndex = hoverIndex + forwardAllocated - 1;
-        const backwardStartIndex = hoverIndex - backwardShortfall;
+        const { backwardShortfall, forwardEndIndex, backwardStartIndex } =
+            computeAllocation(slots, hoverIndex, slotsRequired, maxForwardWeeks);
 
         // Determine how many "ghost" slots we need (if backward extension goes off the top)
         const ghostCount = backwardStartIndex < 0 ? Math.abs(backwardStartIndex) : 0;

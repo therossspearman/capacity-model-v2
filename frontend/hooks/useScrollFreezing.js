@@ -20,7 +20,11 @@ export const useScrollFreezing = (containerRef) => {
         };
 
         container.addEventListener('scroll', onScroll, { passive: true });
-        return () => container.removeEventListener('scroll', onScroll);
+        return () => {
+            container.removeEventListener('scroll', onScroll);
+            window.clearTimeout(isScrolling);
+            container.style.pointerEvents = 'auto';
+        };
     }, [containerRef]);
 };
 

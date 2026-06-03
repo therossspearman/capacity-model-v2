@@ -374,7 +374,7 @@ export const ScenarioSelector = ({ scenarios, activeScenario, onSelect, onCreate
                 isOpen={!!revertConfirm}
                 variant="warning"
                 title={`Revert "${revertConfirm?.name}"?`}
-                message={`This will restore ${(Object.keys(revertConfirm?.changes?.projects || {}).length + Object.keys(revertConfirm?.changes?.resources || {}).length)} item(s) to their pre-commit values in Airtable. This cannot be undone.`}
+                message={`This will restore ${(revertConfirm?.metadata?.totalChanges ?? (Object.keys(revertConfirm?.changes?.projects || {}).length + Object.keys(revertConfirm?.changes?.resources || {}).length + (revertConfirm?.changes?.financialAdjustments || []).length))} item(s) to their pre-commit values in Airtable. This cannot be undone.`}
                 confirmText="Revert"
                 cancelText="Cancel"
                 onConfirm={() => { onRevert(revertConfirm.id); setRevertConfirm(null); setIsOpen(false); }}

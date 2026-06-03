@@ -153,6 +153,15 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
     };
 
     const handleDelete = (id) => {
+        const target = initiatives.find(i => i.id === id);
+        const label = target?.name ? `"${target.name}"` : 'this initiative';
+        // Destructive: removing an initiative also drops its entire headcountPlan.
+        // Guard against accidental single-click deletion.
+        if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+            if (!window.confirm(`Delete ${label}? This also removes its virtual headcount and cannot be undone.`)) {
+                return;
+            }
+        }
         onSave(initiatives.filter(i => i.id !== id));
     };
 
@@ -171,7 +180,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
         switch (status) {
             case 'active': return BRAND.benifexGreen;
             case 'planned': return BRAND.benifexPurple;
-            case 'archived': return '#6b7280';
+            case 'archived': return colors.textSecondary;
             default: return colors.textMuted;
         }
     };
@@ -206,7 +215,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                 left: 0,
                 right: 0,
                 bottom: 0,
-                backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                backgroundColor: colors.bgOverlay,
                 backdropFilter: 'blur(4px)',
                 display: 'flex',
                 alignItems: 'center',
@@ -476,7 +485,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                     <div style={{
                                         padding: '48px',
                                         textAlign: 'center',
-                                        border: '2px dashed #e2e8f0',
+                                        border: `2px dashed ${colors.gridLine}`,
                                         borderRadius: '10px',
                                         color: colors.textMuted
                                     }}>
@@ -507,7 +516,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                                                 type="checkbox"
                                                                 checked={init.enabled}
                                                                 onChange={() => handleToggleEnabled(init.id)}
-                                                                style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: '#f59e0b' }}
+                                                                style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: colors.warning }}
                                                             />
                                                         </td>
                                                         <td style={{ padding: '12px 16px' }}>
@@ -554,8 +563,8 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                                                         padding: '6px 10px',
                                                                         borderRadius: '6px',
                                                                         border: 'none',
-                                                                        backgroundColor: '#fef2f2',
-                                                                        color: '#dc2626',
+                                                                        backgroundColor: colors.dangerBg,
+                                                                        color: colors.danger,
                                                                         fontSize: '11px',
                                                                         cursor: 'pointer'
                                                                     }}
@@ -748,7 +757,7 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                             textAlign: 'center',
                                             color: colors.textMuted,
                                             fontSize: '12px',
-                                            border: '2px dashed #e2e8f0',
+                                            border: `2px dashed ${colors.gridLine}`,
                                             borderRadius: '8px'
                                         }}>
                                             No virtual headcount added. Add resources to model future hiring.
@@ -861,8 +870,8 @@ export const InitiativesModal = ({ initiatives = [], onSave, onClose, showInitia
                                                             height: '28px',
                                                             borderRadius: '6px',
                                                             border: 'none',
-                                                            backgroundColor: '#fef2f2',
-                                                            color: '#dc2626',
+                                                            backgroundColor: colors.dangerBg,
+                                                            color: colors.danger,
                                                             cursor: 'pointer',
                                                             fontSize: '14px'
                                                         }}

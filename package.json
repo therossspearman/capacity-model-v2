@@ -3,8 +3,11 @@
     "version": "2.0.0",
     "description": "High-performance Airtable Capacity Model - Refactored Edition",
     "main": "frontend/index.js",
+    "engines": {
+        "node": ">=20"
+    },
     "scripts": {
-        "lint": "eslint src --ext .js,.jsx",
+        "lint": "eslint frontend --ext .js,.jsx",
         "test": "vitest run",
         "test:watch": "vitest",
         "build:worker": "node frontend/worker/buildWorker.js",

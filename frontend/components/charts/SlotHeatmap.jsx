@@ -265,7 +265,10 @@ export const SlotHeatmap = ({
     // Filter unresourced projects for sidebar with staffing status
     const unresourcedProjects = useMemo(() => {
         if (!projects) return [];
-        return projects.filter(p => {
+        // Build derived shapes instead of mutating the project objects passed via
+        // props (those are shared with useCapacityData/worker output). Use reduce so
+        // we can both filter and attach derived fields in a single pass.
+        return projects.reduce((acc, p) => {
             // Check if squad is unassigned/empty
             const hasSquad = p.squads && p.squads.length > 0 && p.squads[0] !== 'Unassigned';
             // Check if project is closed/cancelled
@@ -291,15 +294,15 @@ export const SlotHeatmap = ({
                 staffingStatus = 'PARTIAL';
             }
 
-            // Attach staffingStatus to project for display
-            p.staffingStatus = staffingStatus;
-            p.rolesFilled = rolesFilled;
-
             // Unresourced = anything that's not FULLY_STAFFED
             const isResourced = staffingStatus === 'FULLY_STAFFED';
 
-            return !isResourced && !isClosed;
-        });
+            if (!isResourced && !isClosed) {
+                // Return a copy with derived display fields attached (never mutate p.*).
+                acc.push({ ...p, staffingStatus, rolesFilled });
+            }
+            return acc;
+        }, []);
     }, [projects]);
 
     // Calculate filter options from unresourced projects
@@ -833,6 +836,9 @@ export const SlotHeatmap = ({
                                         }}>
                                             Squad
                                         </th>
+                                        {/* d.isoKey is the canonical key for slotMap lookups,
+                                            React keys, drag handlers and selectedSlot.
+                                            d.dateKey is the human-readable display label only. */}
                                         {visibleDates.map(d => (
                                             <th key={d.isoKey} style={{
                                                 textAlign: 'center',
@@ -1332,7 +1338,7 @@ export const SlotHeatmap = ({
 
                         {/* Project List (flat, sorted by date) */}
                         <div style={{ padding: '12px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            {filteredUnresourcedProjects
+                            {[...filteredUnresourcedProjects]
                                 .sort((a, b) => {
                                     const aDate = a.kickOff || a.start;
                                     const bDate = b.kickOff || b.start;

@@ -80,7 +80,13 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
         const projectNameMap = {};
         projectList.forEach(p => { projectNameMap[p.id] = p.name; });
 
-        // Parse project changes
+        // Parse project changes.
+        // NOTE: scenario.changes.projects[id] has two historical persisted shapes:
+        //   - current:  { changes: { launch, kickOff, ... }, original: { ... }, name }
+        //   - legacy:   { launch, kickOff, ... }   (fields stored flat on the entry)
+        // The `data.changes || data` / `innerData.changes || innerData` chains below
+        // unwrap both: prefer the nested `.changes` bag when present, else treat the
+        // entry itself as the field bag.
         for (const [projectId, data] of Object.entries(projectChanges)) {
             const innerData = data.changes || data;
             const changeFields = innerData.changes || innerData;
@@ -149,6 +155,12 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
             let scenarioImplFee = 0;
             let scenarioArr = 0;
 
+            // NOTE: revenue here intentionally mirrors the canonical worker algorithm
+            // (calculateProjectRevenue ignores project status — status is NOT a revenue
+            // gate, so the live baseline and scenario totals stay consistent). Resource
+            // changes are surfaced in changeDetails for display only and deliberately do
+            // not feed revenue. The override chain below uses the same dual-shape unwrap
+            // (changeData.changes || changeData) documented in getScenarioChanges.
             allProjects.forEach(baseProject => {
                 // Create effective project with scenario overrides
                 const changeData = projectChanges[baseProject.id];

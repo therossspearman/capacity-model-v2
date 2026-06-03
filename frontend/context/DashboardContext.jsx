@@ -21,7 +21,12 @@ export const useDashboardContext = () => {
 
 /**
  * DashboardProvider component
- * Wraps children with dashboard context
+ * Wraps children with dashboard context.
+ *
+ * IMPORTANT: `value` is passed straight through to Context.Provider, so it MUST
+ * be a stable/memoized reference (e.g. built with useMemo in the caller). If a
+ * fresh object literal is passed on every render, every context consumer will
+ * re-render on every parent render. (Dashboard.jsx already memoizes it.)
  */
 export const DashboardProvider = ({ value, children }) => {
     return (

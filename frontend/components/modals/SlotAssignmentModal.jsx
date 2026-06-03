@@ -7,14 +7,6 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme, Z_INDEX } from '../../design-system';
 
-const BRAND = {
-    indigo: '#1e0438',
-    benifexPurple: '#7637E3',
-    oat: '#f5f0eb',
-    border: '#e2e8f0',
-    neutral: '#64748b'
-};
-
 /**
  * Calculate date alignment and fit analysis
  */
@@ -94,14 +86,12 @@ const SlotAssignmentModal = ({
     resources = [], // New prop for staffing recommendations
     allProjects = [] // New prop for Copy Resourcing
 }) => {
-    const { isDark, colors } = useTheme();
+    const { colors } = useTheme();
     const [lockKickOff, setLockKickOff] = useState(project?.lockKickOff || false);
     const [lockLaunch, setLockLaunch] = useState(project?.lockLaunch || false);
-    const [acceptOverflow, setAcceptOverflow] = useState(false);
     const [useDirectUpdate, setUseDirectUpdate] = useState(false);
     const [selectedTeam, setSelectedTeam] = useState([]); // Array of { id, role, name }
     const [selectedOptimization, setSelectedOptimization] = useState(null);
-    const [overrideCapacityWarning, setOverrideCapacityWarning] = useState(false);
 
     const analysis = useMemo(() => {
         if (!project || !slot) return null;
@@ -109,11 +99,6 @@ const SlotAssignmentModal = ({
     }, [project, slot, slotProfile]);
 
     if (!project || !slot || !analysis) return null;
-
-    const hasWarnings = analysis.hasOverflow || analysis.hasUnderflow || analysis.hasEarlyStart ||
-        analysis.utilization.pm.pct > 100 ||
-        analysis.utilization.sc.pct > 100 ||
-        analysis.utilization.pd.pct > 100;
 
     const handleConfirm = () => {
         // Transform selectedTeam array back to project team structure { pm: [], sc: [], pd: [] }

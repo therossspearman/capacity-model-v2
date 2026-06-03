@@ -220,6 +220,15 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
     const flatRows = useFlatList(groupedData, collapsedSquads, pinnedResources);
     const totalContentHeight = flatRows.length * ROW_HEIGHT;
 
+    // focusedCell.rowIdx is a positional index into flatRows. When the row list is
+    // restructured (squad collapse/expand, sort/view change, or data refresh) that
+    // index no longer points at the same RESOURCE row — keyboard nav would then act
+    // on the wrong row or run out of bounds. Reset focus whenever flatRows changes
+    // identity so the next arrow press re-anchors to the first visible cell.
+    useEffect(() => {
+        setFocusedCell(null);
+    }, [flatRows]);
+
     // Ordered list of the IDs of every RESOURCE row that is actually visible in the grid.
     // "Visible" here means "not inside a collapsed squad" — virtualised off-screen rows still count,
     // because shift-select should span the scrollable range, not just what fits in the viewport.

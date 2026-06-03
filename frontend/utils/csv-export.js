@@ -58,12 +58,21 @@ export const exportCapacityToCSV = (filteredResources, processedData, addToast) 
             return [...baseRow, ...demandByWeek, ...capByWeek];
         });
 
+        // Encode a single cell: guard against CSV formula injection (values that
+        // begin with =,+,-,@ are interpreted as formulas by Excel/Sheets) by
+        // prefixing a single quote, then quote and escape embedded quotes.
+        const encodeCell = (cell) => {
+            let s = String(cell);
+            if (/^[=+\-@]/.test(s)) {
+                s = `'${s}`;
+            }
+            return `"${s.replace(/"/g, '""')}"`;
+        };
+
         // Create CSV content
         const csvContent = [
             headers.join(','),
-            ...rows.map(row =>
-                row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
-            )
+            ...rows.map(row => row.map(encodeCell).join(','))
         ].join('\n');
 
         // Download file — use window.open fallback for Airtable sandboxed iframes

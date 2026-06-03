@@ -47,12 +47,10 @@ export const generatePeopleAssignments = (projects, resources, config = {}) => {
     // Example: Buffer 20% -> Target Max 0.8
     const effectiveMaxUtil = 1.0 - (capacityBuffer / 100);
 
-    // "Sweet Spot" Target:
-    // If Priority is "Max Util" (0), aim for effectiveMaxUtil (pack tight).
-    // If Priority is "Balanced" (50), aim for 85% of effectiveMaxUtil (comfortable).
-    // If Priority is "Stability" (100), aim for 75% (slack).
-    const sweetnessFactor = 1.0 - (priorityDial / 200); // 0->1.0, 50->0.75, 100->0.5 (Too aggressive, let's tune)
-    // 0 -> 0.95, 50 -> 0.85, 100 -> 0.75
+    // "Sweet Spot" Target utilisation, mapped from the priority dial:
+    //   priorityDial   0 (Max Util)  -> 0.95 * effectiveMaxUtil (pack tight)
+    //   priorityDial  50 (Balanced)  -> 0.825 * effectiveMaxUtil (comfortable)
+    //   priorityDial 100 (Stability) -> 0.70 * effectiveMaxUtil (leave slack)
     const targetSweetSpot = effectiveMaxUtil * (0.95 - (priorityDial / 400));
 
     const recommendations = [];

@@ -113,7 +113,7 @@ export const useGrouping = ({ filteredResources, filteredProjects, enabledSquads
             } else {
                 if (p.squads && p.squads.length > 0) {
                     p.squads.forEach(squad => {
-                        if (enabledSquads.length === 0 || enabledSquads.includes(squad)) {
+                        if (squads.length === 0 || squads.includes(squad)) {
                             if (!groupedProjectData[squad]) groupedProjectData[squad] = {};
                             const statusGroup = p.status || 'Active';
                             if (!groupedProjectData[squad][statusGroup]) groupedProjectData[squad][statusGroup] = [];
@@ -130,7 +130,7 @@ export const useGrouping = ({ filteredResources, filteredProjects, enabledSquads
                     const statusGroup = p.status || 'Active';
                     if (statusGroup.toLowerCase() === 'closed') return;
 
-                    if (enabledSquads.length === 0 || enabledSquads.includes(noSquadKey)) {
+                    if (squads.length === 0 || squads.includes(noSquadKey)) {
                         if (!groupedProjectData[noSquadKey]) groupedProjectData[noSquadKey] = {};
                         if (!groupedProjectData[noSquadKey][statusGroup]) groupedProjectData[noSquadKey][statusGroup] = [];
                         groupedProjectData[noSquadKey][statusGroup].push({ ...p, uniqueKey: `${p.id}-nosquad` });

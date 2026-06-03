@@ -122,7 +122,9 @@ const ScenarioMergeConflictModal = ({
     // Get scenario color by index
     const getScenarioColor = (scenarioName) => {
         const idx = scenarios.findIndex(s => s.name === scenarioName);
-        return SCENARIO_COLORS[idx % SCENARIO_COLORS.length];
+        // Guard against -1 (name not found): SCENARIO_COLORS[-1] would be
+        // undefined and break downstream reads of .dark/.bg/.border/.text.
+        return SCENARIO_COLORS[(idx < 0 ? 0 : idx) % SCENARIO_COLORS.length];
     };
 
     const toggleExpand = (key) => {
@@ -148,15 +150,19 @@ const ScenarioMergeConflictModal = ({
     };
 
     const useAllFromScenario = (scenarioName) => {
-        const updated = JSON.parse(JSON.stringify(resolutions));
-        for (const type of ['projects', 'resources']) {
-            for (const id of Object.keys(updated[type] || {})) {
-                for (const field of Object.keys(updated[type][id] || {})) {
-                    updated[type][id][field] = scenarioName;
+        setResolutions(prev => {
+            const updated = {};
+            for (const type of ['projects', 'resources']) {
+                updated[type] = {};
+                for (const id of Object.keys(prev[type] || {})) {
+                    updated[type][id] = {};
+                    for (const field of Object.keys(prev[type][id] || {})) {
+                        updated[type][id][field] = scenarioName;
+                    }
                 }
             }
-        }
-        setResolutions(updated);
+            return updated;
+        });
     };
 
     // Compute merged result preview

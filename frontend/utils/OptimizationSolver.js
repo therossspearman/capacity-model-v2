@@ -1,21 +1,22 @@
 /**
  * OptimizationSolver.js
  * ═══════════════════════════════════════════════════════════════════════════
- * Advanced Optimization Solver using Simulated Annealing
- * 
- * Replaces the simple greedy "try 5 iterations" approach with a proper
- * constraint-satisfaction optimizer that explores many possible arrangements
- * and converges on the best solution.
- * 
- * The solver works in two phases:
- * 1. Multi-Strategy Initialization — generates 3 distinct starting solutions
- *    using different project orderings (score-first, customer-grouped, 
- *    squad-optimized)
- * 2. Simulated Annealing Refinement — takes the best initial solution and
- *    iteratively improves it by applying random perturbations, accepting
- *    worse solutions probabilistically to escape local optima
- * 
- * @version 1.0.0
+ * Portfolio Optimization Solver
+ *
+ * PRODUCTION PATH — runGreedyOptimizer (multi-start greedy):
+ * 1. Pass 1 (Big Rocks): balance customers across squads.
+ * 2. Multi-Start: generate 3 diverse plans with different project orderings
+ *    (Priority First, Customer Grouped, ARR Maximized), score each, pick best.
+ * 3. Pass 2.5 (Small Rocks): customer micro-moves on the winning plan, then
+ *    re-run resource assignment for any moved projects.
+ *
+ * DORMANT — runOptimizationSolver (Simulated Annealing):
+ * The SA path (generateInitialStrategies → simulatedAnnealing → perturb*) and
+ * analyzeConstraintBindings are kept for reference/experimentation but are NOT
+ * used in production — see the note above runOptimizationSolver. Only
+ * runGreedyOptimizer and buildSolverAIPayload are imported elsewhere.
+ *
+ * @version 1.1.0
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
@@ -1042,24 +1043,25 @@ async function analyzeConstraintBindings(plan, resources, config, onProgress) {
 export function buildSolverAIPayload(solverResult) {
     if (!solverResult) return null;
 
+    const meta = solverResult.solverMeta || {};
+
     return {
-        solver: 'simulated_annealing',
-        iterations: solverResult.solverMeta?.iterations || 0,
-        durationMs: solverResult.solverMeta?.totalDurationMs || 0,
+        solver: 'multi_start_greedy',
+        strategiesEvaluated: meta.strategiesEvaluated ?? (solverResult.strategies?.length || 0),
+        durationMs: meta.totalDurationMs || 0,
         bestScore: solverResult.bestScore,
-        improvement: `${solverResult.solverMeta?.improvementPct || 0}%`,
-        startingStrategy: solverResult.solverMeta?.startingStrategy,
+        improvement: `${meta.improvementPct || 0}%`,
+        startingStrategy: meta.startingStrategy,
         strategiesExplored: solverResult.strategies?.map(s => ({
             name: s.label,
             score: s.score,
             isWinner: s.isWinner
         })),
         constraintBindings: solverResult.constraintBindings,
-        saStats: {
-            accepted: solverResult.solverMeta?.accepted,
-            rejected: solverResult.solverMeta?.rejected,
-            improved: solverResult.solverMeta?.improved,
-            finalTemp: solverResult.solverMeta?.finalTemp?.toFixed(2)
+        greedyStats: {
+            pass1Moves: meta.pass1Moves || 0,
+            pass25Moves: meta.pass25Moves || 0,
+            crossSquadCount: meta.crossSquadCount || 0
         }
     };
 }

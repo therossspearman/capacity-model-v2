@@ -39,6 +39,30 @@ export class ScenarioManager {
         }
     }
 
+    /**
+     * Resolve the overflow Changes JSON fields ("Changes JSON 2" / "Changes JSON 3").
+     * Prefers explicitly mapped field IDs from globalConfig, falling back to a robust
+     * case-insensitive scan of the table's fields by name.
+     * Centralizes logic previously duplicated across load/save/validate.
+     * @returns {Array} Array of resolved overflow field objects (0-2 entries)
+     */
+    _getOverflowFields() {
+        if (!this.scenariosTable) return [];
+        const changes2FieldId = this.globalConfig?.get('fld_scenario_changes_json_2');
+        const changes3FieldId = this.globalConfig?.get('fld_scenario_changes_json_3');
+        let of2 = changes2FieldId ? this.scenariosTable.getFieldByIdIfExists(changes2FieldId) : null;
+        let of3 = changes3FieldId ? this.scenariosTable.getFieldByIdIfExists(changes3FieldId) : null;
+
+        if ((!of2 || !of3) && this.scenariosTable?.fields) {
+            for (const f of this.scenariosTable.fields) {
+                const fname = f.name.trim().toLowerCase();
+                if (!of2 && fname === 'changes json 2') of2 = f;
+                if (!of3 && fname === 'changes json 3') of3 = f;
+            }
+        }
+        return [of2, of3].filter(Boolean);
+    }
+
     parseJSON(str) {
         try {
             const parsed = str ? JSON.parse(str) : {};
@@ -113,19 +137,7 @@ export class ScenarioManager {
             const metadataField = this.scenariosTable.getFieldByName('Metadata JSON');
 
             // Discover overflow fields explicitly mapped first, fallback to robust scanning
-            const changes2FieldId = this.globalConfig?.get('fld_scenario_changes_json_2');
-            const changes3FieldId = this.globalConfig?.get('fld_scenario_changes_json_3');
-            let of2 = changes2FieldId ? this.scenariosTable.getFieldByIdIfExists(changes2FieldId) : null;
-            let of3 = changes3FieldId ? this.scenariosTable.getFieldByIdIfExists(changes3FieldId) : null;
-
-            if ((!of2 || !of3) && this.scenariosTable?.fields) {
-                for (const f of this.scenariosTable.fields) {
-                    const fname = f.name.trim().toLowerCase();
-                    if (!of2 && fname === 'changes json 2') of2 = f;
-                    if (!of3 && fname === 'changes json 3') of3 = f;
-                }
-            }
-            const overflowFields = [of2, of3].filter(Boolean);
+            const overflowFields = this._getOverflowFields();
 
             // NOTE: Do NOT pass fields option - the SDK throws "reduce is not a function" when
             // any field ID is null or malformed. Fetch all fields and access needed ones below.
@@ -251,6 +263,15 @@ export class ScenarioManager {
 
             // Preserve existing metadata fields (e.g. type, savedBy) that callers may not include.
             // This prevents optimizer scenarios from losing type:'optimizer' during draft auto-saves.
+            //
+            // CONCURRENCY LIMITATION (read-then-write, not transactional): the existing version is
+            // read here via selectRecordsAsync and the incremented version is written later via
+            // updateRecordAsync. Airtable offers no compare-and-swap, so two clients can both read
+            // version N and both write N+1, silently losing one save. The `expectedVersion` check
+            // below narrows the window but cannot eliminate it. There are no awaits between the read
+            // and the write below (compaction is synchronous), keeping the window as small as
+            // possible. For stronger guarantees, serialize saves through a single queue in the data
+            // layer. See review finding "TOCTOU race across concurrent saves".
             let existingVersion = null;
             try {
                 const query = await this.scenariosTable.selectRecordsAsync();
@@ -280,19 +301,7 @@ export class ScenarioManager {
             } catch (e) { Logger.warn('Could not read existing metadata for merge:', e.message); }
 
             // Discover overflow fields explicitly mapped first, fallback to robust scanning
-            const changes2FieldId = this.globalConfig?.get('fld_scenario_changes_json_2');
-            const changes3FieldId = this.globalConfig?.get('fld_scenario_changes_json_3');
-            let of2 = changes2FieldId ? this.scenariosTable.getFieldByIdIfExists(changes2FieldId) : null;
-            let of3 = changes3FieldId ? this.scenariosTable.getFieldByIdIfExists(changes3FieldId) : null;
-
-            if ((!of2 || !of3) && this.scenariosTable?.fields) {
-                for (const f of this.scenariosTable.fields) {
-                    const fname = f.name.trim().toLowerCase();
-                    if (!of2 && fname === 'changes json 2') of2 = f;
-                    if (!of3 && fname === 'changes json 3') of3 = f;
-                }
-            }
-            const overflowFields = [of2, of3].filter(Boolean);
+            const overflowFields = this._getOverflowFields();
             const allFields = [changesField, ...overflowFields];
             const CHUNK_SIZE = ScenarioManager.MAX_CHANGES_JSON_LENGTH;
             const totalCapacity = allFields.length * CHUNK_SIZE;
@@ -344,14 +353,20 @@ export class ScenarioManager {
                 changes = compactedChanges;
             }
 
-            // Stamp version for conflict detection
+            // Stamp version for conflict detection.
+            // Clone rather than mutate: on code paths where no existing record/metadata
+            // is found, `metadata` is still the caller-supplied object, so writing
+            // _version/_savedAt directly would mutate the caller's object as a side effect.
             const nextVersion = (existingVersion || 0) + 1;
-            metadata._version = nextVersion;
-            metadata._savedAt = new Date().toISOString();
+            const finalMetadata = {
+                ...metadata,
+                _version: nextVersion,
+                _savedAt: new Date().toISOString()
+            };
 
             // Split across available fields
             const updateData = {
-                [metadataField.id]: JSON.stringify(metadata)
+                [metadataField.id]: JSON.stringify(finalMetadata)
             };
             for (let i = 0; i < allFields.length; i++) {
                 const chunk = changesJson.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
@@ -1032,20 +1047,7 @@ export class ScenarioManager {
         let fieldCount = 1;
 
         if (this.scenariosTable) {
-            const changes2FieldId = this.globalConfig?.get('fld_scenario_changes_json_2');
-            const changes3FieldId = this.globalConfig?.get('fld_scenario_changes_json_3');
-            let of2 = changes2FieldId ? this.scenariosTable.getFieldByIdIfExists(changes2FieldId) : null;
-            let of3 = changes3FieldId ? this.scenariosTable.getFieldByIdIfExists(changes3FieldId) : null;
-
-            if ((!of2 || !of3) && this.scenariosTable?.fields) {
-                for (const f of this.scenariosTable.fields) {
-                    const fname = f.name.trim().toLowerCase();
-                    if (!of2 && fname === 'changes json 2') of2 = f;
-                    if (!of3 && fname === 'changes json 3') of3 = f;
-                }
-            }
-            if (of2) fieldCount++;
-            if (of3) fieldCount++;
+            fieldCount += this._getOverflowFields().length;
         }
         const maxSize = ScenarioManager.MAX_CHANGES_JSON_LENGTH * fieldCount;
 

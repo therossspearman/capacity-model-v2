@@ -144,10 +144,10 @@ ResourceGrid.propTypes = {
     onCellClick: PropTypes.func,
     /** Today's date key for highlighting */
     todayKey: PropTypes.string,
-    /** Display mode: 'hours', 'fte', 'percentage' */
-    cellDisplayMode: PropTypes.oneOf(['hours', 'fte', 'percentage']),
-    /** Forecast mode: 'plan', 'forecast', 'wac' */
-    forecastMode: PropTypes.string,
+    /** Display mode: 'hours', 'percent', 'heatmap' */
+    cellDisplayMode: PropTypes.oneOf(['hours', 'percent', 'heatmap']),
+    /** Forecast mode: 'plan', 'eac', 'impact' */
+    forecastMode: PropTypes.oneOf(['plan', 'eac', 'impact']),
     /** Toggle show all handler */
     toggleShowAll: PropTypes.func,
     /** Column width in pixels */

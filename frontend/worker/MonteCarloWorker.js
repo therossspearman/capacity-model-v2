@@ -73,9 +73,11 @@ function runMonteCarloSimulation({
 
     // Calculate percentiles
     const fitRates = results.map(r => r.fitRate).sort((a, b) => a - b);
-    const p10 = fitRates[Math.floor(simulations * 0.1)];
-    const p50 = fitRates[Math.floor(simulations * 0.5)];
-    const p90 = fitRates[Math.floor(simulations * 0.9)];
+    const maxIdx = Math.max(0, fitRates.length - 1);
+    const percentile = (q) => fitRates[Math.min(maxIdx, Math.floor(simulations * q))];
+    const p10 = percentile(0.1);
+    const p50 = percentile(0.5);
+    const p90 = percentile(0.9);
 
     // Identify key risks
     const risks = [];

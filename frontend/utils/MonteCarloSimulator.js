@@ -79,9 +79,13 @@ export function runMonteCarloSimulation({
 
     // Calculate percentiles
     const fitRates = results.map(r => r.fitRate).sort((a, b) => a - b);
-    const p10 = fitRates[Math.floor(simulations * 0.1)];
-    const p50 = fitRates[Math.floor(simulations * 0.5)];
-    const p90 = fitRates[Math.floor(simulations * 0.9)];
+    const n = fitRates.length;
+    // Index off the actual sample size and clamp to the last valid index so
+    // percentile reads never return undefined (e.g. small/empty simulation counts).
+    const pct = (q) => fitRates[Math.min(n - 1, Math.floor(n * q))] ?? 0;
+    const p10 = pct(0.1);
+    const p50 = pct(0.5);
+    const p90 = pct(0.9);
 
     // Identify key risks
     const risks = [];

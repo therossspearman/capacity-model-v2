@@ -55,7 +55,7 @@ function findPlacement({
                     slotAssignments.push({ squad, week: checkWeek });
                     found++;
                 }
-                const nextMs = new Date(checkWeek).getTime() + (durationWeeks * weekMs);
+                const nextMs = new Date(checkWeek).getTime() + weekMs;
                 checkWeek = new Date(nextMs).toISOString().split('T')[0];
             }
 
@@ -107,20 +107,20 @@ function findPlacement({
     }
 
     // Strategy 3: Overstaff
-    if (allowOverstaff) {
-        for (const squad of orderedSquads) {
-            for (const startWeek of validWeeks) {
-                return {
-                    suggestedSquad: squad,
-                    suggestedKO: startWeek,
-                    suggestedLaunch: startWeek,
-                    slotAssignments: [{ squad, week: startWeek }],
-                    crossSquad: false,
-                    overstaff: true,
-                    overstaffNote: 'Will exceed capacity by ~' + bufferPercent + '%'
-                };
-            }
-        }
+    // Place into the preferred squad (first in orderedSquads) at the earliest
+    // valid week, even if no slots remain there.
+    if (allowOverstaff && orderedSquads.length > 0 && validWeeks.length > 0) {
+        const squad = orderedSquads[0];
+        const startWeek = validWeeks[0];
+        return {
+            suggestedSquad: squad,
+            suggestedKO: startWeek,
+            suggestedLaunch: startWeek,
+            slotAssignments: [{ squad, week: startWeek }],
+            crossSquad: false,
+            overstaff: true,
+            overstaffNote: 'Will exceed capacity by ~' + bufferPercent + '%'
+        };
     }
 
     return null;

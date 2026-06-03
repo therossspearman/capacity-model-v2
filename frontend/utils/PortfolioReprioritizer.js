@@ -335,7 +335,7 @@ export function scoreProject(project, config, stats) {
             baseScore = score;
             tierRange = [80, 88];
             scoringBasis = 'urgency';
-            tier = 2;
+            tier = 3;
             tierLabel = 'New Customer (Compelling Event)';
             reasoning.push(`New customer with compelling event: ${new Date(project.compellingEventDate).toLocaleDateString('en-GB')}.`);
             reasoning.push(`${daysToEvent} days remaining.`);
@@ -2742,7 +2742,7 @@ export async function assignResources(scheduled, resources, config, warnings, on
                         const replacementCount = validResources.filter(r =>
                             r.id !== donorResId &&
                             ROLE_MATCHERS[neededRole]?.(r) &&
-                            ((r._tempBookedTotal || 0) / (r.effectiveHours || 32)) < 0.9
+                            (getTotalBooking(r.id) / (r.effectiveHours || 32)) < 0.9
                         ).length;
 
                         // Skip donors that have NO replacement options (only possible match)

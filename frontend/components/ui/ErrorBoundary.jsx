@@ -1,14 +1,10 @@
 import React from 'react';
 import { BRAND } from '../../design-system';
+// Re-export the canonical Logger so existing barrel re-exports keep working
+// while consolidating on a single logging implementation (utils/Logger.js).
+import Logger from '../../utils/Logger';
 
-// Logger Utility
-const DEBUG = false;
-export const Logger = {
-    debug: (...args) => DEBUG && console.log('[DEBUG]', ...args),
-    info: (...args) => DEBUG && console.info('[INFO]', ...args),
-    warn: (...args) => console.warn('[WARN]', ...args),
-    error: (...args) => console.error('[ERROR]', ...args)
-};
+export { Logger };
 
 /**
  * Error Boundary Component for Production Stability

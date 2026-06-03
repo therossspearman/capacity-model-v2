@@ -6,6 +6,22 @@
 import { generateBulkAllocationPlan } from './SlotOptimizer';
 
 /**
+ * Seedable PRNG (mulberry32). Returns a function producing deterministic
+ * pseudo-random floats in [0, 1) for a given integer seed. Used so that the
+ * Pareto frontier is reproducible for the same inputs + seed.
+ */
+function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+        a |= 0;
+        a = (a + 0x6d2b79f5) | 0;
+        let t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+/**
  * Optimization objectives (to maximize)
  */
 const OBJECTIVES = {
@@ -57,9 +73,11 @@ export function generateParetoFrontier({
     projects,
     baseConfig,
     strategies = ['balanced', 'arrFocused', 'utilizationMax', 'onTimeDelivery', 'volumeMax'],
-    perturbations = 3  // Number of variants per strategy
+    perturbations = 3,  // Number of variants per strategy
+    seed = 1            // Seed for deterministic weight perturbations (reproducible frontier)
 }) {
     const solutions = [];
+    const rand = mulberry32(seed);
 
     strategies.forEach(strategyKey => {
         const strategy = STRATEGY_PRESETS[strategyKey];
@@ -78,7 +96,7 @@ export function generateParetoFrontier({
 
         // Generate perturbations for diversity
         for (let i = 0; i < perturbations; i++) {
-            const perturbedWeights = perturbWeights(strategy.weights);
+            const perturbedWeights = perturbWeights(strategy.weights, rand);
             const perturbedSolution = generateSolutionWithWeights({
                 slotMap,
                 projects,
@@ -199,13 +217,16 @@ function calculateCombinedScore(metrics, weights) {
 
 /**
  * Add random perturbation to weights
+ * @param {Object} weights - Base objective weights
+ * @param {Function} [rand] - PRNG returning [0,1); defaults to Math.random.
+ *   Pass a seeded PRNG for reproducible perturbations.
  */
-function perturbWeights(weights) {
+function perturbWeights(weights, rand = Math.random) {
     const perturbed = {};
     let total = 0;
 
     Object.entries(weights).forEach(([key, value]) => {
-        const delta = (Math.random() - 0.5) * 0.3; // ±15% change
+        const delta = (rand() - 0.5) * 0.3; // ±15% change
         perturbed[key] = Math.max(0.05, value + delta);
         total += perturbed[key];
     });

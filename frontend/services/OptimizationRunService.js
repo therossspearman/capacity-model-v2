@@ -194,8 +194,12 @@ export async function createOptimizationRun(base, runData, settings = {}) {
  */
 export function hasOptimizationRunsTable(base, settings = {}) {
     try {
-        // First check if table is mapped in settings
-        const mappedTableId = settings[SETTINGS.OPTIMIZATION_RUNS_TABLE];
+        // First check if table is mapped in settings.
+        // Custom Properties may deliver a Table OBJECT (not a string id) - extract the id.
+        const mappedTableSetting = settings[SETTINGS.OPTIMIZATION_RUNS_TABLE];
+        const mappedTableId = mappedTableSetting && typeof mappedTableSetting === 'object' && mappedTableSetting.id
+            ? mappedTableSetting.id
+            : mappedTableSetting;
         if (mappedTableId) {
             const table = base.getTableByIdIfExists(mappedTableId);
             if (table) return true;
@@ -217,8 +221,12 @@ export function hasOptimizationRunsTable(base, settings = {}) {
  */
 export function getOptimizationRunsTable(base, settings = {}) {
     try {
-        // First check if table is mapped in settings
-        const mappedTableId = settings[SETTINGS.OPTIMIZATION_RUNS_TABLE];
+        // First check if table is mapped in settings.
+        // Custom Properties may deliver a Table OBJECT (not a string id) - extract the id.
+        const mappedTableSetting = settings[SETTINGS.OPTIMIZATION_RUNS_TABLE];
+        const mappedTableId = mappedTableSetting && typeof mappedTableSetting === 'object' && mappedTableSetting.id
+            ? mappedTableSetting.id
+            : mappedTableSetting;
         if (mappedTableId) {
             const table = base.getTableByIdIfExists(mappedTableId);
             if (table) return table;

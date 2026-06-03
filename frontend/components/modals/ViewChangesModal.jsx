@@ -10,6 +10,11 @@ const Z_INDEX = { MODAL_BACKDROP: 1000, MODAL: 1001 };
 
 // ── Helper functions (module-level) ──────────────────────────
 
+// A change entry may be stored either as the raw field map (current format)
+// or wrapped as { changes, original } (legacy/persisted format). Normalize to
+// the field map in one place.
+const getChangeFields = (entry) => (entry && entry.changes) || entry || {};
+
 const extractTeamMembers = (teamVal) => {
     if (!teamVal) return [];
     if (Array.isArray(teamVal)) return teamVal;
@@ -307,14 +312,17 @@ export const ViewChangesModal = ({
                 lastSavedAt: new Date().toISOString()
             };
 
+            // Persist first, then update in-memory state only on success.
+            // This avoids leaving the UI showing a reverted change that never
+            // actually saved (no rollback path needed since state isn't touched
+            // until persistence resolves).
+            await scenarioManager.saveScenarioChanges(activeScenario.id, updatedChanges, metadata);
             setScenarios(prev => prev.map(s => {
                 if (s.id === activeScenario.id) {
                     return { ...s, changes: updatedChanges, metadata };
                 }
                 return s;
             }));
-
-            await scenarioManager.saveScenarioChanges(activeScenario.id, updatedChanges, metadata);
             addToast({ type: 'success', title: 'Change reverted', duration: 2000 });
             setChangeToDelete(null);
         } catch (err) {
@@ -340,7 +348,7 @@ export const ViewChangesModal = ({
             const customer = project?.customer;
             if (customer) customers.add(customer);
 
-            const changeFields = changes.changes || changes;
+            const changeFields = getChangeFields(changes);
             if (changeFields.status) changeTypes.add('Status');
             if (changeFields.squad !== undefined) changeTypes.add('Squad');
             if (changeFields.kickOff || changeFields.start || changeFields.launch || changeFields.end) changeTypes.add('Dates');
@@ -382,7 +390,7 @@ export const ViewChangesModal = ({
             const project = allProjects?.find(p => p.id === projectId);
             const squad = project?.squads?.[0] || project?.squad || '';
             const customer = project?.customer || '';
-            const changeFields = changes.changes || changes;
+            const changeFields = getChangeFields(changes);
 
             // Squad filter
             if (filterSquad.size > 0 && !filterSquad.has(squad)) return;
@@ -605,7 +613,7 @@ export const ViewChangesModal = ({
                                     const originalSquad = (project?.squads?.[0]) || project?.squad || '—';
                                     const originalKickOff = formatDateValue(project?.kickOff || project?.start);
                                     const originalLaunch = formatDateValue(project?.launch || project?.end);
-                                    const changeFields = changes.changes || changes;
+                                    const changeFields = getChangeFields(changes);
                                     const originalData = changes.original || {};
 
                                     return (
@@ -784,7 +792,7 @@ export const ViewChangesModal = ({
                                                 </button>
                                             </div>
                                             <div style={{ fontSize: '12px', color: '#64748b' }}>
-                                                {Object.keys(changes.changes || changes).join(', ')} modified
+                                                {Object.keys(getChangeFields(changes)).join(', ')} modified
                                             </div>
                                         </div>
                                     );

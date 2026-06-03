@@ -15,8 +15,9 @@ export const Z_INDEX = {
 };
 
 // Zoom levels configuration
+// NOTE: Only `width` (column width in px) is consumed (see Dashboard.jsx).
 export const ZOOM_CONFIG = {
-    compact: { width: 28, fontSize: 'text-[9px]', iconSize: 'w-3 h-3' },
-    comfortable: { width: 44, fontSize: 'text-[10px]', iconSize: 'w-4 h-4' },
-    spacious: { width: 64, fontSize: 'text-xs', iconSize: 'w-5 h-5' }
+    compact: { width: 28 },
+    comfortable: { width: 44 },
+    spacious: { width: 64 }
 };

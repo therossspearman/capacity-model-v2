@@ -1816,12 +1816,12 @@ export const SettingsModal = ({
                                                             border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0'}`,
                                                             boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                                                         }}>
-                                                            {Math.round((winRates[key] || def) * 100)}%
+                                                            {Math.round((winRates[key] ?? def) * 100)}%
                                                         </span>
                                                     </div>
                                                     <input
                                                         type="range" min="0" max="1" step="0.05"
-                                                        value={winRates[key] || def}
+                                                        value={winRates[key] ?? def}
                                                         onChange={e => saveSettingsToTable({
                                                             ...storedSettings,
                                                             winRates: { ...winRates, [key]: Number(e.target.value) }
@@ -4157,7 +4157,7 @@ export const SettingsModal = ({
                                             : '0 4px 24px rgba(0,0,0,0.06)'
                                     }}>
                                         {(() => {
-                                            const metrics = getRollingMetrics();
+                                            const metrics = getRollingMetrics(allProjects || []);
                                             return (
                                                 <>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -4192,7 +4192,7 @@ export const SettingsModal = ({
                                                         </button>
                                                     </div>
 
-                                                    {metrics.totalSnapshots === 0 ? (
+                                                    {metrics.snapshotCount === 0 ? (
                                                         <div style={{
                                                             textAlign: 'center',
                                                             padding: '24px',
@@ -4219,7 +4219,7 @@ export const SettingsModal = ({
                                                                     color: '#00BD00',
                                                                     marginBottom: '4px'
                                                                 }}>
-                                                                    {metrics.accuracyPct}%
+                                                                    {metrics.rollingAccuracy}%
                                                                 </div>
                                                                 <div style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#6b7280' : '#94a3b8' }}>Accuracy</div>
                                                                 <div style={{ fontSize: '10px', color: isDark ? '#4b5563' : '#cbd5e1', marginTop: '2px' }}>Last 30 days</div>
@@ -4238,7 +4238,7 @@ export const SettingsModal = ({
                                                                     color: '#f59e0b',
                                                                     marginBottom: '4px'
                                                                 }}>
-                                                                    {metrics.avgDriftWeeks}w
+                                                                    {metrics.avgDrift}w
                                                                 </div>
                                                                 <div style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#6b7280' : '#94a3b8' }}>Avg Drift</div>
                                                                 <div style={{ fontSize: '10px', color: isDark ? '#4b5563' : '#cbd5e1', marginTop: '2px' }}>Weeks off prediction</div>
@@ -4275,7 +4275,7 @@ export const SettingsModal = ({
                                                                     {metrics.trend !== 'stable' && metrics.trend.charAt(0).toUpperCase() + metrics.trend.slice(1)}
                                                                 </div>
                                                                 <div style={{ fontSize: '11px', fontWeight: '600', color: isDark ? '#6b7280' : '#94a3b8' }}>Trend</div>
-                                                                <div style={{ fontSize: '10px', color: isDark ? '#4b5563' : '#cbd5e1', marginTop: '2px' }}>{metrics.totalSnapshots} snapshots</div>
+                                                                <div style={{ fontSize: '10px', color: isDark ? '#4b5563' : '#cbd5e1', marginTop: '2px' }}>{metrics.snapshotCount} snapshots</div>
                                                             </div>
                                                         </div>
                                                     )}

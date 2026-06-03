@@ -43,13 +43,27 @@ export const writeSlotSnapshot = async (base, tableId, { slotMap, summary, insig
 
         // Prepare slot details for AI analysis (limit to next 12 weeks to stay under 100KB)
         const slotDetails = [];
-        const now = new Date();
         const maxWeeks = 12; // Limit to avoid hitting 100KB limit
+
+        // Normalize the cutoff to the Monday of the current week so the in-progress
+        // week (whose start date is in the past) is still included. Week keys are
+        // Monday ISO date strings (e.g. "2026-06-01") which parse as UTC midnight,
+        // and SlotOptimizer.getWeekKey builds them with UTC methods — so the cutoff
+        // MUST use UTC too, or in negative-offset zones (the Americas) the current
+        // week's UTC-midnight key would sort before a local-midnight cutoff and be
+        // wrongly excluded.
+        const cutoff = new Date();
+        const day = cutoff.getUTCDay();
+        cutoff.setUTCDate(cutoff.getUTCDate() - day + (day === 0 ? -6 : 1));
+        cutoff.setUTCHours(0, 0, 0, 0);
 
         Object.entries(slotMap).forEach(([squad, weeks]) => {
             // Sort weeks and take only the next 12
             const sortedWeeks = Object.entries(weeks)
-                .filter(([week]) => new Date(week) >= now)
+                .filter(([week]) => {
+                    const wd = new Date(week);
+                    return !isNaN(wd.getTime()) && wd >= cutoff;
+                })
                 .sort((a, b) => new Date(a[0]) - new Date(b[0]))
                 .slice(0, maxWeeks);
 
@@ -78,14 +92,21 @@ export const writeSlotSnapshot = async (base, tableId, { slotMap, summary, insig
 
         // Stringify and truncate if still too large (max ~90KB to be safe)
         let slotDataJson = JSON.stringify(slotDetails);
-        if (slotDataJson.length > 90000) {
-            // Take only first N entries that fit
+        if (slotDataJson.length > 90000 && slotDetails.length > 10) {
+            // Estimate how many entries fit using the average serialized size, then
+            // slice once and stringify once instead of re-serializing the whole
+            // array on every loop iteration (avoids O(n^2) work on the main thread).
             const targetSize = 80000;
-            let truncated = slotDetails;
-            while (JSON.stringify(truncated).length > targetSize && truncated.length > 10) {
-                truncated = truncated.slice(0, Math.floor(truncated.length * 0.8));
-            }
+            const avgEntrySize = slotDataJson.length / slotDetails.length;
+            let keepCount = Math.max(10, Math.floor(targetSize / avgEntrySize));
+            keepCount = Math.min(keepCount, slotDetails.length);
+            let truncated = slotDetails.slice(0, keepCount);
             slotDataJson = JSON.stringify(truncated);
+            // The estimate can overshoot; shrink in a few bounded steps if needed.
+            while (slotDataJson.length > targetSize && truncated.length > 10) {
+                truncated = truncated.slice(0, Math.floor(truncated.length * 0.8));
+                slotDataJson = JSON.stringify(truncated);
+            }
         }
 
         // Get available fields from the table
@@ -174,10 +195,15 @@ export const readAIRecommendations = async (base, tableId, limit = 5) => {
         const records = sortedRecords.slice(0, limit);
 
         records.forEach(record => {
-            // Read AI field values (these are populated by Airtable AI)
-            const aiAnalysis = record.getCellValueAsString('AI Analysis');
-            const aiRecommendations = record.getCellValueAsString('AI Recommendations');
-            const snapshotTime = record.getCellValueAsString('Snapshot Time');
+            // Read AI field values (these are populated by Airtable AI). Guard each
+            // read so a missing optional field degrades to '' for that field rather
+            // than throwing and aborting the whole read.
+            let aiAnalysis = '';
+            let aiRecommendations = '';
+            let snapshotTime = '';
+            try { aiAnalysis = record.getCellValueAsString?.('AI Analysis') || ''; } catch { }
+            try { aiRecommendations = record.getCellValueAsString?.('AI Recommendations') || ''; } catch { }
+            try { snapshotTime = record.getCellValueAsString?.('Snapshot Time') || ''; } catch { }
 
             if (aiAnalysis || aiRecommendations) {
                 recommendations.push({

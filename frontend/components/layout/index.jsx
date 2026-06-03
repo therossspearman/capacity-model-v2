@@ -96,7 +96,9 @@ export const StatCard = ({ label, value, subtext, icon, color, children }) => (
                         marginLeft: '8px',
                     }}
                 >
-                    {icon && React.cloneElement(icon, { style: { ...(icon.props.style || {}), width: '16px', height: '16px' } })}
+                    {React.isValidElement(icon)
+                        ? React.cloneElement(icon, { style: { ...(icon.props.style || {}), width: '16px', height: '16px' } })
+                        : icon}
                 </div>
             )}
         </div>

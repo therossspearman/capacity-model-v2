@@ -4,7 +4,11 @@
  */
 
 const PERF_STORAGE_KEY = 'capacity_model_performance_log';
-const MAX_ENTRIES = 1000;
+// Capped low: trackWorkerCycle parses + stringifies the entire log via
+// localStorage on every worker cycle (a hot path). All readers use at most the
+// most recent 100 entries (getPerformanceReport default), so a smaller cap
+// keeps the per-cycle parse/stringify cost low without affecting any reports.
+const MAX_ENTRIES = 200;
 const SLOW_THRESHOLD_MS = 500;
 
 // Active timers for nested timing

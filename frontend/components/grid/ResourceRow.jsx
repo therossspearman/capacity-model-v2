@@ -289,9 +289,13 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                 {dates.map((dateObj, dateIdx) => {
                     const key = dateObj.isoKey || dateObj.dateKey;
                     const bucket = (resource.buckets && resource.buckets[key]) || { cap: 0, dem: 0, planned: 0, projects: [] };
+                    // Normalize once — real worker buckets may omit dem/cap, in which case
+                    // Math.abs(undefined) -> NaN and `bucket.cap === 0` would be false.
+                    const bucketDem = bucket.dem || 0;
+                    const bucketCap = bucket.cap || 0;
                     const isToday = dateObj.dateKey === todayKey;
                     const isColHover = hoverDateKey === dateObj.dateKey;
-                    const isOOO = bucket.cap === 0 && !isProjectView;
+                    const isOOO = bucketCap === 0 && !isProjectView;
 
                     // Unavailable-period detection — resource has 0 capacity here because they're
                     // either (a) past their departure date, (b) not yet started, or (c) inside a
@@ -333,6 +337,11 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                     let mainHeightPercent, shadowHeightPercent;
                     let mainColor, shadowColor;
                     let isOverloaded = false;
+                    // Local stacked-bar metrics (project view). Computed per render and read
+                    // directly in JSX below — never written back onto the shared bucket object.
+                    let resourcedHeightPct = 0;
+                    let unresourcedHeightPct = 0;
+                    let hasStackedBars = false;
 
                     if (isProjectView) {
                         const planned = bucket.planned || 0;
@@ -372,22 +381,17 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             }
 
                             // Split the bar height into resourced (purple) and unresourced (red)
-                            const resourcedHeightPct = (resourcedPct / 100) * mainHeightPercent;
-                            const unresourcedHeightPct = mainHeightPercent - resourcedHeightPct;
-
-                            // Store these for rendering stacked bars
-                            // mainHeightPercent will be used as total, we'll use a special stacked render
+                            resourcedHeightPct = (resourcedPct / 100) * mainHeightPercent;
+                            unresourcedHeightPct = mainHeightPercent - resourcedHeightPct;
 
                             // For color, use dark purple for EAC text color since we have mixed bars
                             mainColor = totalDemand > 0.1 ? '#7637E3' : 'transparent';
 
-                            // Shadow color for planned bar  
+                            // Shadow color for planned bar
                             shadowColor = resourcedPct > 0 ? '#7637E3' : '#e2e8f0';
 
-                            // Store resourced/unresourced heights in bucket for later rendering
-                            bucket._resourcedHeightPct = resourcedHeightPct;
-                            bucket._unresourcedHeightPct = unresourcedHeightPct;
-                            bucket._hasStackedBars = totalDemand > 0.1;
+                            // Flag for the stacked-bar render path below
+                            hasStackedBars = totalDemand > 0.1;
 
                             displayContent = Math.ceil(eac);
                             if (Math.abs(eac) < 0.1 && Math.abs(planned) < 0.1) displayContent = '';
@@ -431,7 +435,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                 </div>
                             ) : (
                                 <div
-                                    onClick={() => Math.abs(bucket.dem) > 0 && onCellClick({ resourceName: resource.name, dateKey: dateObj.dateKey, bucketData: bucket })}
+                                    onClick={() => Math.abs(bucketDem) > 0 && onCellClick({ resourceName: resource.name, dateKey: dateObj.dateKey, bucketData: bucket })}
                                     onMouseEnter={(e) => { const rect = e.currentTarget.getBoundingClientRect(); onHover({ x: rect.left + rect.width / 2, y: rect.top, data: { ...bucket, dateKey: dateObj.dateKey } }); }}
                                     onMouseLeave={() => onHover(null)}
                                     style={{
@@ -441,7 +445,7 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                         position: 'relative',
                                         overflow: 'hidden',
                                         transition: 'all 0.2s',
-                                        cursor: Math.abs(bucket.dem) > 0 ? 'pointer' : 'default',
+                                        cursor: Math.abs(bucketDem) > 0 ? 'pointer' : 'default',
                                         backgroundColor: isOnLeave ? (isDark ? '#1e293b' : '#f1f5f9') : (isOOO ? colors.bgHover : 'transparent'),
                                         // Visual Indicator for Slot Allocations (purple dashed border)
                                         ...(hasSlotAllocation && {
@@ -472,12 +476,12 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                                     )}
                                     {!isOnLeave && !isOOO && (
                                         /* Project View: Stacked bars - Purple (resourced) on bottom, Red (unresourced) on top */
-                                        isProjectView && bucket._hasStackedBars ? (
+                                        isProjectView && hasStackedBars ? (
                                             <>
                                                 {/* Purple bar (resourced) - starts at bottom */}
-                                                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${bucket._resourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#7637E3', zIndex: 2 }} />
+                                                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${resourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#7637E3', zIndex: 2 }} />
                                                 {/* Red bar (unresourced) - stacked on top of purple */}
-                                                <div style={{ position: 'absolute', bottom: `${bucket._resourcedHeightPct || 0}%`, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${bucket._unresourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#ef4444', zIndex: 2 }} />
+                                                <div style={{ position: 'absolute', bottom: `${resourcedHeightPct || 0}%`, left: 0, width: '100%', transition: 'all 0.5s ease-out', height: `${unresourcedHeightPct || 0}%`, opacity: 0.85, backgroundColor: '#ef4444', zIndex: 2 }} />
                                             </>
                                         ) : (
                                             /* Resource View or no demand: Single bar */

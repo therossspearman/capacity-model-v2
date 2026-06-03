@@ -43,12 +43,18 @@ const ExportModal = ({
     const effectiveStart = startDate || defaultDates.start;
     const effectiveEnd = endDate || defaultDates.end;
 
-    // Filter processedData to the selected date range
+    // Filter processedData to the selected date range.
+    // Comparison is lexicographic and relies on the YYYY-MM-DD contract: isoKey is a
+    // zero-padded date string, and effectiveStart/effectiveEnd come from <input type=date>
+    // (which always yields YYYY-MM-DD). Normalise to the first 10 chars so a stray time
+    // component on isoKey (e.g. an ISO timestamp) can't break the range comparison.
     const filteredDates = useMemo(() => {
         if (!processedData) return [];
+        const start = (effectiveStart || '').substring(0, 10);
+        const end = (effectiveEnd || '').substring(0, 10);
         return processedData.filter(d => {
-            const key = d.isoKey || '';
-            return key >= effectiveStart && key <= effectiveEnd;
+            const key = (d.isoKey || '').substring(0, 10);
+            return key >= start && key <= end;
         });
     }, [processedData, effectiveStart, effectiveEnd]);
 

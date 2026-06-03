@@ -1,8 +1,19 @@
 /**
  * Forecast FTE Analyzer
- * 
+ *
  * Utility functions for calculating headcount requirements from forecast demand.
  */
+
+// Shared constants used across FTE/gap calculations
+const ROLES = ['pm', 'sc', 'pd'];
+const UNDERSTAFFED_THRESHOLD = 0.5; // gap above this => understaffed
+const OVERSTAFFED_THRESHOLD = -0.5; // gap below this => overstaffed
+const HIGH_PRIORITY_GAP = 1; // gap above this is high priority
+
+const gapStatus = (gap) =>
+    gap > UNDERSTAFFED_THRESHOLD
+        ? 'understaffed'
+        : (gap < OVERSTAFFED_THRESHOLD ? 'overstaffed' : 'balanced');
 
 /**
  * Calculate FTE requirements from forecast hours
@@ -46,17 +57,16 @@ export const analyzeCapacityGap = ({
 }) => {
     const hoursPerFte = avgBillableHoursPerWeek * weeks;
 
-    const roles = ['pm', 'sc', 'pd'];
     const analysis = {};
 
     let totalForecastHours = 0;
     let totalFteRequired = 0;
     let totalCurrentFte = 0;
 
-    roles.forEach(role => {
+    ROLES.forEach(role => {
         const forecastHours = forecastByRole[role] || 0;
         const currentFte = currentFTECounts[role] || 0;
-        const fteRequired = hoursPerFte > 0 ? forecastHours / hoursPerFte : 0;
+        const { fteRequired } = calculateFTEFromHours({ forecastHours, avgBillableHoursPerWeek, weeks });
         const gap = fteRequired - currentFte;
 
         analysis[role] = {
@@ -65,7 +75,7 @@ export const analyzeCapacityGap = ({
             currentFte,
             gap,
             gapPercent: currentFte > 0 ? (gap / currentFte) * 100 : (fteRequired > 0 ? 100 : 0),
-            status: gap > 0.5 ? 'understaffed' : (gap < -0.5 ? 'overstaffed' : 'balanced')
+            status: gapStatus(gap)
         };
 
         totalForecastHours += forecastHours;
@@ -81,7 +91,7 @@ export const analyzeCapacityGap = ({
         currentFte: totalCurrentFte,
         gap: totalGap,
         gapPercent: totalCurrentFte > 0 ? (totalGap / totalCurrentFte) * 100 : (totalFteRequired > 0 ? 100 : 0),
-        status: totalGap > 0.5 ? 'understaffed' : (totalGap < -0.5 ? 'overstaffed' : 'balanced')
+        status: gapStatus(totalGap)
     };
 
     // Generate recommendation
@@ -101,13 +111,13 @@ export const analyzeCapacityGap = ({
 const generateRecommendation = (analysis) => {
     const gaps = [];
 
-    ['pm', 'sc', 'pd'].forEach(role => {
+    ROLES.forEach(role => {
         const roleData = analysis[role];
-        if (roleData.gap > 0.5) {
+        if (roleData.gap > UNDERSTAFFED_THRESHOLD) {
             gaps.push({
                 role: role.toUpperCase(),
                 gap: roleData.gap,
-                priority: roleData.gap > 1 ? 'high' : 'medium'
+                priority: roleData.gap > HIGH_PRIORITY_GAP ? 'high' : 'medium'
             });
         }
     });

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { BRAND, Z_INDEX, useTheme } from '../../design-system';
-import { ICONS } from '../../constants';
+import { ICONS, FY_START_MONTH } from '../../constants';
 
 /**
  * Financial Breakdown Drawer - Premium Design
@@ -79,7 +79,9 @@ export const FinancialBreakdownDrawer = ({
     );
 
     const currentYear = new Date().getFullYear();
-    const fyStartMonth = 4; // May (0-indexed = 4)
+    // Fiscal-year start month (0-indexed; 4 = May). Single source of truth shared
+    // with the worker / forecast logic — keep in settings.js, do not hardcode here.
+    const fyStartMonth = FY_START_MONTH;
     const currentFyEndYear = new Date().getMonth() < fyStartMonth ? currentYear : currentYear + 1;
     const periodOptions = [
         { id: 'fy', label: `FY${String(currentFyEndYear).slice(-2)}`, color: '#00BD00' },
@@ -242,7 +244,7 @@ export const FinancialBreakdownDrawer = ({
                             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                 <span style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>View:</span>
                                 <select
-                                    value={scope}
+                                    value={(!hasActiveFilters && scope === 'filtered') ? 'all' : scope}
                                     onChange={(e) => onScopeChange(e.target.value)}
                                     style={{
                                         padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0',
@@ -332,13 +334,13 @@ export const FinancialBreakdownDrawer = ({
                                                 </span>
                                             </td>
                                             <td style={{ padding: '16px', textAlign: 'right', fontSize: '13px', fontWeight: '500', color: '#0369a1' }}>
-                                                £{Math.round(project.implFee).toLocaleString()}
+                                                £{Math.round(project.implFee || 0).toLocaleString()}
                                             </td>
                                             <td style={{ padding: '16px', textAlign: 'right', fontSize: '13px', fontWeight: '500', color: '#7637E3' }}>
-                                                £{Math.round(project.arr).toLocaleString()}
+                                                £{Math.round(project.arr || 0).toLocaleString()}
                                             </td>
                                             <td style={{ padding: '16px 24px 16px 16px', textAlign: 'right', fontWeight: '700', color: '#15803d', fontSize: '14px' }}>
-                                                £{Math.round(project.total).toLocaleString()}
+                                                £{Math.round(project.total || 0).toLocaleString()}
                                             </td>
                                         </tr>
                                         {/* EXPANDED DETAILS */}
