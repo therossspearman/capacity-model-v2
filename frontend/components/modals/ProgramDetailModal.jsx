@@ -190,7 +190,6 @@ const ProgramDetailModal = ({
     // Handler: Link an existing record
     const handleLinkRecord = (record) => {
         setShowLinkDropdown(false);
-        console.log(`[Program] Linked "${program.customer}" → ${record.id}`);
         saveProgramMapping(record.id);
     };
 
@@ -811,7 +810,10 @@ const ProgramDetailModal = ({
                                                 {wsAssignments.length > 0 ? (
                                                     wsAssignments.map(a => {
                                                         const resource = allResources?.find(r => r.id === a.resourceId);
-                                                        const headshot = resource?.headshot || resource?.headshot?.[0]?.url;
+                                                        // allResources headshots are pre-normalised to a URL string (or null)
+                                                        // by Dashboard; the old `|| resource?.headshot?.[0]?.url` fallback
+                                                        // was dead (a string has no [0].url) so it has been dropped.
+                                                        const headshot = resource?.headshot;
 
                                                         return (
                                                             <div key={a.id} style={{
@@ -1034,6 +1036,8 @@ export default ProgramDetailModal;
 
 ProgramDetailModal.propTypes = {
     program: PropTypes.object.isRequired,
+    allPrograms: PropTypes.array,
+    onNavigate: PropTypes.func,
     allResources: PropTypes.array,
     allRows: PropTypes.array,
     storedSettings: PropTypes.object,

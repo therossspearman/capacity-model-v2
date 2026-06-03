@@ -285,19 +285,12 @@ export const ViewChangesModal = ({
         return String(val);
     };
 
-    const formatArrayValue = (val) => {
-        if (!val) return '—';
-        if (Array.isArray(val)) return val.length > 0 ? val.join(', ') : '—';
-        return val;
-    };
-
-
     const handleRevertChange = async () => {
         if (!activeScenario || !scenarioManager || !changeToDelete) return;
         try {
             const updatedChanges = {
-                projects: { ...(activeScenario.changes.projects || {}) },
-                resources: { ...(activeScenario.changes.resources || {}) }
+                projects: { ...(activeScenario.changes?.projects || {}) },
+                resources: { ...(activeScenario.changes?.resources || {}) }
             };
 
             if (changeToDelete.type === 'project') {

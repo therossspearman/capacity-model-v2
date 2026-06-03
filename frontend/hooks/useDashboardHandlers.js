@@ -1273,7 +1273,6 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
 
 
                 // Workstream → update field settings key
-                // Workstream → update field settings key
                 const WS_FIELD_MAP = {
                     'Integrations': SETTINGS.PROGRAM_WS_INTEGRATIONS_UPDATE,
                     'Payroll': SETTINGS.PROGRAM_WS_PAYROLL_UPDATE,
@@ -2592,7 +2591,7 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
             if (member.isPlaceholder || (member.id && member.id.startsWith('PLACEHOLDER'))) {
                 return {
                     ...member,
-                    id: `PLACEHOLDER_${baseTimestamp}_${idx}_${Math.random().toString(36).substr(2, 5)}`,
+                    id: `PLACEHOLDER_${baseTimestamp}_${idx}_${Math.random().toString(36).slice(2, 7)}`,
                     name: `TBD ${roleLabels[toRole] || toRole.toUpperCase()}`,
                     isPlaceholder: true
                 };
@@ -2724,7 +2723,7 @@ Effort Profile: ${projectData.effortProfile || 'Default'}`;
                     if (member.isPlaceholder || (member.id && member.id.startsWith('PLACEHOLDER'))) {
                         return {
                             ...member,
-                            id: `PLACEHOLDER_${baseTimestamp}_${roleIdx}_${idx}_${Math.random().toString(36).substr(2, 5)}`,
+                            id: `PLACEHOLDER_${baseTimestamp}_${roleIdx}_${idx}_${Math.random().toString(36).slice(2, 7)}`,
                             name: `TBD ${roleLabels[toRole] || toRole.toUpperCase()}`,
                             isPlaceholder: true
                         };

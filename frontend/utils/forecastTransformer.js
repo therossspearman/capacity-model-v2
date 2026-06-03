@@ -323,18 +323,18 @@ export const calculateFTEImpact = ({
     const fteAnalysis = {};
     ['pm', 'sc', 'pd'].forEach(role => {
         const additionalHours = forecastTotalHours[role] + initiativeHours[role];
-        const fteRequired = additionalHours / hoursPerFtePerYear;
+        // ADDITIONAL FTE needed from forecast (does not subtract current spare capacity)
+        const additionalFteNeeded = additionalHours / hoursPerFtePerYear;
         const currentFte = currentFTECounts[role] || 0;
-        const gap = fteRequired; // This is ADDITIONAL FTE needed from forecast
 
         fteAnalysis[role] = {
             currentFte,
             forecastHours: forecastTotalHours[role],
             initiativeHours: initiativeHours[role],
             totalAdditionalHours: additionalHours,
-            additionalFteNeeded: fteRequired,
-            recommendedHires: Math.ceil(fteRequired * 10) / 10,
-            status: gap > 0.5 ? 'hire' : 'sufficient'
+            additionalFteNeeded,
+            recommendedHires: Math.ceil(additionalFteNeeded * 10) / 10,
+            status: additionalFteNeeded > 0.5 ? 'hire' : 'sufficient'
         };
     });
 

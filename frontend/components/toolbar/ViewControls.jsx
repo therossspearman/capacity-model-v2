@@ -178,10 +178,3 @@ export const ExpandCollapseToggle = () => {
         </div>
     );
 };
-
-export default {
-    ViewModeToggle,
-    CellDisplayToggle,
-    ZoomToggle,
-    ExpandCollapseToggle
-};

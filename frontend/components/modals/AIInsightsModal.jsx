@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '../../design-system';
+import { Z_INDEX, useTheme } from '../../design-system';
 
 export const AIInsightsModal = ({
     isOpen,
@@ -26,7 +26,7 @@ export const AIInsightsModal = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000,
+            zIndex: Z_INDEX.MODAL_BACKDROP,
             backdropFilter: 'blur(2px)'
         }}>
             <div style={{
@@ -84,7 +84,6 @@ export const AIInsightsModal = ({
                             padding: '8px',
                             borderRadius: '8px',
                             color: isDark ? '#64748b' : '#94a3b8',
-                            hover: { backgroundColor: isDark ? '#334155' : '#f1f5f9' },
                             background: 'none',
                             border: 'none',
                             cursor: 'pointer'

@@ -16,7 +16,7 @@ export const ConfirmModal = ({
     cancelText = 'Cancel',
     variant = 'danger' // 'danger', 'warning', 'info'
 }) => {
-    const { isDark, colors } = useTheme();
+    const { colors } = useTheme();
 
     if (!isOpen) return null;
 

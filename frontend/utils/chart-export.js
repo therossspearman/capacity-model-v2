@@ -112,6 +112,14 @@ export async function exportChartAsPng({
 
         if (hasDatesProp) {
             const leftOffset = width - dates.length * columnWidth;
+            // leftOffset is the Y-axis gutter, back-solved from the rendered width.
+            // A negative value means the width/columnWidth assumption broke (e.g. the
+            // chart gained right padding or a legend) — labels would misalign. Warn
+            // loudly rather than fail silently; the per-label centreX guard below still
+            // drops anything that lands off-canvas.
+            if (leftOffset < 0) {
+                console.warn('exportChartAsPng: negative Y-axis gutter (' + leftOffset + 'px) — date labels may misalign. Chart width/columnWidth assumption may have drifted.');
+            }
             for (let i = 0; i < dates.length; i++) {
                 const d = dates[i];
                 const dateKey = (d && (d.dateKey || d.date_key)) || '';

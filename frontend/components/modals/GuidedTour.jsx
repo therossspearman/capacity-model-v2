@@ -123,7 +123,7 @@ const TOUR_STEPS = [
  * Using inline styles for Airtable Blocks compatibility (no Tailwind)
  */
 export const GuidedTour = ({ onComplete, onSkip }) => {
-    const { isDark, colors } = useTheme();
+    const { colors } = useTheme();
     const [step, setStep] = useState(0);
     const [targetRect, setTargetRect] = useState(null);
     const currentStep = TOUR_STEPS[step];
@@ -264,7 +264,7 @@ export const GuidedTour = ({ onComplete, onSkip }) => {
                 {/* Header with gradient */}
                 <div style={{
                     padding: '16px 20px',
-                    background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)',
+                    backgroundColor: '#7637E3',
                     color: 'white'
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -339,11 +339,11 @@ export const GuidedTour = ({ onComplete, onSkip }) => {
                                 fontSize: '13px',
                                 fontWeight: '700',
                                 color: 'white',
-                                background: 'linear-gradient(135deg, #7637E3 0%, #7637E3 100%)',
+                                backgroundColor: '#7637E3',
                                 border: 'none',
                                 borderRadius: '8px',
                                 cursor: 'pointer',
-                                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.3)'
+                                boxShadow: '0 4px 12px rgba(118, 55, 227, 0.3)'
                             }}
                         >
                             {isLast ? 'Get Started!' : 'Next'}

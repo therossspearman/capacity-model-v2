@@ -1,7 +1,7 @@
 # Capacity Model - Resource Manager Training Guide
 
-> **Version**: 2.60.500 | **Last Updated**: January 2026
-> Keep this guide updated as features evolve.
+> **Version**: 2.99.011 | **Last Updated**: June 2026
+> This is an end-user (Resource Manager) guide and may lag the latest release. Keep it updated as features evolve.
 
 ---
 

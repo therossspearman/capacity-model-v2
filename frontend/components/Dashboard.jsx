@@ -76,8 +76,6 @@ class ErrorBoundary extends React.Component {
 
 
 // Stat Card - V1 Parity
-
-// Stat Card - V1 Parity
 const StatCard = ({ title, value, icon, color }) => (
     <div style={{
         backgroundColor: 'white',
@@ -1557,10 +1555,7 @@ export const Dashboard = ({
             }));
         });
 
-        // Add global Program Budget if configured
-        if (storedSettings.programAssignments) {
-            // This is handled by globalProgramBudget below
-        }
+        // Note: global Program Budget is computed separately by globalProgramBudget below.
 
         return programs;
     }, [effectiveProjects, storedSettings.programDiscount, storedSettings.programWorkstreams]);

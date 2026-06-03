@@ -7,17 +7,16 @@ import PropTypes from 'prop-types';
 import { useRecords } from '@airtable/blocks/interface/ui';
 import { useTheme } from '../../design-system';
 import { generateRecommendations, getSlotUtilizationSummary, generateBulkAllocationPlan } from '../../utils/SlotOptimizer';
-import { generateAllocationRecommendations, calculateRecommendationImpact } from '../../utils/AllocationRecommender';
 import { generatePeopleAssignments } from '../../utils/PeopleOptimizer';
 import { runBulkAllocationAsync, terminateWorker } from '../../worker/BulkAllocationWorker';
 import { createOptimizationRun, hasOptimizationRunsTable } from '../../services/OptimizationRunService';
 import { runMonteCarloSimulation } from '../../utils/MonteCarloSimulator';
 import { runMonteCarloAsync, terminateMonteCarloWorker } from '../../worker/MonteCarloWorker';
-import { generateParetoFrontier, STRATEGY_PRESETS, sortProjectsByStrategy } from '../../utils/ParetoOptimizer';
+import { STRATEGY_PRESETS, sortProjectsByStrategy } from '../../utils/ParetoOptimizer';
 import { SETTINGS } from '../../constants';
 import { Button } from '../ui';
 import ProgramDetailModal from './ProgramDetailModal';
-import { AllocationsTab, ReprioritizationTab, CountryFlag, formatDate, weeksDiff, AI_TARGETS, PRESET_PARAMS, countryEmojis } from '../optimization';
+import { AllocationsTab, ReprioritizationTab, CountryFlag, formatDate, weeksDiff, AI_TARGETS, PRESET_PARAMS } from '../optimization';
 // ResourcingTab removed — resourcing is now inline within ReprioritizationTab
 
 export const OptimizationModal = ({
@@ -148,7 +147,6 @@ export const OptimizationModal = ({
     const [scenarioA, setScenarioA] = useState(null);
     const [scenarioB, setScenarioB] = useState(null);
     const [comparisonMode, setComparisonMode] = useState(false);
-    const [activeScenario, setActiveScenario] = useState('A'); // 'A' or 'B' being viewed
     // Comparison Helpers
     const saveScenario = (slot) => {
         const scenarioData = {
@@ -1636,11 +1634,6 @@ export const OptimizationModal = ({
                         </div>
                     )}
 
-                    {/* AI Scenario Panel (Legacy - Removed) */}
-                    {false && showAIPanel && mode === 'optimize' && (
-                        <div />
-                    )}
-
                     {/* Settings Summary - Hide in AI Optimiser and Reprioritize modes */}
                     {mode !== 'ai_optimiser' && mode !== 'reprioritize' && (
                         <div style={{
@@ -1790,7 +1783,7 @@ export const OptimizationModal = ({
                                 >
                                     <path d="M6 9l6 6 6-6" />
                                 </svg>
-                                {aiInsights.snapshotTime && (
+                                {aiInsights.latestAnalysis.snapshotTime && (
                                     <span style={{ fontWeight: '400', fontSize: '9px', color: isDark ? '#64748b' : '#94a3b8' }}>
                                         {aiInsights.latestAnalysis.snapshotTime}
                                     </span>

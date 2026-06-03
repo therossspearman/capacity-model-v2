@@ -340,7 +340,8 @@ const ExportModal = ({
             return a[4].localeCompare(b[4]);
         });
 
-        return [headers, ...rows].map(row => row.map(escapeCsv).join(',')).join('\n');
+        const csv = [headers, ...rows].map(row => row.map(escapeCsv).join(',')).join('\n');
+        return { csv, rowCount: rows.length };
     };
 
     const downloadCSV = (content, filename) => {
@@ -403,10 +404,11 @@ const ExportModal = ({
 
             if (exportAllocations) {
                 if (filesDownloaded > 0) await new Promise(r => setTimeout(r, 600));
-                const csv = generateAllocationsCSV();
+                const { csv, rowCount } = generateAllocationsCSV();
                 downloadCSV(csv, `capacity-allocations-${dateSuffix}.csv`);
-                // Count is approximate (rows = resource × project × week combinations)
-                const rowCount = csv.split('\n').length - 1;
+                // Exact row count (resource × project × week combinations). Taken from the
+                // rows array length rather than csv.split('\n') so embedded newlines inside
+                // quoted cell values can't inflate the count.
                 exported += rowCount;
                 filesDownloaded++;
             }

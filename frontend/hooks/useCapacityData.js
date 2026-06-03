@@ -433,13 +433,6 @@ export const useCapacityData = ({
         }
     }, [resList, projList, timeRange, fiscalYearMode, customStartDate, customEndDate, config, sprintStartDate, modelParams, rampProfiles, winRates, initiatives, showInitiativesEffect, slotProfile, roleMapping, roleConfig, demandCategory, selectedEntities, platformFilter]);
 
-    // Helper to normalize squads
-    const getSquads = (p) => {
-        if (Array.isArray(p.squads)) return p.squads;
-        if (typeof p.squad === 'string') return [p.squad];
-        return [];
-    };
-
     // 3. Client-Side Filtering & Aggregation
     const result = useMemo(() => {
         if (!rawResult) return { filteredResources: [], filteredProjects: [], processedData: [], kpiTotals: { cap: 0, dem: 0, activeProjects: 0 }, uniqueStatuses: [], todayKey: null };

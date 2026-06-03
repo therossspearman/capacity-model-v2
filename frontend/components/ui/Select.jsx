@@ -130,7 +130,7 @@ export const Select = ({ options, value, onChange, label, icon, isOpen, onToggle
 
     const toggle = (e) => {
         if (e) { e.preventDefault(); e.stopPropagation(); }
-        if (isControlled) onToggle(!open);
+        if (isControlled) onToggle?.(!open);
         else setLocalIsOpen(!open);
     };
 
@@ -139,7 +139,7 @@ export const Select = ({ options, value, onChange, label, icon, isOpen, onToggle
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (containerRef.current && !containerRef.current.contains(event.target)) {
-                if (isControlled && open) onToggle(false);
+                if (isControlled && open) onToggle?.(false);
                 else if (!isControlled) setLocalIsOpen(false);
             }
         };
@@ -215,7 +215,7 @@ export const Select = ({ options, value, onChange, label, icon, isOpen, onToggle
                                 key={option}
                                 label={option === 'All' ? `All ${label}` : option}
                                 isSelected={value === option}
-                                onClick={() => { onChange(option); if (isControlled) onToggle(false); else setLocalIsOpen(false); }}
+                                onClick={() => { onChange(option); if (isControlled) onToggle?.(false); else setLocalIsOpen(false); }}
                             />
                         ))}
                     </div>

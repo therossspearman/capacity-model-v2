@@ -39,6 +39,8 @@ const DateHeaderRow = React.memo(({ dates, todayKey, hoverDateKey, columnWidth, 
 const ROW_HEIGHT = 42; // V1 Parity: Must match V1's value
 const BUFFER = 5;
 const COL_BUFFER = 5; // Extra columns rendered beyond viewport edges
+const SIDEBAR_WIDTH = 260; // Should match Dashboard constant ideally
+const ROW_STYLE = { height: ROW_HEIGHT, position: 'absolute', width: '100%', left: 0 };
 
 const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayKey, cellDisplayMode, forecastMode, toggleShowAll, columnWidth, fontSize, highlightProject, hoverDateKey, thresholds, groupStats, pinnedResources, onTogglePin, viewMode, children, footerChildren, onResourceClick, selectedProjects, onToggleSelection, allGroupsExpanded, customerSort, onResourceHover }) => {
     const { isDark, colors } = useTheme();
@@ -270,9 +272,6 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
         const todayOffset = SIDEBAR_WIDTH + (todayIndex * columnWidth) - (containerRef.current.clientWidth / 2) + (columnWidth / 2);
         containerRef.current.scrollTo({ left: Math.max(0, todayOffset), behavior: 'smooth' });
     }, [todayKey, dates, columnWidth]);
-
-    const ROW_STYLE = { height: ROW_HEIGHT, position: 'absolute', width: '100%', left: 0 };
-    const SIDEBAR_WIDTH = 260; // Should match Dashboard constant ideally
 
     const yearGroups = useMemo(() => {
         if (!dates || !Array.isArray(dates) || !dates.length) return [];
@@ -792,35 +791,6 @@ const InnerGrid = React.memo(({ groupedData, dates, onCellClick, onHover, todayK
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Workstream pills - HIDDEN as per user request (Capacity Relief mode)
-                                        <div style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '8px',
-                                            padding: '0 16px',
-                                            overflow: 'hidden'
-                                        }}>
-                                            {(row.data.workstreams || []).filter(ws => ws.hours > 0).slice(0, 5).map((ws, i) => (
-                                                <div key={i} style={{
-                                                    padding: '4px 10px',
-                                                    borderRadius: '12px',
-                                                    backgroundColor: isDark ? 'rgba(16,185,129,0.2)' : 'rgba(16,185,129,0.15)',
-                                                    border: `1px solid ${isDark ? '#00BD00' : '#6ee7b7'}`,
-                                                    fontSize: '10px',
-                                                    fontWeight: '600',
-                                                    color: isDark ? '#a7f3d0' : '#065f46',
-                                                    whiteSpace: 'nowrap'
-                                                }}>
-                                                    {ws.name}: {formatNumber(Math.round(ws.hours))}h
-                                                </div>
-                                            ))}
-                                            {(row.data.workstreams || []).filter(ws => ws.hours > 0).length > 5 && (
-                                                <span style={{ fontSize: '10px', color: isDark ? '#6ee7b7' : '#047857' }}>
-                                                    +{(row.data.workstreams || []).filter(ws => ws.hours > 0).length - 5} more
-                                                </span>
-                                            )}
-                                        </div>
-                                        */}
                                     </div>
                                 )}
                                 {/* Normal Resource/Project Row */}

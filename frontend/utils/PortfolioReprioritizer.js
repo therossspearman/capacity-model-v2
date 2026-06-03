@@ -572,7 +572,7 @@ export function buildRoleMatchers(config) {
         const roleKey = resource.adJobTitle || resource.role || '';
         const roleUpper = roleKey.toUpperCase();
 
-        // 1. Primary role from roleMapping (same logic as useCapacityData.js line 437)
+        // 1. Primary role from roleMapping (mirrors the role-mapping logic in useCapacityData.js)
         if (hasMapping && mapping) {
             const mapped = mapping[roleKey];
             if (mapped) {
@@ -1845,16 +1845,19 @@ export async function assignResources(scheduled, resources, config, warnings, on
     for (let _oi = 0; _oi < projectAssignmentOrder.length; _oi++) {
         const _pi = projectAssignmentOrder[_oi];
 
-        // Yield every 10 projects to avoid killing the extension
-        if (_pi > 0 && _pi % 10 === 0) {
+        // Yield every 10 processed projects to avoid killing the extension.
+        // Throttle on the loop counter (_oi), not the sparse source index (_pi):
+        // _pi skips locked projects and is non-contiguous, so gating on it would
+        // make yields/progress fire irregularly (or not at all) for small runs.
+        if (_oi > 0 && _oi % 10 === 0) {
             await yieldToUI();
         }
         // Emit status less frequently (every 20) to reduce UI thrashing
-        if (_pi > 0 && _pi % 20 === 0 && onProgressCb) {
+        if (_oi > 0 && _oi % 20 === 0 && onProgressCb) {
             const p = scheduled[_pi];
             const pName = (p.customer || p.name || '').substring(0, 30);
             onProgressCb(
-                `Assigning ${_pi}/${scheduled.length} · ${pName} — ${Math.round(filledCount / scheduled.length * 100)}%`,
+                `Assigning ${_oi}/${projectAssignmentOrder.length} · ${pName} — ${Math.round(filledCount / scheduled.length * 100)}%`,
                 { projectStatuses: { ...projectStatuses }, totalProjects: scheduled.length }
             );
         }

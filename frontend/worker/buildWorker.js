@@ -17,12 +17,25 @@
 
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 const sourceFile = path.join(__dirname, 'workerCodeSource.js');
 const outputFile = path.join(__dirname, 'workerCode_v4.js');
 
 try {
     const source = fs.readFileSync(sourceFile, 'utf8');
+
+    // Validate that the source parses before encoding. The output is Base64
+    // (opaque to the bundler), so a syntax error would otherwise only surface
+    // when the worker is instantiated at runtime inside the iframe.
+    try {
+        new vm.Script(source, { filename: sourceFile });
+    } catch (syntaxErr) {
+        console.error('❌ Worker source has a syntax error — aborting:');
+        console.error(`   ${syntaxErr.message}`);
+        process.exit(1);
+    }
+
     const encoded = Buffer.from(source).toString('base64');
 
     const output = `export const workerCode = "${encoded}";\n`;

@@ -279,7 +279,11 @@ self.onmessage = function(e) {
         const result = generateBulkAllocationPlan(slotMap, projects, config);
         self.postMessage({ success: true, result });
     } catch (error) {
-        self.postMessage({ success: false, error: error.message });
+        self.postMessage({
+            success: false,
+            error: error.message,
+            errorDetail: { message: error.message, stack: error.stack, name: error.name }
+        });
     }
 };
 `;
@@ -319,7 +323,12 @@ export const runBulkAllocationAsync = (slotMap, projects, config) => {
                 if (e.data.success) {
                     resolve(e.data.result);
                 } else {
-                    reject(new Error(e.data.error || 'Worker computation failed'));
+                    const detail = e.data.errorDetail || {};
+                    const err = new Error(detail.message || e.data.error || 'Worker computation failed');
+                    if (detail.name) err.name = detail.name;
+                    if (detail.stack) err.workerStack = detail.stack;
+                    console.error('[BulkAllocationWorker] computation failed:', detail.message || e.data.error, detail.stack || '');
+                    reject(err);
                 }
             };
 

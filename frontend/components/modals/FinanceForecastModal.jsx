@@ -61,7 +61,6 @@ export const FinanceForecastModal = ({
     onClose,
     onSave,
     onApplyToChart,
-    onLoad,
     onDelete,
     savedForecasts = [],
     initialArrData = null,
@@ -383,7 +382,7 @@ export const FinanceForecastModal = ({
                             </div>
                             <div>
                                 <h3 style={{ fontSize: '13px', fontWeight: '700', color: colors.textPrimary, margin: 0 }}>Finance Forecast</h3>
-                                <p style={{ fontSize: '10px', color: colors.textMuted, margin: 0 }}>{fyDates.fyLabel || 'FY 2026/27'}</p>
+                                <p style={{ fontSize: '10px', color: colors.textMuted, margin: 0 }}>{fyDates.fyLabel || fyOptions[0].label}</p>
                             </div>
                         </div>
 
@@ -1065,11 +1064,12 @@ FinanceForecastModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSave: PropTypes.func,
     onApplyToChart: PropTypes.func,
-    onLoad: PropTypes.func,
     onDelete: PropTypes.func,
     savedForecasts: PropTypes.array,
     initialArrData: PropTypes.object,
     initialParameters: PropTypes.object,
+    initialName: PropTypes.string,
+    initialFY: PropTypes.number,
     fyDates: PropTypes.object,
     currentFTECounts: PropTypes.object,
     avgBillableHoursPerWeek: PropTypes.number

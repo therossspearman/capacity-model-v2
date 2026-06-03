@@ -65,9 +65,9 @@ const AllocationsTab = ({ slotMap, projects, enabledSquads, isDark }) => {
 
             {/* Recommendations List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {allocRecs.map((rec, idx) => (
+                {allocRecs.map((rec) => (
                     <div
-                        key={idx}
+                        key={`${rec.projectId}-${rec.bottleneckWeek}`}
                         style={{
                             padding: '16px 20px',
                             backgroundColor: isDark ? '#1e293b' : 'white',

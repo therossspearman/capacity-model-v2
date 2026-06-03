@@ -129,14 +129,18 @@ export function getPerformanceReport(lastN = 100) {
         return arr[Math.max(0, idx)];
     };
 
-    // Calculate trend (comparing first half vs second half)
-    const halfIdx = Math.floor(entries.length / 2);
-    const recentAvg = entries.slice(0, halfIdx).reduce((s, e) => s + e.duration, 0) / halfIdx;
-    const olderAvg = entries.slice(halfIdx).reduce((s, e) => s + e.duration, 0) / (entries.length - halfIdx);
-
+    // Calculate trend (comparing first half vs second half).
+    // Needs at least 4 samples for both halves to be non-empty and meaningful;
+    // smaller samples stay 'stable' to avoid dividing by zero (NaN) below.
     let trend = 'stable';
-    if (recentAvg > olderAvg * 1.2) trend = 'degrading';
-    else if (recentAvg < olderAvg * 0.8) trend = 'improving';
+    if (entries.length >= 4) {
+        const halfIdx = Math.floor(entries.length / 2);
+        const recentAvg = entries.slice(0, halfIdx).reduce((s, e) => s + e.duration, 0) / halfIdx;
+        const olderAvg = entries.slice(halfIdx).reduce((s, e) => s + e.duration, 0) / (entries.length - halfIdx);
+
+        if (recentAvg > olderAvg * 1.2) trend = 'degrading';
+        else if (recentAvg < olderAvg * 0.8) trend = 'improving';
+    }
 
     return {
         sampleSize: entries.length,
@@ -192,7 +196,6 @@ export function getLastCycleDisplay() {
     const last = entries[0];
     const duration = last.duration;
 
-    if (duration < 100) return `${Math.round(duration)}ms`;
     if (duration < 1000) return `${Math.round(duration)}ms`;
     return `${(duration / 1000).toFixed(1)}s`;
 }

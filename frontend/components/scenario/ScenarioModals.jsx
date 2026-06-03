@@ -5,7 +5,7 @@ import { useTheme, Z_INDEX } from '../../design-system';
  * Create Scenario Modal - Inline styled for compatibility
  */
 export const CreateScenarioModal = ({ onClose, onCreate, isLoading }) => {
-    const { isDark, colors } = useTheme();
+    const { colors } = useTheme();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     // Internal submit guard: the parent passes isLoading={false}, so without this
@@ -253,7 +253,7 @@ export const CopyScenarioModal = ({ sourceScenario, onClose, onCopy, isLoading }
  * Scenario Notes Modal - Inline styled
  */
 export const ScenarioNotesModal = ({ scenario, onSave, onClose, isLoading }) => {
-    const { isDark, colors } = useTheme();
+    const { colors } = useTheme();
     const [notes, setNotes] = useState(scenario?.metadata?.notes || '');
     // Internal submit guard (see CreateScenarioModal): prevents double-submit and
     // drives the loading UI even when the parent passes a static isLoading.

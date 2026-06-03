@@ -399,7 +399,7 @@ export const AllocationModal = ({
                                                         <input
                                                             type="number"
                                                             value={Math.round(alloc.allocation * 100)}
-                                                            onChange={(e) => updateAllocation(alloc.id, 'allocation', parseFloat(e.target.value) / 100)}
+                                                            onChange={(e) => { const n = parseFloat(e.target.value); updateAllocation(alloc.id, 'allocation', Number.isNaN(n) ? 0 : n / 100); }}
                                                             style={{ ...inputStyle, paddingRight: '30px', fontWeight: '700', color: '#3b82f6' }}
                                                         />
                                                         <span style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>%</span>

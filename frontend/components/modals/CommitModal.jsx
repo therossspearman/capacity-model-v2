@@ -276,12 +276,7 @@ export const CommitModal = ({
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                 {resourceIds.map(id => {
                                     const resource = allResources?.find(r => r.id === id);
-                                    const change = resourceChanges[id];
-                                    const fields = change.changes || change;
-                                    const detail = Object.entries(fields)
-                                        .filter(([k]) => !['name', 'original', 'changes'].includes(k))
-                                        .map(([k, v]) => `${k}: ${v}`)
-                                        .join(' · ');
+                                    const detail = formatChangeDetail(resourceChanges[id]);
                                     return (
                                         <CheckboxRow
                                             key={id}

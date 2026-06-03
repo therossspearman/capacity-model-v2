@@ -800,15 +800,6 @@ const TeamManager = ({ role, label, color, hours, currentTeam, allResources, onA
     );
 };
 
-// Helper to get effort profile icon
-const getProfileIcon = (profile) => {
-    if (!profile) return null;
-    const p = profile.toLowerCase();
-    if (p.includes('front')) return <svg title="Front Loaded" style={{ width: '12px', height: '12px', color: '#94a3b8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 20 L4 4" /></svg>;
-    if (p.includes('back')) return <svg title="Back Loaded" style={{ width: '12px', height: '12px', color: '#94a3b8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 4 L4 20" /></svg>;
-    return null;
-};
-
 // Custom debounce hook
 const useDebounce = (value, delay) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -820,6 +811,9 @@ const useDebounce = (value, delay) => {
 };
 
 const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAssignments = [], programWorkstreams = [], programBudgets = {}, programDates = {}, onAssign, onUnassign, onUpdateAllocation, onCopyToOtherRoles, onCopyToAllRoles, onUpdateProject, onUpdateResource, rampProfiles, onClose, roleMapping, addToast, onNavigate, onClone, onManageProgram, modelParams = {} }) => {
+    // Guard before any hooks so the Rules of Hooks aren't violated when `data`
+    // is absent (all hooks must run on every render that reaches them).
+    if (!data) return null;
     const { isDark, colors } = useTheme();
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearch = useDebounce(searchTerm, 300);
@@ -905,8 +899,6 @@ const DetailModal = ({ data, allResources, allProjects, allSquadsFlat, programAs
         await onUpdateProject(editingId, editForm);
         setEditingId(null);
     };
-
-    if (!data) return null;
 
     // Derive Unique Options
     const allItems = data.details || [];
