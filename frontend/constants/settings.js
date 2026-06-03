@@ -1,6 +1,6 @@
 // App Version - Update this on every release
 // AGENT NOTE: Always increment version when deploying changes
-export const APP_VERSION = '2.99.014';
+export const APP_VERSION = '2.99.015';
 
 // Airtable Field Mappings
 export const SETTINGS = {
