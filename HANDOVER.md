@@ -50,6 +50,48 @@ It runs against a single Airtable base. All writes go through the Airtable Block
 
 ---
 
+## Recent changes (maintenance pass)
+
+A full code-review remediation + feature pass landed across versions `2.98.x → 2.99.012`
+(PRs #1–#11). What a new owner should know:
+
+**Remediation (review backlog closed):**
+- All 🔴 Critical (6) and 🟠 High (31) findings fixed; Medium (116 fixes) and Low (93
+  fixes) addressed via verified per-file sweeps. Full report: `docs/CODE_REVIEW.md`.
+- Removed dead code (the unused What-If trio: `WhatIfPanel`, `useWhatIfMode`,
+  `useFinanceForecast`; the dead reducer subsystem; `components/layout/index.jsx`).
+- Removed the `hooks/` and `services/` barrels — **import hooks/services directly**.
+- Tailwind `className` usage converted to inline styles across the remaining files.
+- Added a minimal **Vitest** harness (`npm test`) — see the Testing section.
+- Added architecture docs for the deferred refactors: `docs/CALCULATION_ENGINES.md`
+  (the 10 calc engines + which is authoritative) and `docs/DASHBOARD_STATE_MAP.md`
+  (a phased plan to break up the 6,100-line Dashboard).
+
+**New features:**
+- **Platform menu filter** — filter the whole view by delivery platform (e.g.
+  Benifex / FPS). Resources match by their **squad's** platform; projects by their
+  own Platform field. Needs a `SQUAD_PLATFORM` field on the Squads table (multi-value
+  — a squad can serve several platforms), mapped via the gear icon. See "Settings,
+  field mapping" and the squad→platform notes below.
+- **Initiative scoping** — initiatives can now be scoped to specific **Target Teams**,
+  **Platforms**, and **Project Types** (e.g. "FPS Renewals only"); the worker's
+  `getInitiativeMultiplier` honours all three.
+
+**Behaviour changes to be aware of:**
+- **Target / Annual Utilisation**: a blank or `0` field now reads as **0%** (the old
+  80% fallback was removed). Airtable's SDK reads a `0` percent cell as null, so blank
+  and 0 are indistinguishable and both mean 0%. If capacity looks low, check that the
+  utilisation field is populated.
+- **Settings saves are debounced** (slider drags no longer flood Airtable / toasts).
+
+**CI / safety:**
+- `.github/workflows/deploy.yml` now **fails the build if `workerCode_v4.js` is stale**
+  vs `workerCodeSource.js` (it rebuilds + diffs). Always go through `npm run release`.
+- The Airtable release step can occasionally fail with `invalid json response body`
+  (an Airtable-side transient) — just re-run the deploy job; it's not a code error.
+
+---
+
 ## Repo location & access
 
 - **Git remote (source of truth):** `https://github.com/therossspearman/capacity-model-v2.git`. Clone from there — don't rely on any local copy on a previous owner's machine.
@@ -289,7 +331,13 @@ Used by:
 
 ### Virtual headcount in Initiatives
 
-Initiatives can include a `headcountPlan[]` of synthetic future hires. When the "Effect" toggle is on, `useCapacityData.js:296-335` injects synthetic resources into the worker payload (`isVirtual: true`). They show up as virtual rows in the grid and contribute to capacity totals. Useful for "what if we hire 3 PDs in Q3" scenarios.
+Initiatives can include a `headcountPlan[]` of synthetic future hires. When the "Effect" toggle is on, `useCapacityData.js` injects synthetic resources into the worker payload (`isVirtual: true`). They show up as virtual rows in the grid and contribute to capacity totals. Useful for "what if we hire 3 PDs in Q3" scenarios.
+
+Initiatives also model **efficiency gains**: an `efficiencyPct` (with optional `rampWeeks`) applied from `launchDate`. The worker's `getInitiativeMultiplier` (`workerCodeSource.js`) boosts capacity, scoped by:
+- `targetTeams` (PM / SC / PD, or `['all']`),
+- `targetPlatforms` and `targetProjectTypes` (or `['all']`) — so an initiative can apply to e.g. "FPS Renewals only".
+
+`'all'` is the catch-all in each list. Editing any of these is a settings change (debounced persist).
 
 ### Settings storage
 
@@ -358,7 +406,7 @@ Edit surgically with small targeted patches. Don't restructure it without a plan
 
 ### 4. No barrel imports for `services/` or `hooks/`
 
-Importing `from '../hooks'` (the index.js barrel) when the file you're in is also re-exported from that barrel causes a circular dependency crash. **Always import the specific file** (`from '../hooks/useGrouping'`).
+The `hooks/index.js` and `services/index.js` barrels have been **removed** (they caused circular-dependency crashes when a file re-exported from a barrel imported that barrel). **Always import the specific file** (`from '../hooks/useGrouping'`, `from '../services/ScenarioManager'`). Don't re-introduce the barrels.
 
 ### 5. Inline styles only
 
@@ -409,12 +457,10 @@ capacity_model_v_2/
     │   ├── settings/            Field-mapping UI (gear icon)
     │   ├── scenario/            Scenario picker + management
     │   └── optimization/        AI optimizer modals
-    ├── hooks/
-    │   ├── useDashboardState.js     useState bundle for top-level Dashboard
+    ├── hooks/                       (no index.js barrel — import hooks directly)
     │   ├── useDashboardHandlers.js  ⭐ All write handlers (resource update, project update, scenarios)
-    │   ├── useCapacityData.js       ⭐ Worker bridge (in & out)
+    │   ├── useCapacityData.js       ⭐ Worker bridge (in & out) + resource/project filtering
     │   ├── useGrouping.js           Resource/project grouping for grid
-    │   ├── useFinanceForecast.js    Revenue forecast modelling
     │   ├── useScenarioSelection.js
     │   └── ... (small hooks)
     ├── worker/
@@ -438,16 +484,15 @@ capacity_model_v_2/
     │   ├── defaults.js              ⭐ DEFAULT_SETTINGS — every initial setting value
     │   ├── icons.jsx                Inline SVG icons
     │   └── status-colors.js
-    ├── services/
+    ├── services/                    (no index.js barrel — import services directly)
     │   ├── ScenarioManager.js       Scenario CRUD logic
     │   └── ... (small services)
-    ├── design-system/
-    │   ├── BRAND.js                 Colours, fonts
-    │   ├── TOKENS.js                Spacing, radii
-    │   └── theme.js                 Dark mode bridge (useTheme)
-    └── state/
-        └── ... (small reducers)
+    └── design-system/
+        ├── tokens.js                BRAND colours, TOKENS (spacing, radii)
+        ├── component-styles.js      Shared inline-style objects
+        └── theme.js                 Dark mode bridge (useTheme)
 ```
+(The former `state/` reducer dir and the `hooks/`+`services/` barrels were removed.)
 
 ⭐ = critical files. If you're new, read `Dashboard.jsx`, `useCapacityData.js`, `workerCodeSource.js`, `useDashboardHandlers.js`, and `constants/defaults.js` in that order.
 
@@ -464,6 +509,15 @@ Airtable Block extensions can dynamically prompt the user to map "logical fields
 2. Register it in `frontend/index.js` under the appropriate table block (Resources, Projects, etc).
 3. In Dashboard.jsx's `allResources` or `allProjects` loader, read the value via `getSafeCellValue(record, resolveFieldId(stableSettings[SETTINGS.MY_NEW_FIELD]))`.
 4. Tell users to map the field via the gear icon after deploy.
+
+**Squad-level fields (drive resource filtering):** the Squads table has two
+single/multi-select fields read into per-resource attributes via `squadCategoryMap` /
+`squadPlatformMap` in Dashboard.jsx:
+- `SQUAD_CATEGORY` ("Squad Category": Implementation / BAU / Both) → drives the BAU demand filter.
+- `SQUAD_PLATFORM` ("Squad Platform": e.g. Benifex / FPS) → drives the **Platform filter**.
+  Make it **multi-value** (or comma/slash text) so a squad serving two platforms lists
+  both; a resource then matches a platform if *any* of its squads serve it. Both must be
+  mapped via the gear icon and set on each squad to have any effect.
 
 ### Settings modal tabs
 

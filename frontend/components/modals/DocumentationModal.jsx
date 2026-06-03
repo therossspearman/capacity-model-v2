@@ -145,6 +145,23 @@ const GUIDE_DATA = [
                     },
                     { type: 'tip', value: 'Alt+Click on "In Flight" to quickly see only active projects.' }
                 ]
+            },
+            {
+                id: 'filter-5',
+                title: 'Filter by Platform',
+                summary: 'Show only squads/resources aligned to a platform',
+                content: [
+                    { type: 'text', value: 'The Platform filter narrows the view to a delivery platform (e.g. Benifex or FPS). Resources are matched by the platform(s) their squad is aligned to; projects are matched by their own Platform field.' },
+                    {
+                        type: 'step', title: 'Using the Platform Filter', steps: [
+                            'Click the Platform dropdown in the toolbar',
+                            'Tick one or more platforms to display',
+                            'Squads that serve multiple platforms appear under each of their platforms (counted once)',
+                            'Clear the selection to show all platforms again'
+                        ]
+                    },
+                    { type: 'tip', value: 'Platforms come from the "Squad Platform" field on the Squads table — set it (and map it via the gear-icon field mapping) so each squad lists every platform it serves.' }
+                ]
             }
         ]
     },
@@ -586,6 +603,24 @@ const GUIDE_DATA = [
                         ]
                     },
                     { type: 'tip', value: 'AI analysis snapshot is saved to the database for historical tracking.' }
+                ]
+            },
+            {
+                id: 'adv-4',
+                title: 'Initiatives & Efficiency',
+                summary: 'Model future efficiency gains and planned hiring',
+                content: [
+                    { type: 'text', value: 'Initiatives model future changes to capacity — efficiency gains from tooling/process, or planned headcount — applied from a launch date with optional ramp-up.' },
+                    {
+                        type: 'step', title: 'Creating an Initiative', steps: [
+                            'Open the Initiatives modal from the toolbar',
+                            'Set a name, category, launch date and efficiency %',
+                            'Choose Target Teams (PM / SC / PD, or All) it applies to',
+                            'Scope it to specific Platforms and/or Project Types (e.g. only FPS Renewals) — leave as "All" to apply broadly',
+                            'Optionally add a headcount plan for planned hires (with squad, role, start date and ramp profile)'
+                        ]
+                    },
+                    { type: 'tip', value: 'Toggle "show initiative effects" to see their impact on the capacity graph. Platform / project-type scoping limits the efficiency to matching work only, so the boost is applied where it actually lands.' }
                 ]
             }
         ]
