@@ -71,4 +71,6 @@ Airtable → Dashboard.jsx → useCapacityData.js → Web Worker → processedDa
 ## Conventions
 - **100% inline styles** — no Tailwind/className (JIT fails in the iframe).
 - **No barrel imports** for `hooks/` or `services/` — import directly from the file.
-- See [`docs/CODE_REVIEW.md`](docs/CODE_REVIEW.md) for the current findings backlog.
+
+> The original code-review backlog has been fully actioned (see `HANDOVER.md`); the
+> `docs/CODE_REVIEW.md` report has been removed — the original is in git history if needed.
