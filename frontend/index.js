@@ -55,7 +55,7 @@ function CapacityApp() {
                 { key: SETTINGS.WORKING_HOURS, label: 'Hours', type: 'field', table: resTable },
                 { key: SETTINGS.TARGET_UTILIZATION, label: 'Utilization', type: 'field', table: resTable },
                 { key: SETTINGS.START_DATE, label: 'Start', type: 'field', table: resTable },
-                { key: SETTINGS.LEAVE_DATE, label: 'End', type: 'field', table: resTable },
+                { key: SETTINGS.LEAVE_DATE, label: 'Termination Date', type: 'field', table: resTable },
                 { key: SETTINGS.LEAVE_START_DATE, label: 'Leave Start Date', type: 'field', table: resTable },
                 { key: SETTINGS.LEAVE_END_DATE, label: 'Leave End Date', type: 'field', table: resTable },
                 { key: SETTINGS.SQUAD, label: 'Squad', type: 'field', table: resTable },

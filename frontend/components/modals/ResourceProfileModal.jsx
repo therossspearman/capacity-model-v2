@@ -265,7 +265,7 @@ const ResourceProfileModal = ({ resource, rampProfiles = [], onClose, onUpdate, 
                             />
                         )}
                         <FieldCard label="Start Date" value={formatDate(resource.startDate)} icon={ICONS.calendar} />
-                        <FieldCard label="Leave Date" value={formatDate(resource.leaveDate)} icon={ICONS.logout} />
+                        <FieldCard label="Termination Date" value={formatDate(resource.leaveDate)} icon={ICONS.logout} />
                         {/* Temporary leave window(s). The HR sync can return multiple periods,
                             so list them all; fall back to the legacy single range. */}
                         {(() => {
