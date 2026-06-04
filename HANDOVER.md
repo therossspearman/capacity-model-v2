@@ -57,7 +57,8 @@ A full code-review remediation + feature pass landed across versions `2.98.x →
 
 **Remediation (review backlog closed):**
 - All 🔴 Critical (6) and 🟠 High (31) findings fixed; Medium (116 fixes) and Low (93
-  fixes) addressed via verified per-file sweeps. Full report: `docs/CODE_REVIEW.md`.
+  fixes) addressed via verified per-file sweeps. The original `docs/CODE_REVIEW.md`
+  report has been removed now the backlog is closed (recoverable from git history).
 - Removed dead code (the unused What-If trio: `WhatIfPanel`, `useWhatIfMode`,
   `useFinanceForecast`; the dead reducer subsystem; `components/layout/index.jsx`).
 - Removed the `hooks/` and `services/` barrels — **import hooks/services directly**.
