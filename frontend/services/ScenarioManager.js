@@ -1403,7 +1403,7 @@ export class ScenarioManager {
 
             const resourceDiff = { id: resourceId, name: resourceName, changes: [] };
             if (changes.startDate) resourceDiff.changes.push({ field: 'Start Date', value: changes.startDate, original: originals.startDate || null });
-            if (changes.leaveDate) resourceDiff.changes.push({ field: 'Leave Date', value: changes.leaveDate, original: originals.leaveDate || null });
+            if (changes.leaveDate) resourceDiff.changes.push({ field: 'Termination Date', value: changes.leaveDate, original: originals.leaveDate || null });
             if (changes.squad) resourceDiff.changes.push({ field: 'Squad', value: changes.squad, original: originals.squad || null });
             if (changes.rampProfile) resourceDiff.changes.push({ field: 'Ramp Profile', value: changes.rampProfile, original: originals.rampProfile || null });
 

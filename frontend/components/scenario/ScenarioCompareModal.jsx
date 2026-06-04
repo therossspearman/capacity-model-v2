@@ -115,7 +115,7 @@ export const ScenarioCompareModal = ({ scenarios, activeScenario, onClose, revRe
 
             const fieldChanges = [];
             if (changeFields.startDate) fieldChanges.push({ field: 'Start Date', from: originals.startDate, to: changeFields.startDate });
-            if (changeFields.leaveDate) fieldChanges.push({ field: 'Leave Date', from: originals.leaveDate, to: changeFields.leaveDate });
+            if (changeFields.leaveDate) fieldChanges.push({ field: 'Termination Date', from: originals.leaveDate, to: changeFields.leaveDate });
             if (changeFields.squad) fieldChanges.push({ field: 'Squad', from: originals.squad, to: changeFields.squad });
             if (changeFields.rampProfile) fieldChanges.push({ field: 'Ramp Profile', from: originals.rampProfile, to: changeFields.rampProfile });
 
