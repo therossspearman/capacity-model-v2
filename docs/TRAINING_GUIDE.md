@@ -217,6 +217,8 @@ Two independent toggles. They change **how capacity and demand are computed** â€
 
 ## 9. Demand category & BAU
 
+> **Deep dive:** for the full BAU playbook (sizing conventions, pod ownership, renewals vs. ad-hoc change, qualification rules, workflows) see **`docs/BAU_RESOURCE_MANAGER_GUIDE.md`**.
+
 The **All / Implementation / BAU** toggle splits the world into delivery work vs. ongoing support.
 
 - **Implementation** â€” new project delivery (the default kind of demand).
