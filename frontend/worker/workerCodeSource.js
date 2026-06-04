@@ -53,6 +53,28 @@ const getBucketInfo = (date, granularity, minDate, sprintStartDate) => {
 // demand-attribution sites don't know about dates on their own — they just see a
 // resource ID and write, so this helper is the gatekeeper.
 // Granularity: bucket-level (Monday-aligned).
+// Normalise a resource's temporary-leave windows into a list of {s, e} ms ranges.
+// Supports MULTIPLE periods (the HR sync can return several absence windows). Falls
+// back to the legacy single leaveStartDate/leaveEndDate pair. Result is cached on the
+// resource object since this is called per-bucket on hot demand-attribution paths.
+const getLeavePeriods = (res) => {
+    if (!res) return [];
+    if (res._leavePeriodsMs) return res._leavePeriodsMs;
+    let periods = [];
+    if (Array.isArray(res.leavePeriods) && res.leavePeriods.length) {
+        periods = res.leavePeriods
+            .map(p => ({ s: new Date(p.start).getTime(), e: new Date(p.end).getTime() }))
+            .filter(p => !isNaN(p.s) && !isNaN(p.e) && p.e >= p.s);
+    } else if (res.leaveStartDate && res.leaveEndDate) {
+        const s = new Date(res.leaveStartDate).getTime();
+        const e = new Date(res.leaveEndDate).getTime();
+        if (!isNaN(s) && !isNaN(e) && e >= s) periods = [{ s, e }];
+    }
+    periods.sort((a, b) => a.s - b.s);
+    res._leavePeriodsMs = periods;
+    return periods;
+};
+
 const isResourceUnavailable = (res, bucketMs) => {
     if (!res) return false;
     // Not yet started
@@ -65,11 +87,10 @@ const isResourceUnavailable = (res, bucketMs) => {
         const ld = new Date(res.leaveDate).getTime();
         if (!isNaN(ld) && bucketMs > ld) return true;
     }
-    // Inside temporary leave range
-    if (res.leaveStartDate && res.leaveEndDate) {
-        const ls = new Date(res.leaveStartDate).getTime();
-        const le = new Date(res.leaveEndDate).getTime();
-        if (!isNaN(ls) && !isNaN(le) && le >= ls && bucketMs >= ls && bucketMs <= le) return true;
+    // Inside ANY temporary leave window
+    const periods = getLeavePeriods(res);
+    for (let i = 0; i < periods.length; i++) {
+        if (bucketMs >= periods[i].s && bucketMs <= periods[i].e) return true;
     }
     return false;
 };
@@ -642,8 +663,8 @@ self.onmessage = (e) => {
     if (Array.isArray(resList)) resList.forEach(r => {
         const start = r.startDate ? new Date(r.startDate) : new Date('1970-01-01');
         const end = r.leaveDate ? new Date(r.leaveDate) : new Date('2100-01-01');
-        const leaveStart = r.leaveStartDate ? new Date(r.leaveStartDate) : null;
-        const leaveEnd = r.leaveEndDate ? new Date(r.leaveEndDate) : null;
+        // All temporary-leave windows (supports multiple periods from the HR sync).
+        const leavePeriodsMs = getLeavePeriods(r);
 
         if (capacityUtilModel === 'agw') {
             // Any Given Week: per-week capacity = (5 - daysOnLeaveInWeek) × (workingHours/5) × weeklyProductivity.
@@ -653,8 +674,6 @@ self.onmessage = (e) => {
             const rawHrs = (r.workingHours && r.workingHours > 100) ? r.workingHours / 3600 : (r.workingHours || 40);
             const dailyHours = rawHrs / 5;
             const productivity = (r.weeklyProductivity != null) ? r.weeklyProductivity : (r.targetUtilization ?? 0.8);
-            const leaveStartMs = leaveStart ? leaveStart.getTime() : null;
-            const leaveEndMs = leaveEnd ? leaveEnd.getTime() : null;
             const startMs = Math.max(start.getTime(), minDate.getTime());
             const endMs = Math.min(end.getTime(), maxDate.getTime());
             if (endMs < startMs) return;
@@ -671,7 +690,13 @@ self.onmessage = (e) => {
 
             while (weekStartMs <= endMs && iterations++ < safetyCap) {
                 const weekEndMs = weekStartMs + WEEK_MS - 1;
-                const daysOff = businessDayOverlap(weekStartMs, weekEndMs, leaveStartMs, leaveEndMs);
+                // Sum business-days-off across every leave window overlapping this week
+                // (periods are non-overlapping, so the sum is safe), capped at the 5-day week.
+                let daysOff = 0;
+                for (let pi = 0; pi < leavePeriodsMs.length; pi++) {
+                    daysOff += businessDayOverlap(weekStartMs, weekEndMs, leavePeriodsMs[pi].s, leavePeriodsMs[pi].e);
+                }
+                daysOff = Math.min(5, daysOff);
                 const daysPresent = Math.max(0, 5 - daysOff);
                 const weeklyCap = daysPresent * dailyHours * productivity;
                 if (weeklyCap > 0) {
@@ -693,15 +718,23 @@ self.onmessage = (e) => {
             const weeklyCap = rawHrs * annualPct;
             const meta = { resourceId: r.id, rampProfile: r.rampProfile, rampStartDate: r.rampStartDate };
 
-            if (leaveStart && leaveEnd && leaveStart.getTime() < leaveEnd.getTime()) {
-                // Carve [start, leaveStart-1] and [leaveEnd+1, end]; leave range gets no capacity write.
-                if (start.getTime() < leaveStart.getTime()) {
-                    const beforeLeaveEnd = new Date(leaveStart.getTime() - 1);
-                    processDateRange(start, beforeLeaveEnd, weeklyCap, 'capacity', meta, minDate, maxDate, config, dataMap, resourceMap, projectMap, 1, sprintStartDateStr, todayTime);
+            // Carve out EVERY leave window: emit capacity only for the gaps between them
+            // (within [start, end]). Handles 0, 1, or many non-overlapping periods.
+            const relevant = leavePeriodsMs.filter(p => p.e >= start.getTime() && p.s <= end.getTime());
+            if (relevant.length) {
+                let cursorMs = start.getTime();
+                for (let pi = 0; pi < relevant.length; pi++) {
+                    const p = relevant[pi];
+                    const gapEndMs = Math.min(p.s, end.getTime() + 1) - 1; // day before this leave starts
+                    if (gapEndMs >= cursorMs) {
+                        processDateRange(new Date(cursorMs), new Date(gapEndMs), weeklyCap, 'capacity', meta, minDate, maxDate, config, dataMap, resourceMap, projectMap, 1, sprintStartDateStr, todayTime);
+                    }
+                    // Advance past this leave window
+                    cursorMs = Math.max(cursorMs, p.e + 86400000);
+                    if (cursorMs > end.getTime()) break;
                 }
-                if (leaveEnd.getTime() < end.getTime()) {
-                    const afterLeaveStart = new Date(leaveEnd.getTime() + 86400000);
-                    processDateRange(afterLeaveStart, end, weeklyCap, 'capacity', meta, minDate, maxDate, config, dataMap, resourceMap, projectMap, 1, sprintStartDateStr, todayTime);
+                if (cursorMs <= end.getTime()) {
+                    processDateRange(new Date(cursorMs), end, weeklyCap, 'capacity', meta, minDate, maxDate, config, dataMap, resourceMap, projectMap, 1, sprintStartDateStr, todayTime);
                 }
             } else {
                 processDateRange(start, end, weeklyCap, 'capacity', meta, minDate, maxDate, config, dataMap, resourceMap, projectMap, 1, sprintStartDateStr, todayTime);

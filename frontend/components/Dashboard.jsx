@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useRecords, useSession } from '@airtable/blocks/interface/ui';
 import { BRAND, TOKENS, Z_INDEX, ZOOM_CONFIG, useTheme } from '../design-system';
 import { SETTINGS, DEFAULT_SETTINGS } from '../constants';
-import { getSafeCellValue, getStringValue, getDateValue, resolveFieldId, getCellMetrics, getStatusColor, exportCapacityToCSV, exportChartAsPng, getSquadsList, writeSlotSnapshot, readAIRecommendations } from '../utils';
+import { getSafeCellValue, getStringValue, getDateValue, parseLeavePeriods, resolveFieldId, getCellMetrics, getStatusColor, exportCapacityToCSV, exportChartAsPng, getSquadsList, writeSlotSnapshot, readAIRecommendations } from '../utils';
 import { transformForecastToWeeklyDemand, calculateFTEImpact } from '../utils/forecastTransformer';
 // Direct hook imports (no barrel) — CLAUDE.md rule #5: barrel imports of hooks/
 // can cause circular-dependency crashes.
@@ -1049,6 +1049,15 @@ export const Dashboard = ({
                 })(),
                 startDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.START_DATE])),
                 leaveDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.LEAVE_DATE])),
+                // Temporary-leave windows from the HR sync. These fields can now hold
+                // MULTIPLE values (one per absence record), so parse them into discrete
+                // periods. leaveStartDate/leaveEndDate are kept as the FIRST period for
+                // back-compat (profile modal, single-value write handlers).
+                leavePeriods: parseLeavePeriods(
+                    record,
+                    resolveFieldId(stableSettings[SETTINGS.LEAVE_START_DATE]),
+                    resolveFieldId(stableSettings[SETTINGS.LEAVE_END_DATE])
+                ),
                 leaveStartDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.LEAVE_START_DATE])),
                 leaveEndDate: getDateValue(record, resolveFieldId(stableSettings[SETTINGS.LEAVE_END_DATE])),
                 company: getStringValue(record, resolveFieldId(stableSettings[SETTINGS.COMPANY])) || null,
