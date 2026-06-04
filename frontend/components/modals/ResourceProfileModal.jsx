@@ -266,9 +266,26 @@ const ResourceProfileModal = ({ resource, rampProfiles = [], onClose, onUpdate, 
                         )}
                         <FieldCard label="Start Date" value={formatDate(resource.startDate)} icon={ICONS.calendar} />
                         <FieldCard label="Leave Date" value={formatDate(resource.leaveDate)} icon={ICONS.logout} />
-                        {/* Temporary leave range — surfaces whether the range fields are mapped + populated */}
-                        <FieldCard label="Leave Start" value={formatDate(resource.leaveStartDate)} icon={ICONS.calendar} />
-                        <FieldCard label="Leave End" value={formatDate(resource.leaveEndDate)} icon={ICONS.calendar} />
+                        {/* Temporary leave window(s). The HR sync can return multiple periods,
+                            so list them all; fall back to the legacy single range. */}
+                        {(() => {
+                            const periods = (Array.isArray(resource.leavePeriods) && resource.leavePeriods.length)
+                                ? resource.leavePeriods
+                                : ((resource.leaveStartDate && resource.leaveEndDate)
+                                    ? [{ start: resource.leaveStartDate, end: resource.leaveEndDate }]
+                                    : []);
+                            if (!periods.length) {
+                                return <FieldCard label="Leave Periods" value="—" icon={ICONS.calendar} />;
+                            }
+                            return periods.map((p, i) => (
+                                <FieldCard
+                                    key={i}
+                                    label={periods.length > 1 ? `Leave Period ${i + 1}` : 'Leave Period'}
+                                    value={`${formatDate(p.start)} → ${formatDate(p.end)}`}
+                                    icon={ICONS.calendar}
+                                />
+                            ));
+                        })()}
                     </div>
 
                     {/* Ramp Up Section - Compact Style */}

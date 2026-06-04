@@ -314,11 +314,19 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
                             const ss = new Date(resource.startDate).getTime();
                             if (!isNaN(ss) && bucketDate < ss) isOnLeave = true;
                         }
-                        // (c) Inside temporary leave range
-                        if (!isOnLeave && resource.leaveStartDate && resource.leaveEndDate) {
-                            const leaveStart = new Date(resource.leaveStartDate).getTime();
-                            const leaveEnd = new Date(resource.leaveEndDate).getTime();
-                            if (bucketDate >= leaveStart && bucketDate <= leaveEnd) isOnLeave = true;
+                        // (c) Inside ANY temporary leave window (supports multiple periods
+                        //     from the HR sync; falls back to the legacy single range).
+                        if (!isOnLeave) {
+                            const periods = (Array.isArray(resource.leavePeriods) && resource.leavePeriods.length)
+                                ? resource.leavePeriods
+                                : ((resource.leaveStartDate && resource.leaveEndDate)
+                                    ? [{ start: resource.leaveStartDate, end: resource.leaveEndDate }]
+                                    : []);
+                            for (let i = 0; i < periods.length; i++) {
+                                const ls = new Date(periods[i].start).getTime();
+                                const le = new Date(periods[i].end).getTime();
+                                if (!isNaN(ls) && !isNaN(le) && bucketDate >= ls && bucketDate <= le) { isOnLeave = true; break; }
+                            }
                         }
                     }
 

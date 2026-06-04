@@ -104,3 +104,45 @@ export const getStringValue = (record, fieldId) => getCellValue(record, fieldId,
 export const getDateValue = (record, fieldId) => getCellValue(record, fieldId, { type: 'date' });
 export const getNumericValue = (record, fieldId, table, options = {}) => getCellValue(record, fieldId, { type: 'number', table, ...options });
 export const getSquadsList = (record, fieldId) => getCellValue(record, fieldId, { type: 'squads', defaultValue: ['Unassigned'] });
+
+/**
+ * Read a date-bearing field that may hold MULTIPLE values (e.g. a lookup/rollup of
+ * absence records from the HR sync) and return a flat list of raw date values.
+ * Single-value fields return a 1-element list; empty returns [].
+ * Each element is normalised to a primitive the caller can pass to `new Date(...)`.
+ */
+export const getDateList = (record, fieldId) => {
+    const safeId = resolveFieldId(fieldId);
+    if (!record || !safeId) return [];
+    const raw = record.getCellValue(safeId);
+    if (raw === null || raw === undefined) return [];
+    const arr = Array.isArray(raw) ? raw : [raw];
+    return arr
+        .map(v => {
+            if (v === null || v === undefined) return null;
+            // Lookup values can arrive as { value } / { name }; dates as ISO strings or numbers.
+            if (typeof v === 'object') return v.value ?? v.name ?? null;
+            return v;
+        })
+        .filter(v => v !== null && v !== undefined);
+};
+
+/**
+ * Parse paired multi-value leave start/end fields into discrete leave periods.
+ * The two lookups can return values in different orders, so both lists are sorted
+ * ascending and zipped — valid for the non-overlapping, chronological leave windows
+ * the HR system produces. Returns [{ start: ISO, end: ISO }, ...] (end >= start).
+ */
+export const parseLeavePeriods = (record, startFieldId, endFieldId) => {
+    const toMs = (d) => { const t = new Date(d).getTime(); return isNaN(t) ? null : t; };
+    const starts = getDateList(record, startFieldId).map(toMs).filter(x => x !== null).sort((a, b) => a - b);
+    const ends = getDateList(record, endFieldId).map(toMs).filter(x => x !== null).sort((a, b) => a - b);
+    const n = Math.min(starts.length, ends.length);
+    const periods = [];
+    for (let i = 0; i < n; i++) {
+        if (ends[i] >= starts[i]) {
+            periods.push({ start: new Date(starts[i]).toISOString(), end: new Date(ends[i]).toISOString() });
+        }
+    }
+    return periods;
+};

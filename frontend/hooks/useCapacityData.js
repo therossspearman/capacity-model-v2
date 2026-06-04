@@ -291,6 +291,7 @@ export const useCapacityData = ({
             leaveDate: r.leaveDate,
             leaveStartDate: r.leaveStartDate,
             leaveEndDate: r.leaveEndDate,
+            leavePeriods: r.leavePeriods || [],
             rampProfile: r.rampProfile,
             rampStartDate: r.rampStartDate,
             headshot: r.headshot,  // For UI avatar
@@ -326,6 +327,7 @@ export const useCapacityData = ({
                             leaveDate: null,
                             leaveStartDate: null,
                             leaveEndDate: null,
+                            leavePeriods: [],
                             // Named ramp profile from Settings → Ramp Profiles. If unset, no
                             // ramp is applied and virtual hires run at full capacity from
                             // their startDate. Legacy `rampWeeks` on the entry is ignored —
@@ -400,7 +402,7 @@ export const useCapacityData = ({
                 // Content fingerprint: aggregate IDs, statuses, and key numeric values
                 // This catches individual record edits (name change, status change, effort change)
                 projListForWorker.reduce((h, p) => h + (p.id || '') + ',' + (p.status || '') + ',' + (p.start || '') + ',' + (p.end || '') + ',' + (p.pmVal || 0) + ',' + (p.scVal || 0) + ',' + (p.pdVal || 0) + ',' + (p.resourcingOverride || 0) + ';', ''),
-                resListForWorker.reduce((h, r) => h + (r.id || '') + ',' + (r.effectiveHours || 0) + ',' + (r.squads?.join(',') || '') + ',' + (r.targetUtilization ?? '') + ',' + (r.weeklyProductivity ?? '') + ';', ''),
+                resListForWorker.reduce((h, r) => h + (r.id || '') + ',' + (r.effectiveHours || 0) + ',' + (r.squads?.join(',') || '') + ',' + (r.targetUtilization ?? '') + ',' + (r.weeklyProductivity ?? '') + ',' + (r.startDate || '') + ',' + (r.leaveDate || '') + ',' + ((r.leavePeriods || []).map(p => p.start + '|' + p.end).join('~')) + ';', ''),
                 // Role config fingerprint
                 JSON.stringify(roleConfig?.jobs || {}),
                 config.bauHoursMapping ? JSON.stringify(config.bauHoursMapping) : '',
