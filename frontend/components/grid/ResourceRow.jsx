@@ -29,14 +29,20 @@ const ResourceRow = React.memo(({ resource, dates, colLeftOffset, onCellClick, o
         return checkRole(team.pm) || checkRole(team.sc) || checkRole(team.pd) || checkRole(team.build);
     }, [isProjectView, resource.team]);
 
-    const rowHasProject = useMemo(() => {
+    const rowMatchesSearch = useMemo(() => {
         if (!highlightProject) return true;
+        const q = highlightProject.toLowerCase();
+        // The row's OWN name counts as a match — this is the person in People view and
+        // the project in Projects view. Without this, searching a person's name dimmed
+        // their own row (no project is named after them), greying out the very match.
+        if (resource.name && resource.name.toLowerCase().includes(q)) return true;
+        // Otherwise, match if any project contributing demand to this row matches.
         return Object.values(resource.buckets || {}).some(b =>
-            Array.isArray(b.projects) && b.projects.some(p => p.name.toLowerCase().includes(highlightProject.toLowerCase()))
+            Array.isArray(b.projects) && b.projects.some(p => p.name && p.name.toLowerCase().includes(q))
         );
     }, [resource, highlightProject]);
 
-    const isDimmedRow = highlightProject && !rowHasProject;
+    const isDimmedRow = highlightProject && !rowMatchesSearch;
 
     return (
         <div data-tour="resource-row" style={{ display: 'flex', alignItems: 'center', borderRadius: '0 4px 4px 0', padding: '4px', transition: 'all 0.3s', height: '100%', opacity: isZeroCap || isDimmedRow || resource.isPending ? (isDimmedRow ? 0.2 : 0.5) : 1, filter: isZeroCap ? 'grayscale(1)' : 'none' }}>
