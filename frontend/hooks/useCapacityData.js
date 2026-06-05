@@ -402,7 +402,7 @@ export const useCapacityData = ({
                 // Content fingerprint: aggregate IDs, statuses, and key numeric values
                 // This catches individual record edits (name change, status change, effort change)
                 projListForWorker.reduce((h, p) => h + (p.id || '') + ',' + (p.status || '') + ',' + (p.start || '') + ',' + (p.end || '') + ',' + (p.pmVal || 0) + ',' + (p.scVal || 0) + ',' + (p.pdVal || 0) + ',' + (p.resourcingOverride || 0) + ';', ''),
-                resListForWorker.reduce((h, r) => h + (r.id || '') + ',' + (r.effectiveHours || 0) + ',' + (r.squads?.join(',') || '') + ',' + (r.targetUtilization ?? '') + ',' + (r.weeklyProductivity ?? '') + ',' + (r.startDate || '') + ',' + (r.leaveDate || '') + ',' + ((r.leavePeriods || []).map(p => p.start + '|' + p.end).join('~')) + ';', ''),
+                resListForWorker.reduce((h, r) => h + (r.id || '') + ',' + (r.effectiveHours || 0) + ',' + (r.squads?.join(',') || '') + ',' + (r.targetUtilization ?? '') + ',' + (r.weeklyProductivity ?? '') + ',' + (r.startDate || '') + ',' + (r.leaveDate || '') + ',' + ((r.leavePeriods || []).map(p => p.start + '|' + p.end).join('~')) + ',' + (r.rampProfile || '') + ',' + (r.rampStartDate || '') + ';', ''),
                 // Role config fingerprint
                 JSON.stringify(roleConfig?.jobs || {}),
                 config.bauHoursMapping ? JSON.stringify(config.bauHoursMapping) : '',
